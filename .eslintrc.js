@@ -1,35 +1,41 @@
 module.exports = {
     'plugins': [
-      'security'
+        'security'
     ],
     'extends': [
-      'eslint:recommended',
-      'plugin:security/recommended'
+        'eslint:recommended',
+        'plugin:security/recommended',
     ],
     'parser': 'babel-eslint',
     'env': {
-      'browser': true,
-      'commonjs': true,
-      'es6': true,
-      'node': true,
-      'mocha': true,
-      'jquery': true
+        'browser': true,
+        'commonjs': true,
+        'es6': true,
+        'node': true,
+        'mocha': true,
+        'jquery': true
     },
     'rules': {
-      'security/detect-object-injection' : 0,
-      'no-unused-vars': [
-        'error',
-        {
-          'varsIgnorePattern': 'should|expect'
-        }
-      ]
+        'security/detect-object-injection': 0,
+        'no-unused-vars': [
+            'error',
+            {
+                'varsIgnorePattern': 'should|expect'
+            }
+        ]
     },
     'overrides': [
-      {
-        'files': ['lib/client/*.js'],
-        'rules': {
-          'security/detect-object-injection': 0
+        {
+            'files': ['lib/client/*.js'],
+            'rules': {
+                'security/detect-object-injection': 0
+            }
+        },
+        {
+            "files": ["*.{ts,tsx}"],
+            "parser": "@typescript-eslint/parser",
+            "plugins": ["@typescript-eslint"],
+            "extends": ["plugin:@typescript-eslint/recommended"]
         }
-      }
     ],
-  };
+};

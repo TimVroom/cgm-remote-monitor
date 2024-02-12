@@ -117,7 +117,12 @@ const rules = [
     options: {
       exposes: ['$']
     }
-  }
+  },
+  {
+    test: /\.tsx?$/,
+    use: 'ts-loader',
+    exclude: /node_modules/,
+  },
 ];
 
 const appEntry = ['./bundle/bundle.source.js'];
@@ -161,6 +166,7 @@ module.exports = {
     rules
   },
   resolve: {
+    extensions: ['.tsx', '.ts', '.js', '.json'],
     fallback: {
       'process/browser': require.resolve('process/browser'),
       events: require.resolve('events/')
@@ -170,5 +176,5 @@ module.exports = {
       crypto: 'crypto-browserify',
       buffer: 'buffer',
     }
-  }
+  },
 };
