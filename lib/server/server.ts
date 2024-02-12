@@ -26,9 +26,15 @@
 // DB Connection setup and utils
 ///////////////////////////////////////////////////
 
-const fs = require('fs');
-const env = require('./env')( );
-const language = require('../language')();
+import fs from 'fs';
+import envImport from './env';
+import languageImport from '../language';
+import websocketImport from './websocket';
+import booteventImport from './bootevent';
+import appImport from './app';
+
+const env = envImport();
+const language = languageImport(fs);
 const translate = language.set(env.settings.language).translate;
 language.loadLocalization(fs);
 
@@ -47,11 +53,10 @@ function create (app) {
   return transport.createServer(app);
 }
 
-require('./bootevent')(env, language).boot(function booted (ctx) {
-
+booteventImport(env, language).boot(function booted (ctx) {
     console.log('Boot event processing completed');
     
-    const app = require('./app')(env, ctx);
+    const app = appImport(env, ctx);
     const server = create(app).listen(PORT, HOSTNAME);
     console.log(translate('Listening on port'), PORT, HOSTNAME);
 
@@ -68,7 +73,7 @@ require('./bootevent')(env, language).boot(function booted (ctx) {
     ///////////////////////////////////////////////////
     // setup socket io for data and message transmission
     ///////////////////////////////////////////////////
-    const websocket = require('./websocket')(env, ctx, server);
+    websocketImport(env, ctx, server);
 
     //after startup if there are no alarms send all clear
     const sendStartupAllClearTimer = setTimeout(function sendStartupAllClear () {
