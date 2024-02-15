@@ -1,24 +1,25 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'moment'.
 var moment = require('moment');
 
-function get_time_spec (spec) {
+function get_time_spec (spec: any) {
   return moment(spec).toDate();
 }
 
-function ddata_at (at, ctx, callback) {
+function ddata_at (at: any, ctx: any, callback: any) {
   var ddata = ctx.ddata.clone( );
   if (Math.abs(at - ddata.lastUpdated) < 1000 * 60 * 5) {
     return callback(null, ctx.ddata);
   }
-  ctx.dataloader.update(ddata, {lastUpdated: at, frame: true}, function (err) {
+  ctx.dataloader.update(ddata, {lastUpdated: at, frame: true}, function (err: any) {
     // console.log('results', err, result);
     // console.log('ddata', ddata);
     callback(err, ddata);
   });
 }
-function get_ddata (req, res, next) {
-  ddata_at(req.at.getTime( ), req.ctx, function (err, data) {
+function get_ddata (req: any, res: any, next: any) {
+  ddata_at(req.at.getTime( ), req.ctx, function (err: any, data: any) {
     res.data = data;
     // console.log('fetched results', err, data);
     console.error(err);
@@ -26,14 +27,14 @@ function get_ddata (req, res, next) {
   });
 }
 
-function ensure_at (req, res, next) {
+function ensure_at (req: any, res: any, next: any) {
   if (!req.at) {
     req.at = new Date( );
   }
   next( );
 }
 
-function format_result (req, res, next) {
+function format_result (req: any, res: any, next: any) {
   res.json(res.data);
   next( );
 }
@@ -47,19 +48,20 @@ function format_result (req, res, next) {
   * configured.
   */
 
-function configure (app, ctx) {
+function configure (app: any, ctx: any) {
   // default storage biased towards entries.
   // var entries = ctx.entries;
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var express = require('express'),
       api = express.Router( )
     ;
 
-  api.param('at', function (req, res, next, at) {
+  api.param('at', function (req: any, res: any, next: any, at: any) {
     req.at = get_time_spec(at);
     next( );
   });
 
-  api.use(function (req, res, next) {
+  api.use(function (req: any, res: any, next: any) {
     req.ctx = ctx;
     next( );
   });
@@ -72,4 +74,5 @@ function configure (app, ctx) {
 }
 
 // expose module
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = configure;

@@ -1,10 +1,14 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
 var times = require('../times');
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var Storages = require('js-storage');
 
-function init (client, $) {
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
+function init (client: any, $: any) {
   var boluscalc = {};
 
   var translate = client.translate;
@@ -15,25 +19,25 @@ function init (client, $) {
   var eventTime = $('#bc_eventTimeValue');
   var eventDate = $('#bc_eventDateValue');
 
-  var quickpicks = [];
-  var foods = [];
+  var quickpicks: any = [];
+  var foods: any = [];
 
   var icon_remove = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACrElEQVQ4T42Ty2sTQRzHv5tmk2yyjRNtpfZhL8V6s2KoUNC2XqwgaCsVQcGiFqpHi0c9iRdR/ANE9KR40FIQX4cueKoPaKFoLdSYNtE0abKT1+5s9iW7aUMiHtzTzO7v85md+c6PA4DrHbsPCKIgOWO1pA7dT6YXnXH949SE/F63pqwZtRrO+SCKgjQ5NUV+azpmHj2krMwaJC4c8Erj+/eRyloMMwWFKgbn1nC3ervlK1evkXBLGBZT8SOewotnTylTNLdgeg/pDgZDC2cPHSR8bB22DVC9hFe0SG/H0xFXcHlykjRHRDBWgJcZSCY38Xx2lhqMnRYE34Px/sN9vlQWeoHBAx2yXsRruVAVuFsIBaSJ8+eJGPaBqQV4NROJjTzez89jLBoFn6FgybQL54wS3uTyVDFQ3cL2IYpBv3RhdJSIIQ80tQyv7gEqJvS8AmUlBs7UXPhtjtZgh3UFNYngk86NHCfNAg9dMwHVBPu+CpsVkTXKeJeVG+AGgTOZ3tt6MSKKjy+NjEBjFrR4ElZmA4pdxstMFsyyJu6tZZ7Ux9vwB6EAL50ZGiRECEPPUOixVTRxHlicgSVWxEdZpuZWfNuS2hk48NjwMIkIYZglBnV5Cbqtws/5IaAJmsfCglrEl2y2QeKmEBJ80tixKmxrFpSVr0gV0viQoxho2YUuPohmeFD22PiklLC4ma5JuBvdrfLJI0dJd0s7bM0ES8aR/BXDXGaTskqlL+D3Lwy0tZEePoAd4EA5YF4tYymdonfjmQh3s6dTPjU4SHYGwjAKecSXFyGlM1TdytntE56T+ts7SC/vhw3gm6njc2Kd3vm5Ub1IwQAvnYhGiZpYw1wiWYPrIw7wnBTt7CLOOwdmut14kQQvqt24tfK/utGR6LaF+iRqMf4N/O/8D28HiiCRYqzAAAAAAElFTkSuQmCC';
 
-  function roundTo (x, step) {
+  function roundTo (x: any, step: any) {
     if (x) {
       return Math.round(x / step) * step;
     }
     return 0;
   }
 
-  function maybePrevent (event) {
+  function maybePrevent (event: any) {
     if (event) {
       event.preventDefault();
     }
   }
 
-  function isProfileEnabled (profiles) {
+  function isProfileEnabled (profiles: any) {
     return client.settings.enable.indexOf('profile') > -1 &&
       client.settings.extendedSettings.profile &&
       client.settings.extendedSettings.profile.multiple &&
@@ -44,7 +48,7 @@ function init (client, $) {
     try { document.createEvent('TouchEvent'); return true; } catch (e) { return false; }
   }
 
-  function setDateAndTime (time) {
+  function setDateAndTime (time: any) {
     time = time || new Date();
     eventTime.val(time.getHours() + ":" + time.getMinutes());
     eventDate.val(time.toISOString().split('T')[0]);
@@ -54,13 +58,14 @@ function init (client, $) {
     return client.utils.mergeInputTime(eventTime.val(), eventDate.val());
   }
 
-  function updateTime (ele, time) {
+  function updateTime (ele: any, time: any) {
     ele.attr('oldminutes', time.minutes());
     ele.attr('oldhours', time.hours());
   }
 
-  function setBG (sgv, selectedTime) {
+  function setBG (sgv: any, selectedTime: any) {
     var sensorbg = 0;
+    // @ts-expect-error TS(2339): Property 'oldbg' does not exist on type '{}'.
     boluscalc.oldbg = false;
     if (sgv) {
       sensorbg = sgv.mgdl;
@@ -70,6 +75,7 @@ function init (client, $) {
         sensorbg = client.utils.scaleMgdl(sensorbg);
       }
       if (selectedTime.getTime() - sgv.mills > 10 * 60 * 1000) {
+        // @ts-expect-error TS(2339): Property 'oldbg' does not exist on type '{}'.
         boluscalc.oldbg = true; // Do not use if record is older than 10 min
         sensorbg = 0;
       }
@@ -81,7 +87,8 @@ function init (client, $) {
     }
   }
 
-  boluscalc.updateVisualisations = function updateVisualisations (sbx) {
+  // @ts-expect-error TS(2339): Property 'updateVisualisations' does not exist on ... Remove this comment to see the full error message
+  boluscalc.updateVisualisations = function updateVisualisations (sbx: any) {
     // update BG in GUI
     setBG(sbx.lastSGVEntry(), mergeDateAndTime().toDate());
 
@@ -90,19 +97,23 @@ function init (client, $) {
     }
     if ($('#bc_nowtime').is(':checked')) {
       // Update time
+      // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
       setDateAndTime();
 
+      // @ts-expect-error TS(2339): Property 'calculateInsulin' does not exist on type... Remove this comment to see the full error message
       boluscalc.calculateInsulin();
     }
   };
 
-  boluscalc.dateTimeFocus = function dateTimeFocus (event) {
+  // @ts-expect-error TS(2339): Property 'dateTimeFocus' does not exist on type '{... Remove this comment to see the full error message
+  boluscalc.dateTimeFocus = function dateTimeFocus (event: any) {
     $('#bc_othertime').prop('checked', true);
     updateTime($(this), mergeDateAndTime());
     maybePrevent(event);
   };
 
-  boluscalc.dateTimeChange = function dateTimeChange (event) {
+  // @ts-expect-error TS(2339): Property 'dateTimeChange' does not exist on type '... Remove this comment to see the full error message
+  boluscalc.dateTimeChange = function dateTimeChange (event: any) {
     $('#bc_othertime').prop('checked', true);
     //    client.utils.setYAxisOffset(50); //50% of extend
     var ele = $(this);
@@ -117,16 +128,19 @@ function init (client, $) {
 
     setDateAndTime(merged);
     updateTime(ele, merged);
+    // @ts-expect-error TS(2339): Property 'eventTimeTypeChange' does not exist on t... Remove this comment to see the full error message
     boluscalc.eventTimeTypeChange();
 
     // update BG from sgv to this time
     setBG(findClosestSGVToPastTime(merged.toDate()), merged.toDate());
 
+    // @ts-expect-error TS(2339): Property 'calculateInsulin' does not exist on type... Remove this comment to see the full error message
     boluscalc.calculateInsulin();
     maybePrevent(event);
   };
 
-  boluscalc.eventTimeTypeChange = function eventTimeTypeChange (event) {
+  // @ts-expect-error TS(2339): Property 'eventTimeTypeChange' does not exist on t... Remove this comment to see the full error message
+  boluscalc.eventTimeTypeChange = function eventTimeTypeChange (event: any) {
     if ($('#bc_othertime').is(':checked')) {
       $('#bc_eventTimeValue').focus();
       $('#bc_retro').css('display', '');
@@ -139,9 +153,12 @@ function init (client, $) {
       }
     } else {
       $('#bc_retro').css('display', 'none');
+      // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
       setDateAndTime();
+      // @ts-expect-error TS(2339): Property 'updateVisualisations' does not exist on ... Remove this comment to see the full error message
       boluscalc.updateVisualisations(client.sbx);
       if (event) {
+        // @ts-expect-error TS(2339): Property 'calculateInsulin' does not exist on type... Remove this comment to see the full error message
         boluscalc.calculateInsulin();
       }
       //        Nightscout.utils.setYAxisOffset(50); //50% of extend
@@ -150,17 +167,20 @@ function init (client, $) {
     maybePrevent(event);
   };
 
-  boluscalc.toggleDrawer = function toggleDrawer (event) {
+  // @ts-expect-error TS(2339): Property 'toggleDrawer' does not exist on type '{}... Remove this comment to see the full error message
+  boluscalc.toggleDrawer = function toggleDrawer (event: any) {
+    // @ts-expect-error TS(2339): Property 'prepare' does not exist on type '{}'.
     boluscalc.prepare();
     client.browserUtils.toggleDrawer('#boluscalcDrawer');
     maybePrevent(event);
   };
 
+  // @ts-expect-error TS(2339): Property 'prepare' does not exist on type '{}'.
   boluscalc.prepare = function prepare () {
     foods = [];
     $('#bc_profile').empty();
     var profiles = client.profilefunctions.listBasalProfiles();
-    profiles.forEach(function(p) {
+    profiles.forEach(function(p: any) {
       $('#bc_profile').append('<option val="' + p + '">' + p + '</option>');
     });
     $('#bc_profileLabel').toggle(isProfileEnabled(profiles));
@@ -178,20 +198,30 @@ function init (client, $) {
     $('#bc_nowtime').prop('checked', true);
     $('#bc_othercorrection').val(0);
     $('#bc_profile').val(client.profilefunctions.activeProfileToTime());
+    // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
     setDateAndTime();
+    // @ts-expect-error TS(2339): Property 'eventTimeTypeChange' does not exist on t... Remove this comment to see the full error message
     boluscalc.eventTimeTypeChange();
+    // @ts-expect-error TS(2339): Property 'updateVisualisations' does not exist on ... Remove this comment to see the full error message
     boluscalc.updateVisualisations(client.sbx);
+    // @ts-expect-error TS(2339): Property 'calculateInsulin' does not exist on type... Remove this comment to see the full error message
     boluscalc.calculateInsulin();
   };
 
-  boluscalc.calculateInsulin = function calculateInsulin (event) {
+  // @ts-expect-error TS(2339): Property 'calculateInsulin' does not exist on type... Remove this comment to see the full error message
+  boluscalc.calculateInsulin = function calculateInsulin (event: any) {
     maybePrevent(event);
+    // @ts-expect-error TS(2339): Property 'gatherBoluscalcData' does not exist on t... Remove this comment to see the full error message
     boluscalc.gatherBoluscalcData();
+    // @ts-expect-error TS(2339): Property 'updateGui' does not exist on type '{}'.
     boluscalc.updateGui(boluscalc.record);
+    // @ts-expect-error TS(2339): Property 'record' does not exist on type '{}'.
     return boluscalc.record;
   };
 
-  boluscalc.updateGui = function updateGui (record) {
+  // @ts-expect-error TS(2339): Property 'updateGui' does not exist on type '{}'.
+  boluscalc.updateGui = function updateGui (record: any) {
+    // @ts-expect-error TS(2339): Property 'record' does not exist on type '{}'.
     record = record || boluscalc.record;
 
     if (record.eventTime === undefined) {
@@ -227,6 +257,7 @@ function init (client, $) {
 
     // Show BG
     if ($('#bc_usebg').is(':checked')) {
+      // @ts-expect-error TS(2339): Property 'oldbg' does not exist on type '{}'.
       if (record.bg === 0 || (boluscalc.oldbg && $('#bc_bgfromsensor').is(':checked'))) {
         $('#bc_bg').css('background-color', 'red');
       } else {
@@ -333,8 +364,11 @@ function init (client, $) {
     $('#bc_basal').text(tempMark + basal.totalbasal.toFixed(3));
   };
 
+  // @ts-expect-error TS(2339): Property 'gatherBoluscalcData' does not exist on t... Remove this comment to see the full error message
   boluscalc.gatherBoluscalcData = function gatherBoluscalcData () {
+    // @ts-expect-error TS(2339): Property 'record' does not exist on type '{}'.
     boluscalc.record = {};
+    // @ts-expect-error TS(2339): Property 'record' does not exist on type '{}'.
     var record = boluscalc.record;
 
     if (!client.sbx) {
@@ -371,6 +405,7 @@ function init (client, $) {
 
     if (targetBGLow === 0 || targetBGHigh === 0 || isf === 0 || ic === 0) {
       $('#bc_inzulinbgtd').css('background-color', 'red');
+      // @ts-expect-error TS(2339): Property 'record' does not exist on type '{}'.
       boluscalc.record = {};
       return;
     } else {
@@ -379,6 +414,7 @@ function init (client, $) {
 
     if (ic === 0) {
       $('#bc_inzulincarbstd').css('background-color', 'red');
+      // @ts-expect-error TS(2339): Property 'record' does not exist on type '{}'.
       boluscalc.record = {};
       return;
     } else {
@@ -470,38 +506,54 @@ function init (client, $) {
 
   function gatherData () {
     var data = {};
+    // @ts-expect-error TS(2339): Property 'boluscalc' does not exist on type '{}'.
     data.boluscalc = boluscalc.calculateInsulin();
+    // @ts-expect-error TS(2339): Property 'boluscalc' does not exist on type '{}'.
     if (!data.boluscalc) {
       alert('Calculation not completed!');
       return null;
     }
 
+    // @ts-expect-error TS(2339): Property 'enteredBy' does not exist on type '{}'.
     data.enteredBy = $('#bc_enteredBy').val();
+    // @ts-expect-error TS(2339): Property 'eventType' does not exist on type '{}'.
     data.eventType = 'Bolus Wizard';
     if ($('#bc_bg').val() !== 0) {
+      // @ts-expect-error TS(2339): Property 'glucose' does not exist on type '{}'.
       data.glucose = $('#bc_bg').val().replace(',', '.');
+      // @ts-expect-error TS(2339): Property 'glucoseType' does not exist on type '{}'... Remove this comment to see the full error message
       data.glucoseType = $('#boluscalc-form').find('input[name=bc_bginput]:checked').val();
+      // @ts-expect-error TS(2339): Property 'units' does not exist on type '{}'.
       data.units = client.settings.units;
     }
+    // @ts-expect-error TS(2339): Property 'carbs' does not exist on type '{}'.
     data.carbs = $('#bc_carbs').val().replace(',', '.');
+    // @ts-expect-error TS(2339): Property 'insulin' does not exist on type '{}'.
     data.insulin = $('#bc_insulintotal').text();
+    // @ts-expect-error TS(2339): Property 'insulin' does not exist on type '{}'.
     if (data.insulin <= 0) {
+      // @ts-expect-error TS(2339): Property 'insulin' does not exist on type '{}'.
       delete data.insulin;
     }
+    // @ts-expect-error TS(2339): Property 'preBolus' does not exist on type '{}'.
     data.preBolus = parseInt($('#bc_preBolus').val());
+    // @ts-expect-error TS(2339): Property 'notes' does not exist on type '{}'.
     data.notes = $('#bc_notes').val();
 
     if ($('#bc_othertime').is(':checked')) {
+      // @ts-expect-error TS(2339): Property 'eventTime' does not exist on type '{}'.
       data.eventTime = mergeDateAndTime().toDate();
     }
 
     // replace boluscalc.eventTime by ISO string
+    // @ts-expect-error TS(2339): Property 'boluscalc' does not exist on type '{}'.
     data.boluscalc.eventTime = data.boluscalc.eventTime.toISOString();
 
     return data;
   }
 
-  boluscalc.submit = function submit (event) {
+  // @ts-expect-error TS(2339): Property 'submit' does not exist on type '{}'.
+  boluscalc.submit = function submit (event: any) {
     var data = gatherData();
     if (data) {
       confirmPost(data);
@@ -510,14 +562,14 @@ function init (client, $) {
     return false;
   };
 
-  function buildConfirmText (data) {
+  function buildConfirmText (data: any) {
     var text = [
       translate('Please verify that the data entered is correct') + ': '
       
       , translate('Event Type') + ': ' + translate(data.eventType)
     ];
 
-    function pushIf (check, valueText) {
+    function pushIf (check: any, valueText: any) {
       if (check) {
         text.push(valueText);
       }
@@ -537,16 +589,16 @@ function init (client, $) {
     return text.join('\n');
   }
 
-  function confirmPost (data) {
+  function confirmPost (data: any) {
     if (window.confirm(buildConfirmText(data))) {
       $.ajax({
         method: 'POST'
         , url: '/api/v1/treatments/'
         , headers: client.headers()
         , data: data
-      }).done(function treatmentSaved (response) {
+      }).done(function treatmentSaved (response: any) {
         console.info('treatment saved', response);
-      }).fail(function treatmentSaveFail (response) {
+      }).fail(function treatmentSaveFail (response: any) {
         console.info('treatment saved', response);
         alert(translate('Entering record failed') + '. ' + translate('Status') + ': ' + response.status);
       });
@@ -559,16 +611,17 @@ function init (client, $) {
   }
 
   // Food manipulation
-  function deleteFoodRecord (event) {
+  function deleteFoodRecord(this: any, event: any) {
     var index = $(this).attr('index');
     foods.splice(index, 1);
     $('#bc_carbs').val('');
+    // @ts-expect-error TS(2339): Property 'calculateInsulin' does not exist on type... Remove this comment to see the full error message
     boluscalc.calculateInsulin();
     maybePrevent(event);
     return false;
   }
 
-  function quickpickChange (event) {
+  function quickpickChange (event: any) {
     var qpiselected = $('#bc_quickpick').val();
 
     if (qpiselected === null || qpiselected === '-1') { // (none)
@@ -581,6 +634,7 @@ function init (client, $) {
       $('#bc_addfoodarea').css('display', 'none');
     }
 
+    // @ts-expect-error TS(2339): Property 'calculateInsulin' does not exist on type... Remove this comment to see the full error message
     boluscalc.calculateInsulin();
     maybePrevent(event);
   }
@@ -598,20 +652,21 @@ function init (client, $) {
           , url: '/api/v1/food/'
           , headers: client.headers()
           , data: qp
-        }).done(function treatmentSaved (response) {
+        }).done(function treatmentSaved (response: any) {
           console.info('quick pick saved', response);
-        }).fail(function treatmentSaveFail (response) {
+        }).fail(function treatmentSaveFail (response: any) {
           console.info('quick pick failed to save', response);
         });
       }
     }
 
+    // @ts-expect-error TS(2339): Property 'calculateInsulin' does not exist on type... Remove this comment to see the full error message
     boluscalc.calculateInsulin();
     maybePrevent(event);
   }
 
-  var categories = [];
-  var foodlist = [];
+  var categories: any = [];
+  var foodlist: any = [];
   var databaseloaded = false;
   var filter = {
     category: ''
@@ -619,11 +674,12 @@ function init (client, $) {
     , name: ''
   };
 
-  boluscalc.loadFoodDatabase = function loadFoodDatabase (event, callback) {
+  // @ts-expect-error TS(2339): Property 'loadFoodDatabase' does not exist on type... Remove this comment to see the full error message
+  boluscalc.loadFoodDatabase = function loadFoodDatabase (event: any, callback: any) {
     categories = [];
     foodlist = [];
     var records = client.sbx.data.food || [];
-    records.forEach(function(r) {
+    records.forEach(function(r: any) {
       if (r.type == 'food') {
         foodlist.push(r);
         if (r.category && !categories[r.category]) {
@@ -636,16 +692,18 @@ function init (client, $) {
     });
     databaseloaded = true;
     console.log('Food database loaded');
+    // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
     fillForm();
     maybePrevent(event);
     if (callback) { callback(); }
   };
 
+  // @ts-expect-error TS(2339): Property 'loadFoodQuickpicks' does not exist on ty... Remove this comment to see the full error message
   boluscalc.loadFoodQuickpicks = function loadFoodQuickpicks () {
     // Load quickpicks
     quickpicks = [];
     var records = client.sbx.data.food || [];
-    records.forEach(function(r) {
+    records.forEach(function(r: any) {
       if (r.type == 'quickpick') {
         quickpicks.push(r);
       }
@@ -660,12 +718,13 @@ function init (client, $) {
     $('#bc_quickpick').change(quickpickChange);
   };
 
-  function fillForm (event) {
+  function fillForm (event: any) {
     $('#bc_filter_category').empty().append('<option value="">' + translate('(none)') + '</option>');
     Object.keys(categories).forEach(function eachCategory (s) {
       $('#bc_filter_category').append('<option value="' + s + '">' + s + '</option>');
     });
     filter.category = '';
+    // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
     fillSubcategories();
 
     $('#bc_filter_category').change(fillSubcategories);
@@ -676,7 +735,7 @@ function init (client, $) {
     return false;
   }
 
-  function fillSubcategories (event) {
+  function fillSubcategories (event: any) {
     maybePrevent(event);
     filter.category = $('#bc_filter_category').val();
     filter.subcategory = '';
@@ -686,10 +745,11 @@ function init (client, $) {
         $('#bc_filter_subcategory').append('<option value="' + s + '">' + s + '</option>');
       });
     }
+    // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
     doFilter();
   }
 
-  function doFilter (event) {
+  function doFilter (event: any) {
     if (event) {
       filter.category = $('#bc_filter_category').val();
       filter.subcategory = $('#bc_filter_subcategory').val();
@@ -714,8 +774,9 @@ function init (client, $) {
     maybePrevent(event);
   }
 
-  function addFoodFromDatabase (event) {
+  function addFoodFromDatabase (event: any) {
     if (!databaseloaded) {
+      // @ts-expect-error TS(2339): Property 'loadFoodDatabase' does not exist on type... Remove this comment to see the full error message
       boluscalc.loadFoodDatabase(event, addFoodFromDatabase);
       return;
     }
@@ -737,6 +798,7 @@ function init (client, $) {
               foods.push(_.cloneDeep(foodlist[index]));
               /* eslint-enable security/detect-object-injection */ // verified false positive
               $(this).dialog('close');
+              // @ts-expect-error TS(2339): Property 'calculateInsulin' does not exist on type... Remove this comment to see the full error message
               boluscalc.calculateInsulin();
             }
           }
@@ -744,6 +806,7 @@ function init (client, $) {
         , {
           text: translate('Reload database')
           , class: 'leftButton'
+          // @ts-expect-error TS(2339): Property 'loadFoodDatabase' does not exist on type... Remove this comment to see the full error message
           , click: boluscalc.loadFoodDatabase
         }
         ]
@@ -759,8 +822,8 @@ function init (client, $) {
     return false;
   }
 
-  function findClosestSGVToPastTime (time) {
-    var nowData = client.entries.filter(function(d) {
+  function findClosestSGVToPastTime (time: any) {
+    var nowData = client.entries.filter(function(d: any) {
       return d.type === 'sgv' && d.mills <= time.getTime();
     });
     var focusPoint = _.last(nowData);
@@ -773,29 +836,42 @@ function init (client, $) {
 
   if (isTouch()) {
     // Make it faster on mobile devices
+    // @ts-expect-error TS(2339): Property 'calculateInsulin' does not exist on type... Remove this comment to see the full error message
     $('.insulincalculationpart').change(boluscalc.calculateInsulin);
   } else {
+    // @ts-expect-error TS(2339): Property 'calculateInsulin' does not exist on type... Remove this comment to see the full error message
     $('.insulincalculationpart').on('input', boluscalc.calculateInsulin);
+    // @ts-expect-error TS(2339): Property 'calculateInsulin' does not exist on type... Remove this comment to see the full error message
     $('input:checkbox.insulincalculationpart').change(boluscalc.calculateInsulin);
   }
+  // @ts-expect-error TS(2339): Property 'calculateInsulin' does not exist on type... Remove this comment to see the full error message
   $('#bc_bgfrommeter').change(boluscalc.calculateInsulin);
   $('#bc_addfromdatabase').click(addFoodFromDatabase);
-  $('#bc_bgfromsensor').change(function bc_bgfromsensor_click (event) {
+  $('#bc_bgfromsensor').change(function bc_bgfromsensor_click (event: any) {
+    // @ts-expect-error TS(2339): Property 'updateVisualisations' does not exist on ... Remove this comment to see the full error message
     boluscalc.updateVisualisations(client.sbx);
+    // @ts-expect-error TS(2339): Property 'calculateInsulin' does not exist on type... Remove this comment to see the full error message
     boluscalc.calculateInsulin();
     maybePrevent(event);
   });
 
+  // @ts-expect-error TS(2339): Property 'toggleDrawer' does not exist on type '{}... Remove this comment to see the full error message
   $('#boluscalcDrawerToggle').click(boluscalc.toggleDrawer);
+  // @ts-expect-error TS(2339): Property 'submit' does not exist on type '{}'.
   $('#boluscalcDrawer').find('button').click(boluscalc.submit);
+  // @ts-expect-error TS(2339): Property 'eventTimeTypeChange' does not exist on t... Remove this comment to see the full error message
   $('#bc_eventTime input:radio').change(boluscalc.eventTimeTypeChange);
 
+  // @ts-expect-error TS(2339): Property 'dateTimeFocus' does not exist on type '{... Remove this comment to see the full error message
   $('.bc_eventtimeinput').focus(boluscalc.dateTimeFocus).change(boluscalc.dateTimeChange);
 
+  // @ts-expect-error TS(2339): Property 'loadFoodQuickpicks' does not exist on ty... Remove this comment to see the full error message
   boluscalc.loadFoodQuickpicks();
+  // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
   setDateAndTime();
 
   return boluscalc;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

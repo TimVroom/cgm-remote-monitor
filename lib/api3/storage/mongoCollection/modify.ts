@@ -1,5 +1,6 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'utils'.
 const utils = require('./utils')
   ;
 
@@ -9,11 +10,11 @@ const utils = require('./utils')
  * @param {Object} doc
  * @param {Object} options
  */
-function insertOne (col, doc, options) {
+function insertOne (col: any, doc: any, options: any) {
 
   return new Promise(function (resolve, reject) {
 
-    col.insertOne(doc, function mongoDone(err, result) {
+    col.insertOne(doc, function mongoDone(err: any, result: any) {
 
       if (err) {
         reject(err);
@@ -36,13 +37,13 @@ function insertOne (col, doc, options) {
  * @param {string} identifier
  * @param {Object} doc
  */
-function replaceOne (col, identifier, doc) {
+function replaceOne (col: any, identifier: any, doc: any) {
 
   return new Promise(function (resolve, reject) {
 
     const filter = utils.filterForOne(identifier);
 
-    col.replaceOne(filter, doc, { upsert: true }, function mongoDone(err, result) {
+    col.replaceOne(filter, doc, { upsert: true }, function mongoDone(err: any, result: any) {
       if (err) {
         reject(err);
       } else {
@@ -59,13 +60,13 @@ function replaceOne (col, identifier, doc) {
  * @param {string} identifier
  * @param {object} setFields
  */
-function updateOne (col, identifier, setFields) {
+function updateOne (col: any, identifier: any, setFields: any) {
 
   return new Promise(function (resolve, reject) {
 
     const filter = utils.filterForOne(identifier);
 
-    col.updateOne(filter, { $set: setFields }, function mongoDone(err, result) {
+    col.updateOne(filter, { $set: setFields }, function mongoDone(err: any, result: any) {
       if (err) {
         reject(err);
       } else {
@@ -81,13 +82,13 @@ function updateOne (col, identifier, setFields) {
  * @param {Object} col
  * @param {string} identifier
  */
-function deleteOne (col, identifier) {
+function deleteOne (col: any, identifier: any) {
 
   return new Promise(function (resolve, reject) {
 
     const filter = utils.filterForOne(identifier);
 
-    col.deleteOne(filter, function mongoDone(err, result) {
+    col.deleteOne(filter, function mongoDone(err: any, result: any) {
       if (err) {
         reject(err);
       } else {
@@ -101,13 +102,13 @@ function deleteOne (col, identifier) {
 /**
  * Permanently remove many documents matching any of filtering criteria
  */
-function deleteManyOr (col, filterDef) {
+function deleteManyOr (col: any, filterDef: any) {
 
   return new Promise(function (resolve, reject) {
 
     const filter = utils.parseFilter(filterDef, 'or');
 
-    col.deleteMany(filter, function mongoDone(err, result) {
+    col.deleteMany(filter, function mongoDone(err: any, result: any) {
       if (err) {
         reject(err);
       } else {
@@ -118,6 +119,7 @@ function deleteManyOr (col, filterDef) {
 }
 
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = {
   insertOne,
   replaceOne,

@@ -1,18 +1,32 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'apiConst'.
 const apiConst = require('../const.json')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
   , _ = require('lodash')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'dateTools'... Remove this comment to see the full error message
   , dateTools = require('../shared/dateTools')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'opTools'.
   , opTools = require('../shared/operationTools')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'stringTool... Remove this comment to see the full error message
   , stringTools = require('../shared/stringTools')
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   , MongoCollectionStorage = require('../storage/mongoCollection')
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   , CachedCollectionStorage = require('../storage/mongoCachedCollection')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'searchOper... Remove this comment to see the full error message
   , searchOperation = require('./search/operation')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'createOper... Remove this comment to see the full error message
   , createOperation = require('./create/operation')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'readOperat... Remove this comment to see the full error message
   , readOperation = require('./read/operation')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'updateOper... Remove this comment to see the full error message
   , updateOperation = require('./update/operation')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'patchOpera... Remove this comment to see the full error message
   , patchOperation = require('./patch/operation')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'deleteOper... Remove this comment to see the full error message
   , deleteOperation = require('./delete/operation')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'historyOpe... Remove this comment to see the full error message
   , historyOperation = require('./history/operation')
   ;
 
@@ -23,8 +37,20 @@ const apiConst = require('../const.json')
   * @param {Array} dedupFallbackFields - fields that all need to be matched to identify document via fallback deduplication
   * @param {function} fallbackHistoryFilter - function that creates storage filter for all newer records (than the timestamp from first function parameter)
   */
-function Collection ({ ctx, env, app, colName, storageColName, fallbackGetDate, dedupFallbackFields,
-    fallbackDateField }) {
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'Collection... Remove this comment to see the full error message
+function Collection(
+  this: any,
+  {
+    ctx,
+    env,
+    app,
+    colName,
+    storageColName,
+    fallbackGetDate,
+    dedupFallbackFields,
+    fallbackDateField
+  }: any
+) {
 
   const self = this;
 
@@ -75,7 +101,7 @@ function Collection ({ ctx, env, app, colName, storageColName, fallbackGetDate, 
   /**
     * Parse limit (max document count) from query string
     */
-  self.parseLimit = function parseLimit (req, res) {
+  self.parseLimit = function parseLimit (req: any, res: any) {
     const maxLimit = app.get('API3_MAX_LIMIT');
     let limit = maxLimit;
 
@@ -98,7 +124,7 @@ function Collection ({ ctx, env, app, colName, storageColName, fallbackGetDate, 
     * Fetch modified date from document (with possible fallback and back-fill to srvModified/srvCreated)
     * @param {Object} doc - document loaded from database
     */
-  self.resolveDates = function resolveDates (doc) {
+  self.resolveDates = function resolveDates (doc: any) {
     let modifiedDate;
     try {
       if (doc.srvModified) {
@@ -148,7 +174,7 @@ function Collection ({ ctx, env, app, colName, storageColName, fallbackGetDate, 
       ];
 
       // let's autoprune asynchronously (we won't wait for the result)
-      self.storage.deleteManyOr(filter, function deleteDone (err, result) {
+      self.storage.deleteManyOr(filter, function deleteDone (err: any, result: any) {
         if (err || !result) {
           console.error(err);
         }
@@ -167,7 +193,7 @@ function Collection ({ ctx, env, app, colName, storageColName, fallbackGetDate, 
     * Parse date and utcOffset + optional created_at fallback
     * @param {Object} doc
     */
-  self.parseDate = function parseDate (doc) {
+  self.parseDate = function parseDate (doc: any) {
     if (!_.isEmpty(doc)) {
 
       let values = app.get('API3_CREATED_AT_FALLBACK_ENABLED')
@@ -194,4 +220,5 @@ function Collection ({ ctx, env, app, colName, storageColName, fallbackGetDate, 
   }
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = Collection;

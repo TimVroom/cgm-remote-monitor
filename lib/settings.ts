@@ -1,8 +1,11 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'constants'... Remove this comment to see the full error message
 var constants = require('./constants.json');
 
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init () {
 
   var settings = {
@@ -115,7 +118,7 @@ function init () {
     , authenticationPromptOnLoad: mapTruthy
   };
 
-  function filterObj(obj, secureKeys) {
+  function filterObj(obj: any, secureKeys: any) {
     if (obj && typeof obj === 'object') {
         var allKeys = Object.keys(obj);
         for (var i = 0 ; i < allKeys.length ; i++) {
@@ -133,7 +136,7 @@ function init () {
     return obj;
   }
 
-  function filteredSettings(settingsObject) {
+  function filteredSettings(settingsObject: any) {
     let so = _.cloneDeep(settingsObject);
     if (so.obscured) {
       so.enable = _.difference(so.enable, so.obscured);
@@ -141,14 +144,14 @@ function init () {
     return filterObj(so, secureSettings);
   }
 
-  function mapNumberArray (value) {
+  function mapNumberArray (value: any) {
     if (!value || _.isArray(value)) {
       return value;
     }
 
     if (isNaN(value)) {
       var rawValues = value && value.split(' ') || [];
-      return _.map(rawValues, function(num) {
+      return _.map(rawValues, function(num: any) {
         return isNaN(num) ? null : Number(num);
       });
     } else {
@@ -156,13 +159,15 @@ function init () {
     }
   }
 
-  function mapNumber (value) {
+  function mapNumber (value: any) {
     if (!value) {
       return value;
     }
 
+    // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
     if (typeof value === 'string' && isNaN(value)) {
       const decommaed = value.replace(',','.');
+      // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
       if (!isNaN(decommaed)) { value = decommaed; }
     }
 
@@ -173,32 +178,34 @@ function init () {
     }
   }
 
-  function mapTruthy (value) {
+  function mapTruthy (value: any) {
     if (typeof value === 'string' && (value.toLowerCase() === 'on' || value.toLowerCase() === 'true')) { value = true; }
     if (typeof value === 'string' && (value.toLowerCase() === 'off' || value.toLowerCase() === 'false')) { value = false; }
     return value;
   }
 
   //TODO: getting sent in status.json, shouldn't be
+  // @ts-expect-error TS(2339): Property 'DEFAULT_FEATURES' does not exist on type... Remove this comment to see the full error message
   settings.DEFAULT_FEATURES = ['bgnow', 'delta', 'direction', 'timeago', 'devicestatus', 'upbat', 'errorcodes', 'profile', 'bolus', 'dbsize', 'runtimestate', 'basal', 'careportal'];
 
-  var wasSet = [];
+  var wasSet: any = [];
 
-  function isSimple (value) {
+  function isSimple (value: any) {
     return _.isArray(value) || (typeof value !== 'function' && typeof value !== 'object');
   }
 
-  function nameFromKey (key, nameType) {
+  function nameFromKey (key: any, nameType: any) {
     return nameType === 'env' ? _.snakeCase(key).toUpperCase() : key;
   }
 
-  function eachSettingAs (nameType) {
+  function eachSettingAs (nameType: any) {
 
-    function mapKeys (accessor, keys) {
-      _.forIn(keys, function each (value, key) {
+    function mapKeys (accessor: any, keys: any) {
+      _.forIn(keys, function each (value: any, key: any) {
         if (isSimple(value)) {
           var newValue = accessor(nameFromKey(key, nameType));
           if (newValue !== undefined) {
+            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
             var mapper = valueMappers[key];
             wasSet.push(key);
             keys[key] = mapper ? mapper(newValue) : newValue;
@@ -207,42 +214,44 @@ function init () {
       });
     }
 
-    return function allKeys (accessor) {
+    return function allKeys (accessor: any) {
       mapKeys(accessor, settings);
       mapKeys(accessor, settings.thresholds);
       enableAndDisableFeatures(accessor, nameType);
     };
   }
 
-  function enableAndDisableFeatures (accessor, nameType) {
+  function enableAndDisableFeatures (accessor: any, nameType: any) {
 
-    function getAndPrepare (key) {
+    function getAndPrepare (key: any) {
       var raw = accessor(nameFromKey(key, nameType)) || '';
       var cleaned = decodeURIComponent(raw).toLowerCase();
+      // @ts-expect-error TS(2322): Type 'string[]' is not assignable to type 'string'... Remove this comment to see the full error message
       cleaned = cleaned ? cleaned.split(' ') : [];
-      cleaned = _.filter(cleaned, function(e) { return e !== ""; } );
+      cleaned = _.filter(cleaned, function(e: any) { return e !== ""; } );
       return cleaned;
     }
 
-    function enableIf (feature, condition) {
+    function enableIf (feature: any, condition: any) {
       if (condition) {
+        // @ts-expect-error TS(2339): Property 'push' does not exist on type 'string'.
         enable.push(feature);
       }
     }
 
-    function anyEnabled (features) {
-      return _.findIndex(features, function(feature) {
+    function anyEnabled (features: any) {
+      return _.findIndex(features, function(feature: any) {
         return enable.indexOf(feature) > -1;
       }) > -1;
     }
 
     function prepareAlarmTypes () {
-      var alarmTypes = _.filter(getAndPrepare('alarmTypes'), function onlyKnownTypes (type) {
+      var alarmTypes = _.filter(getAndPrepare('alarmTypes'), function onlyKnownTypes (type: any) {
         return type === 'predict' || type === 'simple';
       });
 
       if (alarmTypes.length === 0) {
-        var thresholdWasSet = _.findIndex(wasSet, function(name) {
+        var thresholdWasSet = _.findIndex(wasSet, function(name: any) {
           return name.indexOf('bg') === 0;
         }) > -1;
         alarmTypes = thresholdWasSet ? ['simple'] : ['predict'];
@@ -255,6 +264,7 @@ function init () {
     var disable = getAndPrepare('disable');
     var obscured = getAndPrepare('obscured');
 
+    // @ts-expect-error TS(2339): Property 'alarmTypes' does not exist on type '{ un... Remove this comment to see the full error message
     settings.alarmTypes = prepareAlarmTypes();
 
     //don't require pushover to be enabled to preserve backwards compatibility if there are extendedSettings for it
@@ -262,12 +272,15 @@ function init () {
 
     enableIf('treatmentnotify', anyEnabled(['careportal', 'pushover', 'maker']));
 
-    _.each(settings.DEFAULT_FEATURES, function eachDefault (feature) {
+    // @ts-expect-error TS(2339): Property 'DEFAULT_FEATURES' does not exist on type... Remove this comment to see the full error message
+    _.each(settings.DEFAULT_FEATURES, function eachDefault (feature: any) {
       enableIf(feature, enable.indexOf(feature) < 0);
     });
 
     //TODO: maybe get rid of ALARM_TYPES and only use enable?
+    // @ts-expect-error TS(2339): Property 'alarmTypes' does not exist on type '{ un... Remove this comment to see the full error message
     enableIf('simplealarms', settings.alarmTypes.indexOf('simple') > -1);
+    // @ts-expect-error TS(2339): Property 'alarmTypes' does not exist on type '{ un... Remove this comment to see the full error message
     enableIf('ar2', settings.alarmTypes.indexOf('predict') > -1);
 
     if (disable.length > 0) {
@@ -275,6 +288,7 @@ function init () {
     }
 
     //all enabled feature, without any that have been disabled
+    // @ts-expect-error TS(2339): Property 'enable' does not exist on type '{ units:... Remove this comment to see the full error message
     settings.enable = _.difference(enable, disable);
     settings.obscured = obscured;
 
@@ -333,7 +347,8 @@ function init () {
     if (showPluginsUnset) {
       //assume all enabled features are plugins and they should be shown for now
       //it would be better to use the registered plugins, but it's not loaded yet...
-      _.forEach(settings.enable, function showFeature (feature) {
+      // @ts-expect-error TS(2339): Property 'enable' does not exist on type '{ units:... Remove this comment to see the full error message
+      _.forEach(settings.enable, function showFeature (feature: any) {
         if (isEnabled(feature)) {
           settings.showPlugins += ' ' + feature;
         }
@@ -341,37 +356,40 @@ function init () {
     }
   }
 
-  function isEnabled (feature) {
+  function isEnabled (feature: any) {
     var enabled = false;
 
+    // @ts-expect-error TS(2339): Property 'enable' does not exist on type '{ units:... Remove this comment to see the full error message
     if (settings.enable && typeof feature === 'object' && feature.length !== undefined) {
-      enabled = _.find(feature, function eachFeature (f) {
+      enabled = _.find(feature, function eachFeature (f: any) {
+        // @ts-expect-error TS(2339): Property 'enable' does not exist on type '{ units:... Remove this comment to see the full error message
         return settings.enable.indexOf(f) > -1;
       }) !== undefined;
     } else {
+      // @ts-expect-error TS(2339): Property 'enable' does not exist on type '{ units:... Remove this comment to see the full error message
       enabled = settings.enable && settings.enable.indexOf(feature) > -1;
     }
 
     return enabled;
   }
 
-  function isUrgentHighAlarmEnabled(notify) {
+  function isUrgentHighAlarmEnabled(notify: any) {
     return notify.eventName === 'high' && notify.level === constants.LEVEL_URGENT && settings.alarmUrgentHigh;
   }
 
-  function isHighAlarmEnabled(notify) {
+  function isHighAlarmEnabled(notify: any) {
     return notify.eventName === 'high' && settings.alarmHigh;
   }
 
-  function isUrgentLowAlarmEnabled(notify) {
+  function isUrgentLowAlarmEnabled(notify: any) {
     return notify.eventName === 'low' && notify.level === constants.LEVEL_URGENT && settings.alarmUrgentLow;
   }
 
-  function isLowAlarmEnabled(notify) {
+  function isLowAlarmEnabled(notify: any) {
     return notify.eventName === 'low' && settings.alarmLow;
   }
 
-  function isAlarmEventEnabled (notify) {
+  function isAlarmEventEnabled (notify: any) {
     return ('high' !== notify.eventName && 'low' !== notify.eventName)
      || isUrgentHighAlarmEnabled(notify)
      || isHighAlarmEnabled(notify)
@@ -379,7 +397,7 @@ function init () {
      || isLowAlarmEnabled(notify);
   }
 
-  function snoozeMinsForAlarmEvent (notify) {
+  function snoozeMinsForAlarmEvent (notify: any) {
     var snoozeTime;
 
     if (isUrgentHighAlarmEnabled(notify)) {
@@ -399,20 +417,28 @@ function init () {
     return snoozeTime;
   }
 
-  function snoozeFirstMinsForAlarmEvent (notify) {
+  function snoozeFirstMinsForAlarmEvent (notify: any) {
     return _.first(snoozeMinsForAlarmEvent(notify));
   }
 
+  // @ts-expect-error TS(2339): Property 'eachSetting' does not exist on type '{ u... Remove this comment to see the full error message
   settings.eachSetting = eachSettingAs();
+  // @ts-expect-error TS(2339): Property 'eachSettingAsEnv' does not exist on type... Remove this comment to see the full error message
   settings.eachSettingAsEnv = eachSettingAs('env');
+  // @ts-expect-error TS(2339): Property 'isEnabled' does not exist on type '{ uni... Remove this comment to see the full error message
   settings.isEnabled = isEnabled;
+  // @ts-expect-error TS(2339): Property 'isAlarmEventEnabled' does not exist on t... Remove this comment to see the full error message
   settings.isAlarmEventEnabled = isAlarmEventEnabled;
+  // @ts-expect-error TS(2339): Property 'snoozeMinsForAlarmEvent' does not exist ... Remove this comment to see the full error message
   settings.snoozeMinsForAlarmEvent = snoozeMinsForAlarmEvent;
+  // @ts-expect-error TS(2339): Property 'snoozeFirstMinsForAlarmEvent' does not e... Remove this comment to see the full error message
   settings.snoozeFirstMinsForAlarmEvent = snoozeFirstMinsForAlarmEvent;
+  // @ts-expect-error TS(2339): Property 'filteredSettings' does not exist on type... Remove this comment to see the full error message
   settings.filteredSettings = filteredSettings;
 
   return settings;
 
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

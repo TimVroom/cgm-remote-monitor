@@ -1,9 +1,13 @@
 'use strict';
 
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 const traverse = require('traverse');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'ObjectID'.
 const ObjectID = require('mongodb').ObjectID;
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'moment'.
 const moment = require('moment');
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'TWO_DAYS'.
 const TWO_DAYS = 172800000;
 /**
  * @module query utilities
@@ -23,18 +27,21 @@ const TWO_DAYS = 172800000;
     }
 ```
   */
-function default_options (opts) {
+function default_options (opts: any) {
   opts = opts || { };
   if (opts) {
+    // @ts-expect-error TS(2769): No overload matches this call.
     var keys = [null].concat(Object.keys(opts));
 
     // default at least TWO_DAYS of data
     // TODO: discuss/consensus on right value/ENV?
+    // @ts-expect-error TS(2345): Argument of type '"deltaAgo"' is not assignable to... Remove this comment to see the full error message
     if (keys.indexOf('deltaAgo') < 1) {
       opts.deltaAgo = ( TWO_DAYS * 2 );
     }
 
     // default at `date` and `sgv` properties are both int-types.
+    // @ts-expect-error TS(2345): Argument of type '"walker"' is not assignable to p... Remove this comment to see the full error message
     if (keys.indexOf('walker') < 1) {
       opts.walker = { date: parseInt, sgv: parseInt };
     }
@@ -54,7 +61,7 @@ function default_options (opts) {
   * with a date and time greater than or equal to the configured `deltaAgo`
   * option, (`opts.deltaAgo`).
   */
-function enforceDateFilter (query, opts) {
+function enforceDateFilter (query: any, opts: any) {
   var dateValue = query[opts.dateField];
 
   // rewrite dates to ISO UTC strings so queries work as expected
@@ -89,7 +96,7 @@ function enforceDateFilter (query, opts) {
   * Helper to set ObjectID type for `_id` queries.
   * Forces anything named `_id` to be the `ObjectID` type.
   */
-function updateIdQuery (query) {
+function updateIdQuery (query: any) {
   if (query._id && query._id.length) {
     query._id = ObjectID(query._id);
   }
@@ -106,7 +113,7 @@ function updateIdQuery (query) {
   *
   * @returns Object An object which can be passed to `mongodb.find( )`
   */
-function create (params, opts) {
+function create (params: any, opts: any) {
   // setup default options for what/how to do things
   opts = default_options(opts);
   // Build the iterator, pass it our initial params to et the results.
@@ -135,9 +142,9 @@ function create (params, opts) {
   * Example spec: { sgv: parseInt }
   * @returns function Function will translate types expressed in query.
   */
-function walker (spec) {
+function walker (spec: any) {
   // empty queue
-  var fns = [ ];
+  var fns: any = [ ];
 
   // for each key/value pair in the spec
   var keys = Object.keys(spec);
@@ -153,7 +160,7 @@ function walker (spec) {
     * @returns Object for mongodb queries, with fields set to appropriate type
         described by previous mapping.
     */
-  function exec (obj) {
+  function exec (obj: any) {
     var fn;
     // for each mapping in the queue
     while (fns.length > 0) {
@@ -173,8 +180,8 @@ function walker (spec) {
   * @param String prop Property name to to translate.
   * @param function typer Function to convert to type, eg `parseInt`
   */
-function walk_prop (prop, typer) {
-  function iter (opts) {
+function walk_prop (prop: any, typer: any) {
+  function iter (opts: any) {
     // This is specifically configured to match the `find` convention in our REST API.
     // Query parameters are the ones attached to the `find` object.
     if (opts && opts.find && opts.find[prop]) {
@@ -183,7 +190,7 @@ function walk_prop (prop, typer) {
         opts.find[prop] = typer(opts.find[prop]);
       } else {
         // Traverse any query elements associated with this property.
-        traverse(opts.find[prop]).forEach(function (x) {
+        traverse(opts.find[prop]).forEach(function(this: any, x: any) {
           // In Mongo queries, the leaf nodes are always the values to search for.
           // Ignore any interstitial arrays/objects to represent
           // greater-than-or-equal-to, etc.
@@ -200,7 +207,7 @@ function walk_prop (prop, typer) {
   return iter;
 }
 
-function parseRegEx (str) {
+function parseRegEx (str: any) {
   var regtest = /\/(.*)\/(.*)/.exec(str);
   if (regtest) {
     return new RegExp(regtest[1],regtest[2]);
@@ -215,5 +222,6 @@ create.parseRegEx = parseRegEx;
 create.default_options = default_options;
 
 // expose module as single high level function
+// @ts-expect-error TS(2304): Cannot find name 'exports'.
 exports = module.exports = create;
 

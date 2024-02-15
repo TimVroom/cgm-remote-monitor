@@ -1,9 +1,11 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
 var times = require('../times');
 
-function init(ctx) {
+function init(ctx: any) {
 
   var errorcodes = {
     name: 'errorcodes'
@@ -28,13 +30,16 @@ function init(ctx) {
     , 10: 'alien'
   };
 
-  function toDisplay (errorCode) {
+  function toDisplay (errorCode: any) {
+    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     return code2Display[errorCode] || errorCode + '??';
   }
 
+  // @ts-expect-error TS(2339): Property 'toDisplay' does not exist on type '{ nam... Remove this comment to see the full error message
   errorcodes.toDisplay = toDisplay;
 
-  errorcodes.checkNotifications = function checkNotifications (sbx) {
+  // @ts-expect-error TS(2339): Property 'checkNotifications' does not exist on ty... Remove this comment to see the full error message
+  errorcodes.checkNotifications = function checkNotifications (sbx: any) {
     var now = sbx.time;
     var lastSGV = sbx.lastSGVEntry();
 
@@ -42,7 +47,9 @@ function init(ctx) {
 
     if (lastSGV && now - lastSGV.mills < times.mins(10).msecs && lastSGV.mgdl < 39) {
       var errorDisplay = toDisplay(lastSGV.mgdl);
+      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       var pushoverSound = code2PushoverSound[lastSGV.mgdl] || null;
+      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       var notifyLevel = code2Level[lastSGV.mgdl];
 
       if (notifyLevel !== undefined) {
@@ -62,17 +69,18 @@ function init(ctx) {
     }
   };
 
-  function buildMappingFromSettings (extendedSettings) {
+  function buildMappingFromSettings (extendedSettings: any) {
     var mapping = {};
 
-    function addValuesToMapping (value, level) {
+    function addValuesToMapping (value: any, level: any) {
       if (!value || !value.split) {
         return [];
       }
 
       var rawValues = value && value.split(' ') || [];
-      _.each(rawValues, function (num) {
+      _.each(rawValues, function (num: any) {
         if (!isNaN(num)) {
+          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           mapping[Number(num)] = level;
         }
       });
@@ -86,6 +94,7 @@ function init(ctx) {
   }
 
   //for tests
+  // @ts-expect-error TS(2339): Property 'buildMappingFromSettings' does not exist... Remove this comment to see the full error message
   errorcodes.buildMappingFromSettings = buildMappingFromSettings;
 
 
@@ -93,4 +102,5 @@ function init(ctx) {
 
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

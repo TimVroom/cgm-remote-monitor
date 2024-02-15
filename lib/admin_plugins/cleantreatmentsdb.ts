@@ -1,5 +1,6 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'moment'.
 var moment;
 
 var cleantreatmentsdb = {
@@ -8,13 +9,16 @@ var cleantreatmentsdb = {
   , pluginType: 'admin'
 };
 
-function init(ctx) {
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
+function init(ctx: any) {
   moment = ctx.moment;
   return cleantreatmentsdb;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;
 
+// @ts-expect-error TS(2339): Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
 cleantreatmentsdb.actions = [
     {
         name: 'Delete all documents from treatments collection older than 180 days'
@@ -25,7 +29,8 @@ cleantreatmentsdb.actions = [
     }
   ];
 
-cleantreatmentsdb.actions[0].init = function init(client, callback) {
+// @ts-expect-error TS(2339): Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
+cleantreatmentsdb.actions[0].init = function init(client: any, callback: any) {
   var translate = client.translate;
   var $status = $('#admin_' + cleantreatmentsdb.name + '_0_status');
 
@@ -42,7 +47,8 @@ cleantreatmentsdb.actions[0].init = function init(client, callback) {
   if (callback) { callback(); }
 };
 
-cleantreatmentsdb.actions[0].code =  function deleteOldRecords(client, callback) {
+// @ts-expect-error TS(2339): Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
+cleantreatmentsdb.actions[0].code =  function deleteOldRecords(client: any, callback: any) {
   var translate = client.translate;
   var $status = $('#admin_' + cleantreatmentsdb.name + '_0_status');
   var numDays = Number($('#admin_treatments_days').val());
@@ -67,7 +73,7 @@ cleantreatmentsdb.actions[0].code =  function deleteOldRecords(client, callback)
   $.ajax('/api/v1/treatments/?find[created_at][$lte]=' + dateStr, {
       method: 'DELETE'
     , headers: client.headers()
-    , success: function (retVal) {
+    , success: function (retVal: any) {
       $status.hide().text(translate('%1 records deleted',{ params: [retVal.n] })).fadeIn('slow');
     }
     , error: function () {

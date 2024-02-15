@@ -1,11 +1,12 @@
 'use strict';
 
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var engine = require('share2nightscout-bridge');
 
 // Track the most recently seen record
-var mostRecentRecord;
+var mostRecentRecord: any;
 
-function init (env, bus) {
+function init (env: any, bus: any) {
   if (env.extendedSettings.bridge && env.extendedSettings.bridge.userName && env.extendedSettings.bridge.password) {
     return create(env, bus);
   } else {
@@ -13,8 +14,8 @@ function init (env, bus) {
   }
 }
 
-function bridged (entries) {
-  function payload (err, glucose) {
+function bridged (entries: any) {
+  function payload (err: any, glucose: any) {
     if (err) {
       console.error('Bridge error: ', err);
     } else {
@@ -26,7 +27,7 @@ function bridged (entries) {
         }
         //console.log("DEXCOM: Most recent entry received; "+new Date(mostRecentRecord).toString());
       }
-      entries.create(glucose, function stored (err) {
+      entries.create(glucose, function stored (err: any) {
         if (err) {
           console.error('Bridge storage error: ', err);
         }
@@ -36,7 +37,7 @@ function bridged (entries) {
   return payload;
 }
 
-function options (env) {
+function options (env: any) {
   var config = {
     accountName: env.extendedSettings.bridge.userName
     , password: env.extendedSettings.bridge.password
@@ -65,7 +66,7 @@ function options (env) {
   };
 }
 
-function create (env, bus) {
+function create (env: any, bus: any) {
 
   var bridge = { };
 
@@ -74,9 +75,11 @@ function create (env, bus) {
 
   mostRecentRecord = new Date().getTime() - opts.fetch.minutes * 60000;
 
-  bridge.startEngine = function startEngine (entries) {
+  // @ts-expect-error TS(2339): Property 'startEngine' does not exist on type '{}'... Remove this comment to see the full error message
+  bridge.startEngine = function startEngine (entries: any) {
 
 
+    // @ts-expect-error TS(2339): Property 'callback' does not exist on type '{ logi... Remove this comment to see the full error message
     opts.callback = bridged(entries);
 
     let last_run = new Date(0).getTime();
@@ -117,7 +120,9 @@ function create (env, bus) {
       if  (!should_run()) return;
 
 
+      // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
       opts.fetch.minutes = parseInt((new Date() - mostRecentRecord) / 60000);
+      // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
       opts.fetch.maxCount = parseInt((opts.fetch.minutes / 5) + 1);
       opts.firstFetchCount = opts.fetch.maxCount;
       console.log("Fetching Share Data: ", 'minutes', opts.fetch.minutes, 'maxCount', opts.fetch.maxCount);
@@ -137,4 +142,5 @@ function create (env, bus) {
 init.create = create;
 init.bridged = bridged;
 init.options = options;
+// @ts-expect-error TS(2304): Cannot find name 'exports'.
 exports = module.exports = init;

@@ -1,7 +1,10 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'moment'.
 const moment = require('moment')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'stringTool... Remove this comment to see the full error message
   , stringTools = require('./stringTools')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'apiConst'.
   , apiConst = require('../const.json')
   ;
 
@@ -10,7 +13,7 @@ const moment = require('moment')
   * Floor date to whole seconds (cut off milliseconds)
   * @param {Date} date
   */
-function floorSeconds (date) {
+function floorSeconds (date: any) {
   let ms = date.getTime();
   ms -= ms % 1000;
   return new Date(ms);
@@ -21,13 +24,15 @@ function floorSeconds (date) {
  * Parse date as moment object from value or array of values.
  * @param {any} value
  */
-function parseToMoment (value)
+// @ts-expect-error TS(7023): 'parseToMoment' implicitly has return type 'any' b... Remove this comment to see the full error message
+function parseToMoment (value: any)
 {
   if (!value)
     return null;
 
   if (Array.isArray(value)) {
     for (let item of value) {
+      // @ts-expect-error TS(7022): 'm' implicitly has type 'any' because it does not ... Remove this comment to see the full error message
       let m = parseToMoment(item);
 
       if (m !== null)
@@ -72,6 +77,7 @@ function parseToMoment (value)
   return null;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = {
   floorSeconds,
   parseToMoment

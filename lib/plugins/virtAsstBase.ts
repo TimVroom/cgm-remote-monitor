@@ -1,8 +1,9 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_each'.
 var _each = require('lodash/each');
 
-function init(env, ctx) {
+function init(env: any, ctx: any) {
   var moment = ctx.moment;
 
   function virtAsstBase() {
@@ -12,10 +13,10 @@ function init(env, ctx) {
   var entries = ctx.entries;
   var translate = ctx.language.translate;
 
-  virtAsstBase.setupMutualIntents = function (configuredPlugin) {
+  virtAsstBase.setupMutualIntents = function (configuredPlugin: any) {
     // full status
-    configuredPlugin.addToRollup('Status', function (slots, sbx, callback) {
-      entries.list({count: 1}, function (err, records) {
+    configuredPlugin.addToRollup('Status', function (slots: any, sbx: any, callback: any) {
+      entries.list({count: 1}, function (err: any, records: any) {
         var direction;
         if (translate(records[0].direction)) {
           direction = translate(records[0].direction);
@@ -34,15 +35,15 @@ function init(env, ctx) {
       });
     }, 'BG Status');
 
-    configuredPlugin.configureIntentHandler('NSStatus', function (callback, slots, sbx, locale) {
-      configuredPlugin.getRollup('Status', sbx, slots, locale, function (status) {
+    configuredPlugin.configureIntentHandler('NSStatus', function (callback: any, slots: any, sbx: any, locale: any) {
+      configuredPlugin.getRollup('Status', sbx, slots, locale, function (status: any) {
         callback(translate('virtAsstTitleFullStatus'), status);
       });
     });
 
     // blood sugar and direction
-    configuredPlugin.configureIntentHandler('MetricNow', function (callback, slots, sbx) {
-      entries.list({count: 1}, function(err, records) {
+    configuredPlugin.configureIntentHandler('MetricNow', function (callback: any, slots: any, sbx: any) {
+      entries.list({count: 1}, function(err: any, records: any) {
         var direction;
         if(translate(records[0].direction)){
           direction = translate(records[0].direction);
@@ -61,12 +62,12 @@ function init(env, ctx) {
     }, ['bg', 'blood glucose', 'number']);
   };
 
-  virtAsstBase.setupVirtAsstHandlers = function (configuredPlugin) {
-    ctx.plugins.eachEnabledPlugin(function (plugin) {
+  virtAsstBase.setupVirtAsstHandlers = function (configuredPlugin: any) {
+    ctx.plugins.eachEnabledPlugin(function (plugin: any) {
       if (plugin.virtAsst) {
         if (plugin.virtAsst.intentHandlers) {
           console.log('Plugin "' + plugin.name + '" supports Virtual Assistants');
-          _each(plugin.virtAsst.intentHandlers, function (route) {
+          _each(plugin.virtAsst.intentHandlers, function (route: any) {
             if (route) {
               configuredPlugin.configureIntentHandler(route.intent, route.intentHandler, route.metrics);
             }
@@ -74,7 +75,7 @@ function init(env, ctx) {
         }
         if (plugin.virtAsst.rollupHandlers) {
           console.log('Plugin "' + plugin.name + '" supports rollups for Virtual Assistants');
-          _each(plugin.virtAsst.rollupHandlers, function (route) {
+          _each(plugin.virtAsst.rollupHandlers, function (route: any) {
             if (route) {
               configuredPlugin.addToRollup(route.rollupGroup, route.rollupHandler, route.rollupName);
             }
@@ -89,4 +90,5 @@ function init(env, ctx) {
   return virtAsstBase;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

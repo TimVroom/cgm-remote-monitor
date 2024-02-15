@@ -1,17 +1,23 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'apiConst'.
 const apiConst = require('../../const.json')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'security'.
   , security = require('../../security')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'opTools'.
   , opTools = require('../../shared/operationTools')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'dateTools'... Remove this comment to see the full error message
   , dateTools = require('../../shared/dateTools')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'renderer'.
   , renderer = require('../../shared/renderer')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'FieldsProj... Remove this comment to see the full error message
   , FieldsProjector = require('../../shared/fieldsProjector')
   ;
 
 /**
   * READ: Retrieves a single document from the collection
   */
-async function read (opCtx) {
+async function read (opCtx: any) {
 
   const { req, res, col } = opCtx;
 
@@ -54,13 +60,15 @@ async function read (opCtx) {
 }
 
 
-function readOperation (ctx, env, app, col) {
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'readOperat... Remove this comment to see the full error message
+function readOperation (ctx: any, env: any, app: any, col: any) {
 
-  return async function operation (req, res) {
+  return async function operation (req: any, res: any) {
 
     const opCtx = { app, ctx, env, col, req, res };
 
     try {
+      // @ts-expect-error TS(2339): Property 'auth' does not exist on type '{ app: any... Remove this comment to see the full error message
       opCtx.auth = await security.authenticate(opCtx);
 
       await read(opCtx);
@@ -74,4 +82,5 @@ function readOperation (ctx, env, app, col) {
   };
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = readOperation;

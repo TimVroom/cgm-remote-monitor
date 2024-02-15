@@ -1,8 +1,12 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'apiConst'.
 const apiConst = require('../../const.json')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'dateTools'... Remove this comment to see the full error message
   , dateTools = require('../../shared/dateTools')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'stringTool... Remove this comment to see the full error message
   , stringTools = require('../../shared/stringTools')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'opTools'.
   , opTools = require('../../shared/operationTools')
   ;
 
@@ -12,7 +16,7 @@ const filterRegex = /(.*)\$([a-zA-Z]+)/;
 /**
  * Parse value of the parameter (to the correct data type)
  */
-function parseValue(param, value) {
+function parseValue(param: any, value: any) {
 
   value = stringTools.isNumberInString(value) ? parseFloat(value) : value; // convert number from string
 
@@ -49,7 +53,7 @@ function parseValue(param, value) {
 /**
  * Parse filtering criteria from query string
  */
-function parseFilter (req, res) {
+function parseFilter (req: any, res: any) {
   const filter = []
     , reservedParams = ['token', 'sort', 'sort$desc', 'limit', 'skip', 'fields', 'now']
     , operators = ['eq', 'ne', 'gt', 'gte', 'lt', 'lte', 'in', 'nin', 're']
@@ -86,7 +90,7 @@ function parseFilter (req, res) {
 /**
  * Parse sorting from query string
  */
-function parseSort (req, res) {
+function parseSort (req: any, res: any) {
   let sort = {}
     , sortDirection = 1;
 
@@ -97,16 +101,21 @@ function parseSort (req, res) {
 
   if (req.query.sort$desc) {
     sortDirection = -1;
+    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     sort[req.query.sort$desc] = sortDirection;
   }
   else {
     if (req.query.sort) {
+      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       sort[req.query.sort] = sortDirection;
     }
   }
 
+  // @ts-expect-error TS(2339): Property 'identifier' does not exist on type '{}'.
   sort.identifier = sortDirection;
+  // @ts-expect-error TS(2339): Property 'created_at' does not exist on type '{}'.
   sort.created_at = sortDirection;
+  // @ts-expect-error TS(2339): Property 'date' does not exist on type '{}'.
   sort.date = sortDirection;
 
   return sort;
@@ -116,7 +125,7 @@ function parseSort (req, res) {
 /**
  * Parse skip (offset) from query string
  */
-function parseSkip (req, res) {
+function parseSkip (req: any, res: any) {
   let skip = 0;
 
   if (req.query.skip) {
@@ -133,6 +142,7 @@ function parseSkip (req, res) {
 }
 
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = {
   parseFilter,
   parseSort,

@@ -1,9 +1,11 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
 var times = require('../times');
 
-function init (ctx) {
+function init (ctx: any) {
 
   var translate = ctx.language.translate;
   var levels = ctx.levels;
@@ -14,7 +16,7 @@ function init (ctx) {
     , pluginType: 'pill-minor'
   };
 
-  function checkMissingInfo (sbx) {
+  function checkMissingInfo (sbx: any) {
     var errors = [];
     if (!sbx.data.profile || !sbx.data.profile.hasData()) {
       errors.push('Missing need a treatment profile');
@@ -33,20 +35,24 @@ function init (ctx) {
     return errors;
   }
 
-  bwp.setProperties = function setProperties(sbx) {
+  // @ts-expect-error TS(2339): Property 'setProperties' does not exist on type '{... Remove this comment to see the full error message
+  bwp.setProperties = function setProperties(sbx: any) {
     sbx.offerProperty('bwp', function setBWP ( ) {
+      // @ts-expect-error TS(2339): Property 'calc' does not exist on type '{ name: st... Remove this comment to see the full error message
       return bwp.calc(sbx);
     });
   };
 
 
-  bwp.checkNotifications = function checkNotifications (sbx) {
+  // @ts-expect-error TS(2339): Property 'checkNotifications' does not exist on ty... Remove this comment to see the full error message
+  bwp.checkNotifications = function checkNotifications (sbx: any) {
 
     var prop = sbx.properties.bwp;
     if (prop === undefined) { return; }
 
     var settings = prepareSettings(sbx);
 
+    // @ts-expect-error TS(2339): Property 'highSnoozedByIOB' does not exist on type... Remove this comment to see the full error message
     if (bwp.highSnoozedByIOB(prop, settings, sbx)) {
       sbx.notifications.requestSnooze({
         level: levels.URGENT
@@ -72,7 +78,8 @@ function init (ctx) {
     }
   };
 
-  bwp.highSnoozedByIOB = function highSnoozedByIOB(prop, settings, sbx) {
+  // @ts-expect-error TS(2339): Property 'highSnoozedByIOB' does not exist on type... Remove this comment to see the full error message
+  bwp.highSnoozedByIOB = function highSnoozedByIOB(prop: any, settings: any, sbx: any) {
     var ar2EventType = sbx.properties.ar2 && sbx.properties.ar2.eventType;
     var high = ar2EventType === 'high' || prop.scaledSGV >= sbx.scaleMgdl(sbx.settings.thresholds.bgTargetTop);
 
@@ -80,11 +87,12 @@ function init (ctx) {
   };
 
 
-  bwp.updateVisualisation = function updateVisualisation (sbx) {
+  // @ts-expect-error TS(2339): Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
+  bwp.updateVisualisation = function updateVisualisation (sbx: any) {
 
     var prop = sbx.properties.bwp;
 
-    var info = [];
+    var info: any = [];
     pushInfo(prop, info, sbx);
 
     var value;
@@ -101,7 +109,8 @@ function init (ctx) {
     });
   };
 
-  bwp.calc = function calc (sbx) {
+  // @ts-expect-error TS(2339): Property 'calc' does not exist on type '{ name: st... Remove this comment to see the full error message
+  bwp.calc = function calc (sbx: any) {
 
     var results = {
       effect: 0
@@ -111,28 +120,32 @@ function init (ctx) {
 
     var scaled = sbx.lastScaledSGV();
 
+    // @ts-expect-error TS(2339): Property 'scaledSGV' does not exist on type '{ eff... Remove this comment to see the full error message
     results.scaledSGV = scaled;
 
     var errors = checkMissingInfo(sbx);
 
     if (errors && errors.length > 0) {
+      // @ts-expect-error TS(2339): Property 'errors' does not exist on type '{ effect... Remove this comment to see the full error message
       results.errors = errors;
       return results;
     }
 
     var profile = sbx.data.profile;
+    // @ts-expect-error TS(2339): Property 'iob' does not exist on type '{ effect: n... Remove this comment to see the full error message
     var iob = results.iob = sbx.properties.iob.iob || 0;
 
     results.effect = iob * profile.getSensitivity(sbx.time);
     results.outcome = scaled - results.effect;
     var delta = 0;
 
-    var recentCarbs = _.findLast(sbx.data.treatments, function eachTreatment (treatment) {
+    var recentCarbs = _.findLast(sbx.data.treatments, function eachTreatment (treatment: any) {
       return treatment.mills <= sbx.time &&
         sbx.time - treatment.mills < times.mins(60).msecs &&
         treatment.carbs > 0;
     });
 
+    // @ts-expect-error TS(2339): Property 'recentCarbs' does not exist on type '{ e... Remove this comment to see the full error message
     results.recentCarbs = recentCarbs;
 
     var target_high = profile.getHighBGTarget(sbx.time);
@@ -141,21 +154,27 @@ function init (ctx) {
     if (results.outcome > target_high) {
       delta = results.outcome - target_high;
       results.bolusEstimate = delta / sens;
+      // @ts-expect-error TS(2339): Property 'aimTarget' does not exist on type '{ eff... Remove this comment to see the full error message
       results.aimTarget = target_high;
+      // @ts-expect-error TS(2339): Property 'aimTargetString' does not exist on type ... Remove this comment to see the full error message
       results.aimTargetString = 'above high';
     }
 
     var target_low = profile.getLowBGTarget(sbx.time);
 
+    // @ts-expect-error TS(2339): Property 'belowLowTarget' does not exist on type '... Remove this comment to see the full error message
     results.belowLowTarget = false;
     if (scaled < target_low) {
+      // @ts-expect-error TS(2339): Property 'belowLowTarget' does not exist on type '... Remove this comment to see the full error message
       results.belowLowTarget = true;
     }
 
     if (results.outcome < target_low) {
       delta = Math.abs(results.outcome - target_low);
       results.bolusEstimate = delta / sens * -1;
+      // @ts-expect-error TS(2339): Property 'aimTarget' does not exist on type '{ eff... Remove this comment to see the full error message
       results.aimTarget = target_low;
+      // @ts-expect-error TS(2339): Property 'aimTargetString' does not exist on type ... Remove this comment to see the full error message
       results.aimTargetString = 'below low';
     }
     
@@ -166,21 +185,27 @@ function init (ctx) {
       var thirtyMinAdjustment = Math.round((basal/2 + results.bolusEstimate) / (basal / 2) * 100);
       var oneHourAdjustment = Math.round((basal + results.bolusEstimate) / basal * 100);
       
+      // @ts-expect-error TS(2339): Property 'tempBasalAdjustment' does not exist on t... Remove this comment to see the full error message
       results.tempBasalAdjustment = {
         'thirtymin': thirtyMinAdjustment
         ,'onehour': oneHourAdjustment};
     }
 
+    // @ts-expect-error TS(2339): Property 'bolusEstimateDisplay' does not exist on ... Remove this comment to see the full error message
     results.bolusEstimateDisplay = sbx.roundInsulinForDisplayFormat(results.bolusEstimate);
+    // @ts-expect-error TS(2339): Property 'outcomeDisplay' does not exist on type '... Remove this comment to see the full error message
     results.outcomeDisplay = sbx.roundBGToDisplayFormat(results.outcome);
+    // @ts-expect-error TS(2339): Property 'displayIOB' does not exist on type '{ ef... Remove this comment to see the full error message
     results.displayIOB = sbx.roundInsulinForDisplayFormat(results.iob);
+    // @ts-expect-error TS(2339): Property 'effectDisplay' does not exist on type '{... Remove this comment to see the full error message
     results.effectDisplay = sbx.roundBGToDisplayFormat(results.effect);
+    // @ts-expect-error TS(2339): Property 'displayLine' does not exist on type '{ e... Remove this comment to see the full error message
     results.displayLine = translate('BWP') + ': ' + results.bolusEstimateDisplay + 'U';
 
     return results;
   };
 
-  function prepareSettings (sbx) {
+  function prepareSettings (sbx: any) {
     return {
       snoozeBWP: Number(sbx.extendedSettings.snooze) || 0.10
     , warnBWP: Number(sbx.extendedSettings.warn) || 0.50
@@ -189,21 +214,21 @@ function init (ctx) {
     };
   }
 
-  function isSGVOk (sbx) {
+  function isSGVOk (sbx: any) {
     var lastSGVEntry = sbx.lastSGVEntry();
     return lastSGVEntry && lastSGVEntry.mgdl >= 39 && sbx.isCurrent(lastSGVEntry);
   }
 
-  function profileFieldsMissing (sbx) {
+  function profileFieldsMissing (sbx: any) {
     return !sbx.data.profile.getSensitivity(sbx.time)
       || !sbx.data.profile.getHighBGTarget(sbx.time)
       || !sbx.data.profile.getLowBGTarget(sbx.time);
   }
 
-  function pushInfo(prop, info, sbx) {
+  function pushInfo(prop: any, info: any, sbx: any) {
     if (prop && prop.errors) {
       info.push({label: translate('Notice'), value: translate('required info missing')});
-      _.each(prop.errors, function pushError (error) {
+      _.each(prop.errors, function pushError (error: any) {
         info.push({label: '  • ', value: error});
       });
     } else if (prop) {
@@ -249,7 +274,7 @@ function init (ctx) {
     pushTempBasalAdjustments(prop, info, sbx);
   }
 
-  function pushTempBasalAdjustments(prop, info, sbx) {
+  function pushTempBasalAdjustments(prop: any, info: any, sbx: any) {
       if (prop && prop.tempBasalAdjustment) {
       var carbsOrBolusMessage = translate('basal adjustment out of range, give carbs?');
       var sign = '';
@@ -291,4 +316,5 @@ function init (ctx) {
 }
 
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

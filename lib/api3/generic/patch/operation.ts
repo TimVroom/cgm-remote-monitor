@@ -1,18 +1,25 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 const _ = require('lodash')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'apiConst'.
   , apiConst = require('../../const.json')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'security'.
   , security = require('../../security')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'validate'.
   , validate = require('./validate.js')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'opTools'.
   , opTools = require('../../shared/operationTools')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'dateTools'... Remove this comment to see the full error message
   , dateTools = require('../../shared/dateTools')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'FieldsProj... Remove this comment to see the full error message
   , FieldsProjector = require('../../shared/fieldsProjector')
   ;
 
 /**
   * PATCH: Partially updates document in the collection
   */
-async function patch (opCtx) {
+async function patch (opCtx: any) {
 
   const { req, res, col } = opCtx;
   const doc = req.body;
@@ -64,7 +71,7 @@ async function patch (opCtx) {
  * @param {Object} doc - fields and values to patch
  * @param {Object} storageDoc - original (database) version of document
  */
-async function applyPatch (opCtx, identifier, doc, storageDoc) {
+async function applyPatch (opCtx: any, identifier: any, doc: any, storageDoc: any) {
 
   const { ctx, res, col, auth } = opCtx;
 
@@ -97,13 +104,15 @@ async function applyPatch (opCtx, identifier, doc, storageDoc) {
 }
 
 
-function patchOperation (ctx, env, app, col) {
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'patchOpera... Remove this comment to see the full error message
+function patchOperation (ctx: any, env: any, app: any, col: any) {
 
-  return async function operation (req, res) {
+  return async function operation (req: any, res: any) {
 
     const opCtx = { app, ctx, env, col, req, res };
 
     try {
+      // @ts-expect-error TS(2339): Property 'auth' does not exist on type '{ app: any... Remove this comment to see the full error message
       opCtx.auth = await security.authenticate(opCtx);
 
       await patch(opCtx);
@@ -117,4 +126,5 @@ function patchOperation (ctx, env, app, col) {
   };
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = patchOperation;

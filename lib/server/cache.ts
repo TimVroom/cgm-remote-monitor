@@ -12,10 +12,12 @@
  * altogether.
  */
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 const _ = require('lodash');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'constants'... Remove this comment to see the full error message
 const constants = require('../constants');
 
-function cache (env, ctx) {
+function cache (env: any, ctx: any) {
 
   const data = {
     treatments: []
@@ -29,13 +31,13 @@ function cache (env, ctx) {
     , entries: constants.TWO_DAYS
   };
 
-  function getObjectAge(object) {
+  function getObjectAge(object: any) {
     let age = object.mills || object.date;
     if (isNaN(age) && object.created_at) age = Date.parse(object.created_at).valueOf();
     return age;
   }
 
-  function mergeCacheArrays (oldData, newData, retentionPeriod) {
+  function mergeCacheArrays (oldData: any, newData: any, retentionPeriod: any) {
 
     const ageLimit = Date.now() - retentionPeriod;
 
@@ -44,13 +46,13 @@ function cache (env, ctx) {
 
     const merged = ctx.ddata.idMergePreferNew(filteredOld, filteredNew);
 
-    return _.sortBy(merged, function(item) {
+    return _.sortBy(merged, function(item: any) {
       const age = getObjectAge(item);
       return -age;
     });
 
-    function filterForAge(data, ageLimit) {
-      return _.filter(data, function hasId(object) {
+    function filterForAge(data: any, ageLimit: any) {
+      return _.filter(data, function hasId(object: any) {
         const hasId = !_.isEmpty(object._id);
         const age = getObjectAge(object);
         const isFresh = age >= ageLimit;
@@ -60,20 +62,28 @@ function cache (env, ctx) {
 
   }
 
-  data.isEmpty = (datatype) => {
+  // @ts-expect-error TS(2339): Property 'isEmpty' does not exist on type '{ treat... Remove this comment to see the full error message
+  data.isEmpty = (datatype: any) => {
+    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     return data[datatype].length < 20;
   }
 
-  data.getData = (datatype) => {
+  // @ts-expect-error TS(2339): Property 'getData' does not exist on type '{ treat... Remove this comment to see the full error message
+  data.getData = (datatype: any) => {
+    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     return _.cloneDeep(data[datatype]);
   }
 
-  data.insertData = (datatype, newData) => {
+  // @ts-expect-error TS(2339): Property 'insertData' does not exist on type '{ tr... Remove this comment to see the full error message
+  data.insertData = (datatype: any, newData: any) => {
+    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     data[datatype] = mergeCacheArrays(data[datatype], newData, retentionPeriods[datatype]);
+    // @ts-expect-error TS(2339): Property 'getData' does not exist on type '{ treat... Remove this comment to see the full error message
     return data.getData(datatype);
   }
 
-  function dataChanged (operation) {
+  function dataChanged (operation: any) {
+    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     if (!data[operation.type]) return;
 
     if (operation.op == 'remove') {
@@ -83,18 +93,20 @@ function cache (env, ctx) {
         data.devicestatus = [];
         data.entries = [];
       } else {
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         removeFromArray(data[operation.type], operation.changes);
       }
     }
 
     if (operation.op == 'update') {
+      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       data[operation.type] = mergeCacheArrays(data[operation.type], operation.changes, retentionPeriods[operation.type]);
     }
   }
 
   ctx.bus.on('data-update', dataChanged);
 
-  function removeFromArray (array, id) {
+  function removeFromArray (array: any, id: any) {
     for (let i = 0; i < array.length; i++) {
       const o = array[i];
       if (o._id == id) {
@@ -108,4 +120,5 @@ function cache (env, ctx) {
   return data;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = cache;

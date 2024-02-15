@@ -1,18 +1,24 @@
 'use strict';
 
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var _find = require('lodash/find');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_each'.
 var _each = require('lodash/each');
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var _filter = require('lodash/filter');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_get'.
 var _get = require('lodash/get');
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var _isArray = require('lodash/isArray');
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var _map = require('lodash/map');
 
-function init (ctx) {
+function init (ctx: any) {
 
-  var allPlugins = []
-    , enabledPlugins = [];
+  var allPlugins: any = []
+    , enabledPlugins: any = [];
 
-  function plugins (name) {
+  function plugins (name: any) {
     if (name) {
       return _find(allPlugins, {
         name: name
@@ -22,60 +28,110 @@ function init (ctx) {
     }
   }
 
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   plugins.base = require('./pluginbase');
 
   var clientDefaultPlugins = [
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     require('./bgnow')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./rawbg')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./direction')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./timeago')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./upbat')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./ar2')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./errorcodes')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./iob')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./cob')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./careportal')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./pump')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./openaps')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./xdripjs')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./loop')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./override')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./boluswizardpreview')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./cannulaage')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./sensorage')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./insulinage')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./batteryage')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./basalprofile')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./bolus')(ctx) // fake plugin to hold extended settings
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./boluscalc')(ctx) // fake plugin to show/hide
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./profile')(ctx) // fake plugin to hold extended settings
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./speech')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./dbsize')(ctx)
   ];
 
   var serverDefaultPlugins = [
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     require('./bgnow')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./rawbg')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./direction')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./upbat')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./ar2')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./simplealarms')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./errorcodes')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./iob')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./cob')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./pump')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./openaps')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./xdripjs')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./loop')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./boluswizardpreview')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./cannulaage')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./sensorage')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./insulinage')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./batteryage')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./treatmentnotify')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./timeago')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./basalprofile')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./dbsize')(ctx)
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , require('./runtimestate')(ctx)
   ];
 
@@ -89,8 +145,8 @@ function init (ctx) {
     return plugins;
   };
 
-  plugins.register = function register (all) {
-    _each(all, function eachPlugin (plugin) {
+  plugins.register = function register (all: any) {
+    _each(all, function eachPlugin (plugin: any) {
       allPlugins.push(plugin);
     });
 
@@ -98,12 +154,12 @@ function init (ctx) {
 
     var enable = _get(ctx, 'settings.enable');
 
-    function isEnabled (plugin) {
+    function isEnabled (plugin: any) {
       //TODO: unify client/server env/app
       return enable && enable.indexOf(plugin.name) > -1;
     }
 
-    _each(allPlugins, function eachPlugin (plugin) {
+    _each(allPlugins, function eachPlugin (plugin: any) {
       plugin.enabled = isEnabled(plugin);
       if (plugin.enabled) {
         enabledPlugins.push(plugin);
@@ -111,44 +167,44 @@ function init (ctx) {
     });
   };
 
-  plugins.isPluginEnabled = function isPluginEnabled (pluginName) {
+  plugins.isPluginEnabled = function isPluginEnabled (pluginName: any) {
     var p = _find(enabledPlugins, 'name', pluginName);
     return (p !== null);
   }
 
-  plugins.getPlugin = function getPlugin (pluginName) {
+  plugins.getPlugin = function getPlugin (pluginName: any) {
     return _find(enabledPlugins, 'name', pluginName);
   }
 
-  plugins.eachPlugin = function eachPlugin (f) {
+  plugins.eachPlugin = function eachPlugin (f: any) {
     _each(allPlugins, f);
   };
 
-  plugins.eachEnabledPlugin = function eachEnabledPlugin (f) {
+  plugins.eachEnabledPlugin = function eachEnabledPlugin (f: any) {
     _each(enabledPlugins, f);
   };
 
   //these plugins are either always on or have custom settings
   plugins.specialPlugins = 'ar2 bgnow delta direction timeago upbat rawbg errorcodes profile bolus';
 
-  plugins.shownPlugins = function(sbx) {
-    return _filter(enabledPlugins, function filterPlugins (plugin) {
+  plugins.shownPlugins = function(sbx: any) {
+    return _filter(enabledPlugins, function filterPlugins (plugin: any) {
       return plugins.specialPlugins.indexOf(plugin.name) > -1 || (sbx && sbx.showPlugins && sbx.showPlugins.indexOf(plugin.name) > -1);
     });
   };
 
-  plugins.eachShownPlugins = function eachShownPlugins (sbx, f) {
+  plugins.eachShownPlugins = function eachShownPlugins (sbx: any, f: any) {
     _each(plugins.shownPlugins(sbx), f);
   };
 
-  plugins.hasShownType = function hasShownType (pluginType, sbx) {
-    return _find(plugins.shownPlugins(sbx), function findWithType (plugin) {
+  plugins.hasShownType = function hasShownType (pluginType: any, sbx: any) {
+    return _find(plugins.shownPlugins(sbx), function findWithType (plugin: any) {
       return plugin.pluginType === pluginType;
     }) !== undefined;
   };
 
-  plugins.setProperties = function setProperties (sbx) {
-    plugins.eachEnabledPlugin(function eachPlugin (plugin) {
+  plugins.setProperties = function setProperties (sbx: any) {
+    plugins.eachEnabledPlugin(function eachPlugin (plugin: any) {
       if (plugin.setProperties) {
         try {
           plugin.setProperties(sbx.withExtendedSettings(plugin));
@@ -159,8 +215,8 @@ function init (ctx) {
     });
   };
 
-  plugins.checkNotifications = function checkNotifications (sbx) {
-    plugins.eachEnabledPlugin(function eachPlugin (plugin) {
+  plugins.checkNotifications = function checkNotifications (sbx: any) {
+    plugins.eachEnabledPlugin(function eachPlugin (plugin: any) {
       if (plugin.checkNotifications) {
         try {
           plugin.checkNotifications(sbx.withExtendedSettings(plugin));
@@ -171,8 +227,8 @@ function init (ctx) {
     });
   };
 
-  plugins.visualizeAlarm = function visualizeAlarm (sbx, alarm, alarmMessage) {
-    plugins.eachShownPlugins(sbx, function eachPlugin (plugin) {
+  plugins.visualizeAlarm = function visualizeAlarm (sbx: any, alarm: any, alarmMessage: any) {
+    plugins.eachShownPlugins(sbx, function eachPlugin (plugin: any) {
       if (plugin.visualizeAlarm) {
         try {
           plugin.visualizeAlarm(sbx.withExtendedSettings(plugin), alarm, alarmMessage);
@@ -183,8 +239,8 @@ function init (ctx) {
     });
   };
 
-  plugins.updateVisualisations = function updateVisualisations (sbx) {
-    plugins.eachShownPlugins(sbx, function eachPlugin (plugin) {
+  plugins.updateVisualisations = function updateVisualisations (sbx: any) {
+    plugins.eachShownPlugins(sbx, function eachPlugin (plugin: any) {
       if (plugin.updateVisualisation) {
         try {
           plugin.updateVisualisation(sbx.withExtendedSettings(plugin));
@@ -195,9 +251,9 @@ function init (ctx) {
     });
   };
 
-  plugins.getAllEventTypes = function getAllEventTypes (sbx) {
-    var all = [];
-    plugins.eachEnabledPlugin(function eachPlugin (plugin) {
+  plugins.getAllEventTypes = function getAllEventTypes (sbx: any) {
+    var all: any = [];
+    plugins.eachEnabledPlugin(function eachPlugin (plugin: any) {
       if (plugin.getEventTypes) {
         var eventTypes = plugin.getEventTypes(sbx.withExtendedSettings(plugin));
         if (_isArray(eventTypes)) {
@@ -210,25 +266,29 @@ function init (ctx) {
   };
 
   plugins.enabledPluginNames = function enabledPluginNames () {
-    return _map(enabledPlugins, function mapped (plugin) {
+    return _map(enabledPlugins, function mapped (plugin: any) {
       return plugin.name;
     }).join(' ');
   };
 
-  plugins.extendedClientSettings = function extendedClientSettings (allExtendedSettings) {
+  plugins.extendedClientSettings = function extendedClientSettings (allExtendedSettings: any) {
     var clientSettings = {};
-    _each(clientDefaultPlugins, function eachClientPlugin (plugin) {
+    _each(clientDefaultPlugins, function eachClientPlugin (plugin: any) {
+      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       clientSettings[plugin.name] = allExtendedSettings[plugin.name];
     });
 
     //HACK:  include devicestatus
+    // @ts-expect-error TS(2339): Property 'devicestatus' does not exist on type '{}... Remove this comment to see the full error message
     clientSettings.devicestatus = allExtendedSettings.devicestatus;
 
     return clientSettings;
   };
 
+  // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
   return plugins();
 
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

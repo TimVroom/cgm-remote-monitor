@@ -1,18 +1,22 @@
 'use strict';
 
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var _map = require('lodash/map');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_each'.
 var _each = require('lodash/each');
 
 var TOOLTIP_WIDTH = 275;  //min-width + padding
 
-function init (majorPills, minorPills, statusPills, bgStatus, tooltip) {
+function init (majorPills: any, minorPills: any, statusPills: any, bgStatus: any, tooltip: any) {
 
   var pluginBase = { };
 
+  // @ts-expect-error TS(2339): Property 'forecastInfos' does not exist on type '{... Remove this comment to see the full error message
   pluginBase.forecastInfos = [];
+  // @ts-expect-error TS(2339): Property 'forecastPoints' does not exist on type '... Remove this comment to see the full error message
   pluginBase.forecastPoints = {};
 
-  function findOrCreatePill (plugin) {
+  function findOrCreatePill (plugin: any) {
     var container = null;
 
     if (plugin.pluginType === 'pill-major') {
@@ -51,7 +55,8 @@ function init (majorPills, minorPills, statusPills, bgStatus, tooltip) {
     return pill;
   }
 
-  pluginBase.updatePillText = function updatePillText (plugin, options) {
+  // @ts-expect-error TS(2339): Property 'updatePillText' does not exist on type '... Remove this comment to see the full error message
+  pluginBase.updatePillText = function updatePillText (plugin: any, options: any) {
 
     var pill = findOrCreatePill(plugin);
 
@@ -79,11 +84,11 @@ function init (majorPills, minorPills, statusPills, bgStatus, tooltip) {
     }
 
     if (options.info  && options.info.length) {
-      var html = _map(options.info, function mapInfo (i) {
+      var html = _map(options.info, function mapInfo (i: any) {
         return '<strong>' + i.label + '</strong> ' + i.value;
       }).join('<br/>\n');
 
-      pill.mouseover(function pillMouseover (event) {
+      pill.mouseover(function pillMouseover (event: any) {
         tooltip.style('opacity', .9);
 
         var windowWidth = $(tooltip.node()).parent().parent().width();
@@ -101,8 +106,9 @@ function init (majorPills, minorPills, statusPills, bgStatus, tooltip) {
     }
   };
 
-  pluginBase.addForecastPoints = function addForecastPoints (points, info) {
-    _each(points, function eachPoint (point) {
+  // @ts-expect-error TS(2339): Property 'addForecastPoints' does not exist on typ... Remove this comment to see the full error message
+  pluginBase.addForecastPoints = function addForecastPoints (points: any, info: any) {
+    _each(points, function eachPoint (point: any) {
       point.type = 'forecast';
       point.info = info;
       if (point.mgdl < 13) {
@@ -110,11 +116,14 @@ function init (majorPills, minorPills, statusPills, bgStatus, tooltip) {
       }
     });
 
+    // @ts-expect-error TS(2339): Property 'forecastInfos' does not exist on type '{... Remove this comment to see the full error message
     pluginBase.forecastInfos.push(info);
+    // @ts-expect-error TS(2339): Property 'forecastPoints' does not exist on type '... Remove this comment to see the full error message
     pluginBase.forecastPoints[info.type] = points;
   };
 
   return pluginBase;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

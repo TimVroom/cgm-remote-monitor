@@ -10,9 +10,11 @@ function init () {
   return dailystats;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;
 
-dailystats.html = function html (client) {
+// @ts-expect-error TS(2339): Property 'html' does not exist on type '{ name: st... Remove this comment to see the full error message
+dailystats.html = function html (client: any) {
   var translate = client.translate;
   var ret =
     '<h2>' + translate('Daily stats report') + '</h2>' +
@@ -20,6 +22,7 @@ dailystats.html = function html (client) {
   return ret;
 };
 
+// @ts-expect-error TS(2339): Property 'css' does not exist on type '{ name: str... Remove this comment to see the full error message
 dailystats.css =
   '#dailystats-placeholder .tdborder {' +
   '  width:80px;' +
@@ -33,17 +36,20 @@ dailystats.css =
   '  height: 0.9in;' +
   '}';
 
-dailystats.report = function report_dailystats (datastorage, sorteddaystoshow, options) {
+// @ts-expect-error TS(2339): Property 'report' does not exist on type '{ name: ... Remove this comment to see the full error message
+dailystats.report = function report_dailystats (datastorage: any, sorteddaystoshow: any, options: any) {
+  // @ts-expect-error TS(2339): Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
   var Nightscout = window.Nightscout;
   var client = Nightscout.client;
   var translate = client.translate;
   var report_plugins = Nightscout.report_plugins;
 
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var ss = require('simple-statistics');
 
-  var todo = [];
+  var todo: any = [];
   var report = $('#dailystats-report');
-  var minForDay, maxForDay, sum;
+  var minForDay: any, maxForDay: any, sum: any;
 
   report.empty();
   var table = $('<table class="centeraligned">');
@@ -64,7 +70,7 @@ dailystats.report = function report_dailystats (datastorage, sorteddaystoshow, o
   $('<th>' + translate('75%') + '</th>').appendTo(thead);
   thead.appendTo(table);
 
-  sorteddaystoshow.forEach(function(day) {
+  sorteddaystoshow.forEach(function(day: any) {
     var tr = $('<tr>');
 
     var daysRecords = datastorage[day].statsrecords;
@@ -81,7 +87,7 @@ dailystats.report = function report_dailystats (datastorage, sorteddaystoshow, o
     maxForDay = daysRecords[0].sgv;
     sum = 0;
 
-    var stats = daysRecords.reduce(function(out, record) {
+    var stats = daysRecords.reduce(function(out: any, record: any) {
       record.sgv = parseFloat(record.sgv);
       if (record.sgv < options.targetLow) {
         out.lows++;
@@ -105,7 +111,7 @@ dailystats.report = function report_dailystats (datastorage, sorteddaystoshow, o
     });
     var average = sum / daysRecords.length;
 
-    var bgValues = daysRecords.map(function(r) { return r.sgv; });
+    var bgValues = daysRecords.map(function(r: any) { return r.sgv; });
     $('<td><div id="dailystat-chart-' + day.toString() + '" class="inlinepiechart"></div></td>').appendTo(tr);
 
     $('<td class="tdborder" style="width:160px">' + report_plugins.utils.localeDate(day) + '</td>').appendTo(tr);
@@ -150,7 +156,7 @@ dailystats.report = function report_dailystats (datastorage, sorteddaystoshow, o
   });
 
   setTimeout(function() {
-    todo.forEach(function(fn) {
+    todo.forEach(function(fn: any) {
       fn();
     });
   }, 50);

@@ -1,14 +1,17 @@
 'use strict';
 
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var find_options = require('./query');
 
 
-function storage (env, ctx) {
+// @ts-expect-error TS(2393): Duplicate function implementation.
+function storage (env: any, ctx: any) {
+   // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
    var ObjectID = require('mongodb').ObjectID;
 
-  function create (obj, fn) {
+  function create (obj: any, fn: any) {
     obj.created_at = (new Date( )).toISOString( );
-    api().insert(obj, function (err, doc) {
+    api().insert(obj, function (err: any, doc: any) {
       if (err != null && err.message) {
         console.log('Activity data insertion error', err.message);
         fn(err.message, null);
@@ -18,19 +21,19 @@ function storage (env, ctx) {
     });
   }
 
-  function save (obj, fn) {
+  function save (obj: any, fn: any) {
     obj._id = new ObjectID(obj._id);
     obj.created_at = (new Date( )).toISOString( );
-    api().save(obj, function (err, doc) {
+    api().save(obj, function (err: any, doc: any) {
       fn(err, doc);
     });
   }
 
-  function query_for (opts) {
+  function query_for (opts: any) {
     return find_options(opts, storage.queryOpts);
   }
 
-  function list(opts, fn) {
+  function list(opts: any, fn: any) {
     // these functions, find, sort, and limit, are used to
     // dynamically configure the request, based on the options we've
     // been given
@@ -41,7 +44,7 @@ function storage (env, ctx) {
     }
 
     // configure the limit portion of the current query
-    function limit ( ) {
+    function limit(this: any) {
       if (opts && opts.count) {
         return this.limit(parseInt(opts.count));
       }
@@ -49,7 +52,7 @@ function storage (env, ctx) {
     }
 
     // handle all the results
-    function toArray (err, entries) {
+    function toArray (err: any, entries: any) {
       fn(err, entries);
     }
 
@@ -60,7 +63,7 @@ function storage (env, ctx) {
     ).toArray(toArray);
   }
   
-  function remove (_id, fn) {
+  function remove (_id: any, fn: any) {
     var objId = new ObjectID(_id);
     return api( ).remove({ '_id': objId }, fn);
   }
@@ -78,6 +81,7 @@ function storage (env, ctx) {
   return api;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = storage;
 
 storage.queryOpts = {

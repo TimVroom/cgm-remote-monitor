@@ -1,5 +1,6 @@
 'use strict';
 
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var times = require('../times');
 
 var hourlystats = {
@@ -12,9 +13,11 @@ function init () {
   return hourlystats;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;
 
-hourlystats.html = function html (client) {
+// @ts-expect-error TS(2339): Property 'html' does not exist on type '{ name: st... Remove this comment to see the full error message
+hourlystats.html = function html (client: any) {
   var translate = client.translate;
   var ret =
     '<h2>' + translate('Hourly stats') + '</h2>' +
@@ -23,6 +26,7 @@ hourlystats.html = function html (client) {
   return ret;
 };
 
+// @ts-expect-error TS(2339): Property 'css' does not exist on type '{ name: str... Remove this comment to see the full error message
 hourlystats.css =
   '#hourlystats-overviewchart {' +
   '  width: 100%;' +
@@ -33,30 +37,35 @@ hourlystats.css =
   '  text-align:center;' +
   '}';
 
-hourlystats.report = function report_hourlystats (datastorage, sorteddaystoshow, options) {
+// @ts-expect-error TS(2339): Property 'report' does not exist on type '{ name: ... Remove this comment to see the full error message
+hourlystats.report = function report_hourlystats (datastorage: any, sorteddaystoshow: any, options: any) {
   //console.log(window);
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var ss = require('simple-statistics');
+  // @ts-expect-error TS(2339): Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
   var Nightscout = window.Nightscout;
   var client = Nightscout.client;
   var translate = client.translate;
   var report_plugins = Nightscout.report_plugins;
 
   var report = $('#hourlystats-report');
-  var stats = [];
+  var stats: any = [];
   var pivotedByHour = {};
 
   var data = datastorage.allstatsrecords;
 
   for (var i = 0; i < 24; i++) {
+    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     pivotedByHour[i] = [];
   }
 
-  data = data.filter(function(o) { return !isNaN(o.sgv); });
+  data = data.filter(function(o: any) { return !isNaN(o.sgv); });
 
-  data.forEach(function(record) {
+  data.forEach(function(record: any) {
 
     var d = new Date(record.displayTime);
     record.sgv = Number(record.sgv);
+    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     pivotedByHour[d.getHours()].push(record);
   });
 
@@ -77,22 +86,27 @@ hourlystats.report = function report_hourlystats (datastorage, sorteddaystoshow,
     var tr = $('<tr>');
     var display = new Date(0, 0, 1, hour, 0, 0, 0).toLocaleTimeString().replace(/([\d]+:[\d]{2})(:[\d]{2})(.*)/, '$1$3');
 
-    var avg = Math.floor(pivotedByHour[hour].map(function(r) {
+    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    var avg = Math.floor(pivotedByHour[hour].map(function(r: any) {
       return r.sgv;
-    }).reduce(function(o, v) {
+    }).reduce(function(o: any, v: any) {
       return o + v;
+    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     }, 0) / pivotedByHour[hour].length);
     var d = new Date(times.hours(hour).msecs);
 
-    var dev = ss.standard_deviation(pivotedByHour[hour].map(function(r) {
+    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    var dev = ss.standard_deviation(pivotedByHour[hour].map(function(r: any) {
       return r.sgv;
     }));
     stats.push([
       new Date(d)
-      , ss.quantile(pivotedByHour[hour].map(function(r) {
+      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      , ss.quantile(pivotedByHour[hour].map(function(r: any) {
         return r.sgv;
       }), 0.25)
-      , ss.quantile(pivotedByHour[hour].map(function(r) {
+      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      , ss.quantile(pivotedByHour[hour].map(function(r: any) {
         return r.sgv;
       }), 0.75)
       , avg - dev
@@ -100,24 +114,30 @@ hourlystats.report = function report_hourlystats (datastorage, sorteddaystoshow,
     ]);
     var tmp;
     $('<td>' + display + '</td>').appendTo(tr);
+    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     $('<td>' + pivotedByHour[hour].length + ' (' + Math.floor(100 * pivotedByHour[hour].length / data.length) + '%)</td>').appendTo(tr);
     $('<td>' + avg + '</td>').appendTo(tr);
-    $('<td>' + Math.min.apply(Math, pivotedByHour[hour].map(function(r) {
+    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    $('<td>' + Math.min.apply(Math, pivotedByHour[hour].map(function(r: any) {
       return r.sgv;
     })) + '</td>').appendTo(tr);
+    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     // eslint-disable-next-line no-cond-assign
-    $('<td>' + ((tmp = ss.quantile(pivotedByHour[hour].map(function(r) {
+    $('<td>' + ((tmp = ss.quantile(pivotedByHour[hour].map(function(r: any) {
       return r.sgv;
     }), 0.25)) ? tmp.toFixed(1) : 0) + '</td>').appendTo(tr);
+    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     // eslint-disable-next-line no-cond-assign
-    $('<td>' + ((tmp = ss.quantile(pivotedByHour[hour].map(function(r) {
+    $('<td>' + ((tmp = ss.quantile(pivotedByHour[hour].map(function(r: any) {
       return r.sgv;
     }), 0.5)) ? tmp.toFixed(1) : 0) + '</td>').appendTo(tr);
+    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     // eslint-disable-next-line no-cond-assign
-    $('<td>' + ((tmp = ss.quantile(pivotedByHour[hour].map(function(r) {
+    $('<td>' + ((tmp = ss.quantile(pivotedByHour[hour].map(function(r: any) {
       return r.sgv;
     }), 0.75)) ? tmp.toFixed(1) : 0) + '</td>').appendTo(tr);
-    $('<td>' + Math.max.apply(Math, pivotedByHour[hour].map(function(r) {
+    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    $('<td>' + Math.max.apply(Math, pivotedByHour[hour].map(function(r: any) {
       return r.sgv;
     })) + '</td>').appendTo(tr);
     $('<td>' + Math.floor(dev * 10) / 10 + '</td>').appendTo(tr);
@@ -154,11 +174,11 @@ hourlystats.report = function report_hourlystats (datastorage, sorteddaystoshow,
     }
   );
 
-  var totalPositive = [];
-  var totalNegative = [];
-  var positivesCount = [];
-  var negativesCount = [];
-  var totalNet = [];
+  var totalPositive: any = [];
+  var totalNegative: any = [];
+  var positivesCount: any = [];
+  var negativesCount: any = [];
+  var totalNet: any = [];
   var days = 0;
   table = $('<table width="100%" border="1">');
   thead = $('<tr/>');
@@ -172,7 +192,7 @@ hourlystats.report = function report_hourlystats (datastorage, sorteddaystoshow,
   });
   thead.appendTo(table);
 
-  sorteddaystoshow.forEach(function(day) {
+  sorteddaystoshow.forEach(function(day: any) {
     if (datastorage[day].netBasalPositive) {
       days++;
       var tr = $('<tr>');

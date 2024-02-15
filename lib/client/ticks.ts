@@ -1,6 +1,6 @@
 'use strict';
 
-function prepare (client, opts) {
+function prepare (client: any, opts: any) {
   opts = checkOptions(client, opts);
 
   if (opts.scaleY === 'linear') {
@@ -10,7 +10,7 @@ function prepare (client, opts) {
   }
 }
 
-function checkOptions (client, opts) {
+function checkOptions (client: any, opts: any) {
   opts = opts || {};
   opts.scaleY = opts.scaleY || client.settings.scaleY;
   //assume any values from opts are already scaled
@@ -23,7 +23,7 @@ function checkOptions (client, opts) {
   return opts;
 }
 
-function prepareLog (client, opts) {
+function prepareLog (client: any, opts: any) {
   if (client.settings.units === 'mmol') {
     return [
       2.0
@@ -47,7 +47,7 @@ function prepareLog (client, opts) {
   }
 }
 
-function prepareLinear (client) {
+function prepareLinear (client: any) {
   if (client.settings.units === 'mmol') {
     return [
       2.0
@@ -78,4 +78,5 @@ function prepareLinear (client) {
   }
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = prepare;

@@ -1,10 +1,12 @@
 /* jshint node: true */
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash'),
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   connect = require('minimed-connect-to-nightscout');
 
-function init (env, entries, devicestatus, bus) {
+function init (env: any, entries: any, devicestatus: any, bus: any) {
   if (env.extendedSettings.mmconnect && env.extendedSettings.mmconnect.userName && env.extendedSettings.mmconnect.password) {
     return {run: makeRunner(env, entries, devicestatus, bus)};
   } else {
@@ -13,7 +15,7 @@ function init (env, entries, devicestatus, bus) {
   }
 }
 
-function makeRunner (env, entries, devicestatus, bus) {
+function makeRunner (env: any, entries: any, devicestatus: any, bus: any) {
   var options = getOptions(env);
 
   var client = connect.carelink.Client(options);
@@ -34,7 +36,7 @@ function makeRunner (env, entries, devicestatus, bus) {
   };
 }
 
-function getOptions (env) {
+function getOptions (env: any) {
   return {
     username: env.extendedSettings.mmconnect.userName
     , password: env.extendedSettings.mmconnect.password
@@ -46,15 +48,15 @@ function getOptions (env) {
   };
 }
 
-function makeHandler_ (entries, devicestatus, sgvLimit, storeRawData) {
-  var filterSgvs = connect.filter.makeRecencyFilter(function(item) {
+function makeHandler_ (entries: any, devicestatus: any, sgvLimit: any, storeRawData: any) {
+  var filterSgvs = connect.filter.makeRecencyFilter(function(item: any) {
     return item['date'];
   });
-  var filterDevicestatus = connect.filter.makeRecencyFilter(function(item) {
+  var filterDevicestatus = connect.filter.makeRecencyFilter(function(item: any) {
     return new Date(item['created_at']).getTime();
   });
 
-  return function handleCarelinkData (err, data) {
+  return function handleCarelinkData (err: any, data: any) {
     if (err) {
       console.error('MiniMed Connect error: ' + err);
     } else {
@@ -81,11 +83,11 @@ function makeHandler_ (entries, devicestatus, sgvLimit, storeRawData) {
   };
 }
 
-function createMaybe_ (collection, items, callback) {
+function createMaybe_ (collection: any, items: any, callback: any) {
   if (items.length === 0) {
     callback();
   } else {
-    collection.create(items, function afterCreate (err) {
+    collection.create(items, function afterCreate (err: any) {
       if (err) {
         console.error('MiniMed Connect storage error: ' + err);
       }
@@ -94,7 +96,7 @@ function createMaybe_ (collection, items, callback) {
   }
 }
 
-function rawDataEntry (data) {
+function rawDataEntry (data: any) {
   var cleansed = _.cloneDeep(data);
 
   // redact PII
@@ -114,6 +116,7 @@ function rawDataEntry (data) {
   };
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = {
   init: init
   // exposed for testing

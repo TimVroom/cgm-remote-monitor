@@ -1,25 +1,30 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'async'.
 var async = require('async');
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var moment = require('moment');
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var find_options = require('./query');
 
-function storage (env, ctx) {
+function storage (env: any, ctx: any) {
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var ObjectID = require('mongodb').ObjectID;
 
-  function create (objOrArray, fn) {
+  function create (objOrArray: any, fn: any) {
 
-    function done (err, result) {
+    function done (err: any, result: any) {
       ctx.bus.emit('data-received');
       fn(err, result);
     }
 
     if (_.isArray(objOrArray)) {
-      var allDocs = [];
-      var errs = [];
-      async.eachSeries(objOrArray, function (obj, callback) {
-        upsert(obj, function upserted (err, docs) {
+      var allDocs: any = [];
+      var errs: any = [];
+      async.eachSeries(objOrArray, function (obj: any, callback: any) {
+        upsert(obj, function upserted (err: any, docs: any) {
           allDocs = allDocs.concat(docs);
           errs.push(err);
           callback(err, docs)
@@ -29,7 +34,7 @@ function storage (env, ctx) {
         done(errs.length > 0 ? errs : null, allDocs);
       });
     } else {
-      upsert(objOrArray, function upserted (err, docs) {
+      upsert(objOrArray, function upserted (err: any, docs: any) {
         done(err, docs);
       });
     }
@@ -37,7 +42,7 @@ function storage (env, ctx) {
 
   }
 
-  function upsert (obj, fn) {
+  function upsert (obj: any, fn: any) {
 
     var results = prepareData(obj);
 
@@ -46,7 +51,7 @@ function storage (env, ctx) {
       , eventType: obj.eventType
     };
 
-    api( ).update(query, obj, {upsert: true}, function complete (err, updateResults) {
+    api( ).update(query, obj, {upsert: true}, function complete (err: any, updateResults: any) {
 
       if (err) console.error('Problem upserting treatment', err);
 
@@ -66,14 +71,16 @@ function storage (env, ctx) {
         };
 
         if (obj.notes) {
+          // @ts-expect-error TS(2339): Property 'notes' does not exist on type '{ created... Remove this comment to see the full error message
           pbTreat.notes = obj.notes;
         }
 
         query.created_at = pbTreat.created_at;
-        api( ).update(query, pbTreat, {upsert: true}, function pbComplete (err, updateResults) {
+        api( ).update(query, pbTreat, {upsert: true}, function pbComplete (err: any, updateResults: any) {
 
           if (!err) {
             if (updateResults.result.upserted) {
+              // @ts-expect-error TS(2339): Property '_id' does not exist on type '{ created_a... Remove this comment to see the full error message
               pbTreat._id = updateResults.result.upserted[0]._id
             }
           }
@@ -102,9 +109,9 @@ function storage (env, ctx) {
     });
   }
 
-  function list (opts, fn) {
+  function list (opts: any, fn: any) {
 
-    function limit ( ) {
+    function limit(this: any) {
       if (opts && opts.count) {
         return this.limit(parseInt(opts.count));
       }
@@ -113,16 +120,17 @@ function storage (env, ctx) {
 
     return limit.call(api()
       .find(query_for(opts))
+      // @ts-expect-error TS(2554): Expected 1 arguments, but got 2.
       .sort(opts && opts.sort || {created_at: -1}), opts)
       .toArray(fn);
   }
 
-  function query_for (opts) {
+  function query_for (opts: any) {
     return find_options(opts, storage.queryOpts);
   }
 
-  function remove (opts, fn) {
-    return api( ).remove(query_for(opts), function (err, stat) {
+  function remove (opts: any, fn: any) {
+    return api( ).remove(query_for(opts), function (err: any, stat: any) {
         //TODO: this is triggering a read from Mongo, we can do better
         //console.log('Treatment removed', opts); // , stat);
 
@@ -138,11 +146,11 @@ function storage (env, ctx) {
       });
   }
 
-  function save (obj, fn) {
+  function save (obj: any, fn: any) {
     obj._id = new ObjectID(obj._id);
     prepareData(obj);
 
-    function saved (err, created) {
+    function saved (err: any, created: any) {
       if (!err) {
         // console.log('Treatment updated', created);
 
@@ -190,12 +198,13 @@ function storage (env, ctx) {
 
   api.remove = remove;
   api.save = save;
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   api.aggregate = require('./aggregate')({ }, api);
 
   return api;
 }
 
-function prepareData(obj) {
+function prepareData(obj: any) {
 
   // Convert all dates to UTC dates
 
@@ -210,6 +219,7 @@ function prepareData(obj) {
 
   const offset = d.utcOffset();
   obj.utcOffset = offset;
+  // @ts-expect-error TS(2339): Property 'offset' does not exist on type '{ create... Remove this comment to see the full error message
   results.offset = offset;
 
   obj.glucose = Number(obj.glucose);
@@ -243,13 +253,13 @@ function prepareData(obj) {
   // clean data
   delete obj.eventTime;
 
-  function deleteIfEmpty (field) {
+  function deleteIfEmpty (field: any) {
     if (!obj[field] || obj[field] === 0) {
       delete obj[field];
     }
   }
 
-  function deleteIfNaN (field) {
+  function deleteIfNaN (field: any) {
     if (isNaN(obj[field])) {
       delete obj[field];
     }
@@ -288,4 +298,5 @@ storage.queryOpts = {
   , dateField: 'created_at'
 };
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = storage;

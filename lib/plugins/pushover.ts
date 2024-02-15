@@ -1,11 +1,15 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var Pushover = require('pushover-notifications');
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var request = require('request');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
 var times = require('../times');
 
-function init (env, ctx) {
+function init (env: any, ctx: any) {
   var pushover = {
     PRIORITY_NORMAL: 0
     , PRIORITY_EMERGENCY: 2
@@ -13,7 +17,7 @@ function init (env, ctx) {
 
   var pushoverAPI = setupPushover(env);
 
-  function selectKeys (notify) {
+  function selectKeys (notify: any) {
     var keys = null;
 
     if (notify.isAnnouncement) {
@@ -27,7 +31,8 @@ function init (env, ctx) {
     return keys;
   }
 
-  pushover.send = function wrapSend (notify, callback) {
+  // @ts-expect-error TS(2339): Property 'send' does not exist on type '{ PRIORITY... Remove this comment to see the full error message
+  pushover.send = function wrapSend (notify: any, callback: any) {
     var selectedKeys = selectKeys(notify);
 
     function prepareMessage() {
@@ -43,8 +48,10 @@ function init (env, ctx) {
 
       if (ctx.levels.isAlarm(notify.level)) {
         //ADJUST RETRY TIME based on WARN or URGENT
+        // @ts-expect-error TS(2339): Property 'retry' does not exist on type '{ expire:... Remove this comment to see the full error message
         msg.retry = notify.level === ctx.levels.URGENT ? times.mins(2).secs : times.mins(15).secs;
         if (env.settings && env.settings.baseURL) {
+          // @ts-expect-error TS(2339): Property 'callback' does not exist on type '{ expi... Remove this comment to see the full error message
           msg.callback = env.settings.baseURL + '/api/v1/notifications/pushovercallback';
         }
       }
@@ -59,15 +66,18 @@ function init (env, ctx) {
 
     var msg = prepareMessage();
 
-    _.each(selectedKeys, function eachKey(key) {
+    _.each(selectedKeys, function eachKey(key: any) {
+      // @ts-expect-error TS(2339): Property 'user' does not exist on type '{ expire: ... Remove this comment to see the full error message
       msg.user = key;
+      // @ts-expect-error TS(2339): Property 'sendAPIRequest' does not exist on type '... Remove this comment to see the full error message
       pushover.sendAPIRequest(msg, callback);
     });
 
   };
 
-  pushover.sendAPIRequest = function sendAPIRequest (msg, callback) {
-    pushoverAPI.send(msg, function response (err, result) {
+  // @ts-expect-error TS(2339): Property 'sendAPIRequest' does not exist on type '... Remove this comment to see the full error message
+  pushover.sendAPIRequest = function sendAPIRequest (msg: any, callback: any) {
+    pushoverAPI.send(msg, function response (err: any, result: any) {
       if (err) {
         console.error('unable to send pushover notification', msg, err);
       } else {
@@ -77,13 +87,14 @@ function init (env, ctx) {
     });
   };
 
-  pushover.cancelWithReceipt = function cancelWithReceipt (receipt, callback) {
+  // @ts-expect-error TS(2339): Property 'cancelWithReceipt' does not exist on typ... Remove this comment to see the full error message
+  pushover.cancelWithReceipt = function cancelWithReceipt (receipt: any, callback: any) {
     request
       .get('https://api.pushover.net/1/receipts/' + receipt + '/cancel.json?token=' + pushoverAPI.apiToken)
-      .on('response', function (response) {
+      .on('response', function (response: any) {
         callback(null, response);
       })
-      .on('error', function (err) {
+      .on('error', function (err: any) {
         callback(err);
       });
   };
@@ -97,10 +108,10 @@ function init (env, ctx) {
   }
 }
 
-function setupPushover (env) {
+function setupPushover (env: any) {
   var apiToken = env.extendedSettings && env.extendedSettings.pushover && env.extendedSettings.pushover.apiToken;
 
-  function keysByType (type, fallback) {
+  function keysByType (type: any, fallback: any) {
     fallback = fallback || [];
 
     var key = env.extendedSettings && env.extendedSettings.pushover && env.extendedSettings.pushover[type];
@@ -117,6 +128,7 @@ function setupPushover (env) {
   var userKeys = keysByType('userKey', []);
 
   if (userKeys.length === 0) {
+    // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
     userKeys = keysByType('groupKey') || [];
   }
 
@@ -127,7 +139,7 @@ function setupPushover (env) {
   if (apiToken && (userKeys.length > 0 || alarmKeys.length > 0 || announcementKeys.length > 0)) {
     var pushoverAPI = new Pushover({
       token: apiToken,
-      onerror: function(error) {
+      onerror: function(error: any) {
         console.error('Pushover error', error);
       }
     });
@@ -142,4 +154,5 @@ function setupPushover (env) {
 }
 
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

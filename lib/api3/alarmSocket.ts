@@ -1,9 +1,12 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'apiConst'.
 const apiConst = require('./const');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'forwarded'... Remove this comment to see the full error message
 const forwarded = require('forwarded-for');
 
-function getRemoteIP (req) {
+// @ts-expect-error TS(2393): Duplicate function implementation.
+function getRemoteIP (req: any) {
   const address = forwarded(req, req.headers);
   return address.ip;
 }
@@ -11,7 +14,7 @@ function getRemoteIP (req) {
 /**
  * Socket.IO broadcaster of alarm and annoucements
  */
-function AlarmSocket (app, env, ctx) {
+function AlarmSocket(this: any, app: any, env: any, ctx: any) {
 
   const self = this;
 
@@ -30,11 +33,11 @@ function AlarmSocket (app, env, ctx) {
    * Initialize socket namespace and bind the events
    * @param {Object} io Socket.IO object to multiplex namespaces
    */
-  self.init = function init (io) {
+  self.init = function init (io: any) {
     self.io = io;
 
     self.namespace = io.of(NAMESPACE);
-    self.namespace.on('connection', function onConnected (socket) {
+    self.namespace.on('connection', function onConnected (socket: any) {
 
       const remoteIP = getRemoteIP(socket.request);
       console.log(LOG + 'Connection from client ID: ', socket.client.id, ' IP: ', remoteIP);
@@ -43,7 +46,7 @@ function AlarmSocket (app, env, ctx) {
         console.log(LOG + 'Disconnected client ID: ', socket.client.id);
       });
 
-      socket.on('subscribe', function onSubscribe (message, returnCallback) {
+      socket.on('subscribe', function onSubscribe (message: any, returnCallback: any) {
         self.subscribe(socket, message, returnCallback);
       });
 
@@ -64,12 +67,12 @@ function AlarmSocket (app, env, ctx) {
    * @param {Object} message input message from the client
    * @param {Function} returnCallback function for returning a value back to the client
    */
-  self.subscribe = function subscribe (socket, message, returnCallback) {
+  self.subscribe = function subscribe (socket: any, message: any, returnCallback: any) {
     const shouldCallBack = typeof(returnCallback) === 'function';
 
     // Native client
     if (message && message.accessToken) {
-      return ctx.authorization.resolveAccessToken(message.accessToken, function resolveFinishForToken (err, auth) {
+      return ctx.authorization.resolveAccessToken(message.accessToken, function resolveFinishForToken (err: any, auth: any) {
         if (err) {
           console.log(`${LOG_ERROR} Authorization failed for accessToken:`, message.accessToken);
 
@@ -80,7 +83,7 @@ function AlarmSocket (app, env, ctx) {
         } else {
       // Subscribe for acking alarms
       // Client sends ack, which sends a notificaiton through our internal bus
-      socket.on('ack', function onAck (level, group, silenceTime) {
+      socket.on('ack', function onAck (level: any, group: any, silenceTime: any) {
       ctx.notifications.ack(level, group, silenceTime, true);
           console.info(LOG + 'ack received ' + level + ' ' + group + ' ' + silenceTime);
         });
@@ -117,7 +120,7 @@ function AlarmSocket (app, env, ctx) {
     }
 
     if (message && shouldTry) {
-      return ctx.authorization.resolve({ api_secret: message.secret, token: message.jwtToken, ip: getRemoteIP(socket.request) }, function resolveFinish (err, auth) {
+      return ctx.authorization.resolve({ api_secret: message.secret, token: message.jwtToken, ip: getRemoteIP(socket.request) }, function resolveFinish (err: any, auth: any) {
 
         if (err) {
           console.log(`${LOG_ERROR} Authorization failed for jwtToken:`, message.jwtToken);
@@ -134,7 +137,7 @@ function AlarmSocket (app, env, ctx) {
           // Subscribe for acking alarms
           // TODO: does this produce double ACK after the authorizing? Only if reconnecting?
           // TODO: how will perms get updated after authorizing?
-          socket.on('ack', function onAck (level, group, silenceTime) {
+          socket.on('ack', function onAck (level: any, group: any, silenceTime: any) {
             if (perms.ack) {
               // This goes through the server-wide event bus.
               ctx.notifications.ack(level, group, silenceTime, true);
@@ -175,7 +178,7 @@ function AlarmSocket (app, env, ctx) {
    * @param {Object} notofication to emit
    */
    
-  self.emitNotification = function emitNotification (notify) {
+  self.emitNotification = function emitNotification (notify: any) {
     if (notify.clear) {
       self.namespace.emit('clear_alarm', notify);
       console.info(LOG + 'emitted clear_alarm to all clients');
@@ -195,4 +198,5 @@ function AlarmSocket (app, env, ctx) {
   };
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = AlarmSocket;

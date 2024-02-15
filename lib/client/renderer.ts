@@ -1,7 +1,10 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
 var times = require('../times');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'consts'.
 var consts = require('../constants');
 
 var DEFAULT_FOCUS = times.hours(3).msecs
@@ -12,14 +15,15 @@ var DEFAULT_FOCUS = times.hours(3).msecs
 
 const zeroDate = new Date(0);
 
-function init (client, d3) {
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
+function init (client: any, d3: any) {
 
   var renderer = {};
 
   var utils = client.utils;
   var translate = client.translate;
 
-  function getOrAddDate(entry) {
+  function getOrAddDate(entry: any) {
     if (entry.date) return entry.date;
     entry.date = new Date(entry.mills);
     return entry.date;
@@ -34,7 +38,7 @@ function init (client, d3) {
     return client.focusRangeMS === DEFAULT_FOCUS ? 1 : 1 + ((client.focusRangeMS - DEFAULT_FOCUS) / DEFAULT_FOCUS / 8);
   }
 
-  var dotRadius = function(type) {
+  var dotRadius = function(type: any) {
     var radius = chart().prevChartWidth > WIDTH_BIG_DOTS ? 4 : (chart().prevChartWidth < WIDTH_SMALL_DOTS ? 2 : 3);
     if (type === 'mbg') {
       radius *= 2;
@@ -58,7 +62,8 @@ function init (client, d3) {
   }
 
   // get the desired opacity for context chart based on the brush extent
-  renderer.highlightBrushPoints = function highlightBrushPoints (data, from, to) {
+  // @ts-expect-error TS(2339): Property 'highlightBrushPoints' does not exist on ... Remove this comment to see the full error message
+  renderer.highlightBrushPoints = function highlightBrushPoints (data: any, from: any, to: any) {
     if (client.latestSGV && data.mills >= from && data.mills <= to) {
       return chart().futureOpacity(data.mills - client.latestSGV.mills);
     } else {
@@ -66,16 +71,18 @@ function init (client, d3) {
     }
   };
 
+  // @ts-expect-error TS(2339): Property 'bubbleScale' does not exist on type '{}'... Remove this comment to see the full error message
   renderer.bubbleScale = function bubbleScale () {
     // a higher bubbleScale will produce smaller bubbles (it's not a radius like focusDotRadius)
     return (chart().prevChartWidth < WIDTH_SMALL_DOTS ? 4 : (chart().prevChartWidth < WIDTH_BIG_DOTS ? 3 : 2)) * focusRangeAdjustment();
   };
 
+  // @ts-expect-error TS(2339): Property 'addFocusCircles' does not exist on type ... Remove this comment to see the full error message
   renderer.addFocusCircles = function addFocusCircles () {
 
-    function updateFocusCircles (sel) {
-      var badData = [];
-      sel.attr('cx', function(d) {
+    function updateFocusCircles (sel: any) {
+      var badData: any = [];
+      sel.attr('cx', function(d: any) {
           if (!d) {
             console.error('Bad data', d);
             return chart().xScale(zeroDate);
@@ -86,7 +93,7 @@ function init (client, d3) {
             return chart().xScale(getOrAddDate(d));
           }
         })
-        .attr('cy', function(d) {
+        .attr('cy', function(d: any) {
           var scaled = client.sbx.scaleEntry(d);
           if (isNaN(scaled)) {
             badData.push(d);
@@ -95,14 +102,14 @@ function init (client, d3) {
             return chart().yScale(scaled);
           }
         })
-        .attr('opacity', function(d) {
+        .attr('opacity', function(d: any) {
           if (d.noFade) {
             return null;
           } else {
             return !client.latestSGV ? 1 : chart().futureOpacity(d.mills - client.latestSGV.mills);
           }
         })
-        .attr('r', function(d) {
+        .attr('r', function(d: any) {
           return dotRadius(d.type);
         });
 
@@ -113,22 +120,22 @@ function init (client, d3) {
       return sel;
     }
 
-    function prepareFocusCircles (sel) {
+    function prepareFocusCircles (sel: any) {
       updateFocusCircles(sel)
-        .attr('fill', function(d) {
+        .attr('fill', function(d: any) {
           return d.type === 'forecast' ? 'none' : d.color;
         })
-        .attr('stroke-width', function(d) {
+        .attr('stroke-width', function(d: any) {
           return d.type === 'mbg' ? 2 : d.type === 'forecast' ? 2 : 0;
         })
-        .attr('stroke', function(d) {
+        .attr('stroke', function(d: any) {
           return (d.type === 'mbg' ? 'white' : d.color);
         });
 
       return sel;
     }
 
-    function focusCircleTooltip (d) {
+    function focusCircleTooltip (d: any) {
       if (d.type !== 'sgv' && d.type !== 'mbg' && d.type !== 'forecast') {
         return;
       }
@@ -137,8 +144,10 @@ function init (client, d3) {
         var info = {};
         var sbx = client.sbx.withExtendedSettings(client.rawbg);
         if (d.type === 'sgv') {
+          // @ts-expect-error TS(2339): Property 'noise' does not exist on type '{}'.
           info.noise = client.rawbg.noiseCodeToDisplay(d.mgdl, d.noise);
           if (client.rawbg.showRawBGs(d.mgdl, d.noise, client.ddata.cal, sbx)) {
+            // @ts-expect-error TS(2339): Property 'value' does not exist on type '{}'.
             info.value = utils.scaleMgdl(client.rawbg.calc(d, client.ddata.cal, sbx));
           }
         }
@@ -151,7 +160,9 @@ function init (client, d3) {
       client.tooltip.html('<strong>' + translate('BG') + ':</strong> ' + client.sbx.scaleEntry(d) +
           (d.type === 'mbg' ? '<br/><strong>' + translate('Device') + ': </strong>' + d.device : '') +
           (d.type === 'forecast' && d.forecastType ? '<br/><strong>' + translate('Forecast Type') + ': </strong>' + d.forecastType : '') +
+          // @ts-expect-error TS(2339): Property 'value' does not exist on type '{}'.
           (rawbgInfo.value ? '<br/><strong>' + translate('Raw BG') + ':</strong> ' + rawbgInfo.value : '') +
+          // @ts-expect-error TS(2339): Property 'noise' does not exist on type '{}'.
           (rawbgInfo.noise ? '<br/><strong>' + translate('Noise') + ':</strong> ' + rawbgInfo.noise : '') +
           '<br/><strong>' + translate('Time') + ':</strong> ' + client.formatTime(getOrAddDate(d)))
         .style('left', tooltipLeft())
@@ -164,7 +175,7 @@ function init (client, d3) {
 
     // bind up the focus chart data to an array of circles
     // selects all our data into data and uses date function to get current max date
-    var focusCircles = chart().focus.selectAll('circle.entry-dot').data(focusData, function genKey (d) {
+    var focusCircles = chart().focus.selectAll('circle.entry-dot').data(focusData, function genKey (d: any) {
       return "cgmreading." + d.mills;
     });
 
@@ -186,7 +197,7 @@ function init (client, d3) {
     // bind up the focus chart data to an array of circles
     // selects all our data into data and uses date function to get current max date
 
-    var forecastCircles = chart().focus.selectAll('circle.forecast-dot').data(shownForecastPoints, function genKey (d) {
+    var forecastCircles = chart().focus.selectAll('circle.forecast-dot').data(shownForecastPoints, function genKey (d: any) {
       return d.forecastType + d.mills;
     });
 
@@ -201,8 +212,9 @@ function init (client, d3) {
 
   };
 
-  renderer.addTreatmentCircles = function addTreatmentCircles (nowDate) {
-    function treatmentTooltip (d) {
+  // @ts-expect-error TS(2339): Property 'addTreatmentCircles' does not exist on t... Remove this comment to see the full error message
+  renderer.addTreatmentCircles = function addTreatmentCircles (nowDate: any) {
+    function treatmentTooltip (d: any) {
       var targetBottom = d.targetBottom;
       var targetTop = d.targetTop;
 
@@ -260,7 +272,7 @@ function init (client, d3) {
         (d.notes ? '<strong>' + translate('Notes') + ':</strong> ' + d.notes : '');
     }
 
-    function announcementTooltip (d) {
+    function announcementTooltip (d: any) {
       return '<strong>' + translate('Time') + ':</strong> ' + client.formatTime(getOrAddDate(d)) + '<br/>' +
         (d.eventType ? '<strong>' + translate('Announcement') + '</strong><br/>' : '') +
         (d.notes && d.notes.length > 1 ? '<strong>' + translate('Message') + ':</strong> ' + d.notes + '<br/>' : '') +
@@ -272,7 +284,7 @@ function init (client, d3) {
 
     //NOTE: treatments with insulin or carbs are drawn by drawTreatment()
     // bind up the focus chart data to an array of circles
-    var treatCircles = chart().focus.selectAll('.treatment-dot').data(client.ddata.treatments.filter(function(treatment) {
+    var treatCircles = chart().focus.selectAll('.treatment-dot').data(client.ddata.treatments.filter(function(treatment: any) {
 
       var notCarbsOrInsulin = !treatment.carbs && !treatment.insulin;
       var notTempOrProfile = !_.includes(['Temp Basal', 'Profile Switch', 'Combo Bolus', 'Temporary Target'], treatment.eventType);
@@ -280,19 +292,19 @@ function init (client, d3) {
       var notes = treatment.notes || '';
       var enteredBy = treatment.enteredBy || '';
 
-      var notOpenAPSSpam = enteredBy.indexOf('openaps://') === -1 || _.isUndefined(_.find(openAPSSpam, function startsWith (spam) {
+      var notOpenAPSSpam = enteredBy.indexOf('openaps://') === -1 || _.isUndefined(_.find(openAPSSpam, function startsWith (spam: any) {
         return notes.indexOf(spam) === 0;
       }));
 
       return notCarbsOrInsulin && !treatment.duration && treatment.durationType !== 'indefinite' && notTempOrProfile && notOpenAPSSpam;
-    }), function (d) { return d._id; });
+    }), function (d: any) { return d._id; });
 
-    function updateTreatCircles (sel) {
+    function updateTreatCircles (sel: any) {
 
-      sel.attr('cx', function(d) {
+      sel.attr('cx', function(d: any) {
           return chart().xScale(getOrAddDate(d));
         })
-        .attr('cy', function(d) {
+        .attr('cy', function(d: any) {
           return chart().yScale(client.sbx.scaleEntry(d));
         })
         .attr('r', function() {
@@ -302,8 +314,8 @@ function init (client, d3) {
       return sel;
     }
 
-    function prepareTreatCircles (sel) {
-      function strokeColor (d) {
+    function prepareTreatCircles (sel: any) {
+      function strokeColor (d: any) {
         var color = 'white';
         if (d.isAnnouncement) {
           color = 'orange';
@@ -313,7 +325,7 @@ function init (client, d3) {
         return color;
       }
 
-      function fillColor (d) {
+      function fillColor (d: any) {
         var color = 'grey';
         if (d.isAnnouncement) {
           color = 'orange';
@@ -337,7 +349,7 @@ function init (client, d3) {
     // if new circle then just display
     prepareTreatCircles(treatCircles.enter().append('circle'))
       .attr('class', 'treatment-dot')
-      .on('mouseover', function(d) {
+      .on('mouseover', function(d: any) {
         client.tooltip.style('opacity', .9);
         client.tooltip.html(d.isAnnouncement ? announcementTooltip(d) : treatmentTooltip(d))
           .style('left', tooltipLeft())
@@ -347,7 +359,7 @@ function init (client, d3) {
 
     treatCircles.exit().remove();
 
-    var durationTreatments = client.ddata.treatments.filter(function(treatment) {
+    var durationTreatments = client.ddata.treatments.filter(function(treatment: any) {
       return !treatment.carbs && !treatment.insulin && (treatment.duration || treatment.durationType !== undefined) &&
         !_.includes(['Temp Basal', 'Profile Switch', 'Combo Bolus', 'Temporary Target'], treatment.eventType);
     });
@@ -358,7 +370,7 @@ function init (client, d3) {
     // treatments with duration
     var treatRects = chart().focus.selectAll('.g-duration').data(durationTreatments);
 
-    function fillColor (d) {
+    function fillColor (d: any) {
       // this is going to be updated by Event Type
       var color = 'grey';
       if (d.eventType === 'Exercise') {
@@ -371,7 +383,7 @@ function init (client, d3) {
       return color;
     }
 
-    function rectHeight (d) {
+    function rectHeight (d: any) {
       var height = 20;
       if (d.targetTop && d.targetTop > 0 && d.targetBottom && d.targetBottom > 0) {
         height = Math.max(5, d.targetTop - d.targetBottom);
@@ -379,7 +391,7 @@ function init (client, d3) {
       return height;
     }
 
-    function rectTranslate (d) {
+    function rectTranslate (d: any) {
       var top = 50;
       if (d.eventType === 'Temporary Target') {
         top = d.targetTop === d.targetBottom ? d.targetTop + rectHeight(d) : d.targetTop;
@@ -387,7 +399,7 @@ function init (client, d3) {
       return 'translate(' + chart().xScale(getOrAddDate(d)) + ',' + chart().yScale(utils.scaleMgdl(top)) + ')';
     }
 
-    function treatmentRectWidth (d) {
+    function treatmentRectWidth (d: any) {
       if (d.durationType === "indefinite") {
         return chart().xScale(chart().xScale.domain()[1].getTime()) - chart().xScale(getOrAddDate(d));
       } else {
@@ -395,7 +407,7 @@ function init (client, d3) {
       }
     }
 
-    function treatmentTextTransform (d) {
+    function treatmentTextTransform (d: any) {
       if (d.durationType === "indefinite") {
         var offset = 0;
         if (chart().xScale(getOrAddDate(d)) < chart().xScale(chart().xScale.domain()[0].getTime())) {
@@ -407,14 +419,14 @@ function init (client, d3) {
       }
     }
 
-    function treatmentText (d) {
+    function treatmentText (d: any) {
       if (d.eventType === 'Temporary Target') {
         return '';
       }
       return d.notes || d.reason || d.eventType;
     }
 
-    function treatmentTextAnchor (d) {
+    function treatmentTextAnchor (d: any) {
       return d.durationType === "indefinite" ? 'left' : 'middle';
     }
 
@@ -434,7 +446,7 @@ function init (client, d3) {
     var newRects = treatRects.enter().append('g')
       .attr('class', 'g-duration')
       .attr('transform', rectTranslate)
-      .on('mouseover', function(d) {
+      .on('mouseover', function(d: any) {
         client.tooltip.style('opacity', .9);
         client.tooltip.html(d.isAnnouncement ? announcementTooltip(d) : treatmentTooltip(d))
           .style('left', tooltipLeft())
@@ -466,14 +478,15 @@ function init (client, d3) {
 
 
 
+  // @ts-expect-error TS(2339): Property 'addContextCircles' does not exist on typ... Remove this comment to see the full error message
   renderer.addContextCircles = function addContextCircles () {
     // bind up the context chart data to an array of circles
     var contextCircles = chart().context.selectAll('circle').data(client.entries);
 
-    function prepareContextCircles (sel) {
-      var badData = [];
-      sel.attr('cx', function(d) { return chart().xScale2(getOrAddDate(d)); })
-        .attr('cy', function(d) {
+    function prepareContextCircles (sel: any) {
+      var badData: any = [];
+      sel.attr('cx', function(d: any) { return chart().xScale2(getOrAddDate(d)); })
+        .attr('cy', function(d: any) {
           var scaled = client.sbx.scaleEntry(d);
           if (isNaN(scaled)) {
             badData.push(d);
@@ -482,11 +495,11 @@ function init (client, d3) {
             return chart().yScale2(scaled);
           }
         })
-        .attr('fill', function(d) { return d.color; })
+        .attr('fill', function(d: any) { return d.color; })
         //.style('opacity', function(d) { return renderer.highlightBrushPoints(d) })
-        .attr('stroke-width', function(d) { return d.type === 'mbg' ? 2 : 0; })
+        .attr('stroke-width', function(d: any) { return d.type === 'mbg' ? 2 : 0; })
         .attr('stroke', function() { return 'white'; })
-        .attr('r', function(d) { return d.type === 'mbg' ? 4 : 2; });
+        .attr('r', function(d: any) { return d.type === 'mbg' ? 4 : 2; });
 
       if (badData.length > 0) {
         console.warn('Bad Data: isNaN(sgv)', badData);
@@ -504,7 +517,7 @@ function init (client, d3) {
     contextCircles.exit().remove();
   };
 
-  function calcTreatmentRadius (treatment, opts, carbratio) {
+  function calcTreatmentRadius (treatment: any, opts: any, carbratio: any) {
     var CR = treatment.CR || carbratio || 20;
     var carbsOrInsulin = CR;
     if (treatment.carbs) {
@@ -529,7 +542,7 @@ function init (client, d3) {
     };
   }
 
-  function prepareArc (treatment, radius, bolusSettings) {
+  function prepareArc (treatment: any, radius: any, bolusSettings: any) {
     var arc_data = [
       // white carb half-circle on top
       { 'element': '', 'color': 'white', 'start': -1.5708, 'end': 1.5708, 'inner': 0, 'outer': radius.R1 }
@@ -543,7 +556,9 @@ function init (client, d3) {
     ]
       , arc_data_1_elements = [];
 
+    // @ts-expect-error TS(2339): Property 'outlineOnly' does not exist on type '{ e... Remove this comment to see the full error message
     arc_data[0].outlineOnly = !treatment.carbs;
+    // @ts-expect-error TS(2339): Property 'outlineOnly' does not exist on type '{ e... Remove this comment to see the full error message
     arc_data[2].outlineOnly = !treatment.insulin;
 
     if (treatment.carbs > 0) {
@@ -583,16 +598,16 @@ function init (client, d3) {
     }
 
     var arc = d3.arc()
-      .innerRadius(function(d) {
+      .innerRadius(function(d: any) {
         return 5 * d.inner;
       })
-      .outerRadius(function(d) {
+      .outerRadius(function(d: any) {
         return 5 * d.outer;
       })
-      .endAngle(function(d) {
+      .endAngle(function(d: any) {
         return d.start;
       })
-      .startAngle(function(d) {
+      .startAngle(function(d: any) {
         return d.end;
       });
 
@@ -602,13 +617,13 @@ function init (client, d3) {
     };
   }
 
-  function isInRect (x, y, rect) {
+  function isInRect (x: any, y: any, rect: any) {
     return !(x < rect.x || x > rect.x + rect.width || y < rect.y || y > rect.y + rect.height);
   }
 
-  function appendTreatments (treatment, arc) {
+  function appendTreatments (treatment: any, arc: any) {
 
-    function boluscalcTooltip (treatment) {
+    function boluscalcTooltip (treatment: any) {
       if (!treatment.boluscalc) {
         return '';
       }
@@ -657,11 +672,12 @@ function init (client, d3) {
         .style('top', (d3.event.pageY + 15) + 'px');
     }
 
-    var newTime;
+    var newTime: any;
     var deleteRect = { x: 0, y: 0, width: 0, height: 0 };
     var insulinRect = { x: 0, y: 0, width: 0, height: 0 };
     var carbsRect = { x: 0, y: 0, width: 0, height: 0 };
-    var operation;
+    var operation: any;
+    // @ts-expect-error TS(2339): Property 'drag' does not exist on type '{}'.
     renderer.drag = d3.drag()
       .on('start', function() {
         //console.log(treatment);
@@ -809,7 +825,7 @@ function init (client, d3) {
                   , _id: treatment._id
                   , data: { created_at: newTime.toISOString() }
                 }
-                , function callback (result) {
+                , function callback (result: any) {
                   console.log(result);
                   chart().drag.selectAll('.arrow').style('opacity', 0).remove();
                 }
@@ -826,7 +842,7 @@ function init (client, d3) {
                   , _id: treatment._id
                   , data: { insulin: 1 }
                 }
-                , function callback (result) {
+                , function callback (result: any) {
                   console.log(result);
                   chart().drag.selectAll('.arrow').style('opacity', 0).remove();
                 }
@@ -843,7 +859,7 @@ function init (client, d3) {
                   , _id: treatment._id
                   , data: { carbs: 1 }
                 }
-                , function callback (result) {
+                , function callback (result: any) {
                   console.log(result);
                   chart().drag.selectAll('.arrow').style('opacity', 0).remove();
                 }
@@ -859,7 +875,7 @@ function init (client, d3) {
                   collection: 'treatments'
                   , _id: treatment._id
                 }
-                , function callback (result) {
+                , function callback (result: any) {
                   console.log(result);
                   chart().drag.selectAll('.arrow').style('opacity', 0).remove();
                 }
@@ -887,7 +903,7 @@ function init (client, d3) {
                   collection: 'treatments'
                   , data: newTreatment
                 }
-                , function callback (result) {
+                , function callback (result: any) {
                   console.log(result);
                   chart().drag.selectAll('.arrow').style('opacity', 0).remove();
                 }
@@ -915,7 +931,7 @@ function init (client, d3) {
                   collection: 'treatments'
                   , data: newTreatment
                 }
-                , function callback (result) {
+                , function callback (result: any) {
                   console.log(result);
                   chart().drag.selectAll('.arrow').style('opacity', 0).remove();
                 }
@@ -939,21 +955,22 @@ function init (client, d3) {
     if (client.editMode) {
       treatmentDots
         .style('cursor', 'move')
+        // @ts-expect-error TS(2339): Property 'drag' does not exist on type '{}'.
         .call(renderer.drag);
     }
 
     treatmentDots.append('path')
       .attr('class', 'path')
-      .attr('fill', function(d) {
+      .attr('fill', function(d: any) {
         return d.outlineOnly ? 'transparent' : d.color;
       })
-      .attr('stroke-width', function(d) {
+      .attr('stroke-width', function(d: any) {
         return d.outlineOnly ? 1 : 0;
       })
-      .attr('stroke', function(d) {
+      .attr('stroke', function(d: any) {
         return d.color;
       })
-      .attr('id', function(d, i) {
+      .attr('id', function(d: any, i: any) {
         return 's' + i;
       })
       .attr('d', arc.svg);
@@ -961,7 +978,7 @@ function init (client, d3) {
     return treatmentDots;
   }
 
-  function appendLabels (treatmentDots, arc, opts) {
+  function appendLabels (treatmentDots: any, arc: any, opts: any) {
     // labels for carbs and insulin
     if (opts.showLabels) {
       var label = treatmentDots.append('g')
@@ -970,7 +987,7 @@ function init (client, d3) {
         .style('fill', 'white');
 
       label.append('text')
-        .style('font-size', function(d) {
+        .style('font-size', function(d: any) {
           var fontSize = ( (opts.treatments >= 30) ? 40 : 50 - Math.floor((25 - opts.treatments) / 30 * 10) ) / opts.scale;
           var elementValue = parseFloat(d.element);
           if (!isNaN(elementValue) && elementValue < 1) {
@@ -981,35 +998,38 @@ function init (client, d3) {
         .style('text-shadow', '0px 0px 10px rgba(0, 0, 0, 1)')
         .attr('text-anchor', 'middle')
         .attr('dy', '.35em')
-        .attr('transform', function(d) {
+        .attr('transform', function(d: any) {
           d.outerRadius = d.outerRadius * 2.1;
           d.innerRadius = d.outerRadius * 2.1;
           return 'translate(' + arc.svg.centroid(d) + ')';
         })
-        .text(function(d) {
+        .text(function(d: any) {
           return d.element;
         });
     }
   }
 
-  renderer.drawTreatments = function drawTreatments (client) {
+  // @ts-expect-error TS(2339): Property 'drawTreatments' does not exist on type '... Remove this comment to see the full error message
+  renderer.drawTreatments = function drawTreatments (client: any) {
 
     var treatmentCount = 0;
     var bolusSettings = client.settings.extendedSettings.bolus || {};
 
     chart().focus.selectAll('.draggable-treatment').remove();
 
-    _.forEach(client.ddata.treatments, function eachTreatment (d) {
+    _.forEach(client.ddata.treatments, function eachTreatment (d: any) {
       if (Number(d.insulin) > 0 || Number(d.carbs) > 0) { treatmentCount += 1; }
     });
 
     // add treatment bubbles
-    _.forEach(client.ddata.treatments, function eachTreatment (d) {
+    _.forEach(client.ddata.treatments, function eachTreatment (d: any) {
       var showLabels =  d.carbs || d.insulin;
       if (d.insulin && d.insulin < bolusSettings.renderOver && bolusSettings.renderFormatSmall == 'hidden') {
         showLabels = false;
       }
+      // @ts-expect-error TS(2339): Property 'drawTreatment' does not exist on type '{... Remove this comment to see the full error message
       renderer.drawTreatment(d, {
+        // @ts-expect-error TS(2339): Property 'bubbleScale' does not exist on type '{}'... Remove this comment to see the full error message
         scale: renderer.bubbleScale()
         , showLabels: showLabels
         , treatments: treatmentCount
@@ -1019,7 +1039,8 @@ function init (client, d3) {
     });
   };
 
-  renderer.drawTreatment = function drawTreatment (treatment, opts, carbratio, bolusSettings) {
+  // @ts-expect-error TS(2339): Property 'drawTreatment' does not exist on type '{... Remove this comment to see the full error message
+  renderer.drawTreatment = function drawTreatment (treatment: any, opts: any, carbratio: any, bolusSettings: any) {
     if (!treatment.carbs && !treatment.protein && !treatment.fat && !treatment.insulin) {
       return;
     }
@@ -1042,7 +1063,8 @@ function init (client, d3) {
     appendLabels(treatmentDots, arc, opts);
   };
 
-  renderer.addBasals = function addBasals (client) {
+  // @ts-expect-error TS(2339): Property 'addBasals' does not exist on type '{}'.
+  renderer.addBasals = function addBasals (client: any) {
 
     if (!client.settings.isEnabled('basal')) {
       return;
@@ -1102,8 +1124,8 @@ function init (client, d3) {
     tempbasalareadata.push({ d: to, b: toTempBasal.totalbasal });
     comboareadata.push({ d: to, b: toTempBasal.totalbasal });
 
-    var max_linedata = d3.max(linedata, function(d) { return d.b; });
-    var max_notemplinedata = d3.max(notemplinedata, function(d) { return d.b; });
+    var max_linedata = d3.max(linedata, function(d: any) { return d.b; });
+    var max_notemplinedata = d3.max(notemplinedata, function(d: any) { return d.b; });
     var max = Math.max(max_linedata, max_notemplinedata) * ('icicle' === mode ? 1 : 1.1);
     chart().maxBasalValue = max;
     chart().yScaleBasals.domain('icicle' === mode ? [0, max] : [max, 0]);
@@ -1116,14 +1138,14 @@ function init (client, d3) {
     chart().basals.selectAll('.comboarea').remove().data(comboareadata);
 
     var valueline = d3.line()
-      .x(function(d) { return chart().xScaleBasals(d.d); })
-      .y(function(d) { return chart().yScaleBasals(d.b); })
+      .x(function(d: any) { return chart().xScaleBasals(d.d); })
+      .y(function(d: any) { return chart().yScaleBasals(d.b); })
       .curve(d3.curveStepAfter);
 
     var area = d3.area()
-      .x(function(d) { return chart().xScaleBasals(d.d); })
+      .x(function(d: any) { return chart().xScaleBasals(d.d); })
       .y0(chart().yScaleBasals(0))
-      .y1(function(d) { return chart().yScaleBasals(d.b); })
+      .y1(function(d: any) { return chart().yScaleBasals(d.b); })
       .curve(d3.curveStepAfter);
 
     var g = chart().basals.append('g');
@@ -1167,7 +1189,7 @@ function init (client, d3) {
       .attr('stroke-width', 1)
       .attr('d', area);
 
-    _.forEach(client.ddata.tempbasalTreatments, function eachTemp (t) {
+    _.forEach(client.ddata.tempbasalTreatments, function eachTemp (t: any) {
       // only if basal and focus interval overlap and there is a chance to fit
       if (t.duration && t.mills < to && t.mills + times.mins(t.duration).msecs > from) {
         var text = g.append('text')
@@ -1189,12 +1211,13 @@ function init (client, d3) {
     client.chart.basals.attr('display', !mode || 'none' === mode ? 'none' : '');
   };
 
-  renderer.addTreatmentProfiles = function addTreatmentProfiles (client) {
+  // @ts-expect-error TS(2339): Property 'addTreatmentProfiles' does not exist on ... Remove this comment to see the full error message
+  renderer.addTreatmentProfiles = function addTreatmentProfiles (client: any) {
     if (client.profilefunctions.listBasalProfiles().length < 2) {
       return; // do not visualize profiles if there is only one
     }
 
-    function profileTooltip (d) {
+    function profileTooltip (d: any) {
       return '<strong>' + translate('Time') + ':</strong> ' + client.formatTime(getOrAddDate(d)) + '<br/>' +
         (d.eventType ? '<strong>' + translate('Treatment type') + ':</strong> ' + translate(client.careportal.resolveEventName(d.eventType)) + '<br/>' : '') +
         (d.endprofile ? '<strong>' + translate('End of profile') + ':</strong> ' + d.endprofile + '<br/>' : '') +
@@ -1220,7 +1243,7 @@ function init (client, d3) {
       , first: true
     });
 
-    _.forEach(client.ddata.profileTreatments, function eachTreatment (d) {
+    _.forEach(client.ddata.profileTreatments, function eachTreatment (d: any) {
       if (d.duration && !d.cuttedby) {
         data.push({
           cutting: d.profile
@@ -1235,7 +1258,7 @@ function init (client, d3) {
 
     var topOfText = ('icicle' === mode ? chart().maxBasalValue + 0.05 : -0.05);
 
-    var generateText = function(t) {
+    var generateText = function(t: any) {
       var sign = t.first ? '▲▲▲' : '▬▬▬';
       var ret;
       if (t.cutting) {
@@ -1246,7 +1269,7 @@ function init (client, d3) {
       return ret;
     };
 
-    treatProfiles.attr('transform', function(t) {
+    treatProfiles.attr('transform', function(t: any) {
         // change text of record on left side
         return 'rotate(-90,' + chart().xScale(t.mills) + ',' + chart().yScaleBasals(topOfText) + ') ' +
           'translate(' + chart().xScale(t.mills) + ',' + chart().yScaleBasals(topOfText) + ')';
@@ -1260,12 +1283,12 @@ function init (client, d3) {
       .attr('fill', '#0099ff')
       .attr('text-anchor', 'end')
       .attr('dy', '.35em')
-      .attr('transform', function(t) {
+      .attr('transform', function(t: any) {
         return 'rotate(-90 ' + chart().xScale(t.mills) + ',' + chart().yScaleBasals(topOfText) + ') ' +
           'translate(' + chart().xScale(t.mills) + ',' + chart().yScaleBasals(topOfText) + ')';
       })
       .text(generateText)
-      .on('mouseover', function(d) {
+      .on('mouseover', function(d: any) {
         client.tooltip.style('opacity', .9);
         client.tooltip.html(profileTooltip(d))
           .style('left', (d3.event.pageX) + 'px')
@@ -1279,4 +1302,5 @@ function init (client, d3) {
   return renderer;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

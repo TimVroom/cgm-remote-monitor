@@ -1,5 +1,6 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'moment'.
 var moment;
 
 var cleanstatusdb = {
@@ -8,13 +9,16 @@ var cleanstatusdb = {
   , pluginType: 'admin'
 };
 
-function init (ctx) {
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
+function init (ctx: any) {
   moment = ctx.moment;
   return cleanstatusdb;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;
 
+// @ts-expect-error TS(2339): Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
 cleanstatusdb.actions = [
   {
     name: 'Delete all documents from devicestatus collection'
@@ -31,14 +35,15 @@ cleanstatusdb.actions = [
     }
   ];
 
-cleanstatusdb.actions[0].init = function init (client, callback) {
+// @ts-expect-error TS(2339): Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
+cleanstatusdb.actions[0].init = function init (client: any, callback: any) {
   var translate = client.translate;
   var $status = $('#admin_' + cleanstatusdb.name + '_0_status');
 
   $status.hide().text(translate('Loading database ...')).fadeIn('slow');
   $.ajax('/api/v1/devicestatus.json?count=500', {
     headers: client.headers()
-    , success: function(records) {
+    , success: function(records: any) {
       var recs = (records.length === 500 ? '500+' : records.length);
       $status.hide().text(translate('Database contains %1 records', { params: [recs] })).fadeIn('slow');
     }
@@ -48,7 +53,8 @@ cleanstatusdb.actions[0].init = function init (client, callback) {
   }).done(function() { if (callback) { callback(); } });
 };
 
-cleanstatusdb.actions[0].code = function deleteRecords (client, callback) {
+// @ts-expect-error TS(2339): Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
+cleanstatusdb.actions[0].code = function deleteRecords (client: any, callback: any) {
   var translate = client.translate;
   var $status = $('#admin_' + cleanstatusdb.name + '_0_status');
 
@@ -78,7 +84,8 @@ cleanstatusdb.actions[0].code = function deleteRecords (client, callback) {
   });
 };
 
-cleanstatusdb.actions[1].init = function init (client, callback) {
+// @ts-expect-error TS(2339): Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
+cleanstatusdb.actions[1].init = function init (client: any, callback: any) {
   var translate = client.translate;
   var $status = $('#admin_' + cleanstatusdb.name + '_1_status');
 
@@ -95,7 +102,8 @@ cleanstatusdb.actions[1].init = function init (client, callback) {
   if (callback) { callback(); }
 };
 
-cleanstatusdb.actions[1].code = function deleteOldRecords (client, callback) {
+// @ts-expect-error TS(2339): Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
+cleanstatusdb.actions[1].code = function deleteOldRecords (client: any, callback: any) {
   var translate = client.translate;
   var $status = $('#admin_' + cleanstatusdb.name + '_1_status');
   var numDays = Number($('#admin_devicestatus_days').val());
@@ -120,7 +128,7 @@ cleanstatusdb.actions[1].code = function deleteOldRecords (client, callback) {
   $.ajax('/api/v1/devicestatus/?find[created_at][$lte]=' + dateStr, {
     method: 'DELETE'
     , headers: client.headers()
-    , success: function(retVal) {
+    , success: function(retVal: any) {
       $status.text(translate('%1 records deleted', { params: [retVal.n] }));
     }
     , error: function() {

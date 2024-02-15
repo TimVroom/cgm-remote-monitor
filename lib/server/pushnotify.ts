@@ -1,12 +1,16 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 const _ = require('lodash');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'crypto'.
 const crypto = require('crypto');
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 const NodeCache = require('node-cache');
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
 const times = require('../times');
 
-function init (env, ctx) {
+function init (env: any, ctx: any) {
 
   function pushnotify () {
     return pushnotify;
@@ -15,7 +19,7 @@ function init (env, ctx) {
   var receipts = new NodeCache({ stdTTL: times.hour().secs, checkperiod: times.mins(5).secs });
   var recentlySent = new NodeCache({ stdTTL: times.mins(15).secs, checkperiod: 20 });
 
-  pushnotify.emitNotification = function emitNotification (notify) {
+  pushnotify.emitNotification = function emitNotification (notify: any) {
     if (notify.clear) {
       cancelPushoverNotifications();
       sendMakerAllClear(notify);
@@ -55,7 +59,7 @@ function init (env, ctx) {
 
   };
 
-  pushnotify.pushoverAck = function pushoverAck (response) {
+  pushnotify.pushoverAck = function pushoverAck (response: any) {
     if (!response.receipt) { return false; }
 
     var notify = receipts.get(response.receipt);
@@ -75,8 +79,8 @@ function init (env, ctx) {
     if (ctx.pushover) {
       var receiptKeys = receipts.keys();
 
-      _.each(receiptKeys, function eachKey (receipt) {
-        ctx.pushover.cancelWithReceipt(receipt, function cancelCallback (err) {
+      _.each(receiptKeys, function eachKey (receipt: any) {
+        ctx.pushover.cancelWithReceipt(receipt, function cancelCallback (err: any) {
           if (err) {
             console.error('error canceling receipt:' + receipt + ', err: ', err);
           } else {
@@ -88,10 +92,10 @@ function init (env, ctx) {
     }
   }
 
-  function sendPushoverNotifications (notify) {
+  function sendPushoverNotifications (notify: any) {
     if (ctx.pushover) {
       //add the key to the cache before sending, but with a short TTL
-      ctx.pushover.send(notify, function pushoverCallback (err, result) {
+      ctx.pushover.send(notify, function pushoverCallback (err: any, result: any) {
         if (err) {
           console.warn('Unable to send pushover', notify, err);
         } else {
@@ -110,9 +114,9 @@ function init (env, ctx) {
     }
   }
 
-  function sendMakerAllClear (notify) {
+  function sendMakerAllClear (notify: any) {
     if (ctx.maker) {
-      ctx.maker.sendAllClear(notify, function makerCallback (err, result) {
+      ctx.maker.sendAllClear(notify, function makerCallback (err: any, result: any) {
         if (err) {
           console.error('unable to send maker allclear', notify, err);
         } else if (result && result.sent) {
@@ -122,7 +126,7 @@ function init (env, ctx) {
     }
   }
 
-  function sendMakerEvent (notify) {
+  function sendMakerEvent (notify: any) {
     if (!ctx.maker) {
       return;
     }
@@ -134,7 +138,7 @@ function init (env, ctx) {
       , value2: notify.message && '\n' + notify.message
       , isAnnouncement: notify.isAnnouncement
     };
-    ctx.maker.sendEvent(event, function makerCallback (err) {
+    ctx.maker.sendEvent(event, function makerCallback (err: any) {
       if (err) {
         console.error('unable to send maker event', event, err);
       } else {
@@ -144,7 +148,8 @@ function init (env, ctx) {
     });
   }
 
-  function notifyToHash (notify) {
+  function notifyToHash (notify: any) {
+    // @ts-expect-error TS(2339): Property 'createHash' does not exist on type 'Cryp... Remove this comment to see the full error message
     var hash = crypto.createHash('sha1');
     var info = JSON.stringify(_.pick(notify, ['title', 'message']));
     hash.update(info);
@@ -154,4 +159,5 @@ function init (env, ctx) {
   return pushnotify();
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

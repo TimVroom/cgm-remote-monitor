@@ -1,13 +1,15 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'consts'.
 var consts = require('../constants');
 
-function configure (ctx) {
+function configure (ctx: any) {
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var express = require('express'),
       api = express.Router( );
 
-  api.get('/verifyauth', function(req, res) {
-    ctx.authorization.resolveWithRequest(req, function resolved (err, result) {
+  api.get('/verifyauth', function(req: any, res: any) {
+    ctx.authorization.resolveWithRequest(req, function resolved (err: any, result: any) {
       // this is used to see if req has api-secret equivalent authorization
       var canRead = !err && 
         ctx.authorization.checkMultiple('*:*:read', result.shiros);
@@ -34,4 +36,5 @@ function configure (ctx) {
   return api;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = configure;

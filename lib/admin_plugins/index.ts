@@ -1,19 +1,28 @@
 'use strict';
 
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var _find = require('lodash/find');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_each'.
 var _each = require('lodash/each');
 
-function init(ctx) {
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
+function init(ctx: any) {
     var allPlugins = [
+        // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
         require('./subjects')(ctx)
+      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , require('./roles')(ctx)
+      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , require('./cleanstatusdb')(ctx)
+      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , require('./cleantreatmentsdb')(ctx)
+      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , require('./cleanentriesdb')(ctx)
+      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , require('./futureitems')(ctx)
     ];
 
-  function plugins(name) {
+  function plugins(name: any) {
     if (name) {
       return _find(allPlugins, {name: name});
     } else {
@@ -21,13 +30,13 @@ function init(ctx) {
     }
   }
 
-  plugins.eachPlugin = function eachPlugin(f) {
+  plugins.eachPlugin = function eachPlugin(f: any) {
     _each(allPlugins, f);
   };
 
-  plugins.createHTML = function createHTML(client) {
+  plugins.createHTML = function createHTML(client: any) {
     var translate = client.translate;
-    plugins.eachPlugin(function addHtml(p) {
+    plugins.eachPlugin(function addHtml(p: any) {
       var fs = $('<fieldset>');
       $('#admin_placeholder').append(fs);
       fs.append($('<legend>').append(translate(p.label)));
@@ -60,7 +69,8 @@ function init(ctx) {
     $('.adminButton').click(plugins.doAction);
   };
 
-  plugins.doAction = function doAction(event) {
+  plugins.doAction = function doAction(event: any) {
+    // @ts-expect-error TS(2339): Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
     var Nightscout = window.Nightscout;
     var plugin = $(this).attr('plugin');
     var action = $(this).attr('action');
@@ -82,8 +92,10 @@ function init(ctx) {
     }
   };
 
+  // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
   return plugins();
 
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

@@ -15,6 +15,7 @@ function init () {
   return loopalyzer;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;
 
 var laDebug = false; // If we should print console.logs
@@ -23,7 +24,8 @@ var risingInterpolationGap = 6; // How large a gap in COB/IOB graph is allowed t
 var fallingInterpolationGap = 24; // And if less than start
 var interpolationRatio = 1.25; // But do allow rising interpolation if gap larger than interpolationGap and end value is less than 10% larger than start
 
-loopalyzer.html = function html (client) {
+// @ts-expect-error TS(2339): Property 'html' does not exist on type '{ name: st... Remove this comment to see the full error message
+loopalyzer.html = function html (client: any) {
   var translate = client.translate;
   var ret = '';
   ret += '<h2>Loopalyzer&nbsp;&nbsp;<span id="loopalyzer-dateinfo"></span></h2>';
@@ -45,7 +47,7 @@ loopalyzer.html = function html (client) {
 
   let numberInput = '<input type="number" style="width: 3.5em" value="10" id="rp_loopalyzermincarbs">';
 
-  function genTimePicker(id) {
+  function genTimePicker(id: any) {
     let timerPicker =  ' <select id="' + id + '">';
     for (let i = 0; i < 24; i++) {
       const H = (i < 10 ? '0' : '') + i;
@@ -77,6 +79,7 @@ loopalyzer.html = function html (client) {
   return ret;
 };
 
+// @ts-expect-error TS(2339): Property 'css' does not exist on type '{ name: str... Remove this comment to see the full error message
 loopalyzer.css =
   '#loopalyzer-charts, #loopalyzer-profiles { padding: 20px; } ' +
   '#loopalyzer-basal, #loopalyzer-bg, #loopalyzer-tempbasal, #loopalyzer-iob, #loopalyzer-cob, #loopalyzer-profiles {' +
@@ -91,6 +94,7 @@ loopalyzer.css =
   '#loopalyzer-profiles-table td td { text-align: right; vertical-align: top; padding: 0 1px; }' +
   '#loopalyzer-profiles-table td td td { padding: 1px 8px; }';
 
+// @ts-expect-error TS(2339): Property 'prepareHtml' does not exist on type '{ n... Remove this comment to see the full error message
 loopalyzer.prepareHtml = function loopalyzerPrepareHtml () {
   //  $('#loopalyzer-charts').append($('<table><tr><td><div id="loopalyzerchart"></div></td><td><div id="loopalyzerstatchart"></td></tr></table>'));
 };
@@ -100,12 +104,14 @@ loopalyzer.prepareHtml = function loopalyzerPrepareHtml () {
 //
 // Functions to pull data from datastorage and prepare in bins
 //
-loopalyzer.getSGVs = function(datastorage, daysToShow) {
+// @ts-expect-error TS(2339): Property 'getSGVs' does not exist on type '{ name:... Remove this comment to see the full error message
+loopalyzer.getSGVs = function(datastorage: any, daysToShow: any) {
   var data = datastorage.allstatsrecords;
+  // @ts-expect-error TS(2339): Property 'getEmptyBins' does not exist on type '{ ... Remove this comment to see the full error message
   var bins = loopalyzer.getEmptyBins();
 
   // Loop thru the days to show, for each day find the matching SGVs and insert into the bins entry array
-  daysToShow.forEach(function(day) {
+  daysToShow.forEach(function(day: any) {
     var entries = []; // Array with all SGVs for this day, we'll fill this and then insert into the bins later
     for (let i = 0; i < 288; i++) entries.push(NaN); // Fill the array with NaNs so we have something in case we don't find an SGV
     var fromDate = moment(day);
@@ -114,7 +120,7 @@ loopalyzer.getSGVs = function(datastorage, daysToShow) {
     toDate.set({ 'hours': 0, 'minutes': 5, 'seconds': 0, 'milliseconds': 0 }); // toDate is 5 mins ahead
     for (let i = 0; i < 288; i++) {
       var found = false;
-      data.some(function(record) {
+      data.some(function(record: any) {
         var recDate = moment(record.displayTime);
         if (!found && recDate.isAfter(fromDate) && recDate.isBefore(toDate)) {
           entries[i] = record.sgv;
@@ -125,15 +131,18 @@ loopalyzer.getSGVs = function(datastorage, daysToShow) {
       fromDate.add(5, 'minutes');
       toDate.add(5, 'minutes');
     }
+    // @ts-expect-error TS(2339): Property 'addArrayToBins' does not exist on type '... Remove this comment to see the full error message
     loopalyzer.addArrayToBins(bins, entries);
   });
   return bins;
 }
 
-loopalyzer.getBasals = function(datastorage, daysToShow, profile) {
+// @ts-expect-error TS(2339): Property 'getBasals' does not exist on type '{ nam... Remove this comment to see the full error message
+loopalyzer.getBasals = function(datastorage: any, daysToShow: any, profile: any) {
+  // @ts-expect-error TS(2339): Property 'getEmptyBins' does not exist on type '{ ... Remove this comment to see the full error message
   var bins = loopalyzer.getEmptyBins();
 
-  daysToShow.forEach(function(day) {
+  daysToShow.forEach(function(day: any) {
     var dayStart = moment(day).startOf('day');
     var dayEnd = moment(day).endOf('day');
     var basals = [];
@@ -146,15 +155,18 @@ loopalyzer.getBasals = function(datastorage, daysToShow, profile) {
         basals[index++] = basal.basal;
     }
     if (laDebug) console.log('getBasals ' + day, basals);
+    // @ts-expect-error TS(2339): Property 'addArrayToBins' does not exist on type '... Remove this comment to see the full error message
     loopalyzer.addArrayToBins(bins, basals);
   });
   return bins;
 }
 
-loopalyzer.getTempBasalDeltas = function(datastorage, daysToShow, profile) {
+// @ts-expect-error TS(2339): Property 'getTempBasalDeltas' does not exist on ty... Remove this comment to see the full error message
+loopalyzer.getTempBasalDeltas = function(datastorage: any, daysToShow: any, profile: any) {
+  // @ts-expect-error TS(2339): Property 'getEmptyBins' does not exist on type '{ ... Remove this comment to see the full error message
   var bins = loopalyzer.getEmptyBins();
 
-  daysToShow.forEach(function(day) {
+  daysToShow.forEach(function(day: any) {
     var dayStart = moment(day).startOf('day');
     var dayEnd = moment(day).endOf('day');
     var temps = [];
@@ -167,18 +179,21 @@ loopalyzer.getTempBasalDeltas = function(datastorage, daysToShow, profile) {
         temps[index++] = basal.tempbasal - basal.basal;
     }
     if (laDebug) console.log('getTempBasalDeltas ' + day, temps);
+    // @ts-expect-error TS(2339): Property 'addArrayToBins' does not exist on type '... Remove this comment to see the full error message
     loopalyzer.addArrayToBins(bins, temps);
   });
   return bins;
 }
 
-loopalyzer.getIOBs = function(datastorage, daysToShow, profile, client, treatments) {
+// @ts-expect-error TS(2339): Property 'getIOBs' does not exist on type '{ name:... Remove this comment to see the full error message
+loopalyzer.getIOBs = function(datastorage: any, daysToShow: any, profile: any, client: any, treatments: any) {
   var iobStatusAvailable = client.plugins('iob').isDeviceStatusAvailable(datastorage.devicestatus);
   if (laDebug) console.log('getIOBs iobStatusAvailable=' + iobStatusAvailable);
 
+  // @ts-expect-error TS(2339): Property 'getEmptyBins' does not exist on type '{ ... Remove this comment to see the full error message
   var bins = loopalyzer.getEmptyBins();
 
-  daysToShow.forEach(function(day) {
+  daysToShow.forEach(function(day: any) {
     var dayStart = moment(day).startOf('day');
     var dayEnd = moment(day).endOf('day');
     var iobs = [];
@@ -187,11 +202,12 @@ loopalyzer.getIOBs = function(datastorage, daysToShow, profile, client, treatmen
       for (var i = 0; i < 288; i++) iobs.push(NaN); // Clear the IOBs by filling with NaNs
       var iobArray = client.plugins('iob').IOBDeviceStatusesInTimeRange(datastorage.devicestatus, dayStart.valueOf(), dayEnd.valueOf());
       if (laDebug) console.log('getIOBs iobArray', iobArray);
-      iobArray.forEach(function(entry) {
+      iobArray.forEach(function(entry: any) {
         var index = Math.floor(moment(entry.mills).diff(dayStart, 'minutes') / 5);
         iobs[index] = entry.iob;
       });
 
+      // @ts-expect-error TS(2339): Property 'fillNanWithTreatments' does not exist on... Remove this comment to see the full error message
       if (daysToShow.length === 1) loopalyzer.fillNanWithTreatments(iobs, treatments);
 
       // Loop thru these entries and where no IOB has been found, interpolate between nearby to get a continuous array
@@ -211,8 +227,11 @@ loopalyzer.getIOBs = function(datastorage, daysToShow, profile, client, treatmen
             // Compute the y=k*x+m = (y2-y1)/(x2-x1)*x+y1
             // Only interpolate on decreasing or steady, or on increasing if the gap is less than interpolationGap
             // if (stopIndex-startIndex<interpolationGap && (iobs[stopIndex] <= iobs[startIndex]*interpolationRatio || (stopIndex-startIndex<interpolationGap && iobs[startIndex]!==0))) {
+            // @ts-expect-error TS(2339): Property 'canInterpolate' does not exist on type '... Remove this comment to see the full error message
             if (loopalyzer.canInterpolate(iobs, startIndex, stopIndex)) {
+              // @ts-expect-error TS(7022): 'k' implicitly has type 'any' because it does not ... Remove this comment to see the full error message
               var k = (iobs[stopIndex] - iobs[startIndex]) / (stopIndex - startIndex);
+              // @ts-expect-error TS(7022): 'm' implicitly has type 'any' because it does not ... Remove this comment to see the full error message
               var m = iobs[startIndex];
               for (var x = 0; x < (stopIndex - startIndex); x++) {
                 iobs[x + startIndex] = k * x + m;
@@ -230,18 +249,21 @@ loopalyzer.getIOBs = function(datastorage, daysToShow, profile, client, treatmen
       }
     }
     if (laDebug) console.log('getIOBs ' + day, iobs);
+    // @ts-expect-error TS(2339): Property 'addArrayToBins' does not exist on type '... Remove this comment to see the full error message
     loopalyzer.addArrayToBins(bins, iobs);
   });
   return bins;
 }
 
-loopalyzer.getCOBs = function(datastorage, daysToShow, profile, client, treatments) {
+// @ts-expect-error TS(2339): Property 'getCOBs' does not exist on type '{ name:... Remove this comment to see the full error message
+loopalyzer.getCOBs = function(datastorage: any, daysToShow: any, profile: any, client: any, treatments: any) {
   var cobStatusAvailable = client.plugins('cob').isDeviceStatusAvailable(datastorage.devicestatus);
   if (laDebug) console.log('getCOBs cobStatusAvailable=' + cobStatusAvailable);
 
+  // @ts-expect-error TS(2339): Property 'getEmptyBins' does not exist on type '{ ... Remove this comment to see the full error message
   var bins = loopalyzer.getEmptyBins();
 
-  daysToShow.forEach(function(day) {
+  daysToShow.forEach(function(day: any) {
     var dayStart = moment(day).startOf('day');
     var dayEnd = moment(day).endOf('day');
     var cobs = [];
@@ -250,11 +272,12 @@ loopalyzer.getCOBs = function(datastorage, daysToShow, profile, client, treatmen
       for (var i = 0; i < 288; i++) cobs.push(NaN); // Clear the COBs by filling with NaNs
       var cobArray = client.plugins('cob').COBDeviceStatusesInTimeRange(datastorage.devicestatus, dayStart.valueOf(), dayEnd.valueOf());
       if (laDebug) console.log('getCOBs cobArray', cobArray);
-      cobArray.forEach(function(entry) {
+      cobArray.forEach(function(entry: any) {
         var index = Math.floor(moment(entry.mills).diff(dayStart, 'minutes') / 5);
         cobs[index] = entry.cob;
       });
 
+      // @ts-expect-error TS(2339): Property 'fillNanWithTreatments' does not exist on... Remove this comment to see the full error message
       if (daysToShow.length === 1) loopalyzer.fillNanWithTreatments(cobs, treatments);
 
       // Loop thru these entries and where no COB has been found, interpolate between nearby to get a continuous array
@@ -277,6 +300,7 @@ loopalyzer.getCOBs = function(datastorage, daysToShow, profile, client, treatmen
             // Compute the y=k*x+m = (y2-y1)/(x2-x1)*x+y1
             // Only interpolate on decreasing or steady, or on increasing if the gap is less than interpolationGap
             // if (stopIndex-startIndex<interpolationGap && (cobs[stopIndex] <= cobs[startIndex]*interpolationRatio || (stopIndex-startIndex<interpolationGap && cobs[startIndex]!==0))) {
+            // @ts-expect-error TS(2339): Property 'canInterpolate' does not exist on type '... Remove this comment to see the full error message
             if (loopalyzer.canInterpolate(cobs, startIndex, stopIndex)) {
               k = (cobs[stopIndex] - cobs[startIndex]) / (stopIndex - startIndex);
               m = cobs[startIndex];
@@ -299,14 +323,16 @@ loopalyzer.getCOBs = function(datastorage, daysToShow, profile, client, treatmen
       }
     }
     if (laDebug) console.log('getCOBs ' + day, cobs);
+    // @ts-expect-error TS(2339): Property 'addArrayToBins' does not exist on type '... Remove this comment to see the full error message
     loopalyzer.addArrayToBins(bins, cobs);
   });
   return bins;
 }
 
 /* Fills NaN gaps with treatments if treatments are available and value at start is less than value at stop */
-loopalyzer.fillNanWithTreatments = function(array, treatments) {
-  treatments.forEach(function(treatment) {
+// @ts-expect-error TS(2339): Property 'fillNanWithTreatments' does not exist on... Remove this comment to see the full error message
+loopalyzer.fillNanWithTreatments = function(array: any, treatments: any) {
+  treatments.forEach(function(treatment: any) {
     var dayStart = moment(treatment.date).startOf('day');
     var minutesAfterMidnight = moment(treatment.date).diff(dayStart, 'minutes');
     var index = Math.floor(minutesAfterMidnight / 5);
@@ -324,6 +350,7 @@ loopalyzer.fillNanWithTreatments = function(array, treatments) {
       // var gap = stop - start;
       // if (isNaN(array[start]) || isNaN(array[stop]) || gap > interpolationGap || (gap < interpolationGap && array[start]<array[stop])) {
       // if ( isNaN(array[start]) || isNaN(array[stop]) || (array[start] < array[stop] && (gap >= interpolationGap || array[start]==0)) ) {
+      // @ts-expect-error TS(2339): Property 'canInterpolate' does not exist on type '... Remove this comment to see the full error message
       var interpolate = (isNaN(array[start]) || isNaN(array[stop]) ? true : loopalyzer.canInterpolate(array, start, stop));
       if (!interpolate) {
         array[index] = treatment.amount;
@@ -333,7 +360,8 @@ loopalyzer.fillNanWithTreatments = function(array, treatments) {
 }
 
 /* Returns true if we can interpolate between this start and end */
-loopalyzer.canInterpolate = function(array, start, stop) {
+// @ts-expect-error TS(2339): Property 'canInterpolate' does not exist on type '... Remove this comment to see the full error message
+loopalyzer.canInterpolate = function(array: any, start: any, stop: any) {
   var interpolate = false;
   if (array[stop] <= array[start] * interpolationRatio) {
     // Falling
@@ -346,12 +374,13 @@ loopalyzer.canInterpolate = function(array, start, stop) {
 }
 
 /* Returns the carbs treatments array as [date, amount] */
-loopalyzer.getCarbTreatments = function(datastorage, daysToShow) {
-  var treatments = []; // Holds the treatments [date, amount]
+// @ts-expect-error TS(2339): Property 'getCarbTreatments' does not exist on typ... Remove this comment to see the full error message
+loopalyzer.getCarbTreatments = function(datastorage: any, daysToShow: any) {
+  var treatments: any = []; // Holds the treatments [date, amount]
   var startDate = moment(daysToShow[0]);
   var endDate = moment(daysToShow[daysToShow.length - 1]).add(1, 'days');
 
-  datastorage.treatments.filter(function(treatment) { return treatment.carbs && treatment.carbs > 0 }).forEach(function(treatment) {
+  datastorage.treatments.filter(function(treatment: any) { return treatment.carbs && treatment.carbs > 0 }).forEach(function(treatment: any) {
     if (moment(treatment.created_at).isBetween(startDate, endDate)) {
       treatments.push({ date: treatment.created_at, amount: treatment.carbs });
     }
@@ -361,12 +390,13 @@ loopalyzer.getCarbTreatments = function(datastorage, daysToShow) {
 }
 
 /* Returns the insulin treatments array as [date, amount] */
-loopalyzer.getInsulinTreatments = function(datastorage, daysToShow) {
-  var treatments = []; // Holds the treatments [date, amount]
+// @ts-expect-error TS(2339): Property 'getInsulinTreatments' does not exist on ... Remove this comment to see the full error message
+loopalyzer.getInsulinTreatments = function(datastorage: any, daysToShow: any) {
+  var treatments: any = []; // Holds the treatments [date, amount]
   var startDate = moment(daysToShow[0]);
   var endDate = moment(daysToShow[daysToShow.length - 1]).add(1, 'days');
 
-  datastorage.treatments.filter(function(treatment) { return treatment.insulin && treatment.insulin > 0 }).forEach(function(treatment) {
+  datastorage.treatments.filter(function(treatment: any) { return treatment.insulin && treatment.insulin > 0 }).forEach(function(treatment: any) {
     if (moment(treatment.created_at).isBetween(startDate, endDate)) {
       treatments.push({ date: treatment.created_at, amount: treatment.insulin });
     }
@@ -377,19 +407,23 @@ loopalyzer.getInsulinTreatments = function(datastorage, daysToShow) {
 
 // PREDICTIONS START
 //
-loopalyzer.getAllTreatmentTimestampsForADay = function(datastorage, day) {
-  var timestamps = [];
+// @ts-expect-error TS(2339): Property 'getAllTreatmentTimestampsForADay' does n... Remove this comment to see the full error message
+loopalyzer.getAllTreatmentTimestampsForADay = function(datastorage: any, day: any) {
+  var timestamps: any = [];
   var dayStart = moment(day).startOf('day');
+  // @ts-expect-error TS(2339): Property 'getCarbTreatments' does not exist on typ... Remove this comment to see the full error message
   var carbTreatments = loopalyzer.getCarbTreatments(datastorage, [day]);
+  // @ts-expect-error TS(2339): Property 'getInsulinTreatments' does not exist on ... Remove this comment to see the full error message
   var insulinTreatments = loopalyzer.getInsulinTreatments(datastorage, [day]);
-  carbTreatments.forEach(function(entry) { timestamps.push(entry.date) });
-  insulinTreatments.forEach(function(entry) { timestamps.push(entry.date) });
-  timestamps.sort(function(a, b) { return (a < b ? -1 : 1) });
+  carbTreatments.forEach(function(entry: any) { timestamps.push(entry.date) });
+  insulinTreatments.forEach(function(entry: any) { timestamps.push(entry.date) });
+  timestamps.sort(function(a: any, b: any) { return (a < b ? -1 : 1) });
   timestamps.splice(0, 0, dayStart.toDate()); // Insert a fake timestamp at midnight so we can show predictions during night
   return timestamps;
 }
 
-loopalyzer.getAllPredictionsForADay = function(datastorage, day) {
+// @ts-expect-error TS(2339): Property 'getAllPredictionsForADay' does not exist... Remove this comment to see the full error message
+loopalyzer.getAllPredictionsForADay = function(datastorage: any, day: any) {
   var predictions = [];
   var dayStart = moment(day).startOf('day');
   for (var i = datastorage.devicestatus.length - 1; i >= 0; i--) {
@@ -399,18 +433,22 @@ loopalyzer.getAllPredictionsForADay = function(datastorage, day) {
         predictions.push(datastorage.devicestatus[i].loop.predicted);
     } else if (datastorage.devicestatus[i].openaps && datastorage.devicestatus[i].openaps.suggested && datastorage.devicestatus[i].openaps.suggested.predBGs) {
       var entry = {};
+      // @ts-expect-error TS(2339): Property 'startDate' does not exist on type '{}'.
       entry.startDate = datastorage.devicestatus[i].openaps.suggested.timestamp;
       // For OpenAPS/AndroidAPS we fall back from COB if present, to UAM, then IOB
       if (datastorage.devicestatus[i].openaps.suggested.predBGs.COB) {
+        // @ts-expect-error TS(2339): Property 'values' does not exist on type '{}'.
         entry.values = datastorage.devicestatus[i].openaps.suggested.predBGs.COB;
       } else if (datastorage.devicestatus[i].openaps.suggested.predBGs.UAM) {
+        // @ts-expect-error TS(2339): Property 'values' does not exist on type '{}'.
         entry.values = datastorage.devicestatus[i].openaps.suggested.predBGs.UAM;
+      // @ts-expect-error TS(2339): Property 'values' does not exist on type '{}'.
       } else entry.values = datastorage.devicestatus[i].openaps.suggested.predBGs.IOB;
       predictions.push(entry);
     }
   }
   // Remove duplicates before we're done
-  var p = [];
+  var p: any = [];
   predictions.forEach(function(prediction) {
     if (p.length === 0 || prediction.startDate !== p[p.length - 1].startDate)
       p.push(prediction);
@@ -421,7 +459,8 @@ loopalyzer.getAllPredictionsForADay = function(datastorage, day) {
 /* Find the earliest new predicted instance that has a timestamp equal to or larger than timestamp */
 /* (so if we have bolused or eaten we want to find the prediction that Loop has estimated just after that) */
 /* Returns the index into the predictions array that is the predicted we are looking for */
-loopalyzer.findPredicted = function(predictions, timestamp, offset) {
+// @ts-expect-error TS(2339): Property 'findPredicted' does not exist on type '{... Remove this comment to see the full error message
+loopalyzer.findPredicted = function(predictions: any, timestamp: any, offset: any) {
   var ts = moment(timestamp).add(offset, 'minutes');
   var predicted = null;
   if (offset && offset < 0) { // If offset is negative, start searching from first prediction going forward
@@ -440,7 +479,8 @@ loopalyzer.findPredicted = function(predictions, timestamp, offset) {
   return predicted;
 }
 
-loopalyzer.getPredictions = function(datastorage, daysToShow, client) {
+// @ts-expect-error TS(2339): Property 'getPredictions' does not exist on type '... Remove this comment to see the full error message
+loopalyzer.getPredictions = function(datastorage: any, daysToShow: any, client: any) {
 
   if (!datastorage.devicestatus)
     return [];
@@ -449,7 +489,7 @@ loopalyzer.getPredictions = function(datastorage, daysToShow, client) {
   var truncatePredictions = true;
 
   // Fill the bins array with the timestamp, one per 5 minutes
-  var bins = [];
+  var bins: any = [];
   var date = moment();
   date.set({ 'hours': 0, 'minutes': 0, 'seconds': 0, 'milliseconds': 0 });
   for (var i = 0; i < 288; i++) {
@@ -457,10 +497,12 @@ loopalyzer.getPredictions = function(datastorage, daysToShow, client) {
     date.add(5, 'minutes');
   }
 
-  daysToShow.forEach(function(day) {
+  daysToShow.forEach(function(day: any) {
     var p = []; // Array with all prediction SGVs for this day, we'll fill this and then insert into the bins later
     for (var i = 0; i < 288; i++) p.push(NaN);
+    // @ts-expect-error TS(2339): Property 'getAllTreatmentTimestampsForADay' does n... Remove this comment to see the full error message
     var treatmentTimestamps = loopalyzer.getAllTreatmentTimestampsForADay(datastorage, day);
+    // @ts-expect-error TS(2339): Property 'getAllPredictionsForADay' does not exist... Remove this comment to see the full error message
     var predictions = loopalyzer.getAllPredictionsForADay(datastorage, day);
 
     if (predictions.length > 0 && treatmentTimestamps.length > 0) {
@@ -468,6 +510,7 @@ loopalyzer.getPredictions = function(datastorage, daysToShow, client) {
       // Iterate over all treatments, find the predictions for each and add them to the entries array p, aligned on timestamp
       for (var treatmentsIndex = 0; treatmentsIndex < treatmentTimestamps.length; treatmentsIndex++) {
         var timestamp = treatmentTimestamps[treatmentsIndex];
+        // @ts-expect-error TS(2339): Property 'findPredicted' does not exist on type '{... Remove this comment to see the full error message
         var predictedIndex = loopalyzer.findPredicted(predictions, timestamp, predictedOffset); // Find predictions offset before or after timestamp
 
         if (predictedIndex != null) {
@@ -509,6 +552,7 @@ loopalyzer.getPredictions = function(datastorage, daysToShow, client) {
 // VARIOUS UTILITY FUNCTIONS //
 
 /* Create an empty bins array with date stamps for today */
+// @ts-expect-error TS(2339): Property 'getEmptyBins' does not exist on type '{ ... Remove this comment to see the full error message
 loopalyzer.getEmptyBins = function() {
   var bins = [];
   var todayStart = moment().startOf('day');
@@ -520,9 +564,10 @@ loopalyzer.getEmptyBins = function() {
 }
 
 /* Takes an array of 288 values and adds to the bins */
-loopalyzer.addArrayToBins = function(bins, values) {
+// @ts-expect-error TS(2339): Property 'addArrayToBins' does not exist on type '... Remove this comment to see the full error message
+loopalyzer.addArrayToBins = function(bins: any, values: any) {
   if (bins && bins.length === 288 && values && values.length === 288) {
-    values.forEach(function(value, index) {
+    values.forEach(function(value: any, index: any) {
       bins[index][1].push(value);
     });
   } else
@@ -530,7 +575,8 @@ loopalyzer.addArrayToBins = function(bins, values) {
 }
 
 /* Fill all NaNs in an array by interpolating between adjacent values */
-loopalyzer.interpolateArray = function(values, allowNegative) {
+// @ts-expect-error TS(2339): Property 'interpolateArray' does not exist on type... Remove this comment to see the full error message
+loopalyzer.interpolateArray = function(values: any, allowNegative: any) {
   var startIndex = 0
     , stopIndex = 0
     , k = 0
@@ -565,7 +611,8 @@ loopalyzer.interpolateArray = function(values, allowNegative) {
 }
 
 /* Compute min value in bins */
-loopalyzer.min = function(xBins) {
+// @ts-expect-error TS(2339): Property 'min' does not exist on type '{ name: str... Remove this comment to see the full error message
+loopalyzer.min = function(xBins: any) {
   var min = xBins[0][1];
   for (var i = 0; i < xBins.length; i++) {
     if (isNaN(min) || min === null) min = xBins[i][1];
@@ -575,7 +622,8 @@ loopalyzer.min = function(xBins) {
 }
 
 /* Compute max value in bins */
-loopalyzer.max = function(xBins) {
+// @ts-expect-error TS(2339): Property 'max' does not exist on type '{ name: str... Remove this comment to see the full error message
+loopalyzer.max = function(xBins: any) {
   var max = xBins[0][1];
   for (var i = 0; i < xBins.length; i++) {
     if (isNaN(max) || max === null) max = xBins[i][1];
@@ -585,12 +633,13 @@ loopalyzer.max = function(xBins) {
 }
 
 /* Compute avg value in bins */
-loopalyzer.avg = function(xBins) {
-  var out = [];
-  xBins.forEach(function(entry) {
+// @ts-expect-error TS(2339): Property 'avg' does not exist on type '{ name: str... Remove this comment to see the full error message
+loopalyzer.avg = function(xBins: any) {
+  var out: any = [];
+  xBins.forEach(function(entry: any) {
     var sum = 0;
     var count = 0;
-    entry[1].forEach(function(value) {
+    entry[1].forEach(function(value: any) {
       if (value && !isNaN(value)) {
         sum += value;
         count++;
@@ -603,9 +652,10 @@ loopalyzer.avg = function(xBins) {
 }
 
 // Timeshifts a bins array with subarrays for multiple days
-loopalyzer.timeShiftBins = function(bins, timeShift) {
+// @ts-expect-error TS(2339): Property 'timeShiftBins' does not exist on type '{... Remove this comment to see the full error message
+loopalyzer.timeShiftBins = function(bins: any, timeShift: any) {
   if (bins && bins.length > 0) {
-    timeShift.forEach(function(minutes, dayIndex) {
+    timeShift.forEach(function(minutes: any, dayIndex: any) {
       if (minutes !== 0) {
         var tempBin = [];
         bins.forEach(function() {
@@ -642,12 +692,13 @@ loopalyzer.timeShiftBins = function(bins, timeShift) {
 }
 
 // Modifies the timestamp in the bin by timeShift minutes, for each day
-loopalyzer.timeShiftSingleBin = function(bin, daysToShow, timeShift) {
+// @ts-expect-error TS(2339): Property 'timeShiftSingleBin' does not exist on ty... Remove this comment to see the full error message
+loopalyzer.timeShiftSingleBin = function(bin: any, daysToShow: any, timeShift: any) {
   if (bin && bin.length > 0) {
-    daysToShow.forEach(function(day, dayIndex) {
+    daysToShow.forEach(function(day: any, dayIndex: any) {
       var minutesToAdd = timeShift[dayIndex];
       var date = moment(day);
-      bin.forEach(function(entry, entryIndex) {
+      bin.forEach(function(entry: any, entryIndex: any) {
         var entryDate = moment(entry.date);
         if (entryDate.isSame(date, 'day')) {
           entryDate.add(minutesToAdd, 'minutes');
@@ -659,55 +710,57 @@ loopalyzer.timeShiftSingleBin = function(bin, daysToShow, timeShift) {
 }
 
 /* Returns true if the profile values in a is identical to values in b, false otherwise */
-loopalyzer.isSameProfileValues = function(a, b) {
+// @ts-expect-error TS(2339): Property 'isSameProfileValues' does not exist on t... Remove this comment to see the full error message
+loopalyzer.isSameProfileValues = function(a: any, b: any) {
   // Because the order of the keys are random when stringifying we do our own custom stringify ourselves
   var aString = '';
   var bString = '';
   if (a.basal) {
     aString += 'basal:';
-    a.basal.forEach(function(entry) {
+    a.basal.forEach(function(entry: any) {
       aString += 's' + entry.timeAsSeconds + 't' + entry.time + 'v' + entry.value;
     })
   }
   if (a.carbratio) {
     aString += 'carbratio:';
-    a.carbratio.forEach(function(entry) {
+    a.carbratio.forEach(function(entry: any) {
       aString += 's' + entry.timeAsSeconds + 't' + entry.time + 'v' + entry.value;
     })
   }
   if (a.sens) {
     aString += 'sens:';
-    a.sens.forEach(function(entry) {
+    a.sens.forEach(function(entry: any) {
       aString += 's' + entry.timeAsSeconds + 't' + entry.time + 'v' + entry.value;
     })
   }
   if (b.basal) {
     bString += 'basal:';
-    b.basal.forEach(function(entry) {
+    b.basal.forEach(function(entry: any) {
       bString += 's' + entry.timeAsSeconds + 't' + entry.time + 'v' + entry.value;
     })
   }
   if (b.carbratio) {
     bString += 'carbratio:';
-    b.carbratio.forEach(function(entry) {
+    b.carbratio.forEach(function(entry: any) {
       bString += 's' + entry.timeAsSeconds + 't' + entry.time + 'v' + entry.value;
     })
   }
   if (b.sens) {
     bString += 'sens:';
-    b.sens.forEach(function(entry) {
+    b.sens.forEach(function(entry: any) {
       bString += 's' + entry.timeAsSeconds + 't' + entry.time + 'v' + entry.value;
     })
   }
   return (aString == bString);
 }
 
-loopalyzer.renderProfilesTable = function(datastoreProfiles, daysToShow, client) {
+// @ts-expect-error TS(2339): Property 'renderProfilesTable' does not exist on t... Remove this comment to see the full error message
+loopalyzer.renderProfilesTable = function(datastoreProfiles: any, daysToShow: any, client: any) {
 
   // Loop thru the daysToShow and get the timestamp of the first day displayed
-  var beginningOfFirstDay = null;
-  var endOfLastDay = null;
-  daysToShow.forEach(function(day) {
+  var beginningOfFirstDay: any = null;
+  var endOfLastDay: any = null;
+  daysToShow.forEach(function(day: any) {
     var dayStart = moment(day).startOf('day');
     var dayEnd = moment(day).endOf('day');
     if (!beginningOfFirstDay || dayStart < beginningOfFirstDay)
@@ -723,9 +776,10 @@ loopalyzer.renderProfilesTable = function(datastoreProfiles, daysToShow, client)
   // First, extract the profiles that have a startDate less than the endOfLastDay as only these are relevant, and sort
   // these on ascending startDate (create a clone array so we don't modify the Store array). And only save the profiles
   // that have basal, carbratio, or sens.
-  var profilesArray1 = [];
-  datastoreProfiles.forEach(function(entry) {
+  var profilesArray1: any = [];
+  datastoreProfiles.forEach(function(entry: any) {
     var newEntry = {};
+    // @ts-expect-error TS(2339): Property 'startDate' does not exist on type '{}'.
     newEntry.startDate = entry.startDate;
     var store = entry.store;
     if (store) {
@@ -733,19 +787,24 @@ loopalyzer.renderProfilesTable = function(datastoreProfiles, daysToShow, client)
         if (laDebug) console.log('profile ' + key);
         if (Object.prototype.hasOwnProperty.call(store, key)) {
           var defaultProfile = store[key];
+          // @ts-expect-error TS(2339): Property 'profileName' does not exist on type '{}'... Remove this comment to see the full error message
           newEntry.profileName = key;
+          // @ts-expect-error TS(2339): Property 'basal' does not exist on type '{}'.
           if (defaultProfile.basal) newEntry.basal = defaultProfile.basal;
+          // @ts-expect-error TS(2339): Property 'carbratio' does not exist on type '{}'.
           if (defaultProfile.carbratio) newEntry.carbratio = defaultProfile.carbratio;
+          // @ts-expect-error TS(2339): Property 'sens' does not exist on type '{}'.
           if (defaultProfile.sens) newEntry.sens = defaultProfile.sens;
+          // @ts-expect-error TS(2339): Property 'basal' does not exist on type '{}'.
           if ((newEntry.basal || newEntry.carbratio || newEntry.sens) && moment(entry.startDate).isBefore(endOfLastDay))
             profilesArray1.push(newEntry);
         }
       }
     }
   })
-  profilesArray1.sort(function(a, b) { return (a.startDate > b.startDate ? 1 : -1) }); // Ascending
+  profilesArray1.sort(function(a: any, b: any) { return (a.startDate > b.startDate ? 1 : -1) }); // Ascending
   if (laDebug) {
-    profilesArray1.forEach(function(entry) {
+    profilesArray1.forEach(function(entry: any) {
       console.log('profilesArray1 - ' + entry.startDate);
     })
   }
@@ -755,11 +814,12 @@ loopalyzer.renderProfilesTable = function(datastoreProfiles, daysToShow, client)
   var profilesArray2 = [];
   var profileToCompareWith = profilesArray1[0];
   profilesArray2.push(profileToCompareWith); // Push the first profile, which should always be included.
-  profilesArray1.forEach(function(entry) {
+  profilesArray1.forEach(function(entry: any) {
     if (laDebug) {
       console.log('Comparing ' + JSON.stringify(profileToCompareWith.startDate) + ' to ' + JSON.stringify(entry.startDate));
       console.log(profileToCompareWith, entry);
     }
+    // @ts-expect-error TS(2339): Property 'isSameProfileValues' does not exist on t... Remove this comment to see the full error message
     if (!loopalyzer.isSameProfileValues(profileToCompareWith, entry)) {
       profilesArray2.push(entry);
       profileToCompareWith = entry;
@@ -819,7 +879,7 @@ loopalyzer.renderProfilesTable = function(datastoreProfiles, daysToShow, client)
       // Add Basal as a table in the first td
       tableHtml += '<td><table>';
       if (theProfile.basal) {
-        theProfile.basal.forEach(function(entry) {
+        theProfile.basal.forEach(function(entry: any) {
           tableHtml += '<tr><td>' + entry.time + '</td><td>' + parseFloat(entry.value).toFixed(3) + '</td></tr>'
         });
       }
@@ -828,7 +888,7 @@ loopalyzer.renderProfilesTable = function(datastoreProfiles, daysToShow, client)
       // Add Carb Ratio as a table in the second td
       tableHtml += '<td><table>';
       if (theProfile.carbratio) {
-        theProfile.carbratio.forEach(function(entry) {
+        theProfile.carbratio.forEach(function(entry: any) {
           tableHtml += '<tr><td>' + entry.time + '</td><td>' + parseFloat(entry.value).toFixed(1) + '</td></tr>'
         });
       }
@@ -837,7 +897,7 @@ loopalyzer.renderProfilesTable = function(datastoreProfiles, daysToShow, client)
       // Add Sensitivity as a table in the third td
       tableHtml += '<td><table>';
       if (theProfile.sens) {
-        theProfile.sens.forEach(function(entry) {
+        theProfile.sens.forEach(function(entry: any) {
           tableHtml += '<tr><td>' + entry.time + '</td><td>' + parseFloat(entry.value).toFixed(1) + '</td></tr>'
         });
       }
@@ -862,13 +922,14 @@ loopalyzer.renderProfilesTable = function(datastoreProfiles, daysToShow, client)
 };
 
 // Main method
-loopalyzer.report = function(datastorage, sorteddaystoshow, options) {
+// @ts-expect-error TS(2339): Property 'report' does not exist on type '{ name: ... Remove this comment to see the full error message
+loopalyzer.report = function(datastorage: any, sorteddaystoshow: any, options: any) {
   if (laDebug) console.log('Loopalyzer ' + laVersion);
 
   // Copy the sorteddaystoshow into new array (clone) and re-sort ascending (so we don't mess with original array)
-  var daysToShow = [];
-  sorteddaystoshow.forEach(function(day) { daysToShow.push(day) });
-  daysToShow.sort(function(a, b) { return (a < b ? -1 : 1) }); // We always want them chronological order
+  var daysToShow: any = [];
+  sorteddaystoshow.forEach(function(day: any) { daysToShow.push(day) });
+  daysToShow.sort(function(a: any, b: any) { return (a < b ? -1 : 1) }); // We always want them chronological order
 
   var firstDay = moment(daysToShow[0]);
   var lastDay = moment(daysToShow[daysToShow.length - 1]);
@@ -881,6 +942,7 @@ loopalyzer.report = function(datastorage, sorteddaystoshow, options) {
     $("#loopalyzer-charts").show();
     $("#loopalyzer-profiles-table").show();
     $("#loopalyzer-help").hide();
+    // @ts-expect-error TS(2339): Property 'generateReport' does not exist on type '... Remove this comment to see the full error message
     loopalyzer.generateReport(datastorage, daysToShow, options);
   } else {
     $("#loopalyzer-notenoughdata").show();
@@ -892,7 +954,9 @@ loopalyzer.report = function(datastorage, sorteddaystoshow, options) {
   }
 }
 
-loopalyzer.generateReport = function(datastorage, daysToShow, options) {
+// @ts-expect-error TS(2339): Property 'generateReport' does not exist on type '... Remove this comment to see the full error message
+loopalyzer.generateReport = function(datastorage: any, daysToShow: any, options: any) {
+  // @ts-expect-error TS(2339): Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
   var Nightscout = window.Nightscout;
   var client = Nightscout.client;
   var translate = client.translate;
@@ -907,6 +971,7 @@ loopalyzer.generateReport = function(datastorage, daysToShow, options) {
   if (daysToShow.length > 1) dateInfo += ' - ' + moment(daysToShow[daysToShow.length - 1]).format('ddd MMM D'); // .split(',')[0];
   $("#loopalyzer-dateinfo").html(dateInfo);
 
+  // @ts-expect-error TS(2339): Property 'prepareHtml' does not exist on type '{ n... Remove this comment to see the full error message
   loopalyzer.prepareHtml();
   $("#loopalyzer-buttons").show();
   if (daysToShow.length == 1) {
@@ -928,6 +993,7 @@ loopalyzer.generateReport = function(datastorage, daysToShow, options) {
   // Check if there is data in the profiles and render the profiles table if there is
   if ($("#rp_loopalyzerprofiles").is(":checked") && (datastorage.profiles && datastorage.profiles.length > 0)) {
     $("#loopalyzer-profiles-table").show();
+    // @ts-expect-error TS(2339): Property 'renderProfilesTable' does not exist on t... Remove this comment to see the full error message
     loopalyzer.renderProfilesTable(datastorage.profiles, daysToShow, client);
   } else
     $("#loopalyzer-profiles-table").hide();
@@ -935,22 +1001,30 @@ loopalyzer.generateReport = function(datastorage, daysToShow, options) {
   // Pull all necessary treatment information
   profile.updateTreatments(datastorage.profileSwitchTreatments, datastorage.tempbasalTreatments, datastorage.combobolusTreatments);
 
+  // @ts-expect-error TS(2339): Property 'getCarbTreatments' does not exist on typ... Remove this comment to see the full error message
   var carbTreatments = loopalyzer.getCarbTreatments(datastorage, daysToShow);
+  // @ts-expect-error TS(2339): Property 'getInsulinTreatments' does not exist on ... Remove this comment to see the full error message
   var insulinTreatments = loopalyzer.getInsulinTreatments(datastorage, daysToShow);
+  // @ts-expect-error TS(2339): Property 'getSGVs' does not exist on type '{ name:... Remove this comment to see the full error message
   var sgvBin = loopalyzer.getSGVs(datastorage, daysToShow);
+  // @ts-expect-error TS(2339): Property 'getBasals' does not exist on type '{ nam... Remove this comment to see the full error message
   var basalsBin = loopalyzer.getBasals(datastorage, daysToShow, profile);
+  // @ts-expect-error TS(2339): Property 'getTempBasalDeltas' does not exist on ty... Remove this comment to see the full error message
   var tempBasalsBin = loopalyzer.getTempBasalDeltas(datastorage, daysToShow, profile);
+  // @ts-expect-error TS(2339): Property 'getIOBs' does not exist on type '{ name:... Remove this comment to see the full error message
   var iobBin = loopalyzer.getIOBs(datastorage, daysToShow, profile, client, insulinTreatments);
+  // @ts-expect-error TS(2339): Property 'getCOBs' does not exist on type '{ name:... Remove this comment to see the full error message
   var cobBin = loopalyzer.getCOBs(datastorage, daysToShow, profile, client, carbTreatments);
   var predictionsBin = [];
 
   if ($("#rp_loopalyzerpredictions").is(":checked")) {
+    // @ts-expect-error TS(2339): Property 'getPredictions' does not exist on type '... Remove this comment to see the full error message
     predictionsBin = loopalyzer.getPredictions(datastorage, daysToShow, client);
   }
 
   // Prepare an array with the minutes to timeShift each day (0 as default since timeShift is off by default)
-  var timeShifts = [];
-  var firstCarbs = [];
+  var timeShifts: any = [];
+  var firstCarbs: any = [];
   var timeShiftStartTime = null; // If timeShifting this is the average time the meals were eaten
   var timeShiftStopTime = null; // and this is the start + DIA according to profile
   var doTimeShift = false;
@@ -976,14 +1050,14 @@ loopalyzer.generateReport = function(datastorage, daysToShow, options) {
       timeShiftEnd.set({ 'hours': h2, 'minutes': m2, 'seconds': 0 });
 
       //Loop through the carb treatments and find the first meal each day
-      daysToShow.forEach(function(day, dayIndex) {
+      daysToShow.forEach(function(day: any, dayIndex: any) {
         var timeShiftBegin = moment(day);
         var timeShiftEnd = moment(day);
         timeShiftBegin.set({ 'hours': h1, 'minutes': m1, 'seconds': 0 });
         timeShiftEnd.set({ 'hours': h2, 'minutes': m2, 'seconds': 0 });
 
         var found = false;
-        carbTreatments.forEach(function(entry) {
+        carbTreatments.forEach(function(entry: any) {
           if (!found && entry.amount >= mealMinCarbs) {
             var date = moment(entry.date);
             if ((date.isSame(timeShiftBegin, 'minute') || date.isAfter(timeShiftBegin, 'minute')) &&
@@ -1003,7 +1077,7 @@ loopalyzer.generateReport = function(datastorage, daysToShow, options) {
       var sum = 0
         , count = 0;
 
-      firstCarbs.forEach(function(minutesAfterMidnight) {
+      firstCarbs.forEach(function(minutesAfterMidnight: any) {
         if (minutesAfterMidnight) { // Avoid NaN
           sum += minutesAfterMidnight;
           count++;
@@ -1024,7 +1098,7 @@ loopalyzer.generateReport = function(datastorage, daysToShow, options) {
         timeShiftStopTime.minutes(24 * 60 - 1); // If beyond midnight, stop at midnight
 
       // Compute the timeShift (+ / -) that we should add to each entry (sgv, iob, carbs, etc) for each day
-      firstCarbs.forEach(function(minutesAfterMidnight, index) {
+      firstCarbs.forEach(function(minutesAfterMidnight: any, index: any) {
         if (minutesAfterMidnight) { // Avoid NaN
           var delta = Math.round(averageMinutesAfterMidnight - minutesAfterMidnight);
           timeShifts[index] = delta;
@@ -1032,13 +1106,21 @@ loopalyzer.generateReport = function(datastorage, daysToShow, options) {
       });
 
       if (doTimeShift) {
+        // @ts-expect-error TS(2339): Property 'timeShiftBins' does not exist on type '{... Remove this comment to see the full error message
         loopalyzer.timeShiftBins(sgvBin, timeShifts);
+        // @ts-expect-error TS(2339): Property 'timeShiftBins' does not exist on type '{... Remove this comment to see the full error message
         loopalyzer.timeShiftBins(basalsBin, timeShifts);
+        // @ts-expect-error TS(2339): Property 'timeShiftBins' does not exist on type '{... Remove this comment to see the full error message
         loopalyzer.timeShiftBins(tempBasalsBin, timeShifts);
+        // @ts-expect-error TS(2339): Property 'timeShiftBins' does not exist on type '{... Remove this comment to see the full error message
         loopalyzer.timeShiftBins(iobBin, timeShifts);
+        // @ts-expect-error TS(2339): Property 'timeShiftBins' does not exist on type '{... Remove this comment to see the full error message
         loopalyzer.timeShiftBins(cobBin, timeShifts);
+        // @ts-expect-error TS(2339): Property 'timeShiftBins' does not exist on type '{... Remove this comment to see the full error message
         loopalyzer.timeShiftBins(predictionsBin, timeShifts);
+        // @ts-expect-error TS(2339): Property 'timeShiftSingleBin' does not exist on ty... Remove this comment to see the full error message
         loopalyzer.timeShiftSingleBin(carbTreatments, daysToShow, timeShifts);
+        // @ts-expect-error TS(2339): Property 'timeShiftSingleBin' does not exist on ty... Remove this comment to see the full error message
         loopalyzer.timeShiftSingleBin(insulinTreatments, daysToShow, timeShifts);
       }
     } else {
@@ -1047,18 +1129,24 @@ loopalyzer.generateReport = function(datastorage, daysToShow, options) {
   }
 
   // After timeShift code block, get the average values
+  // @ts-expect-error TS(2339): Property 'avg' does not exist on type '{ name: str... Remove this comment to see the full error message
   var sgvAvg = loopalyzer.avg(sgvBin);
+  // @ts-expect-error TS(2339): Property 'avg' does not exist on type '{ name: str... Remove this comment to see the full error message
   var basalsAvg = loopalyzer.avg(basalsBin);
+  // @ts-expect-error TS(2339): Property 'avg' does not exist on type '{ name: str... Remove this comment to see the full error message
   var tempBasalsAvg = loopalyzer.avg(tempBasalsBin);
+  // @ts-expect-error TS(2339): Property 'avg' does not exist on type '{ name: str... Remove this comment to see the full error message
   var iobAvg = loopalyzer.avg(iobBin);
+  // @ts-expect-error TS(2339): Property 'avg' does not exist on type '{ name: str... Remove this comment to see the full error message
   var cobAvg = loopalyzer.avg(cobBin);
+  // @ts-expect-error TS(2339): Property 'avg' does not exist on type '{ name: str... Remove this comment to see the full error message
   var predictionsAvg = loopalyzer.avg(predictionsBin);
 
   var high = options.targetHigh;
   var low = options.targetLow;
 
   // Set up the charts basics
-  function tickFormatter (val, axis) {
+  function tickFormatter (val: any, axis: any) {
     if (val <= axis.min) { return ''; }
     if (val >= axis.max) { return ''; }
     return val + '';
@@ -1114,7 +1202,7 @@ loopalyzer.generateReport = function(datastorage, daysToShow, options) {
     , yaxes: [{
         tickColor: tickColor
         , labelWidth: labelWidth
-        , tickFormatter: function(val, axis) { return tickFormatter(val, axis); }
+        , tickFormatter: function(val: any, axis: any) { return tickFormatter(val, axis); }
     }
     , hiddenAxis]
     , grid: {
@@ -1144,6 +1232,7 @@ loopalyzer.generateReport = function(datastorage, daysToShow, options) {
       , data: predictionsAvg
       , id: 'predictions'
       , color: predictionsColor
+      // @ts-expect-error TS(2322): Type '{ show: true; fill: true; radius: number; fi... Remove this comment to see the full error message
       , points: { show: true, fill: true, radius: 0.75, fillColor: predictionsColor }
       , lines: { show: false }
     });
@@ -1155,7 +1244,7 @@ loopalyzer.generateReport = function(datastorage, daysToShow, options) {
         , max: options.units === 'mmol' ? 20 : 400
         , tickColor: tickColor
         , labelWidth: labelWidth
-        , tickFormatter: function(val, axis) { return tickFormatter(val, axis); }
+        , tickFormatter: function(val: any, axis: any) { return tickFormatter(val, axis); }
     }
     , hiddenAxis]
     , grid: {
@@ -1184,7 +1273,7 @@ loopalyzer.generateReport = function(datastorage, daysToShow, options) {
     , yaxes: [{
         tickColor: tickColor
         , labelWidth: labelWidth
-        , tickFormatter: function(val, axis) { return tickFormatter(val, axis); }
+        , tickFormatter: function(val: any, axis: any) { return tickFormatter(val, axis); }
     }
     , hiddenAxis]
     , grid: {
@@ -1198,7 +1287,7 @@ loopalyzer.generateReport = function(datastorage, daysToShow, options) {
   markings = [];
   if (doTimeShift)
     markings.push({ xaxis: { from: timeShiftStartTime.toDate(), to: timeShiftStopTime.toDate() }, color: timeShiftBackgroundColor });
-  insulinTreatments.forEach(function(treatment) {
+  insulinTreatments.forEach(function(treatment: any) {
     var startDate = moment(treatment.date);
     var endDate = moment(treatment.date);
     startDate.set(todayJSON);
@@ -1220,7 +1309,7 @@ loopalyzer.generateReport = function(datastorage, daysToShow, options) {
     , yaxes: [{
         tickColor: tickColor
         , labelWidth: labelWidth
-        , tickFormatter: function(val, axis) { return tickFormatter(val, axis); }
+        , tickFormatter: function(val: any, axis: any) { return tickFormatter(val, axis); }
     }
     , hiddenAxis]
     , grid: {
@@ -1234,7 +1323,7 @@ loopalyzer.generateReport = function(datastorage, daysToShow, options) {
   markings = [];
   if (doTimeShift)
     markings.push({ xaxis: { from: timeShiftStartTime.toDate(), to: timeShiftStopTime.toDate() }, color: timeShiftBackgroundColor });
-  carbTreatments.forEach(function(treatment) {
+  carbTreatments.forEach(function(treatment: any) {
     var startDate = moment(treatment.date);
     var endDate = moment(treatment.date);
     startDate.set(todayJSON);
@@ -1242,6 +1331,7 @@ loopalyzer.generateReport = function(datastorage, daysToShow, options) {
     endDate.add(5, 'minutes');
     markings.push({ xaxis: { from: startDate.toDate(), to: endDate.toDate() }, yaxis: { from: 0, to: treatment.amount }, color: markingColor });
   })
+  // @ts-expect-error TS(2790): The operand of a 'delete' operator must be optiona... Remove this comment to see the full error message
   delete xaxisCfg.font; // Remove the font config so HH:MM is shown on the last chart
 
   var chartCOBData = [{
@@ -1257,7 +1347,7 @@ loopalyzer.generateReport = function(datastorage, daysToShow, options) {
     , yaxes: [{
         tickColor: tickColor
         , labelWidth: labelWidth
-        , tickFormatter: function(val, axis) { return tickFormatter(val, axis); }
+        , tickFormatter: function(val: any, axis: any) { return tickFormatter(val, axis); }
     }
     , hiddenAxis]
     , grid: {

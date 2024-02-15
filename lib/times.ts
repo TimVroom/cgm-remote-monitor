@@ -1,57 +1,61 @@
 'use strict';
 
 var factories = {
-  weeks: function weeks(value) {
+  weeks: function weeks(value: any) {
     return {
       mins: value * 7 * 24 * 60, secs: value * 7 * 24 * 60 * 60, msecs: value * 7 * 24 * 60 * 60 * 1000
     };
   }
-  , days: function days(value) {
+  , days: function days(value: any) {
     return {
       hours: value * 24, mins: value * 24 * 60, secs: value * 24 * 60 * 60, msecs: value * 24 * 60 * 60 * 1000
     };
   }
-  , hours: function hours(value) {
+  , hours: function hours(value: any) {
     return {
       mins: value * 60, secs: value * 60 * 60, msecs: value * 60 * 60 * 1000
     };
   }
-  , mins: function mins(value) {
+  , mins: function mins(value: any) {
     return {
       secs: value * 60, msecs: value * 60 * 1000
     };
   }
-  , secs: function secs(value) {
+  , secs: function secs(value: any) {
     return {
       msecs: value * 1000
     };
   }
-  , msecs: function msecs(value) {
+  , msecs: function msecs(value: any) {
     return {
       mins: value / 1000 / 60, secs: value / 1000, msecs: value
     };
   }
 };
 
-function create (types) {
-  return function withValue (value) {
+// @ts-expect-error TS(2393): Duplicate function implementation.
+function create (types: any) {
+  return function withValue (value: any) {
+    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     return factories[types](value);
   };
 }
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
 var times = {
   week: function ( ) { return create('weeks')(1); }
-  , weeks: function (value) { return create('weeks')(value); }
+  , weeks: function (value: any) { return create('weeks')(value); }
   , day: function ( ) { return create('days')(1); }
-  , days: function (value) { return create('days')(value); }
+  , days: function (value: any) { return create('days')(value); }
   , hour: function ( ) { return create('hours')(1); }
-  , hours: function (value) { return create('hours')(value); }
+  , hours: function (value: any) { return create('hours')(value); }
   , min: function ( ) { return create('mins')(1); }
-  , mins: function (value) { return create('mins')(value); }
+  , mins: function (value: any) { return create('mins')(value); }
   , sec: function ( ) { return create('secs')(1); }
-  , secs: function (value) { return create('secs')(value); }
+  , secs: function (value: any) { return create('secs')(value); }
   , msec: function ( ) { return create('msecs')(1); }
-  , msecs: function (value) { return create('msecs')(value); }
+  , msecs: function (value: any) { return create('msecs')(value); }
 };
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = times;

@@ -1,10 +1,16 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'apiConst'.
 const apiConst = require('../const.json')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'mime'.
   , mime = require('mime')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'url'.
   , url = require('url')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'opTools'.
   , opTools = require('./operationTools')
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   , EasyXml = require('easyxml')
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   , csvStringify = require('csv-stringify')
   ;
 
@@ -15,7 +21,7 @@ const apiConst = require('../const.json')
  * @param {Object} res
  * @param {Function} next
  */
-function extension2accept (req, res, next) {
+function extension2accept (req: any, res: any, next: any) {
 
   const pathSplit = req.path.split('.');
 
@@ -51,7 +57,7 @@ function extension2accept (req, res, next) {
  * @param {Object} res
  * @param {any} data
  */
-function render (res, data) {
+function render (res: any, data: any) {
   res.format({
     'json': () => renderJson(res, data),
     'csv': () => renderCsv(res, data),
@@ -67,7 +73,7 @@ function render (res, data) {
  * @param {Object} res
  * @param {any} data
  */
-function renderJson (res, data) {
+function renderJson (res: any, data: any) {
   res.send({
     status: apiConst.HTTP.OK,
     result: data
@@ -80,12 +86,12 @@ function renderJson (res, data) {
  * @param {Object} res
  * @param {any} data
  */
-function renderCsv (res, data) {
+function renderCsv (res: any, data: any) {
   const csvSource = Array.isArray(data) ? data : [data];
   csvStringify(csvSource, {
       header: true
     },
-    function csvStringified (err, output) {
+    function csvStringified (err: any, output: any) {
       res.send(output);
     });
 }
@@ -96,7 +102,7 @@ function renderCsv (res, data) {
  * @param {Object} res
  * @param {any} data
  */
-function renderXml (res, data) {
+function renderXml (res: any, data: any) {
   const serializer = new EasyXml({
     rootElement: 'item',
     dateFormat: 'ISO',
@@ -106,6 +112,7 @@ function renderXml (res, data) {
 }
 
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = {
   extension2accept,
   render

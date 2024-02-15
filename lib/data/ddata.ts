@@ -1,11 +1,15 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
 var times = require('../times');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'consts'.
 var consts = require('../constants');
 
 var DEVICE_TYPE_FIELDS = ['uploader', 'pump', 'openaps', 'loop', 'xdripjs'];
 
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init () {
 
   var ddata = {
@@ -26,7 +30,8 @@ function init () {
    * significantly faster processing than constant date parsing, plus simplified
    * logic
    */
-  ddata.processRawDataForRuntime = (data) => {
+  // @ts-expect-error TS(2339): Property 'processRawDataForRuntime' does not exist... Remove this comment to see the full error message
+  ddata.processRawDataForRuntime = (data: any) => {
 
     let obj = _.cloneDeep(data);
 
@@ -54,7 +59,8 @@ function init () {
    * @param {array} oldData 
    * @param {array} newData 
    */
-  ddata.idMergePreferNew = (oldData, newData) => {
+  // @ts-expect-error TS(2339): Property 'idMergePreferNew' does not exist on type... Remove this comment to see the full error message
+  ddata.idMergePreferNew = (oldData: any, newData: any) => {
 
     if (!newData && oldData) return oldData;
     if (!oldData && newData) return newData;
@@ -76,8 +82,9 @@ function init () {
     return merged;
   };
 
+  // @ts-expect-error TS(2339): Property 'clone' does not exist on type '{ sgvs: n... Remove this comment to see the full error message
   ddata.clone = function clone () {
-    return _.clone(ddata, function(value) {
+    return _.clone(ddata, function(value: any) {
       //special handling of mongo ObjectID's
       //see https://github.com/lodash/lodash/issues/602#issuecomment-47414964
 
@@ -89,10 +96,14 @@ function init () {
     });
   };
 
+  // @ts-expect-error TS(2339): Property 'dataWithRecentStatuses' does not exist o... Remove this comment to see the full error message
   ddata.dataWithRecentStatuses = function dataWithRecentStatuses () {
     var results = {};
+    // @ts-expect-error TS(2339): Property 'devicestatus' does not exist on type '{}... Remove this comment to see the full error message
     results.devicestatus = ddata.recentDeviceStatus(Date.now());
+    // @ts-expect-error TS(2339): Property 'sgvs' does not exist on type '{}'.
     results.sgvs = ddata.sgvs;
+    // @ts-expect-error TS(2339): Property 'cals' does not exist on type '{}'.
     results.cals = ddata.cals;
 
     var profiles = _.cloneDeep(ddata.profiles);
@@ -103,26 +114,32 @@ function init () {
         }
       })
     }
+    // @ts-expect-error TS(2339): Property 'profiles' does not exist on type '{}'.
     results.profiles = profiles;
+    // @ts-expect-error TS(2339): Property 'mbgs' does not exist on type '{}'.
     results.mbgs = ddata.mbgs;
+    // @ts-expect-error TS(2339): Property 'food' does not exist on type '{}'.
     results.food = ddata.food;
+    // @ts-expect-error TS(2339): Property 'treatments' does not exist on type '{}'.
     results.treatments = ddata.treatments;
+    // @ts-expect-error TS(2339): Property 'dbstats' does not exist on type '{}'.
     results.dbstats = ddata.dbstats;
 
     return results;
   }
 
-  ddata.recentDeviceStatus = function recentDeviceStatus (time) {
+  // @ts-expect-error TS(2339): Property 'recentDeviceStatus' does not exist on ty... Remove this comment to see the full error message
+  ddata.recentDeviceStatus = function recentDeviceStatus (time: any) {
 
     var deviceAndTypes =
       _.chain(ddata.devicestatus)
-      .map(function eachStatus (status) {
+      .map(function eachStatus (status: any) {
         return _.chain(status)
           .keys()
-          .filter(function isExcluded (key) {
+          .filter(function isExcluded (key: any) {
             return _.includes(DEVICE_TYPE_FIELDS, key);
           })
-          .map(function toDeviceTypeKey (key) {
+          .map(function toDeviceTypeKey (key: any) {
             return {
               device: status.device
               , type: key
@@ -137,12 +154,12 @@ function init () {
     //console.info('>>>deviceAndTypes', deviceAndTypes);
 
     var rv = _.chain(deviceAndTypes)
-      .map(function findMostRecent (deviceAndType) {
+      .map(function findMostRecent (deviceAndType: any) {
         return _.chain(ddata.devicestatus)
-          .filter(function isSameDeviceType (status) {
+          .filter(function isSameDeviceType (status: any) {
             return status.device === deviceAndType.device && _.has(status, deviceAndType.type)
           })
-          .filter(function notInTheFuture (status) {
+          .filter(function notInTheFuture (status: any) {
             return status.mills <= time;
           })
           .sortBy('mills')
@@ -162,17 +179,18 @@ function init () {
 
   };
 
-  ddata.processDurations = function processDurations (treatments, keepzeroduration) {
+  // @ts-expect-error TS(2339): Property 'processDurations' does not exist on type... Remove this comment to see the full error message
+  ddata.processDurations = function processDurations (treatments: any, keepzeroduration: any) {
 
     treatments = _.uniqBy(treatments, 'mills');
 
     // cut temp basals by end events
     // better to do it only on data update
-    var endevents = treatments.filter(function filterEnd (t) {
+    var endevents = treatments.filter(function filterEnd (t: any) {
       return !t.duration;
     });
 
-    function cutIfInInterval (base, end) {
+    function cutIfInInterval (base: any, end: any) {
       if (base.mills < end.mills && base.mills + times.mins(base.duration).msecs > end.mills) {
         base.duration = times.msecs(end.mills - base.mills).mins;
         if (end.profile) {
@@ -183,18 +201,18 @@ function init () {
     }
 
     // cut by end events
-    treatments.forEach(function allTreatments (t) {
+    treatments.forEach(function allTreatments (t: any) {
       if (t.duration) {
-        endevents.forEach(function allEndevents (e) {
+        endevents.forEach(function allEndevents (e: any) {
           cutIfInInterval(t, e);
         });
       }
     });
 
     // cut by overlaping events
-    treatments.forEach(function allTreatments (t) {
+    treatments.forEach(function allTreatments (t: any) {
       if (t.duration) {
-        treatments.forEach(function allEndevents (e) {
+        treatments.forEach(function allEndevents (e: any) {
           cutIfInInterval(t, e);
         });
       }
@@ -203,73 +221,101 @@ function init () {
     if (keepzeroduration) {
       return treatments;
     } else {
-      return treatments.filter(function filterEnd (t) {
+      return treatments.filter(function filterEnd (t: any) {
         return t.duration;
       });
     }
   };
 
-  ddata.processTreatments = function processTreatments (preserveOrignalTreatments) {
+  // @ts-expect-error TS(2339): Property 'processTreatments' does not exist on typ... Remove this comment to see the full error message
+  ddata.processTreatments = function processTreatments (preserveOrignalTreatments: any) {
 
     // filter & prepare 'Site Change' events
+    // @ts-expect-error TS(2339): Property 'sitechangeTreatments' does not exist on ... Remove this comment to see the full error message
     ddata.sitechangeTreatments = ddata.treatments.filter(function filterSensor (t) {
+      // @ts-expect-error TS(2339): Property 'eventType' does not exist on type 'never... Remove this comment to see the full error message
       return t.eventType.indexOf('Site Change') > -1;
+    // @ts-expect-error TS(2345): Argument of type '(a: never, b: never) => boolean'... Remove this comment to see the full error message
     }).sort(function(a, b) {
+      // @ts-expect-error TS(2339): Property 'mills' does not exist on type 'never'.
       return a.mills > b.mills;
     });
 
     // filter & prepare 'Insulin Change' events
+    // @ts-expect-error TS(2339): Property 'insulinchangeTreatments' does not exist ... Remove this comment to see the full error message
     ddata.insulinchangeTreatments = ddata.treatments.filter(function filterInsulin (t) {
+      // @ts-expect-error TS(2339): Property 'eventType' does not exist on type 'never... Remove this comment to see the full error message
       return t.eventType.indexOf('Insulin Change') > -1;
+    // @ts-expect-error TS(2345): Argument of type '(a: never, b: never) => boolean'... Remove this comment to see the full error message
     }).sort(function(a, b) {
+      // @ts-expect-error TS(2339): Property 'mills' does not exist on type 'never'.
       return a.mills > b.mills;
     });
 
     // filter & prepare 'Pump Battery Change' events
+    // @ts-expect-error TS(2339): Property 'batteryTreatments' does not exist on typ... Remove this comment to see the full error message
     ddata.batteryTreatments = ddata.treatments.filter(function filterSensor (t) {
+      // @ts-expect-error TS(2339): Property 'eventType' does not exist on type 'never... Remove this comment to see the full error message
       return t.eventType.indexOf('Pump Battery Change') > -1;
+    // @ts-expect-error TS(2345): Argument of type '(a: never, b: never) => boolean'... Remove this comment to see the full error message
     }).sort(function(a, b) {
+      // @ts-expect-error TS(2339): Property 'mills' does not exist on type 'never'.
       return a.mills > b.mills;
     });
 
     // filter & prepare 'Sensor' events
+    // @ts-expect-error TS(2339): Property 'sensorTreatments' does not exist on type... Remove this comment to see the full error message
     ddata.sensorTreatments = ddata.treatments.filter(function filterSensor (t) {
+      // @ts-expect-error TS(2339): Property 'eventType' does not exist on type 'never... Remove this comment to see the full error message
       return t.eventType.indexOf('Sensor') > -1;
+    // @ts-expect-error TS(2345): Argument of type '(a: never, b: never) => boolean'... Remove this comment to see the full error message
     }).sort(function(a, b) {
+      // @ts-expect-error TS(2339): Property 'mills' does not exist on type 'never'.
       return a.mills > b.mills;
     });
 
     // filter & prepare 'Profile Switch' events
     var profileTreatments = ddata.treatments.filter(function filterProfiles (t) {
+      // @ts-expect-error TS(2339): Property 'eventType' does not exist on type 'never... Remove this comment to see the full error message
       return t.eventType === 'Profile Switch';
+    // @ts-expect-error TS(2345): Argument of type '(a: never, b: never) => boolean'... Remove this comment to see the full error message
     }).sort(function(a, b) {
+      // @ts-expect-error TS(2339): Property 'mills' does not exist on type 'never'.
       return a.mills > b.mills;
     });
     if (preserveOrignalTreatments)
       profileTreatments = _.cloneDeep(profileTreatments);
+    // @ts-expect-error TS(2339): Property 'profileTreatments' does not exist on typ... Remove this comment to see the full error message
     ddata.profileTreatments = ddata.processDurations(profileTreatments, true);
 
     // filter & prepare 'Combo Bolus' events
+    // @ts-expect-error TS(2339): Property 'combobolusTreatments' does not exist on ... Remove this comment to see the full error message
     ddata.combobolusTreatments = ddata.treatments.filter(function filterComboBoluses (t) {
+      // @ts-expect-error TS(2339): Property 'eventType' does not exist on type 'never... Remove this comment to see the full error message
       return t.eventType === 'Combo Bolus';
+    // @ts-expect-error TS(2345): Argument of type '(a: never, b: never) => boolean'... Remove this comment to see the full error message
     }).sort(function(a, b) {
+      // @ts-expect-error TS(2339): Property 'mills' does not exist on type 'never'.
       return a.mills > b.mills;
     });
 
     // filter & prepare temp basals
     var tempbasalTreatments = ddata.treatments.filter(function filterBasals (t) {
+      // @ts-expect-error TS(2339): Property 'eventType' does not exist on type 'never... Remove this comment to see the full error message
       return t.eventType && t.eventType.indexOf('Temp Basal') > -1;
     });
     if (preserveOrignalTreatments)
       tempbasalTreatments = _.cloneDeep(tempbasalTreatments);
+    // @ts-expect-error TS(2339): Property 'tempbasalTreatments' does not exist on t... Remove this comment to see the full error message
     ddata.tempbasalTreatments = ddata.processDurations(tempbasalTreatments, false);
 
     // filter temp target
     var tempTargetTreatments = ddata.treatments.filter(function filterTargets (t) {
+      // @ts-expect-error TS(2339): Property 'eventType' does not exist on type 'never... Remove this comment to see the full error message
       return t.eventType && t.eventType.indexOf('Temporary Target') > -1;
     });
 
-    function convertTempTargetTreatmentUnites (_treatments) {
+    function convertTempTargetTreatmentUnites (_treatments: any) {
 
       let treatments = _.cloneDeep(_treatments);
 
@@ -301,6 +347,7 @@ function init () {
 
     if (preserveOrignalTreatments) tempTargetTreatments = _.cloneDeep(tempTargetTreatments);
     tempTargetTreatments = convertTempTargetTreatmentUnites(tempTargetTreatments);
+    // @ts-expect-error TS(2339): Property 'tempTargetTreatments' does not exist on ... Remove this comment to see the full error message
     ddata.tempTargetTreatments = ddata.processDurations(tempTargetTreatments, false);
 
   };
@@ -309,4 +356,5 @@ function init () {
 
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

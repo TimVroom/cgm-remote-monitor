@@ -1,12 +1,15 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 const _ = require('lodash');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
 const times = require('../times');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'crypto'.
 const crypto = require('crypto');
 
 const MANUAL_TREATMENTS = ['BG Check', 'Meal Bolus', 'Carb Correction', 'Correction Bolus'];
 
-function init(ctx) {
+function init(ctx: any) {
 
   const treatmentnotify = {
     name: 'treatmentnotify'
@@ -14,15 +17,16 @@ function init(ctx) {
     , pluginType: 'notification'
   };
 
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   const simplealarms = require('./simplealarms')(ctx);
 
   //automated treatments from OpenAPS or Loop shouldn't trigger notifications or snooze alarms
-  function filterTreatments (sbx) {
+  function filterTreatments (sbx: any) {
     var treatments = sbx.data.treatments;
 
     var includeBolusesOver = sbx.extendedSettings.includeBolusesOver || 0;
 
-    treatments = _.filter(treatments, function notOpenAPS (treatment) {
+    treatments = _.filter(treatments, function notOpenAPS (treatment: any) {
       var ok = true;
       var enteredBy = treatment.enteredBy;
       if (enteredBy && (enteredBy.indexOf('openaps://') === 0 || enteredBy.indexOf('loop://') === 0)) {
@@ -37,7 +41,8 @@ function init(ctx) {
     return treatments;
   }
 
-  treatmentnotify.checkNotifications = function checkNotifications (sbx) {
+  // @ts-expect-error TS(2339): Property 'checkNotifications' does not exist on ty... Remove this comment to see the full error message
+  treatmentnotify.checkNotifications = function checkNotifications (sbx: any) {
 
     var treatments = filterTreatments(sbx);
     var lastMBG = sbx.lastEntry(sbx.data.mbgs);
@@ -63,7 +68,7 @@ function init(ctx) {
     }
   };
 
-  function autoSnoozeAlarms(mbgMessage, treatmentMessage, lastTreatment, sbx) {
+  function autoSnoozeAlarms(mbgMessage: any, treatmentMessage: any, lastTreatment: any, sbx: any) {
     //announcements don't snooze alarms
     if (lastTreatment && !lastTreatment.isAnnouncement) {
       var snoozeLength = sbx.extendedSettings.snoozeMins && times.mins(sbx.extendedSettings.snoozeMins).msecs || times.mins(10).msecs;
@@ -76,7 +81,7 @@ function init(ctx) {
     }
   }
 
-  function requestMBGNotify (lastMBG, sbx) {
+  function requestMBGNotify (lastMBG: any, sbx: any) {
     console.info('requestMBGNotify for', lastMBG);
 	var translate = sbx.language.translate;
 
@@ -89,6 +94,7 @@ function init(ctx) {
     });
   }
 
+  // @ts-expect-error TS(7006): Parameter 'lastTreatment' implicitly has an 'any' ... Remove this comment to see the full error message
   function requestAnnouncementNotify (lastTreatment, sbx) {
     var result = simplealarms.compareBGToTresholds(sbx.scaleMgdl(lastTreatment.mgdl), sbx);
 
@@ -103,6 +109,7 @@ function init(ctx) {
     });
   }
 
+  // @ts-expect-error TS(7006): Parameter 'lastTreatment' implicitly has an 'any' ... Remove this comment to see the full error message
   function requestTreatmentNotify (lastTreatment, sbx) {
     var translate = sbx.language.translate;
 
@@ -128,6 +135,7 @@ function init(ctx) {
       if (!eventType && lastTreatment.insulin) eventType = "Correcton Bolus";
       if (!eventType) eventType = "Note";      
 
+      // @ts-expect-error TS(2339): Property 'createHash' does not exist on type 'Cryp... Remove this comment to see the full error message
       const hash = crypto.createHash('sha1');
       const info = JSON.stringify({ eventType, timestamp});
       hash.update(info);
@@ -144,6 +152,7 @@ function init(ctx) {
     }
   }
 
+  // @ts-expect-error TS(7006): Parameter 'lastTreatment' implicitly has an 'any' ... Remove this comment to see the full error message
   function buildTreatmentMessage(lastTreatment, sbx) {
     var translate = sbx.language.translate;
 
@@ -165,6 +174,7 @@ function init(ctx) {
   return treatmentnotify;
 }
 
+// @ts-expect-error TS(7006): Parameter 'last' implicitly has an 'any' type.
 function isCurrent(last) {
   if (!last) {
     return false;
@@ -176,4 +186,5 @@ function isCurrent(last) {
   return ago !== -1 && ago < times.mins(10).msecs;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

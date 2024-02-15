@@ -2,8 +2,9 @@
 
 var SMALL_SCREEN = 500;
 
-function init ($) {
-  var lastOpenedDrawer = null;
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
+function init ($: any) {
+  var lastOpenedDrawer: any = null;
 
   // Tooltips can remain in the way on touch screens.
   if (!isTouch()) {
@@ -18,17 +19,19 @@ function init ($) {
     , opacity: 0.75
   };
 
-  $('#drawerToggle').click(function(event) {
+  $('#drawerToggle').click(function(event: any) {
+    // @ts-expect-error TS(2554): Expected 3 arguments, but got 1.
     toggleDrawer('#drawer');
     event.preventDefault();
   });
 
-  $('#notification').click(function(event) {
+  $('#notification').click(function(event: any) {
     closeNotification();
     event.preventDefault();
   });
 
   $('.navigation a').click(function navigationClick () {
+    // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
     closeDrawer('#drawer');
   });
 
@@ -43,6 +46,7 @@ function init ($) {
     var params = {};
     if ((typeof location !== 'undefined') && location.search) {
       location.search.substr(1).split('&').forEach(function(item) {
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         // eslint-disable-next-line no-useless-escape
         params[item.split('=')[0]] = item.split('=')[1].replace(/[_\+]/g, ' ');
       });
@@ -54,7 +58,7 @@ function init ($) {
     try { document.createEvent('TouchEvent'); return true; } catch (e) { return false; }
   }
 
-  function closeLastOpenedDrawer (callback) {
+  function closeLastOpenedDrawer (callback: any) {
     if (lastOpenedDrawer) {
       closeDrawer(lastOpenedDrawer, callback);
     } else if (callback) {
@@ -62,15 +66,15 @@ function init ($) {
     }
   }
 
-  function closeDrawer (id, callback) {
+  function closeDrawer (id: any, callback: any) {
     lastOpenedDrawer = null;
     $('html, body').css({ scrollTop: 0 });
     $(id).css({ display: 'none', right: '-300px' });
     if (callback) { callback(); }
   }
 
-  function openDrawer (id, prepare) {
-    function closeOpenDraw (callback) {
+  function openDrawer (id: any, prepare: any) {
+    function closeOpenDraw (callback: any) {
       if (lastOpenedDrawer) {
         closeDrawer(lastOpenedDrawer, callback);
       } else {
@@ -89,8 +93,11 @@ function init ($) {
       //var chartTop = $('#chartContainer').offset().top - 45;
       //var chartHeight = windowHeight - chartTop - 45;
       if (windowWidth < SMALL_SCREEN || (windowHeight < SMALL_SCREEN) && windowWidth < 800) {
+        // @ts-expect-error TS(2339): Property 'top' does not exist on type '{ display: ... Remove this comment to see the full error message
         style.top = '0px';
+        // @ts-expect-error TS(2339): Property 'height' does not exist on type '{ displa... Remove this comment to see the full error message
         style.height = windowHeight + 'px';
+        // @ts-expect-error TS(2339): Property 'width' does not exist on type '{ display... Remove this comment to see the full error message
         style.width = windowWidth + 'px';
         //TODO: maybe detect iOS and do this, doesn't work good with android
         //if (chartHeight > windowHeight * 0.4) {
@@ -98,8 +105,11 @@ function init ($) {
         //  style.height = chartHeight + 'px';
         //}
       } else {
+        // @ts-expect-error TS(2339): Property 'top' does not exist on type '{ display: ... Remove this comment to see the full error message
         style.top = '0px';
+        // @ts-expect-error TS(2339): Property 'height' does not exist on type '{ displa... Remove this comment to see the full error message
         style.height = (windowHeight - 45) + 'px';
+        // @ts-expect-error TS(2339): Property 'width' does not exist on type '{ display... Remove this comment to see the full error message
         style.width = '350px';
       }
 
@@ -108,7 +118,7 @@ function init ($) {
 
   }
 
-  function toggleDrawer (id, openPrepare, closeCallback) {
+  function toggleDrawer (id: any, openPrepare: any, closeCallback: any) {
     if (lastOpenedDrawer === id) {
       closeDrawer(id, closeCallback);
     } else {
@@ -122,7 +132,7 @@ function init ($) {
     notify.find('span').html('');
   }
 
-  function showNotification (note, type) {
+  function showNotification (note: any, type: any) {
     var notify = $('#notification');
     notify.hide();
 
@@ -154,4 +164,5 @@ function init ($) {
   };
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

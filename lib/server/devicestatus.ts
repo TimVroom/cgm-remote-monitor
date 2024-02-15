@@ -1,15 +1,17 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'moment'.
 var moment = require('moment');
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var find_options = require('./query');
 
-function storage (collection, ctx) {
+function storage (collection: any, ctx: any) {
 
-  function create (statuses, fn) {
+  function create (statuses: any, fn: any) {
 
     if (!Array.isArray(statuses)) { statuses = [statuses]; }
 
-    const r = [];
+    const r: any = [];
     let errorOccurred = false;
 
     for (let i = 0; i < statuses.length; i++) {
@@ -23,7 +25,7 @@ function storage (collection, ctx) {
       obj.created_at = d.toISOString();
       obj.utcOffset = d.utcOffset();
 
-      api().insertOne(obj, function(err, results) {
+      api().insertOne(obj, function(err: any, results: any) {
         if (err !== null && err.message) {
           console.log('Error inserting the device status object', err.message);
           errorOccurred = true;
@@ -49,11 +51,11 @@ function storage (collection, ctx) {
           }
         }
       });
-    };
+    }
   }
 
-  function last (fn) {
-    return list({ count: 1 }, function(err, entries) {
+  function last (fn: any) {
+    return list({ count: 1 }, function(err: any, entries: any) {
       if (entries && entries.length > 0) {
         fn(err, entries[0]);
       } else {
@@ -62,11 +64,11 @@ function storage (collection, ctx) {
     });
   }
 
-  function query_for (opts) {
+  function query_for (opts: any) {
     return find_options(opts, storage.queryOpts);
   }
 
-  function list (opts, fn) {
+  function list (opts: any, fn: any) {
     // these functions, find, sort, and limit, are used to
     // dynamically configure the request, based on the options we've
     // been given
@@ -77,7 +79,7 @@ function storage (collection, ctx) {
     }
 
     // configure the limit portion of the current query
-    function limit () {
+    function limit(this: any) {
       if (opts && opts.count) {
         return this.limit(parseInt(opts.count));
       }
@@ -85,7 +87,7 @@ function storage (collection, ctx) {
     }
 
     // handle all the results
-    function toArray (err, entries) {
+    function toArray (err: any, entries: any) {
       fn(err, entries);
     }
 
@@ -96,9 +98,9 @@ function storage (collection, ctx) {
     ).toArray(toArray);
   }
 
-  function remove (opts, fn) {
+  function remove (opts: any, fn: any) {
 
-    function removed (err, stat) {
+    function removed (err: any, stat: any) {
 
       ctx.bus.emit('data-update', {
         type: 'devicestatus'
@@ -123,6 +125,7 @@ function storage (collection, ctx) {
   api.query_for = query_for;
   api.last = last;
   api.remove = remove;
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   api.aggregate = require('./aggregate')({}, api);
   api.indexedFields = [
     'created_at'
@@ -139,4 +142,5 @@ storage.queryOpts = {
   dateField: 'created_at'
 };
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = storage;

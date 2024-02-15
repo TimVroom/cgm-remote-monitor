@@ -1,12 +1,15 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 const _ = require('lodash')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'dateTools'... Remove this comment to see the full error message
   , dateTools = require('../shared/dateTools')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'Collection... Remove this comment to see the full error message
   , Collection = require('./collection')
   ;
 
 
-function fallbackDate (doc) {
+function fallbackDate (doc: any) {
   const m = dateTools.parseToMoment(doc.date);
   return m == null || !m.isValid()
     ? null
@@ -14,7 +17,7 @@ function fallbackDate (doc) {
 }
 
 
-function fallbackCreatedAt (doc) {
+function fallbackCreatedAt (doc: any) {
   const m = dateTools.parseToMoment(doc.created_at);
   return m == null || !m.isValid()
     ? null
@@ -22,11 +25,12 @@ function fallbackCreatedAt (doc) {
 }
 
 
-function setupGenericCollections (ctx, env, app) {
+function setupGenericCollections (ctx: any, env: any, app: any) {
   const cols = { }
     , enabledCols = app.get('enabledCollections');
 
   if (_.includes(enabledCols, 'devicestatus')) {
+    // @ts-expect-error TS(2339): Property 'devicestatus' does not exist on type '{}... Remove this comment to see the full error message
     cols.devicestatus = new Collection({
       ctx, env, app,
       colName: 'devicestatus',
@@ -37,6 +41,7 @@ function setupGenericCollections (ctx, env, app) {
     });
   }
 
+  // @ts-expect-error TS(7009): 'new' expression, whose target lacks a construct s... Remove this comment to see the full error message
   const entriesCollection = new Collection({
     ctx, env, app,
     colName: 'entries',
@@ -48,10 +53,12 @@ function setupGenericCollections (ctx, env, app) {
   app.set('entriesCollection', entriesCollection);
 
   if (_.includes(enabledCols, 'entries')) {
+    // @ts-expect-error TS(2339): Property 'entries' does not exist on type '{}'.
     cols.entries = entriesCollection;
   }
 
   if (_.includes(enabledCols, 'food')) {
+    // @ts-expect-error TS(2339): Property 'food' does not exist on type '{}'.
     cols.food = new Collection({
       ctx, env, app,
       colName: 'food',
@@ -63,6 +70,7 @@ function setupGenericCollections (ctx, env, app) {
   }
 
   if (_.includes(enabledCols, 'profile')) {
+    // @ts-expect-error TS(2339): Property 'profile' does not exist on type '{}'.
     cols.profile = new Collection({
       ctx, env, app,
       colName: 'profile',
@@ -74,6 +82,7 @@ function setupGenericCollections (ctx, env, app) {
   }
 
   if (_.includes(enabledCols, 'settings')) {
+    // @ts-expect-error TS(2339): Property 'settings' does not exist on type '{}'.
     cols.settings = new Collection({
       ctx, env, app,
       colName: 'settings',
@@ -82,6 +91,7 @@ function setupGenericCollections (ctx, env, app) {
   }
 
   if (_.includes(enabledCols, 'treatments')) {
+    // @ts-expect-error TS(2339): Property 'treatments' does not exist on type '{}'.
     cols.treatments = new Collection({
       ctx, env, app,
       colName: 'treatments',
@@ -92,7 +102,7 @@ function setupGenericCollections (ctx, env, app) {
     });
   }
 
-  _.forOwn(cols, function forMember (col) {
+  _.forOwn(cols, function forMember (col: any) {
     col.mapRoutes();
   });
 
@@ -100,4 +110,5 @@ function setupGenericCollections (ctx, env, app) {
 }
 
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = setupGenericCollections;

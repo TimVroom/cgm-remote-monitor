@@ -1,16 +1,20 @@
 'use strict';
 
-function configure (app, ctx, env) {
+function configure (app: any, ctx: any, env: any) {
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   const express = require('express')
     , api = express.Router( )
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , apiConst = require('../const.json')
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , security = require('../security')
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , opTools = require('../shared/operationTools')
   ;
 
-  api.get('/lastModified', async function getLastModified (req, res) {
+  api.get('/lastModified', async function getLastModified (req: any, res: any) {
 
-    async function getLastModified (col) {
+    async function getLastModified (col: any) {
 
       let result;
       const lastModified = await col.storage.getLastModified('srvModified');
@@ -39,7 +43,7 @@ function configure (app, ctx, env) {
     }
 
 
-    async function collectionsAsync (auth) {
+    async function collectionsAsync (auth: any) {
 
       const cols = app.get('collections')
         , promises = []
@@ -58,6 +62,7 @@ function configure (app, ctx, env) {
 
       for (const result of results) {
         if (result.lastModified)
+          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           output[result.colName] = result.lastModified;
       }
 
@@ -65,7 +70,7 @@ function configure (app, ctx, env) {
     }
 
 
-    async function operation (opCtx) {
+    async function operation (opCtx: any) {
 
       const { res, auth } = opCtx;
       const srvDate = new Date();
@@ -84,6 +89,7 @@ function configure (app, ctx, env) {
     const opCtx = { app, ctx, env, req, res };
 
     try {
+      // @ts-expect-error TS(2339): Property 'auth' does not exist on type '{ app: any... Remove this comment to see the full error message
       opCtx.auth = await security.authenticate(opCtx);
 
       await operation(opCtx);
@@ -98,4 +104,5 @@ function configure (app, ctx, env) {
 
   return api;
 }
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = configure;

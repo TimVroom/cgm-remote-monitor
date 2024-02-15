@@ -1,12 +1,15 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 const _ = require('lodash');
 
-function init (ctx) {
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
+function init (ctx: any) {
 
   const adminnotifies = {};
 
-  adminnotifies.addNotify = function addnotify (notify) {
+  // @ts-expect-error TS(2339): Property 'addNotify' does not exist on type '{}'.
+  adminnotifies.addNotify = function addnotify (notify: any) {
     if (!ctx.settings.adminNotifiesEnabled) {
       console.log('Admin notifies disabled, skipping notify', notify);
       return;
@@ -17,7 +20,8 @@ function init (ctx) {
     notify.title = notify.title || 'No title';
     notify.message = notify.message || 'No message';
 
-    const existingMessage = _.find(adminnotifies.notifies, function findExisting (obj) {
+    // @ts-expect-error TS(2339): Property 'notifies' does not exist on type '{}'.
+    const existingMessage = _.find(adminnotifies.notifies, function findExisting (obj: any) {
       return obj.message == notify.message;
     });
 
@@ -27,31 +31,42 @@ function init (ctx) {
     } else {
       notify.count = 1;
       notify.lastRecorded = Date.now();
+      // @ts-expect-error TS(2339): Property 'notifies' does not exist on type '{}'.
       adminnotifies.notifies.push(notify);
     }
   }
 
+  // @ts-expect-error TS(2339): Property 'getNotifies' does not exist on type '{}'... Remove this comment to see the full error message
   adminnotifies.getNotifies = function getNotifies () {
+    // @ts-expect-error TS(2339): Property 'notifies' does not exist on type '{}'.
     return adminnotifies.notifies;
   }
 
+  // @ts-expect-error TS(2339): Property 'addNotify' does not exist on type '{}'.
   ctx.bus.on('admin-notify', adminnotifies.addNotify);
 
+  // @ts-expect-error TS(2339): Property 'clean' does not exist on type '{}'.
   adminnotifies.clean = function cleanNotifies () {
-    adminnotifies.notifies = _.filter(adminnotifies.notifies, function findExisting (obj) {
+    // @ts-expect-error TS(2339): Property 'notifies' does not exist on type '{}'.
+    adminnotifies.notifies = _.filter(adminnotifies.notifies, function findExisting (obj: any) {
       return obj.persistent || ((Date.now() - obj.lastRecorded) < 1000 * 60 * 60 * 12);
     });
   }
 
+  // @ts-expect-error TS(2339): Property 'cleanAll' does not exist on type '{}'.
   adminnotifies.cleanAll = function cleanAll() {
+    // @ts-expect-error TS(2339): Property 'notifies' does not exist on type '{}'.
     adminnotifies.notifies = [];
   }
 
+  // @ts-expect-error TS(2339): Property 'cleanAll' does not exist on type '{}'.
   adminnotifies.cleanAll();
 
+  // @ts-expect-error TS(2339): Property 'clean' does not exist on type '{}'.
   ctx.bus.on('tick', adminnotifies.clean);
 
   return adminnotifies;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

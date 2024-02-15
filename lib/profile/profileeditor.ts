@@ -3,11 +3,13 @@
 var init = function init () {
   //for the tests window isn't the global object
   var $ = window.$;
+  // @ts-expect-error TS(2339): Property '_' does not exist on type 'Window & type... Remove this comment to see the full error message
   var _ = window._;
+  // @ts-expect-error TS(2339): Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
   var Nightscout = window.Nightscout;
   var client = Nightscout.client;
 
-  var c_profile = null;
+  var c_profile: any = null;
 
   //some commonly used selectors
   var peStatus = $('.pe_status');
@@ -79,16 +81,16 @@ var init = function init () {
   //var icon_clone = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACSklEQVQ4T5VTYU9SYRR+zn0vXhDEFyRBXcpmbZnZsOXsI2xpVnNcv/ilufET8h/oL8h/gN/aWhs2yjKt26rPSvUh5yQodQlqgKQCd5fbLg2jxlycT+/OOc85z/OcvYSa8MoRLqimUEuzOSgwBl0nFFUtW1K1J/Ho6Hxtr/H2yQqnarJ3fFHucNnC57tdXIUJhydl6CAwIhwfFXCwf5hUC6XpjYXAQgUcUngRzkxlgHc0Kl+57I443S7s5VQwxqCVCYVSGfkTFSQQmsQmHGVzKJ78nJMs2izBohRg8ZFB293iSPQPdPOiqiOdyiGdysdKmp4t64LXxlu9otUKTVdhkSSUjgooHOez7R1uvr2bA10cfx66cb0n3GS14tPHrWz6R34i+fT2m6q0rruv7tvs9gdOtxNk0mA2SRB0gqVZwGb8AOSbXIkMDV+Qt7cy2IinJ+LRWxWNf5ur+Kx2vub0OABRg2QSIYqEr/EMaHjqrdJ/tce/upqIxR76B/8FVzySFc7MzWvtnW6vyjSAAFFgyBkSrt17n7jU1+ldjcVn1x+PzNTZzkWLTXF5zvmYmaEslCEIxnUE7H07AA1NvVPaO9r8X5Kpic+Pfp+oNvpCH/R6rKo5GphUIq1Oh7y++T2wv/LHvLNAtTXqHX8Zkqyt4XQ6M73/emzuf4GnDLg/wu0tbYliqTifWhqZbniAAfCMLs/oRMHU0s26VzjTA6PI/QqXJC1BxAZ3XwSSjbA4/UyesWU/Y2Jw51mgIRmnA4ytXXcU385iINYIg1+OJdcoyf/hkgAAAABJRU5ErkJggg==';
   //var icon_apply = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACh0lEQVQ4T5XSXUhTYRgH8P85O+fMOZ3H2WButc7MD3AQWyaYIRZEqANpt9HHCiwvIhWim8gPiqArJailVmdhJGEI3USk4rAQc1MnTdMitZhtfm86ncvcYhMls2i9l+/Hj//zvA+B/1kmcKSArGIohmNIZoIMkRVE1O95sOQaOXCCK+KUYgWcy99gne2zRA1Q9VR1/u7DVcVcIdyrLshFCtQPNyIqgG6gtWImduB69lVM+r9EQqvEajQM8dEBokcxnSWas0fSElMw5B1EdlIuLM43GJxz1P0zgfhhjDFDmsFf1pVixOeASqTGgt+Llk+tEwCt2wDuQgsSWghgxwXYNxvL8iwbIoLjN3KvsQQVRCAUgIyWg3c0wRdYPmoz2C0E7qE2NUFdnpa4D73TfZgLLNThIirCCGuW8MWpRcYC9TF8DYwhPU6DtvEO2Kb666zF9sidMBC6lVsJES1EiCDwZPQZHHMfzBJB7ONdcbLOm3mVcP9wQi5UwO2bQdP7pxOi9aDOYrB7NgATQnfyb2Mq4AJN0eDiU9A82oL+6UFcyS7DXqkSfixDKpDB1P8Ai98Xdd1661aZBO6jNif5YPm5zFOYXZsCQzHYE8dhZP4jspK1mAm6oYpR49Xn1+iZtNW81fdU/zp8kSaSDSSfpzxkPK85jfn1WawSK9BI9mMJXkiFSXAvzYAfMNu79O90v0/u1jdKzPER5IzmJLyhefiJFchFyWApKUzWRnj8Hp1F370VfRPaNgfKZgWfIlEZL2WVQsAASUIZ2sY60Ou01bQXdm2L/kcgvJn5PJ3nElTG0qwSuHwutAy32tsLunZE/ysQPsh5caCaoYRlQgHjoUnC8PK4ZUf0TeAnGJ/iJEGClrwAAAAASUVORK5CYII=';
 
-  var mongorecords = [];
+  var mongorecords: any = [];
   var currentrecord = 0;
-  var currentprofile = null;
+  var currentprofile: any = null;
   var dirty = false;
 
   // Fetch data from mongo
   peStatus.hide().text(translate('Loading profile records ...')).fadeIn('slow');
   $.ajax('/api/v1/profile.json?count=20', {
     headers: client.headers()
-    , success: function (records) {
+    , success: function (records: any) {
       if (!records.length) {
         records.push(defaultprofile);
       }
@@ -96,11 +98,12 @@ var init = function init () {
       mongorecords = _.cloneDeep(client.profilefunctions.data);
       // create new profile to be edited from last record
       if (mongorecords.length) {
-        _.each(mongorecords, function eachMongoProfile (mongoprofile) {
-          _.each(mongoprofile.store, function eachStoredProfile (p) {
+        _.each(mongorecords, function eachMongoProfile (mongoprofile: any) {
+          _.each(mongoprofile.store, function eachStoredProfile (p: any) {
             // allign with default profile
             for (var key in defaultprofile) {
               if (Object.prototype.hasOwnProperty.call(defaultprofile,key) && !Object.prototype.hasOwnProperty.call(p,key)) {
+                  // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
                   p[key] = defaultprofile[key];
               }
             }
@@ -138,7 +141,7 @@ var init = function init () {
   }).done(initeditor);
 
   // convert simple values to ranges if needed
-  function convertToRanges(profile) {
+  function convertToRanges(profile: any) {
     if (typeof profile.carbratio !== 'object') { profile.carbratio = [{ 'time': '00:00', 'value': profile.carbratio }]; }
     if (typeof profile.sens !== 'object') { profile.sens = [{ 'time': '00:00', 'value': profile.sens }]; }
     if (typeof profile.target_low !== 'object') { profile.target_low = [{ 'time': '00:00', 'value': profile.target_low }]; }
@@ -157,7 +160,7 @@ var init = function init () {
 
     // Load timezones
     timezoneInput.empty();
-    client.ctx.timezones.forEach(function addTz(tz) {
+    client.ctx.timezones.forEach(function addTz(tz: any) {
       timezoneInput.append('<option value="' + tz + '">' + tz + '</option>');
     });
 
@@ -186,6 +189,7 @@ var init = function init () {
     // prepare basal profiles
     initRecord();
     // hide unused style of ratios
+    // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
     switchStyle();
 
     console.log('Done initeditor()');
@@ -204,7 +208,7 @@ var init = function init () {
     initProfile();
   }
 
-  function timeDiffMinutes(time1, time2)
+  function timeDiffMinutes(time1: any, time2: any)
   {
     var minutes1 = toMinutesFromMidnight(time1);
     var minutes2 = toMinutesFromMidnight(time2);
@@ -243,13 +247,15 @@ var init = function init () {
     c_profile = mongorecords[currentrecord].store[currentprofile];
     mongorecords[currentrecord].defaultProfile = currentprofile;
     // Set values from profile to html
+    // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
     fillTimeRanges();
     refreshTotalBasal();
   }
 
   // Handling of record list box change
-  function recordChange (event) {
+  function recordChange (event: any) {
     if (dirty && window.confirm(translate('Save current record before switching to new?'))) {
+      // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
       profileSubmit();
     }
     currentrecord = databaseRecords.val();
@@ -259,8 +265,9 @@ var init = function init () {
     maybePreventDefault(event);
   }
 
-  function recordAdd (event) {
+  function recordAdd (event: any) {
     if (dirty && window.confirm(translate('Save current record before switching to new?'))) {
+      // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
       profileSubmit();
     }
     mongorecords.push({
@@ -277,7 +284,7 @@ var init = function init () {
     maybePreventDefault(event);
   }
 
-  function recordRemove (event) {
+  function recordRemove (event: any) {
     if (mongorecords.length > 1 && window.confirm(translate('Delete record')+'?')) {
       if (mongorecords[currentrecord]._id) {
         $.ajax({
@@ -292,7 +299,7 @@ var init = function init () {
           currentprofile = mongorecords[currentrecord].defaultProfile;
           initRecord();
           dirty = false;
-        }).fail(function(xhr, status, errorThrown)  {
+        }).fail(function(xhr: any, status: any, errorThrown: any)  {
           console.error('Profile not removed', status, errorThrown);
           peStatus.hide().text(status).fadeIn('slow');
         });
@@ -308,8 +315,9 @@ var init = function init () {
     return false;
   }
 
-  function recordClone (event) {
+  function recordClone (event: any) {
     if (dirty && window.confirm(translate('Save current record before switching to new?'))) {
+      // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
       profileSubmit();
     }
     GUIToObject();
@@ -324,7 +332,7 @@ var init = function init () {
   }
 
   // Handling of profile list box change
-  function profileChange (event) {
+  function profileChange (event: any) {
     var record = mongorecords[currentrecord];
     var newpr = $('#pe_profiles').val();
     // copy values from html to c_profile
@@ -352,7 +360,7 @@ var init = function init () {
     return false;
   }
 
-  function profileAdd (event) {
+  function profileAdd (event: any) {
     var record = mongorecords[currentrecord];
     var newname = 'New profile';
     while (record.store[newname]) {
@@ -367,7 +375,7 @@ var init = function init () {
     return false;
   }
 
-  function profileRemove (event) {
+  function profileRemove (event: any) {
     var record = mongorecords[currentrecord];
     var availableProfile = getFirstAvailableProfile(record);
     if (availableProfile) {
@@ -381,7 +389,7 @@ var init = function init () {
     return false;
   }
 
-  function profileClone (event) {
+  function profileClone (event: any) {
     GUIToObject();
     var record = mongorecords[currentrecord];
     var newname = $('#pe_profile_name').val() + ' (copy)';
@@ -399,7 +407,7 @@ var init = function init () {
   }
 
   // Handling html events and setting/getting values
-  function switchStyle(event) {
+  function switchStyle(event: any) {
     if (!$('#pe_perGIvalues').is(':checked')) {
       $('#pe_simple').show('slow');
       $('#pe_advanced').hide('slow');
@@ -410,12 +418,12 @@ var init = function init () {
     maybePreventDefault(event);
   }
 
-  function fillTimeRanges(event) {
+  function fillTimeRanges(event: any) {
     if (event) {
       GUIToObject();
     }
 
-    function shouldAddTime(i, time, array) {
+    function shouldAddTime(i: any, time: any, array: any) {
       if (i === 0 && time === 0) {
         return true;
       } else if (i === 0) {
@@ -426,7 +434,7 @@ var init = function init () {
       }
     }
 
-    function addSingleLine(e,i) {
+    function addSingleLine(e: any,i: any) {
       var tr = $('<tr>');
       var select = $('<select>').attr('class','pe_selectabletime').attr('id',e.prefix+'_from_'+i);
       var lowest = -1;
@@ -457,7 +465,7 @@ var init = function init () {
     _.each([{prefix:'pe_basal', array:'basal', label: translate('Basal rate') + ' : '},
      {prefix:'pe_ic', array:'carbratio', label: translate('I:C') + ' : '},
      {prefix:'pe_isf', array:'sens', label: translate('ISF') + ' : '}
-    ], function (e) {
+    ], function (e: any) {
       var html = '<table>';
       for (var i=0; i<c_profile[e.array].length; i++) {
         html += addSingleLine(e,i);
@@ -467,28 +475,30 @@ var init = function init () {
       $('#'+e.prefix+'_placeholder').html(html);
     });
     $('.pe_basal_value').on('change keyup paste', refreshTotalBasal);
-    $('.addsingle').click(function addsingle_click() {
+    $('.addsingle').click(function addsingle_click(this: any) {
       var array = $(this).attr('array');
       var pos = $(this).attr('pos');
       GUIToObject();
       c_profile[array].splice(pos,0,{time:'00:00',value:0});
+      // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
       var retVal = fillTimeRanges();
       refreshTotalBasal();
       return retVal;
     });
 
-    $('.delsingle').click(function delsingle_click() {
+    $('.delsingle').click(function delsingle_click(this: any) {
       var array = $(this).attr('array');
       var pos = $(this).attr('pos');
       GUIToObject();
       c_profile[array].splice(pos,1);
       c_profile[array][0].time = '00:00';
+      // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
       var retVal = fillTimeRanges();
       refreshTotalBasal();
       return retVal;
     });
 
-    function addBGLine(i) {
+    function addBGLine(i: any) {
       var tr = $('<tr>');
       var select = $('<select>').attr('class','pe_selectabletime').attr('id','pe_targetbg_from_'+i);
       var lowesttime=-1;
@@ -526,16 +536,17 @@ var init = function init () {
     html += '</table>';
     $('#pe_targetbg_placeholder').html(html);
 
-    $('.addtargetbg').click(function addtargetbg_click() {
+    $('.addtargetbg').click(function addtargetbg_click(this: any) {
       var pos = $(this).attr('pos');
       GUIToObject();
       c_profile.target_low.splice(pos,0,{time:'00:00',value:0});
       c_profile.target_high.splice(pos,0,{time:'00:00',value:0});
       dirty = true;
+      // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
       return fillTimeRanges();
     });
 
-    $('.deltargetbg').click(function deltargetbg_click() {
+    $('.deltargetbg').click(function deltargetbg_click(this: any) {
       var pos = $(this).attr('pos');
       GUIToObject();
       c_profile.target_low.splice(pos,1);
@@ -543,6 +554,7 @@ var init = function init () {
       c_profile.target_low[0].time = '00:00';
       c_profile.target_high[0].time = '00:00';
       dirty = true;
+      // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
       return fillTimeRanges();
     });
 
@@ -573,7 +585,7 @@ var init = function init () {
     if (foundCase != "") {
       var lcZone = c_profile.timezone.toLowerCase();
 
-      client.ctx.timezones.forEach(function testCase(tz) {
+      client.ctx.timezones.forEach(function testCase(tz: any) {
         if (tz.toLowerCase() == lcZone) foundCase = tz;
       });
     }
@@ -650,21 +662,21 @@ var init = function init () {
     }
   }
 
-  function toMinutesFromMidnight(time) {
+  function toMinutesFromMidnight(time: any) {
     var split = time.split(':');
     return parseInt(split[0])*60 + parseInt(split[1]);
   }
 
-  function toTimeString(minfrommidnight) {
+  function toTimeString(minfrommidnight: any) {
     return client.ctx.moment.utc().startOf('day').add(minfrommidnight,'minutes').format('HH:mm'); // using utc to avoid daylight saving offset
   }
 
-  function toDisplayTime (minfrommidnight) {
+  function toDisplayTime (minfrommidnight: any) {
     var time = client.ctx.moment.utc().startOf('day').add(minfrommidnight,'minutes'); // using utc to avoid daylight saving offset
     return client.settings.timeFormat === 24 ? time.format('HH:mm') : time.format('h:mm A');
   }
 
-  function profileSubmit(event) {
+  function profileSubmit(event: any) {
     if (!client.hashauth.isAuthenticated()) {
       window.alert(translate('Your device is not authenticated yet'));
       return false;
@@ -712,14 +724,14 @@ var init = function init () {
       , url: '/api/v1/profile/'
       , data: JSON.stringify(adjustedRecord)
       , headers: headers 
-    }).done(function postSuccess (data, status) {
+    }).done(function postSuccess (data: any, status: any) {
       console.info('profile saved', data);
       $('#pe_form').show(); // allow edits again
       peStatus.hide().text(status).fadeIn('slow');
       record._id = data._id;
       initRecord();
       dirty = false;
-    }).fail(function(xhr, status, errorThrown)  {
+    }).fail(function(xhr: any, status: any, errorThrown: any)  {
       console.error('Profile not saved', status, errorThrown);
       $('#pe_form').show(); // allow edits again
       peStatus.hide().text(status).fadeIn('slow');
@@ -727,7 +739,7 @@ var init = function init () {
     return false;
   }
 
-  function getFirstAvailableProfile(record) {
+  function getFirstAvailableProfile(record: any) {
     var availableProfiles = [];
     for (var key in record.store) {
       if (Object.prototype.hasOwnProperty.call(record.store,key)) {
@@ -739,7 +751,7 @@ var init = function init () {
     return availableProfiles.length ? availableProfiles[0] : null;
   }
 
-  function maybePreventDefault (event) {
+  function maybePreventDefault (event: any) {
     if (event) {
       event.preventDefault();
     }
@@ -747,4 +759,5 @@ var init = function init () {
   });
 };
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

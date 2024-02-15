@@ -1,11 +1,14 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
   , times = require('../times');
 
-function init (ctx) {
+function init (ctx: any) {
   var moment = ctx.moment;
   var translate = ctx.language.translate;
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var iob = require('./iob')(ctx);
 
   var cob = {
@@ -14,15 +17,19 @@ function init (ctx) {
     , pluginType: 'pill-minor'
   };
 
+  // @ts-expect-error TS(2339): Property 'RECENCY_THRESHOLD' does not exist on typ... Remove this comment to see the full error message
   cob.RECENCY_THRESHOLD = times.mins(30).msecs;
 
-  cob.setProperties = function setProperties (sbx) {
+  // @ts-expect-error TS(2339): Property 'setProperties' does not exist on type '{... Remove this comment to see the full error message
+  cob.setProperties = function setProperties (sbx: any) {
     sbx.offerProperty('cob', function setCOB () {
+      // @ts-expect-error TS(2339): Property 'cobTotal' does not exist on type '{ name... Remove this comment to see the full error message
       return cob.cobTotal(sbx.data.treatments, sbx.data.devicestatus, sbx.data.profile, sbx.time);
     });
   };
 
-  cob.cobTotal = function cobTotal (treatments, devicestatus, profile, time, spec_profile) {
+  // @ts-expect-error TS(2339): Property 'cobTotal' does not exist on type '{ name... Remove this comment to see the full error message
+  cob.cobTotal = function cobTotal (treatments: any, devicestatus: any, profile: any, time: any, spec_profile: any) {
 
     if (!profile || !profile.hasData()) {
       console.warn('For the COB plugin to function you need a treatment profile');
@@ -40,6 +47,7 @@ function init (ctx) {
       time = time.getTime();
     }
 
+    // @ts-expect-error TS(2339): Property 'lastCOBDeviceStatus' does not exist on t... Remove this comment to see the full error message
     var devicestatusCOB = cob.lastCOBDeviceStatus(devicestatus, time);
     var result = devicestatusCOB;
 
@@ -47,6 +55,7 @@ function init (ctx) {
 
     if (_.isEmpty(result) || _.isNil(result.cob) || (Date.now() - result.mills) > TEN_MINUTES) {
 
+      // @ts-expect-error TS(2339): Property 'fromTreatments' does not exist on type '... Remove this comment to see the full error message
       var treatmentCOB = (treatments !== undefined && treatments.length) ? cob.fromTreatments(treatments, devicestatus, profile, time, spec_profile) : {};
 
       result = _.cloneDeep(treatmentCOB);
@@ -57,7 +66,7 @@ function init (ctx) {
     return addDisplay(result);
   };
 
-  function addDisplay (cob) {
+  function addDisplay (cob: any) {
     if (_.isEmpty(cob) || cob.cob === undefined) {
       return {};
     }
@@ -69,24 +78,29 @@ function init (ctx) {
     });
   }
 
-  cob.isDeviceStatusAvailable = function isDeviceStatusAvailable (devicestatus) {
+  // @ts-expect-error TS(2339): Property 'isDeviceStatusAvailable' does not exist ... Remove this comment to see the full error message
+  cob.isDeviceStatusAvailable = function isDeviceStatusAvailable (devicestatus: any) {
 
     return _.chain(devicestatus)
+      // @ts-expect-error TS(2339): Property 'fromDeviceStatus' does not exist on type... Remove this comment to see the full error message
       .map(cob.fromDeviceStatus)
       .reject(_.isEmpty)
       .value()
       .length > 0;
   };
 
-  cob.lastCOBDeviceStatus = function lastCOBDeviceStatus (devicestatus, time) {
+  // @ts-expect-error TS(2339): Property 'lastCOBDeviceStatus' does not exist on t... Remove this comment to see the full error message
+  cob.lastCOBDeviceStatus = function lastCOBDeviceStatus (devicestatus: any, time: any) {
 
     var futureMills = time + times.mins(5).msecs; //allow for clocks to be a little off
+    // @ts-expect-error TS(2339): Property 'RECENCY_THRESHOLD' does not exist on typ... Remove this comment to see the full error message
     var recentMills = time - cob.RECENCY_THRESHOLD;
 
     return _.chain(devicestatus)
-      .filter(function(cobStatus) {
+      .filter(function(cobStatus: any) {
         return cobStatus.mills <= futureMills && cobStatus.mills >= recentMills;
       })
+      // @ts-expect-error TS(2339): Property 'fromDeviceStatus' does not exist on type... Remove this comment to see the full error message
       .map(cob.fromDeviceStatus)
       .reject(_.isEmpty)
       .sortBy('mills')
@@ -94,19 +108,22 @@ function init (ctx) {
       .value();
   };
 
-  cob.COBDeviceStatusesInTimeRange = function COBDeviceStatusesInTimeRange (devicestatus, from, to) {
+  // @ts-expect-error TS(2339): Property 'COBDeviceStatusesInTimeRange' does not e... Remove this comment to see the full error message
+  cob.COBDeviceStatusesInTimeRange = function COBDeviceStatusesInTimeRange (devicestatus: any, from: any, to: any) {
 
     return _.chain(devicestatus)
-      .filter(function(cobStatus) {
+      .filter(function(cobStatus: any) {
         return cobStatus.mills > from && cobStatus.mills < to;
       })
+      // @ts-expect-error TS(2339): Property 'fromDeviceStatus' does not exist on type... Remove this comment to see the full error message
       .map(cob.fromDeviceStatus)
       .reject(_.isEmpty)
       .sortBy('mills')
       .value();
   };
 
-  cob.fromDeviceStatus = function fromDeviceStatus (devicestatusEntry) {
+  // @ts-expect-error TS(2339): Property 'fromDeviceStatus' does not exist on type... Remove this comment to see the full error message
+  cob.fromDeviceStatus = function fromDeviceStatus (devicestatusEntry: any) {
 
     var cobObj;
     if (_.get(devicestatusEntry, 'openaps') !== undefined) {
@@ -157,7 +174,8 @@ function init (ctx) {
     }
   };
 
-  cob.fromTreatments = function fromTreatments (treatments, devicestatus, profile, time, spec_profile) {
+  // @ts-expect-error TS(2339): Property 'fromTreatments' does not exist on type '... Remove this comment to see the full error message
+  cob.fromTreatments = function fromTreatments (treatments: any, devicestatus: any, profile: any, time: any, spec_profile: any) {
     // TODO: figure out the liverSensRatio that gives the most accurate purple line predictions
     var liverSensRatio = 8;
     var totalCOB = 0;
@@ -166,9 +184,10 @@ function init (ctx) {
     var isDecaying = 0;
     var lastDecayedBy = 0;
 
-    _.each(treatments, function eachTreatment (treatment) {
+    _.each(treatments, function eachTreatment (treatment: any) {
       if (treatment.carbs && treatment.mills < time) {
         lastCarbs = treatment;
+        // @ts-expect-error TS(2339): Property 'cobCalc' does not exist on type '{ name:... Remove this comment to see the full error message
         var cCalc = cob.cobCalc(treatment, profile, lastDecayedBy, time, spec_profile);
         var decaysin_hr = (cCalc.decayedBy - time) / 1000 / 60 / 60;
         if (decaysin_hr > -10) {
@@ -213,7 +232,8 @@ function init (ctx) {
     };
   };
 
-  cob.carbImpact = function carbImpact (rawCarbImpact, insulinImpact) {
+  // @ts-expect-error TS(2339): Property 'carbImpact' does not exist on type '{ na... Remove this comment to see the full error message
+  cob.carbImpact = function carbImpact (rawCarbImpact: any, insulinImpact: any) {
     var liverSensRatio = 1.0;
     var liverCarbImpactMax = 0.7;
     var liverCarbImpact = Math.min(liverCarbImpactMax, liverSensRatio * insulinImpact);
@@ -226,7 +246,8 @@ function init (ctx) {
     };
   };
 
-  cob.cobCalc = function cobCalc (treatment, profile, lastDecayedBy, time, spec_profile) {
+  // @ts-expect-error TS(2339): Property 'cobCalc' does not exist on type '{ name:... Remove this comment to see the full error message
+  cob.cobCalc = function cobCalc (treatment: any, profile: any, lastDecayedBy: any, time: any, spec_profile: any) {
 
     var delay = 20;
     var isDecaying = 0;
@@ -239,6 +260,7 @@ function init (ctx) {
       var carbs_min = carbs_hr / 60;
 
       var decayedBy = new Date(carbTime);
+      // @ts-expect-error TS(2363): The right-hand side of an arithmetic operation mus... Remove this comment to see the full error message
       var minutesleft = (lastDecayedBy - carbTime) / 1000 / 60;
       decayedBy.setMinutes(decayedBy.getMinutes() + Math.max(delay, minutesleft) + treatment.carbs / carbs_min);
       if (delay > minutesleft) {
@@ -264,7 +286,8 @@ function init (ctx) {
     }
   };
 
-  cob.updateVisualisation = function updateVisualisation (sbx) {
+  // @ts-expect-error TS(2339): Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
+  cob.updateVisualisation = function updateVisualisation (sbx: any) {
 
     var prop = sbx.properties.cob;
 
@@ -291,7 +314,7 @@ function init (ctx) {
     });
   };
 
-  function virtAsstCOBHandler (next, slots, sbx) {
+  function virtAsstCOBHandler (next: any, slots: any, sbx: any) {
     var response = '';
     var cob = _.get(sbx, 'properties.cob.cob');
     var pwd = _.get(slots, 'pwd.value');
@@ -313,6 +336,7 @@ function init (ctx) {
     next(translate('virtAsstTitleCurrentCOB'), response);
   }
 
+  // @ts-expect-error TS(2339): Property 'virtAsst' does not exist on type '{ name... Remove this comment to see the full error message
   cob.virtAsst = {
     intentHandlers: [{
       intent: 'MetricNow'
@@ -325,4 +349,5 @@ function init (ctx) {
 
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

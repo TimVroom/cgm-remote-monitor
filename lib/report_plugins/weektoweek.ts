@@ -1,7 +1,10 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'moment'.
 var moment = window.moment;
+// @ts-expect-error TS(2304): Cannot find name 'global'.
 var d3 = (global && global.d3) || require('d3');
 
 var dayColors = [
@@ -20,9 +23,10 @@ var weektoweek = {
   , pluginType: 'report'
 };
 
-function init (ctx) {
+function init (ctx: any) {
 
-  weektoweek.html = function html (client) {
+  // @ts-expect-error TS(2339): Property 'html' does not exist on type '{ name: st... Remove this comment to see the full error message
+  weektoweek.html = function html (client: any) {
     var translate = client.translate;
     var ret =
       '<h2>' + translate('Week to week') + '</h2>' +
@@ -46,7 +50,8 @@ function init (ctx) {
     return ret;
   };
 
-  weektoweek.prepareHtml = function weektoweekPrepareHtml (weekstoshow) {
+  // @ts-expect-error TS(2339): Property 'prepareHtml' does not exist on type '{ n... Remove this comment to see the full error message
+  weektoweek.prepareHtml = function weektoweekPrepareHtml (weekstoshow: any) {
     $('#weektoweekcharts').html('');
 
     var translate = ctx.language.translate;
@@ -66,23 +71,25 @@ function init (ctx) {
 
     $('#weektoweekcharts').append($(legend));
 
-    weekstoshow.forEach(function eachWeek (d) {
+    weekstoshow.forEach(function eachWeek (d: any) {
       $('#weektoweekcharts').append($('<table><tr><td><div id="weektoweekchart-' + d[0] + '-' + d[d.length - 1] + '"></div></td><td><div id="weektoweekstatchart-' + d[0] + '-' + d[d.length - 1] + '"></td></tr></table>'));
     });
   };
 
-  weektoweek.report = function report_weektoweek (datastorage, sorteddaystoshow, options) {
+  // @ts-expect-error TS(2339): Property 'report' does not exist on type '{ name: ... Remove this comment to see the full error message
+  weektoweek.report = function report_weektoweek (datastorage: any, sorteddaystoshow: any, options: any) {
+    // @ts-expect-error TS(2339): Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
     var Nightscout = window.Nightscout;
     var client = Nightscout.client;
     var report_plugins = Nightscout.report_plugins;
 
     var padding = { top: 15, right: 22, bottom: 30, left: 35 };
 
-    var weekstoshow = [];
+    var weekstoshow: any = [];
 
     var startDay = moment(sorteddaystoshow[0] + ' 00:00:00');
 
-    sorteddaystoshow.forEach(function eachDay (day) {
+    sorteddaystoshow.forEach(function eachDay (day: any) {
       var weekNum = Math.abs(moment(day + ' 00:00:00').diff(startDay, 'weeks'));
 
       if (typeof weekstoshow[weekNum] === 'undefined') {
@@ -92,20 +99,21 @@ function init (ctx) {
       weekstoshow[weekNum].push(day);
     });
 
-    weekstoshow = weekstoshow.map(function orderWeek (week) {
+    weekstoshow = weekstoshow.map(function orderWeek (week: any) {
       return _.sortBy(week);
     });
 
+    // @ts-expect-error TS(2339): Property 'prepareHtml' does not exist on type '{ n... Remove this comment to see the full error message
     weektoweek.prepareHtml(weekstoshow);
 
-    weekstoshow.forEach(function eachWeek (week) {
-      var sgvData = [];
+    weekstoshow.forEach(function eachWeek (week: any) {
+      var sgvData: any = [];
       var weekStart = moment(week[0] + ' 00:00:00');
 
-      week.forEach(function eachDay (day) {
+      week.forEach(function eachDay (day: any) {
         var dayNum = Math.abs(moment(day + ' 00:00:00').diff(weekStart, 'days'));
 
-        datastorage[day].sgv.forEach(function eachSgv (sgv) {
+        datastorage[day].sgv.forEach(function eachSgv (sgv: any) {
           var sgvWeekday = moment(sgv.date).day();
           var sgvColor = dayColors[sgvWeekday];
 
@@ -130,7 +138,7 @@ function init (ctx) {
       drawChart(week, sgvData, options);
     });
 
-    function timeTicks (n, i) {
+    function timeTicks (n: any, i: any) {
       var t12 = [
       '12am', '', '2am', '', '4am', '', '6am', '', '8am', '', '10am', ''
       , '12pm', '', '2pm', '', '4pm', '', '6pm', '', '8pm', '', '10pm', '', '12am'
@@ -142,13 +150,13 @@ function init (ctx) {
       }
     }
 
-    function drawChart (week, sgvData, options) {
-      var tickValues
+    function drawChart (week: any, sgvData: any, options: any) {
+      var tickValues: any
         , charts
-        , context
-        , xScale2, yScale2
+        , context: any
+        , xScale2: any, yScale2: any
         , xAxis2, yAxis2
-        , dateFn = function(d) { return new Date(d.date); };
+        , dateFn = function(d: any) { return new Date(d.date); };
 
       tickValues = client.ticks(client, {
         scaleY: options.weekscale === report_plugins.consts.SCALE_LOG ? 'log' : 'linear'
@@ -257,7 +265,7 @@ function init (ctx) {
         .style('fill', 'none')
         .call(xAxis2);
 
-      _.each(tickValues, function(n, li) {
+      _.each(tickValues, function(n: any, li: any) {
         context.append('line')
           .attr('class', 'high-line')
           .attr('x1', xScale2(dataRange[0]) + padding.left)
@@ -272,12 +280,12 @@ function init (ctx) {
       var contextCircles = context.selectAll('circle')
         .data(sgvData);
 
-      function prepareContextCircles (sel) {
-        var badData = [];
-        sel.attr('cx', function(d) {
+      function prepareContextCircles (sel: any) {
+        var badData: any = [];
+        sel.attr('cx', function(d: any) {
             return xScale2(d.date) + padding.left;
           })
-          .attr('cy', function(d) {
+          .attr('cy', function(d: any) {
             if (isNaN(d.sgv)) {
               badData.push(d);
               return yScale2(client.utils.scaleMgdl(450) + padding.top);
@@ -285,16 +293,16 @@ function init (ctx) {
               return yScale2(d.sgv) + padding.top;
             }
           })
-          .attr('fill', function(d) {
+          .attr('fill', function(d: any) {
             if (d.color === 'gray') {
               return 'transparent';
             }
             return d.color;
           })
           .style('opacity', function() { return 0.5 })
-          .attr('stroke-width', function(d) { if (d.type === 'mbg') { return 2; } else { return 0; } })
+          .attr('stroke-width', function(d: any) { if (d.type === 'mbg') { return 2; } else { return 0; } })
           .attr('stroke', function() { return 'black'; })
-          .attr('r', function(d) {
+          .attr('r', function(d: any) {
             if (d.type === 'mbg') {
               return 4;
             } else {
@@ -323,4 +331,5 @@ function init (ctx) {
   return weektoweek;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

@@ -8,7 +8,8 @@ function init () {
     , pluginType: 'fake'
   };
 
-  bolus.getPrefs = function getPrefs(sbx) {
+  // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
+  bolus.getPrefs = function getPrefs(sbx: any) {
     return {
       renderFormat: sbx.extendedSettings.renderFormat ? sbx.extendedSettings.renderFormat : 'default'
       , renderOver: sbx.extendedSettings.renderOver ? sbx.extendedSettings.renderOver : 0
@@ -19,4 +20,5 @@ function init () {
   return bolus;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

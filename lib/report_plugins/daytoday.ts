@@ -1,8 +1,12 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'moment'.
 var moment = window.moment;
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
 var times = require('../times');
+// @ts-expect-error TS(2304): Cannot find name 'global'.
 var d3 = (global && global.d3) || require('d3');
 
 var daytoday = {
@@ -15,9 +19,12 @@ function init () {
   return daytoday;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;
 
-daytoday.html = function html (client) {
+// @ts-expect-error TS(2339): Property 'html' does not exist on type '{ name: st... Remove this comment to see the full error message
+daytoday.html = function html (client: any) {
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   const reportStorage = require('../report/reportstorage');
   var translate = client.translate;
   var ret =
@@ -70,14 +77,17 @@ daytoday.html = function html (client) {
   return ret;
 };
 
-daytoday.prepareHtml = function daytodayPrepareHtml (sorteddaystoshow) {
+// @ts-expect-error TS(2339): Property 'prepareHtml' does not exist on type '{ n... Remove this comment to see the full error message
+daytoday.prepareHtml = function daytodayPrepareHtml (sorteddaystoshow: any) {
   $('#daytodaycharts').html('');
-  sorteddaystoshow.forEach(function eachDay (d) {
+  sorteddaystoshow.forEach(function eachDay (d: any) {
     $('#daytodaycharts').append($('<table><tr><td><div id="daytodaychart-' + d + '"></div></td><td><div id="daytodaystatchart-' + d + '"></td></tr></table>'));
   });
 };
 
-daytoday.report = function report_daytoday (datastorage, sorteddaystoshow, options) {
+// @ts-expect-error TS(2339): Property 'report' does not exist on type '{ name: ... Remove this comment to see the full error message
+daytoday.report = function report_daytoday (datastorage: any, sorteddaystoshow: any, options: any) {
+  // @ts-expect-error TS(2339): Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
   var Nightscout = window.Nightscout;
   var client = Nightscout.client;
   var translate = client.translate;
@@ -95,9 +105,10 @@ daytoday.report = function report_daytoday (datastorage, sorteddaystoshow, optio
   var proteinSum = 0;
   var fatSum = 0;
 
+  // @ts-expect-error TS(2339): Property 'prepareHtml' does not exist on type '{ n... Remove this comment to see the full error message
   daytoday.prepareHtml(sorteddaystoshow);
   console.log('DAY2DAY', 'sorteddaystoshow', sorteddaystoshow);
-  sorteddaystoshow.forEach(function eachDay (day) {
+  sorteddaystoshow.forEach(function eachDay (day: any) {
 
     drawChart(day, datastorage[day], options);
   });
@@ -121,7 +132,7 @@ daytoday.report = function report_daytoday (datastorage, sorteddaystoshow, optio
     $('#daytodaycharts').append(html);
   }
 
-  function timeTicks(n,i) {
+  function timeTicks(n: any,i: any) {
     var t12 = [ 
       '12am', '', '2am', '', '4am', '', '6am', '', '8am', '', '10am', '',
       '12pm', '', '2pm', '', '4pm', '', '6pm', '', '8pm', '', '10pm', '', '12am'
@@ -133,14 +144,14 @@ daytoday.report = function report_daytoday (datastorage, sorteddaystoshow, optio
     }
   }
 
-  function drawChart (day, data, options) {
-    var tickValues
+  function drawChart (day: any, data: any, options: any) {
+    var tickValues: any
       , charts
-      , context
-      , xScale2, yScale2
-      , yInsulinScale, yCarbsScale, yScaleBasals
+      , context: any
+      , xScale2: any, yScale2: any
+      , yInsulinScale: any, yCarbsScale: any, yScaleBasals: any
       , xAxis2, yAxis2
-      , dateFn = function(d) { return new Date(d.date); }
+      , dateFn = function(d: any) { return new Date(d.date); }
       , foodtexts = 0;
 
     tickValues = client.ticks(client, {
@@ -260,7 +271,7 @@ daytoday.report = function report_daytoday (datastorage, sorteddaystoshow, optio
       .style('fill', 'none')
       .call(xAxis2);
 
-    _.each(tickValues, function(n, li) {
+    _.each(tickValues, function(n: any, li: any) {
       context.append('line')
         .attr('class', 'high-line')
         .attr('x1', xScale2(dataRange[0]) + padding.left)
@@ -271,12 +282,12 @@ daytoday.report = function report_daytoday (datastorage, sorteddaystoshow, optio
         .attr('stroke', 'grey');
     });
 
-    function prepareContextCircles (sel) {
-      var badData = [];
-      sel.attr('cx', function(d) {
+    function prepareContextCircles (sel: any) {
+      var badData: any = [];
+      sel.attr('cx', function(d: any) {
           return xScale2(d.date) + padding.left;
         })
-        .attr('cy', function(d) {
+        .attr('cy', function(d: any) {
           if (isNaN(d.sgv)) {
             badData.push(d);
             return yScale2(client.utils.scaleMgdl(450) + padding.top);
@@ -284,23 +295,23 @@ daytoday.report = function report_daytoday (datastorage, sorteddaystoshow, optio
             return yScale2(d.sgv) + padding.top;
           }
         })
-        .attr('fill', function(d) {
+        .attr('fill', function(d: any) {
           if (d.color === 'gray' && !options.raw) {
             return 'transparent';
           }
           return d.color;
         })
         .style('opacity', function() { return 0.5 })
-        .attr('stroke-width', function(d) { if (d.type === 'mbg') { return 2; } else if (options.openAps && d.openaps) { return 1; } else { return 0; } })
+        .attr('stroke-width', function(d: any) { if (d.type === 'mbg') { return 2; } else if (options.openAps && d.openaps) { return 1; } else { return 0; } })
         .attr('stroke', function() { return 'black'; })
-        .attr('r', function(d) {
+        .attr('r', function(d: any) {
           if (d.type === 'mbg') {
             return 4;
           } else {
             return 2 + (options.width - 800) / 400;
           }
         })
-        .on('mouseover', function(d) {
+        .on('mouseover', function(d: any) {
           if (options.openAps && d.openaps) {
             client.tooltip.style('opacity', .9);
             var text = '<b>BG:</b> ' + d.openaps.suggested.bg +
@@ -343,17 +354,22 @@ daytoday.report = function report_daytoday (datastorage, sorteddaystoshow, optio
 
       var predictions = [];
       if (data && data.devicestatus) {
+        // @ts-expect-error TS(2322): Type 'number' is not assignable to type 'string'.
         for (i = data.devicestatus.length - 1; i >= 0; i--) {
           if (data.devicestatus[i].loop && data.devicestatus[i].loop.predicted) {
             predictions.push(data.devicestatus[i].loop.predicted);
           } else if (data.devicestatus[i].openaps && data.devicestatus[i].openaps.suggested && data.devicestatus[i].openaps.suggested.predBGs) {
             var entry = {};
+            // @ts-expect-error TS(2339): Property 'startDate' does not exist on type '{}'.
             entry.startDate = data.devicestatus[i].openaps.suggested.timestamp;
             // For OpenAPS/AndroidAPS we fall back from COB if present, to UAM, then IOB
             if (data.devicestatus[i].openaps.suggested.predBGs.COB) {
+              // @ts-expect-error TS(2339): Property 'values' does not exist on type '{}'.
               entry.values = data.devicestatus[i].openaps.suggested.predBGs.COB;
             } else if (data.devicestatus[i].openaps.suggested.predBGs.UAM) {
+              // @ts-expect-error TS(2339): Property 'values' does not exist on type '{}'.
               entry.values = data.devicestatus[i].openaps.suggested.predBGs.UAM;
+            // @ts-expect-error TS(2339): Property 'values' does not exist on type '{}'.
             } else entry.values = data.devicestatus[i].openaps.suggested.predBGs.IOB;
             predictions.push(entry);
           }
@@ -371,6 +387,7 @@ daytoday.report = function report_daytoday (datastorage, sorteddaystoshow, optio
 
           if (predictedIndex != null) {
             entry = predictions[predictedIndex]; // Start entry
+            // @ts-expect-error TS(2339): Property 'startDate' does not exist on type '{}'.
             var d = moment(entry.startDate);
             var end = moment().endOf('day');
             if (options.predictedTruncate) {
@@ -384,11 +401,15 @@ daytoday.report = function report_daytoday (datastorage, sorteddaystoshow, optio
                 end = moment(treatmentsTimestamps[treatmentsIndex]);
               }
             }
+            // @ts-expect-error TS(2339): Property 'values' does not exist on type '{}'.
             for (var entryIndex in entry.values) {
               if (!d.isAfter(end)) {
                 var value = {};
+                // @ts-expect-error TS(2339): Property 'sgv' does not exist on type '{}'.
                 value.sgv = client.utils.scaleMgdl(entry.values[entryIndex]);
+                // @ts-expect-error TS(2339): Property 'date' does not exist on type '{}'.
                 value.date = d.toDate();
+                // @ts-expect-error TS(2339): Property 'color' does not exist on type '{}'.
                 value.color = 'purple';
                 p.push(value);
                 d.add(5, 'minutes');
@@ -403,7 +424,7 @@ daytoday.report = function report_daytoday (datastorage, sorteddaystoshow, optio
     /* Find the earliest new predicted instance that has a timestamp equal to or larger than timestamp */
     /* (so if we have bolused or eaten we want to find the prediction that Loop has estimated just after that) */
     /* Returns the index into the predictions array that is the predicted we are looking for */
-    function findPredicted (predictions, timestamp, offset) {
+    function findPredicted (predictions: any, timestamp: any, offset: any) {
       var ts = moment(timestamp).add(offset, 'minutes');
       var predicted = null;
       if (offset && offset < 0) { // If offset is negative, start searching from first prediction going forward
@@ -540,7 +561,7 @@ daytoday.report = function report_daytoday (datastorage, sorteddaystoshow, optio
       var lastdate = 0;
       var previousdate = 0;
       var cobArray = client.plugins('cob').COBDeviceStatusesInTimeRange(datastorage.devicestatus, from.valueOf(), to.valueOf());
-      _.each(cobArray, function drawCob (point) {
+      _.each(cobArray, function drawCob (point: any) {
         if (previousdate !== 0 && point.mills - previousdate > times.mins(15).msecs) {
           cobpolyline += ', ';
           cobpolyline += (xScale2(previousdate) + padding.left) + ',' + (yCarbsScale(0) + padding.top) + ' ';
@@ -562,7 +583,7 @@ daytoday.report = function report_daytoday (datastorage, sorteddaystoshow, optio
       lastdate = 0;
       previousdate = 0;
       var iobArray = client.plugins('iob').IOBDeviceStatusesInTimeRange(datastorage.devicestatus, from.valueOf(), to.valueOf());
-      _.each(iobArray, function drawCob (point) {
+      _.each(iobArray, function drawCob (point: any) {
         if (previousdate !== 0 && point.mills - previousdate > times.mins(15).msecs) {
           iobpolyline += ', ';
           iobpolyline += (xScale2(previousdate) + padding.left) + ',' + (yInsulinScale(0) + padding.top) + ' ';
@@ -603,23 +624,23 @@ daytoday.report = function report_daytoday (datastorage, sorteddaystoshow, optio
       tempbasalareadata.push({ d: to.format('x'), b: toTempBasal.totalbasal });
       comboareadata.push({ d: to.format('x'), b: toTempBasal.totalbasal });
 
-      var basalMax = d3.max(linedata, function(d) { return d.b; });
-      basalMax = Math.max(basalMax, d3.max(basalareadata, function(d) { return d.b; }));
-      basalMax = Math.max(basalMax, d3.max(tempbasalareadata, function(d) { return d.b; }));
-      basalMax = Math.max(basalMax, d3.max(comboareadata, function(d) { return d.b; }));
+      var basalMax = d3.max(linedata, function(d: any) { return d.b; });
+      basalMax = Math.max(basalMax, d3.max(basalareadata, function(d: any) { return d.b; }));
+      basalMax = Math.max(basalMax, d3.max(tempbasalareadata, function(d: any) { return d.b; }));
+      basalMax = Math.max(basalMax, d3.max(comboareadata, function(d: any) { return d.b; }));
 
       yScaleBasals.domain([basalMax, 0]);
 
       var valueline = d3.line()
         .curve(d3.curveStepAfter)
-        .x(function(d) { return xScale2(d.d) + padding.left; })
-        .y(function(d) { return yScaleBasals(d.b) + padding.top; });
+        .x(function(d: any) { return xScale2(d.d) + padding.left; })
+        .y(function(d: any) { return yScaleBasals(d.b) + padding.top; });
 
       var area = d3.area()
         .curve(d3.curveStepAfter)
-        .x(function(d) { return xScale2(d.d) + padding.left; })
+        .x(function(d: any) { return xScale2(d.d) + padding.left; })
         .y0(yScaleBasals(0) + padding.top)
-        .y1(function(d) { return yScaleBasals(d.b) + padding.top; });
+        .y1(function(d: any) { return yScaleBasals(d.b) + padding.top; });
 
       var g = basals.append('g');
 
@@ -664,7 +685,7 @@ daytoday.report = function report_daytoday (datastorage, sorteddaystoshow, optio
         .attr('stroke-width', 1)
         .attr('d', area);
 
-      datastorage.tempbasalTreatments.forEach(function(t) {
+      datastorage.tempbasalTreatments.forEach(function(t: any) {
         // only if basal and focus interval overlap and there is a chance to fit
         if (t.mills < to.format('x') && t.mills + times.mins(t.duration).msecs > from.format('x')) {
           var text = g.append('text')
@@ -685,7 +706,7 @@ daytoday.report = function report_daytoday (datastorage, sorteddaystoshow, optio
       });
     }
 
-    data.treatments.forEach(function(treatment) {
+    data.treatments.forEach(function(treatment: any) {
       // Calculate bolus stats
       if (treatment.insulin) {
         bolusInsulin += treatment.insulin;
@@ -989,7 +1010,7 @@ daytoday.report = function report_daytoday (datastorage, sorteddaystoshow, optio
         .outerRadius(radius);
 
       var pie = d3.pie()
-        .value(function(d) {
+        .value(function(d: any) {
           return d.count;
         })
         .sort(null);
@@ -1003,18 +1024,18 @@ daytoday.report = function report_daytoday (datastorage, sorteddaystoshow, optio
       insulg.append('path')
         .attr('d', arc)
         .attr('opacity', '0.5')
-        .attr('fill', function(d) {
+        .attr('fill', function(d: any) {
           return color(d.data.label);
         });
 
       insulg.append('text')
-        .attr('transform', function(d) {
+        .attr('transform', function(d: any) {
           return 'translate(' + labelArc.centroid(d) + ')';
         })
         .attr('dy', '.15em')
         .style('font-weight', 'bold')
         .attr('text-anchor', 'middle')
-        .text(function(d) {
+        .text(function(d: any) {
           return d.data.pct + '%';
         });
 
@@ -1038,7 +1059,7 @@ daytoday.report = function report_daytoday (datastorage, sorteddaystoshow, optio
         .outerRadius(radius * data.dailyCarbs / options.maxDailyCarbsValue);
 
       var carbspie = d3.pie()
-        .value(function(d) {
+        .value(function(d: any) {
           return d.count;
         })
         .sort(null);
@@ -1052,7 +1073,7 @@ daytoday.report = function report_daytoday (datastorage, sorteddaystoshow, optio
       carbsg.append('path')
         .attr('d', carbsarc)
         .attr('opacity', '0.5')
-        .attr('fill', function(d) {
+        .attr('fill', function(d: any) {
           return carbscolor(d.data.label);
         });
 
@@ -1063,12 +1084,14 @@ daytoday.report = function report_daytoday (datastorage, sorteddaystoshow, optio
         .attr('dy', '.15em')
         .style('font-weight', 'bold')
         .attr('text-anchor', 'middle')
-        .text(function(d) {
+        .text(function(d: any) {
           return d.data.count + 'g';
         });
     }
 
+    // @ts-expect-error TS(2454): Variable 'totalDailyInsulin' is used before being ... Remove this comment to see the full error message
     tddSum += totalDailyInsulin;
+    // @ts-expect-error TS(2454): Variable 'totalBasalInsulin' is used before being ... Remove this comment to see the full error message
     basalSum += totalBasalInsulin;
     baseBasalSum += baseBasalInsulin;
     bolusSum += bolusInsulin;
@@ -1083,7 +1106,7 @@ daytoday.report = function report_daytoday (datastorage, sorteddaystoshow, optio
       , first: true
     });
 
-    function appendProfileSwitch (context, treatment) {
+    function appendProfileSwitch (context: any, treatment: any) {
 
       if (!treatment.cutting && !treatment.profile) { return; }
 

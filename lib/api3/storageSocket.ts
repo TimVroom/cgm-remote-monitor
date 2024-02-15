@@ -1,9 +1,11 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'apiConst'.
 const apiConst = require('./const');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'forwarded'... Remove this comment to see the full error message
 const forwarded = require('forwarded-for');
 
-function getRemoteIP (req) {
+function getRemoteIP (req: any) {
   const address = forwarded(req, req.headers);
   return address.ip;
 }
@@ -11,7 +13,7 @@ function getRemoteIP (req) {
 /**
  * Socket.IO broadcaster of any storage change
  */
-function StorageSocket (app, env, ctx) {
+function StorageSocket(this: any, app: any, env: any, ctx: any) {
 
   const self = this;
 
@@ -28,11 +30,11 @@ function StorageSocket (app, env, ctx) {
    * Initialize socket namespace and bind the events
    * @param {Object} io Socket.IO object to multiplex namespaces
    */
-  self.init = function init (io) {
+  self.init = function init (io: any) {
     self.io = io;
 
     self.namespace = io.of(NAMESPACE);
-    self.namespace.on('connection', function onConnected (socket) {
+    self.namespace.on('connection', function onConnected (socket: any) {
 
       const remoteIP = getRemoteIP(socket.request);
       console.log(LOG + 'Connection from client ID: ', socket.client.id, ' IP: ', remoteIP);
@@ -41,7 +43,7 @@ function StorageSocket (app, env, ctx) {
         console.log(LOG + 'Disconnected client ID: ', socket.client.id);
       });
 
-      socket.on('subscribe', function onSubscribe (message, returnCallback) {
+      socket.on('subscribe', function onSubscribe (message: any, returnCallback: any) {
         self.subscribe(socket, message, returnCallback);
       });
     });
@@ -58,11 +60,11 @@ function StorageSocket (app, env, ctx) {
    * @param {Object} message input message from the client
    * @param {Function} returnCallback function for returning a value back to the client
    */
-  self.subscribe = function subscribe (socket, message, returnCallback) {
+  self.subscribe = function subscribe (socket: any, message: any, returnCallback: any) {
     const shouldCallBack = typeof(returnCallback) === 'function';
 
     if (message && message.accessToken) {
-      return ctx.authorization.resolveAccessToken(message.accessToken, function resolveFinish (err, auth) {
+      return ctx.authorization.resolveAccessToken(message.accessToken, function resolveFinish (err: any, auth: any) {
         if (err) {
           console.log(`${LOG_ERROR} Authorization failed for accessToken:`, message.accessToken);
 
@@ -91,7 +93,7 @@ function StorageSocket (app, env, ctx) {
    * @param {Object} auth authorization of the client
    * @param {Function} returnCallback function for returning a value back to the client
    */
-  self.subscribeAuthorized = function subscribeAuthorized (socket, message, auth, returnCallback) {
+  self.subscribeAuthorized = function subscribeAuthorized (socket: any, message: any, auth: any, returnCallback: any) {
     const shouldCallBack = typeof(returnCallback) === 'function';
     const enabledCols = app.get('enabledCollections');
     const cols = Array.isArray(message.collections) ? message.collections : enabledCols;
@@ -122,7 +124,7 @@ function StorageSocket (app, env, ctx) {
    * Emit create event to the subscribers (of the collection's room)
    * @param {Object} event
    */
-  self.emitCreate = function emitCreate (event) {
+  self.emitCreate = function emitCreate (event: any) {
     self.namespace.to(event.colName)
       .emit('create', event);
   };
@@ -132,7 +134,7 @@ function StorageSocket (app, env, ctx) {
    * Emit update event to the subscribers (of the collection's room)
    * @param {Object} event
    */
-  self.emitUpdate = function emitUpdate (event) {
+  self.emitUpdate = function emitUpdate (event: any) {
     self.namespace.to(event.colName)
       .emit('update', event);
   };
@@ -142,10 +144,11 @@ function StorageSocket (app, env, ctx) {
    * Emit delete event to the subscribers (of the collection's room)
    * @param {Object} event
    */
-  self.emitDelete = function emitDelete (event) {
+  self.emitDelete = function emitDelete (event: any) {
     self.namespace.to(event.colName)
       .emit('delete', event);
   }
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = StorageSocket;

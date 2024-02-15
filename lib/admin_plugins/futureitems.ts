@@ -6,12 +6,15 @@ var futureitems = {
   , pluginType: 'admin'
 };
 
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init () {
   return futureitems;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;
 
+// @ts-expect-error TS(2339): Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
 futureitems.actions = [
   {
     name: 'Find and remove treatments in the future'
@@ -26,15 +29,16 @@ futureitems.actions = [
     }
   ];
 
-futureitems.actions[0].init = function init (client, callback) {
+// @ts-expect-error TS(2339): Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
+futureitems.actions[0].init = function init (client: any, callback: any) {
   var translate = client.translate;
   var $status = $('#admin_' + futureitems.name + '_0_status');
 
-  function valueOrEmpty (value) {
+  function valueOrEmpty (value: any) {
     return value ? value : '';
   }
 
-  function showOneTreatment (tr, table) {
+  function showOneTreatment (tr: any, table: any) {
     table.append($('<tr>').css('background-color', '#0f0f0f')
       .append($('<td>').attr('width', '20%').append(new Date(tr.created_at).toLocaleString().replace(/([\d]+:[\d]{2})(:[\d]{2})(.*)/, '$1$3')))
       .append($('<td>').attr('width', '20%').append(tr.eventType ? translate(client.careportal.resolveEventName(tr.eventType)) : ''))
@@ -46,7 +50,7 @@ futureitems.actions[0].init = function init (client, callback) {
     );
   }
 
-  function showTreatments (treatments, table) {
+  function showTreatments (treatments: any, table: any) {
     table.append($('<tr>').css('background', '#040404')
       .append($('<th>').css('width', '80px').attr('align', 'left').append(translate('Time')))
       .append($('<th>').css('width', '150px').attr('align', 'left').append(translate('Event Type')))
@@ -65,22 +69,26 @@ futureitems.actions[0].init = function init (client, callback) {
   var nowiso = new Date().toISOString();
   $.ajax('/api/v1/treatments.json?&find[created_at][$gte]=' + nowiso, {
     headers: client.headers()
-    , success: function(records) {
+    , success: function(records: any) {
+      // @ts-expect-error TS(2339): Property 'treatmentrecords' does not exist on type... Remove this comment to see the full error message
       futureitems.treatmentrecords = records;
       $status.hide().text(translate('Database contains %1 future records', { params: [records.length] })).fadeIn('slow');
       var table = $('<table>').css('margin-top', '10px');
       $('#admin_' + futureitems.name + '_0_html').append(table);
       showTreatments(records, table);
+      // @ts-expect-error TS(2339): Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
       futureitems.actions[0].confirmText = translate('Remove %1 selected records?', { params: [records.length] });
     }
     , error: function() {
       $status.hide().text(translate('Error loading database')).fadeIn('slow');
+      // @ts-expect-error TS(2339): Property 'treatmentrecords' does not exist on type... Remove this comment to see the full error message
       futureitems.treatmentrecords = [];
     }
   }).done(function() { if (callback) { callback(); } });
 };
 
-futureitems.actions[0].code = function deleteRecords (client, callback) {
+// @ts-expect-error TS(2339): Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
+futureitems.actions[0].code = function deleteRecords (client: any, callback: any) {
   var translate = client.translate;
   var $status = $('#admin_' + futureitems.name + '_0_status');
 
@@ -92,7 +100,7 @@ futureitems.actions[0].code = function deleteRecords (client, callback) {
     return;
   }
 
-  function deleteRecordById (_id) {
+  function deleteRecordById (_id: any) {
     $.ajax({
       method: 'DELETE'
       , url: '/api/v1/treatments/' + _id
@@ -105,7 +113,9 @@ futureitems.actions[0].code = function deleteRecords (client, callback) {
   }
 
   $status.hide().text(translate('Deleting records ...')).fadeIn('slow');
+  // @ts-expect-error TS(2339): Property 'treatmentrecords' does not exist on type... Remove this comment to see the full error message
   for (var i = 0; i < futureitems.treatmentrecords.length; i++) {
+    // @ts-expect-error TS(2339): Property 'treatmentrecords' does not exist on type... Remove this comment to see the full error message
     deleteRecordById(futureitems.treatmentrecords[i]._id);
   }
   $('#admin_' + futureitems.name + '_0_html').html('');
@@ -115,7 +125,8 @@ futureitems.actions[0].code = function deleteRecords (client, callback) {
   }
 };
 
-futureitems.actions[1].init = function init (client, callback) {
+// @ts-expect-error TS(2339): Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
+futureitems.actions[1].init = function init (client: any, callback: any) {
   var translate = client.translate;
   var $status = $('#admin_' + futureitems.name + '_1_status');
 
@@ -123,19 +134,23 @@ futureitems.actions[1].init = function init (client, callback) {
   var now = new Date().getTime();
   $.ajax('/api/v1/entries.json?&find[date][$gte]=' + now + '&count=288', {
     headers: client.headers()
-    , success: function(records) {
+    , success: function(records: any) {
+      // @ts-expect-error TS(2339): Property 'entriesrecords' does not exist on type '... Remove this comment to see the full error message
       futureitems.entriesrecords = records;
       $status.hide().text(translate('Database contains %1 future records', { params: [records.length] })).fadeIn('slow');
+      // @ts-expect-error TS(2339): Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
       futureitems.actions[1].confirmText = translate('Remove %1 selected records?', { params: [records.length] });
     }
     , error: function() {
       $status.hide().text(translate('Error loading database')).fadeIn('slow');
+      // @ts-expect-error TS(2339): Property 'entriesrecords' does not exist on type '... Remove this comment to see the full error message
       futureitems.entriesrecords = [];
     }
   }).done(function() { if (callback) { callback(); } });
 };
 
-futureitems.actions[1].code = function deleteRecords (client, callback) {
+// @ts-expect-error TS(2339): Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
+futureitems.actions[1].code = function deleteRecords (client: any, callback: any) {
   var translate = client.translate;
   var $status = $('#admin_' + futureitems.name + '_1_status');
 
@@ -147,7 +162,7 @@ futureitems.actions[1].code = function deleteRecords (client, callback) {
     return;
   }
 
-  function deteleteRecordById (_id) {
+  function deteleteRecordById (_id: any) {
     $.ajax({
       method: 'DELETE'
       , url: '/api/v1/entries/' + _id
@@ -160,7 +175,9 @@ futureitems.actions[1].code = function deleteRecords (client, callback) {
   }
 
   $status.hide().text(translate('Deleting records ...')).fadeIn('slow');
+  // @ts-expect-error TS(2339): Property 'entriesrecords' does not exist on type '... Remove this comment to see the full error message
   for (var i = 0; i < futureitems.entriesrecords.length; i++) {
+    // @ts-expect-error TS(2339): Property 'entriesrecords' does not exist on type '... Remove this comment to see the full error message
     deteleteRecordById(futureitems.entriesrecords[i]._id);
   }
 

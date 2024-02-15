@@ -1,18 +1,24 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'consts'.
 var consts = require('../constants');
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'moment'.
 var moment = window.moment;
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'utils'.
 var utils = { };
 
 function init( ) {
   return utils;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;
 
-utils.localeDate = function localeDate(day) {
+utils.localeDate = function localeDate(day: any) {
+  // @ts-expect-error TS(2339): Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
   var translate = window.Nightscout.client.translate;
+  // @ts-expect-error TS(2339): Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
   var zone = window.Nightscout.client.sbx.data.profile.getTimezone();
   var date;
   if (typeof day === 'string') {
@@ -27,7 +33,8 @@ utils.localeDate = function localeDate(day) {
   return ret;
 };
 
-utils.localeDateTime = function localeDateTime(day) {
+utils.localeDateTime = function localeDateTime(day: any) {
+  // @ts-expect-error TS(2339): Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
   var zone = window.Nightscout.client.sbx.data.profile.getTimezone();
   var date;
   if (typeof day === 'string') {
@@ -39,13 +46,14 @@ utils.localeDateTime = function localeDateTime(day) {
   return ret;
 };
 
-utils.scaledTreatmentBG = function scaledTreatmentBG(treatment,data) {
+utils.scaledTreatmentBG = function scaledTreatmentBG(treatment: any,data: any) {
+  // @ts-expect-error TS(2339): Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
   var client = window.Nightscout.client;
 
   var SIX_MINS_IN_MS =  360000;
  
-  function calcBGByTime(time) {
-    var closeBGs = data.filter(function(d) {
+  function calcBGByTime(time: any) {
+    var closeBGs = data.filter(function(d: any) {
       if (!d.y) {
         return false;
       } else {
@@ -54,7 +62,7 @@ utils.scaledTreatmentBG = function scaledTreatmentBG(treatment,data) {
     });
 
     var totalBG = 0;
-    closeBGs.forEach(function(d) {
+    closeBGs.forEach(function(d: any) {
       totalBG += Number(d.y);
     });
 

@@ -1,14 +1,17 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
 var times = require('../times');
 
-function init(ctx) {
+function init(ctx: any) {
   var moment = ctx.moment;
   var levels = ctx.levels;
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var utils = require('../utils')(ctx);
   var firstPrefs = true;
-  var lastStateNotification = null;
+  var lastStateNotification: any = null;
   var translate = ctx.language.translate;
 
   var sensorState = {
@@ -17,7 +20,8 @@ function init(ctx) {
     , pluginType: 'pill-status'
   };
 
-  sensorState.getPrefs = function getPrefs(sbx) {
+  // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
+  sensorState.getPrefs = function getPrefs(sbx: any) {
     var prefs = {
       enableAlerts: sbx.extendedSettings.enableAlerts || false
       , warnBatV: sbx.extendedSettings.warnBatV || 300
@@ -32,13 +36,16 @@ function init(ctx) {
     return prefs;
   };
 
-  sensorState.setProperties = function setProperties (sbx) {
+  // @ts-expect-error TS(2339): Property 'setProperties' does not exist on type '{... Remove this comment to see the full error message
+  sensorState.setProperties = function setProperties (sbx: any) {
     sbx.offerProperty('sensorState', function setProp ( ) {
+      // @ts-expect-error TS(2339): Property 'getStateString' does not exist on type '... Remove this comment to see the full error message
       return sensorState.getStateString(sbx);
     });
   };
 
-  sensorState.checkNotifications = function checkNotifications(sbx) {
+  // @ts-expect-error TS(2339): Property 'checkNotifications' does not exist on ty... Remove this comment to see the full error message
+  sensorState.checkNotifications = function checkNotifications(sbx: any) {
 
     var info = sbx.properties.sensorState;
 
@@ -55,7 +62,9 @@ function init(ctx) {
 
   };
 
-  sensorState.getStateString = function findLatestState(sbx) {
+  // @ts-expect-error TS(2339): Property 'getStateString' does not exist on type '... Remove this comment to see the full error message
+  sensorState.getStateString = function findLatestState(sbx: any) {
+    // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
     var prefs = sensorState.getPrefs(sbx);
 
     var recentHours = 24; 
@@ -92,15 +101,16 @@ function init(ctx) {
       , lastResistance: null
     };
 
-    function toMoments (status) {
+    function toMoments (status: any) {
       return {
         when:  moment(status.mills)
         , timestamp: status.xdripjs && status.xdripjs.timestamp && moment(status.xdripjs.timestamp)
       };
     }
 
-    function getDevice(status) {
+    function getDevice(status: any) {
       var uri = status.device || 'device';
+      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       var device = result.seenDevices[uri];
 
       if (!device) {
@@ -109,20 +119,21 @@ function init(ctx) {
           , uri: uri
         };
 
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         result.seenDevices[uri] = device;
       }
       return device;
     }
 
     var recentData = _.chain(sbx.data.devicestatus)
-      .filter(function (status) {
+      .filter(function (status: any) {
         return ('xdripjs' in status) && sbx.entryMills(status) <= sbx.time && sbx.entryMills(status) >= recentMills;
       })
       .value( );
 
     recentData = _.sortBy(recentData, 'xdripjs.timestamp');
 
-    _.forEach(recentData, function eachStatus (status) {
+    _.forEach(recentData, function eachStatus (status: any) {
       getDevice(status);
 
       var moments = toMoments(status);
@@ -140,92 +151,135 @@ function init(ctx) {
 
     var sensorInfo = result.latest;
 
+    // @ts-expect-error TS(2339): Property 'level' does not exist on type '{ seenDev... Remove this comment to see the full error message
     result.level = levels.NONE;
 
+    // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
     if (sensorInfo && sensorInfo.xdripjs) {
 
+      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
       if (sensorInfo.xdripjs.state != 0x6) {
         // Send warning notification for all states that are not 'OK'
         // but only send state notifications at interval preference
+        // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
         if (!lastStateNotification || (lastStateNotification.state != sensorInfo.xdripjs.state) || !prefs.stateNotifyIntrvl || (moment().diff(lastStateNotification.timestamp, 'minutes') > (prefs.stateNotifyIntrvl*60))) {
           sendNotification = true;
           lastStateNotification = {
             timestamp: moment()
+            // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
             , state: sensorInfo.xdripjs.state
           };
         }
 
+        // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
         message = 'CGM Transmitter state: ' + sensorInfo.xdripjs.stateString;
+        // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
         title = 'CGM Transmitter state: ' + sensorInfo.xdripjs.stateString;
 
+        // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
         if (sensorInfo.xdripjs.state == 0x7) {
           // If it is a calibration request, only use INFO
+          // @ts-expect-error TS(2339): Property 'level' does not exist on type '{ seenDev... Remove this comment to see the full error message
           result.level = levels.INFO;
         } else {
+          // @ts-expect-error TS(2339): Property 'level' does not exist on type '{ seenDev... Remove this comment to see the full error message
           result.level = levels.WARN;
         }
       }
 
+      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
       if (sensorInfo.xdripjs.voltagea && (sensorInfo.xdripjs.voltagea < prefs.warnBatV)) {
         sendNotification = true;
+        // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
         message = 'CGM Transmitter Battery A Low Voltage: ' + sensorInfo.xdripjs.voltagea;
         title = 'CGM Transmitter Battery Low';
+        // @ts-expect-error TS(2339): Property 'level' does not exist on type '{ seenDev... Remove this comment to see the full error message
         result.level = levels.WARN;
       }
 
+      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
       if (sensorInfo.xdripjs.voltageb && (sensorInfo.xdripjs.voltageb < (prefs.warnBatV - 10))) {
         sendNotification = true;
+        // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
         message = 'CGM Transmitter Battery B Low Voltage: ' + sensorInfo.xdripjs.voltageb;
         title = 'CGM Transmitter Battery Low';
+        // @ts-expect-error TS(2339): Property 'level' does not exist on type '{ seenDev... Remove this comment to see the full error message
         result.level = levels.WARN;
       }
 
       if (prefs.enableAlerts && sendNotification) {
+        // @ts-expect-error TS(2339): Property 'notification' does not exist on type '{ ... Remove this comment to see the full error message
         result.notification = {
           title: title
           , message: message
           , pushoverSound: sound
+          // @ts-expect-error TS(2339): Property 'level' does not exist on type '{ seenDev... Remove this comment to see the full error message
           , level: result.level
           , group: 'xDrip-js'
         };
       }
 
+      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
       result.lastState = sensorInfo.xdripjs.state;
+      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
       result.lastStateString = sensorInfo.xdripjs.stateString;
+      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
       result.lastStateStringShort = sensorInfo.xdripjs.stateStringShort;
+      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
       result.lastSessionStart = sensorInfo.xdripjs.sessionStart;
+      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
       result.lastTxId = sensorInfo.xdripjs.txId;
+      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
       result.lastTxStatus = sensorInfo.xdripjs.txStatus;
+      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
       result.lastTxStatusString = sensorInfo.xdripjs.txStatusString;
+      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
       result.lastTxStatusStringShort = sensorInfo.xdripjs.txStatusStringShort;
+      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
       result.lastTxActivation = sensorInfo.xdripjs.txActivation;
+      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
       result.lastMode = sensorInfo.xdripjs.mode;
+      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
       result.lastRssi = sensorInfo.xdripjs.rssi;
+      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
       result.lastUnfiltered = sensorInfo.xdripjs.unfiltered;
+      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
       result.lastFiltered = sensorInfo.xdripjs.filtered;
+      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
       result.lastNoise = sensorInfo.xdripjs.noise;
+      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
       result.lastNoiseString = sensorInfo.xdripjs.noiseString;
+      // @ts-expect-error TS(2322): Type 'number' is not assignable to type 'null'.
       result.lastSlope = Math.round(sensorInfo.xdripjs.slope * 100) / 100.0;
+      // @ts-expect-error TS(2322): Type 'number' is not assignable to type 'null'.
       result.lastIntercept = Math.round(sensorInfo.xdripjs.intercept * 100) / 100.0;
+      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
       result.lastCalType = sensorInfo.xdripjs.calType;
+      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
       result.lastCalibrationDate = sensorInfo.xdripjs.lastCalibrationDate;
+      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
       result.lastBatteryTimestamp = sensorInfo.xdripjs.batteryTimestamp;
+      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
       result.lastVoltageA = sensorInfo.xdripjs.voltagea;
+      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
       result.lastVoltageB = sensorInfo.xdripjs.voltageb;
+      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
       result.lastTemperature = sensorInfo.xdripjs.temperature;
+      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
       result.lastResistance = sensorInfo.xdripjs.resistance;
     }
 
     return result;
   };
 
-  sensorState.updateVisualisation = function updateVisualisation (sbx) {
+  // @ts-expect-error TS(2339): Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
+  sensorState.updateVisualisation = function updateVisualisation (sbx: any) {
 
     var sensor = sbx.properties.sensorState;
     var sessionDuration = 'Unknown';
     var info = [];
 
-    _.forIn(sensor.seenDevices, function seenDevice (device) {
+    _.forIn(sensor.seenDevices, function seenDevice (device: any) {
       info.push( { label: 'Seen: ', value: device.name } );
     });
 
@@ -322,7 +376,7 @@ function init(ctx) {
     }
   };
 
-  function virtAsstGenericCGMHandler(translateItem, field, next, sbx) {
+  function virtAsstGenericCGMHandler(translateItem: any, field: any, next: any, sbx: any) {
     var response;
     var state = _.get(sbx, 'properties.sensorState.'+field);
     if (state) {
@@ -339,22 +393,23 @@ function init(ctx) {
     next(translate('virtAsstTitleCGM'+translateItem), response);
   }
 
+  // @ts-expect-error TS(2339): Property 'virtAsst' does not exist on type '{ name... Remove this comment to see the full error message
   sensorState.virtAsst = {
     intentHandlers: [
       {
         intent: 'MetricNow'
         , metrics: ['cgm mode']
-        , intentHandler: function(next, slots, sbx){virtAsstGenericCGMHandler('Mode', 'lastMode', next, sbx);}
+        , intentHandler: function(next: any, slots: any, sbx: any){virtAsstGenericCGMHandler('Mode', 'lastMode', next, sbx);}
       }
       , {
         intent: 'MetricNow'
         , metrics: ['cgm status']
-        , intentHandler: function(next, slots, sbx){virtAsstGenericCGMHandler('Status', 'lastStateString', next, sbx);}
+        , intentHandler: function(next: any, slots: any, sbx: any){virtAsstGenericCGMHandler('Status', 'lastStateString', next, sbx);}
       }
       , {
         intent: 'MetricNow'
         , metrics: ['cgm session age']
-        , intentHandler: function(next, slots, sbx){
+        , intentHandler: function(next: any, slots: any, sbx: any){
           var response;
           var lastSessionStart = _.get(sbx, 'properties.sensorState.lastSessionStart');
           // session start is only valid if in a session
@@ -380,12 +435,12 @@ function init(ctx) {
       , {
         intent: 'MetricNow'
         , metrics: ['cgm tx status']
-        , intentHandler: function(next, slots, sbx){virtAsstGenericCGMHandler('TxStatus', 'lastTxStatusString', next, sbx);}
+        , intentHandler: function(next: any, slots: any, sbx: any){virtAsstGenericCGMHandler('TxStatus', 'lastTxStatusString', next, sbx);}
       }
       , {
         intent: 'MetricNow'
         , metrics: ['cgm tx age']
-        , intentHandler: function(next, slots, sbx){
+        , intentHandler: function(next: any, slots: any, sbx: any){
           var lastTxActivation = _.get(sbx, 'properties.sensorState.lastTxActivation');
           next(
             translate('virtAsstTitleCGMTxAge'),
@@ -398,12 +453,12 @@ function init(ctx) {
       , {
         intent: 'MetricNow'
         , metrics: ['cgm noise']
-        , intentHandler: function(next, slots, sbx){virtAsstGenericCGMHandler('Noise', 'lastNoiseString', next, sbx);}
+        , intentHandler: function(next: any, slots: any, sbx: any){virtAsstGenericCGMHandler('Noise', 'lastNoiseString', next, sbx);}
       }
       , {
         intent: 'MetricNow'
         , metrics: ['cgm battery']
-        , intentHandler: function(next, slots, sbx){
+        , intentHandler: function(next: any, slots: any, sbx: any){
           var response;
           var lastVoltageA = _.get(sbx, 'properties.sensorState.lastVoltageA');
           var lastVoltageB = _.get(sbx, 'properties.sensorState.lastVoltageB');
@@ -439,5 +494,6 @@ function init(ctx) {
   return sensorState;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;
 

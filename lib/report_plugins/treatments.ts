@@ -1,6 +1,8 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 var _ = window._;
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'moment'.
 var moment = window.moment;
 
 var treatments = {
@@ -13,9 +15,11 @@ function init() {
   return treatments;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;
 
-treatments.html = function html(client) {
+// @ts-expect-error TS(2339): Property 'html' does not exist on type '{ name: st... Remove this comment to see the full error message
+treatments.html = function html(client: any) {
   var translate = client.translate;
   var ret =
       '<h2>' + translate('Treatments') + '</h2>'
@@ -97,25 +101,28 @@ treatments.html = function html(client) {
   return ret;
 };
 
+// @ts-expect-error TS(2339): Property 'css' does not exist on type '{ name: str... Remove this comment to see the full error message
 treatments.css =
     '.border_bottom td {'
   + '  border-bottom:1pt solid #eee;'
   + '}'
   ;
     
-treatments.report = function report_treatments(datastorage, sorteddaystoshow, options) {
+// @ts-expect-error TS(2339): Property 'report' does not exist on type '{ name: ... Remove this comment to see the full error message
+treatments.report = function report_treatments(datastorage: any, sorteddaystoshow: any, options: any) {
+  // @ts-expect-error TS(2339): Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
   var Nightscout = window.Nightscout;
   var client = Nightscout.client;
   var translate = client.translate;
   var report_plugins = Nightscout.report_plugins;
   
-  function buildConfirmText(data) {
+  function buildConfirmText(data: any) {
     var text = [
         translate('Delete this treatment?')+'\n'
         , '\n'+translate('Event Type')+': ' + translate(client.careportal.resolveEventName(data.eventType))
     ];
 
-    function pushIf (check, valueText) {
+    function pushIf (check: any, valueText: any) {
       if (check) {
         text.push(valueText);
       }
@@ -139,7 +146,7 @@ treatments.report = function report_treatments(datastorage, sorteddaystoshow, op
     return text.join('\n');
   }
 
-  function deleteTreatment(event) {
+  function deleteTreatment(this: any, event: any) {
     if (!client.hashauth.isAuthenticated()) {
       window.alert(translate('Your device is not authenticated yet'));
       return false;
@@ -153,9 +160,9 @@ treatments.report = function report_treatments(datastorage, sorteddaystoshow, op
         method: 'DELETE'
       , url: '/api/v1/treatments/' + data._id
       , headers: client.headers()
-      }).done(function treatmentDeleted (response) {
+      }).done(function treatmentDeleted (response: any) {
         console.info('treatment deleted', response);
-      }).fail(function treatmentDeleteFail (response) {
+      }).fail(function treatmentDeleteFail (response: any) {
         console.info('treatment delete failed', response);
         window.alert(translate('Deleting record failed') + '. ' + translate('Status') + ': ' + response.status);
       });
@@ -166,13 +173,13 @@ treatments.report = function report_treatments(datastorage, sorteddaystoshow, op
     return false;
   }
 
-  function editTreatment(event) {
+  function editTreatment(this: any, event: any) {
     var data = JSON.parse($(this).attr('data'));
     var day = $(this).attr('day');
 
     // prepare event list
     $('#rped_eventType').empty();
-    _.each(client.careportal.events, function eachEvent(event) {
+    _.each(client.careportal.events, function eachEvent(event: any) {
       if (event.name.indexOf('Temp Basal') > -1) {
         return;
       }
@@ -182,7 +189,7 @@ treatments.report = function report_treatments(datastorage, sorteddaystoshow, op
     $('#rped_eventType').append('<option value="Bolus Wizard">' + translate('Bolus Wizard') + '</option>');
 
     $('#rped_profile').empty().append('<option val=""></option>');
-    client.profilefunctions.listBasalProfiles().forEach(function (p) {
+    client.profilefunctions.listBasalProfiles().forEach(function (p: any) {
       $('#rped_profile').append('<option id="' + p + '">' + p + '</option>');
     });
 
@@ -255,7 +262,7 @@ treatments.report = function report_treatments(datastorage, sorteddaystoshow, op
     return false;
   }
 
-  function saveTreatmentRecord(data) {
+  function saveTreatmentRecord(data: any) {
     if (!client.hashauth.isAuthenticated()) {
       window.alert(translate('Your device is not authenticated yet'));
       return false;
@@ -266,9 +273,9 @@ treatments.report = function report_treatments(datastorage, sorteddaystoshow, op
     , url: '/api/v1/treatments/'
     , headers: client.headers()
     , data: data
-    }).done(function treatmentSaved (response) {
+    }).done(function treatmentSaved (response: any) {
       console.info('treatment saved', response);
-    }).fail(function treatmentSaveFail (response) {
+    }).fail(function treatmentSaveFail (response: any) {
       console.info('treatment save failed', response);
       window.alert(translate('Saving record failed') + '. ' + translate('Status') + ': ' + response.status);
     });
@@ -276,7 +283,7 @@ treatments.report = function report_treatments(datastorage, sorteddaystoshow, op
     return true;
   }
 
-  function maybePrevent (event) {
+  function maybePrevent (event: any) {
     if (event) {
       event.preventDefault();
     }
@@ -304,7 +311,7 @@ treatments.report = function report_treatments(datastorage, sorteddaystoshow, op
     .append($('<th>').css('width','300px').attr('align','left').append(translate('Notes')))
   );
   
-  sorteddaystoshow.forEach(function (day) {
+  sorteddaystoshow.forEach(function (day: any) {
     table.append($('<tr>')
       .append($('<td>').attr('colspan','12').css('background','lightgray')
         .append($('<b>').append(report_plugins.utils.localeDate(day)))

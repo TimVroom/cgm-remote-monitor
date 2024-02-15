@@ -1,20 +1,29 @@
 'use strict';
 
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 const _last = require('lodash/last');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_isNil'.
 const _isNil = require('lodash/isNil');
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 const _first = require('lodash/first');
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 const _includes = require('lodash/includes');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 const _ = require('lodash');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'moment'.
 const moment = require('moment');
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'consts'.
 const consts = require('../../constants');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'es'.
 const es = require('event-stream');
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 const braces = require('braces');
 const expand = braces.expand;
 
 const ID_PATTERN = /^[a-f\d]{24}$/;
 
-function isId (value) {
+function isId (value: any) {
   return ID_PATTERN.test(value);
 }
 
@@ -32,9 +41,10 @@ function isId (value) {
  * @param Object ctx The global ctx with all modules, storage, and event buses
  * configured.
  */
-function configure (app, wares, ctx, env) {
+function configure (app: any, wares: any, ctx: any, env: any) {
   // default storage biased towards entries.
   const entries = ctx.entries;
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   const express = require('express')
     , api = express.Router();
 
@@ -61,12 +71,12 @@ function configure (app, wares, ctx, env) {
    * elements on the stream have a `type` field.
    * Generate a stream that ensures elements have a `type` field.
    */
-  function force_typed_data (opts) {
+  function force_typed_data (opts: any) {
     /**
      * @function sync
      * Iterate over every element in the stream, enforcing some data type.
      */
-    function sync (data, next) {
+    function sync (data: any, next: any) {
       // if element has no data type, but we know what the type should be
       if (!data.type && opts.type) {
         // bless absence with known type
@@ -92,7 +102,7 @@ function configure (app, wares, ctx, env) {
 
   // check for last modified from in-memory data
 
-  function ifModifiedSinceCTX (req, res, next) {
+  function ifModifiedSinceCTX (req: any, res: any, next: any) {
 
     var lastEntry = _last(ctx.ddata.sgvs);
     var lastEntryDate = null;
@@ -129,7 +139,7 @@ function configure (app, wares, ctx, env) {
     * We expect a payload to be attached to `res.entries`.
     // Middleware to format any response involving entries.
     */
-  function format_entries (req, res) {
+  function format_entries (req: any, res: any) {
     // deduce what type of records we might expect
     var type_params = {
       type: (req.query && req.query.find && req.query.find.type &&
@@ -144,7 +154,7 @@ function configure (app, wares, ctx, env) {
 
     // IF-Modified-Since support
 
-    function compare (a, b) {
+    function compare (a: any, b: any) {
       var a_field = a.mills ? a.mills : a.date;
       var b_field = b.mills ? b.mills : b.date;
 
@@ -166,6 +176,7 @@ function configure (app, wares, ctx, env) {
     if (!_isNil(lastEntry)) {
       if (lastEntry.mills) lastEntryDate = new Date(lastEntry.mills);
       if (!lastEntry.mills && lastEntry.date) lastEntryDate = new Date(lastEntry.date);
+      // @ts-expect-error TS(2531): Object is possibly 'null'.
       res.setHeader('Last-Modified', lastEntryDate.toUTCString());
     }
 
@@ -181,10 +192,10 @@ function configure (app, wares, ctx, env) {
       return;
     }
 
-    function formatWithSeparator (data, separator) {
+    function formatWithSeparator (data: any, separator: any) {
       if (data === null || data.constructor !== Array || data.length == 0) return "";
 
-      var outputdata = [];
+      var outputdata: any = [];
       data.forEach(function(e) {
         var entry = {
           "dateString": e.dateString
@@ -197,10 +208,10 @@ function configure (app, wares, ctx, env) {
       });
 
       var fields = Object.keys(outputdata[0]);
-      var replacer = function(key, value) {
+      var replacer = function(key: any, value: any) {
         return value === null ? '' : value
       }
-      var csv = outputdata.map(function(row) {
+      var csv = outputdata.map(function(row: any) {
         return fields.map(function(fieldName) {
           return JSON.stringify(row[fieldName], replacer)
         }).join(separator)
@@ -217,19 +228,19 @@ function configure (app, wares, ctx, env) {
     // such as enforcing a type property to exist, are followed.
     return res.format({
       'text/plain': function() {
-        es.pipeline(output, force_typed_data(type_params), es.writeArray(function(err, out) {
+        es.pipeline(output, force_typed_data(type_params), es.writeArray(function(err: any, out: any) {
           var output = formatWithSeparator(out, "\t");
           res.send(output);
         }));
       }
       , 'text/tab-separated-values': function() {
-        es.pipeline(output, force_typed_data(type_params), es.writeArray(function(err, out) {
+        es.pipeline(output, force_typed_data(type_params), es.writeArray(function(err: any, out: any) {
           var output = formatWithSeparator(out, '\t');
           res.send(output);
         }));
       }
       , 'text/csv': function() {
-        es.pipeline(output, force_typed_data(type_params), es.writeArray(function(err, out) {
+        es.pipeline(output, force_typed_data(type_params), es.writeArray(function(err: any, out: any) {
           var output = formatWithSeparator(out, ',');
           res.send(output);
         }));
@@ -237,7 +248,7 @@ function configure (app, wares, ctx, env) {
       , 'application/json': function() {
         // so long as every element has a `type` field, and some kind of
         // date, we'll consider it valid
-        es.pipeline(output, force_typed_data(type_params), es.writeArray(function(err, out) {
+        es.pipeline(output, force_typed_data(type_params), es.writeArray(function(err: any, out: any) {
           res.json(out);
         }));
       }
@@ -245,7 +256,7 @@ function configure (app, wares, ctx, env) {
         // Default to JSON output
         // so long as every element has a `type` field, and some kind of
         // date, we'll consider it valid
-        es.pipeline(output, force_typed_data(type_params), es.writeArray(function(err, out) {
+        es.pipeline(output, force_typed_data(type_params), es.writeArray(function(err: any, out: any) {
           res.json(out);
         }));
       }
@@ -260,7 +271,7 @@ function configure (app, wares, ctx, env) {
    * into the configured storage layer, saving the results in mongodb.
    */
   // middleware to process "uploads" of sgv data
-  function insert_entries (req, res, next) {
+  function insert_entries (req: any, res: any, next: any) {
     // list of incoming records
     var incoming = [];
     // Potentially a single json encoded body.
@@ -286,7 +297,7 @@ function configure (app, wares, ctx, env) {
      * Sends stream elements into storage layer.
      * Configures the storage layer stream.
      */
-    function persist (fn) {
+    function persist (fn: any) {
       if (req.persist_entries) {
         // store everything
         return entries.persist(fn);
@@ -300,7 +311,7 @@ function configure (app, wares, ctx, env) {
      * Final callback store results on `res.entries`, after all I/O is done.
      * store results and move to the next middleware
      */
-    function done (err, result) {
+    function done (err: any, result: any) {
       // assign payload
       res.entries = result;
       res.entries_err = err;
@@ -318,7 +329,7 @@ function configure (app, wares, ctx, env) {
    * @param {String} model The name of the model to use if not found.
    * Sets `req.query.find.type` to your chosen model.
    */
-  function prepReqModel (req, model) {
+  function prepReqModel (req: any, model: any) {
     var type = model || 'sgv';
     if (!req.query.find) {
 
@@ -334,7 +345,7 @@ function configure (app, wares, ctx, env) {
    * @param model
    * Prepare model based on explicit choice in route/path parameter.
    */
-  api.param('model', function(req, res, next, model) {
+  api.param('model', function(req: any, res: any, next: any, model: any) {
     prepReqModel(req, model);
     next();
   });
@@ -345,12 +356,12 @@ function configure (app, wares, ctx, env) {
    * Get last entry.
    * @response /definitions/Entries
    */
-  api.get('/entries/current', function(req, res, next) {
+  api.get('/entries/current', function(req: any, res: any, next: any) {
     //assume sgv
     req.params.model = 'sgv';
     entries.list({
       count: 1
-    }, function(err, records) {
+    }, function(err: any, records: any) {
       res.entries = records;
       res.entries_err = err;
       return next();
@@ -368,9 +379,9 @@ function configure (app, wares, ctx, env) {
    * usual query logic is performed biased towards that model type.
    * Useful for filtering by type.
    */
-  api.get('/entries/:spec', function(req, res, next) {
+  api.get('/entries/:spec', function(req: any, res: any, next: any) {
     if (isId(req.params.spec)) {
-      entries.getEntry(req.params.spec, function(err, entry) {
+      entries.getEntry(req.params.spec, function(err: any, entry: any) {
         if (err) {
           return next(err);
         }
@@ -408,7 +419,7 @@ function configure (app, wares, ctx, env) {
    * Useful for understanding how REST api parameters translate into mongodb
    * queries.
    */
-  function echo_query (req, res) {
+  function echo_query (req: any, res: any) {
     var query = req.query;
     // make a depth-wise copy of the original raw input
     var input = JSON.parse(JSON.stringify(query));
@@ -438,7 +449,7 @@ function configure (app, wares, ctx, env) {
    * If the query can be served from data in the runtime ddata, use the cached
    * data and don't query the database.
    */
-  function query_models (req, res, next) {
+  function query_models (req: any, res: any, next: any) {
     var query = req.query;
 
     // If "?count=" is present, use that number to decided how many to return.
@@ -448,7 +459,7 @@ function configure (app, wares, ctx, env) {
 
     // Check if we can process the query using in-memory data only
     let inMemoryPossible = true;
-    let typeQuery;
+    let typeQuery: any;
 
     if (query.find) {
       Object.keys(query.find).forEach(function(key) {
@@ -464,7 +475,7 @@ function configure (app, wares, ctx, env) {
     let inMemoryCollection;
 
     if (typeQuery) {
-      inMemoryCollection= _.filter(ctx.cache.entries, function checkType (object) {
+      inMemoryCollection= _.filter(ctx.cache.entries, function checkType (object: any) {
         if (typeQuery == 'sgv') return 'sgv' in object;
         if (typeQuery == 'mbg') return 'mbg' in object;
         if (typeQuery == 'cal') return object.type === 'cal';
@@ -490,7 +501,7 @@ function configure (app, wares, ctx, env) {
     // bias to entries, but allow expressing a preference
     var storage = req.storage || ctx.entries;
     // perform the query
-    storage.list(query, function payload (err, entries) {
+    storage.list(query, function payload (err: any, entries: any) {
       // assign payload
       res.entries = entries;
       res.entries_err = err;
@@ -498,10 +509,10 @@ function configure (app, wares, ctx, env) {
     });
   }
 
-  function count_records (req, res, next) {
+  function count_records (req: any, res: any, next: any) {
     var query = req.query;
     var storage = req.storage || ctx.entries;
-    storage.aggregate(query, function payload (err, entries) {
+    storage.aggregate(query, function payload (err: any, entries: any) {
       // assign payload
       res.entries = entries;
       res.entries_err = err;
@@ -509,7 +520,7 @@ function configure (app, wares, ctx, env) {
     });
   }
 
-  function format_results (req, res, next) {
+  function format_results (req: any, res: any, next: any) {
     res.json(res.entries);
     next();
   }
@@ -519,7 +530,7 @@ function configure (app, wares, ctx, env) {
    * Delete entries.  The query logic works the same way as find/list.  This
    * endpoint uses same search logic to remove records from the database.
    */
-  function delete_records (req, res, next) {
+  function delete_records (req: any, res: any, next: any) {
     // bias towards model, but allow expressing a preference
     if (!req.model) {
       req.model = ctx.entries;
@@ -529,7 +540,7 @@ function configure (app, wares, ctx, env) {
       query.count = consts.ENTRIES_DEFAULT_COUNT;
     }
     // remove using the query
-    req.model.remove(query, function(err, stat) {
+    req.model.remove(query, function(err: any, stat: any) {
       if (err) {
         return next(err);
       }
@@ -543,7 +554,7 @@ function configure (app, wares, ctx, env) {
    * @param spec
    * Middleware that prepares the :spec parameter in the routed path.
    */
-  api.param('spec', function(req, res, next, spec) {
+  api.param('spec', function(req: any, res: any, next: any, spec: any) {
     if (isId(spec)) {
       prepReqModel(req, req.params.model);
       req.query = {
@@ -562,7 +573,7 @@ function configure (app, wares, ctx, env) {
    * The echo parameter in the path routing parameters allows the echo
    * endpoints to customize the storage layer.
    */
-  api.param('echo', function(req, res, next, echo) {
+  api.param('echo', function(req: any, res: any, next: any, echo: any) {
     console.log('echo', echo);
     if (!echo) {
       req.params.echo = 'entries';
@@ -594,7 +605,7 @@ function configure (app, wares, ctx, env) {
 
   ```
         */
-  function prep_patterns (req, res, next) {
+  function prep_patterns (req: any, res: any, next: any) {
     // initialize empty pattern list.
     var pattern = [];
     // initialize a basic prefix
@@ -628,12 +639,12 @@ function configure (app, wares, ctx, env) {
      * RegExp with the prefix and suffix prepended, and appended,
      * respectively.
      */
-    function iter_regex (prefix, suffix) {
+    function iter_regex (prefix: any, suffix: any) {
       /**
        * @function make
        * @returns RegExp Make a RegExp with configured prefix and suffix
        */
-      function make (pat) {
+      function make (pat: any) {
         // concat the prefix, pattern, and suffix.
         pat = (prefix ? prefix : '') + pat + (suffix ? suffix : '');
         // return RegExp.
@@ -645,10 +656,12 @@ function configure (app, wares, ctx, env) {
 
     // save pattern for other middlewares, eg echo, query, etc.
     req.pattern = pattern;
+    // @ts-expect-error TS(2554): Expected 2 arguments, but got 0.
     var matches = pattern.map(iter_regex());
     // prepare the query against a configurable field name.
     var field = req.patternField;
     var query = {};
+    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     query[field] = {
       // $regex: prefix,
       // configure query to perform regex against list of potential regexp
@@ -657,14 +670,17 @@ function configure (app, wares, ctx, env) {
     if (prefix.length === 1) {
       // If there is a single prefix pattern, mongo can optimize this against
       // an indexed field
+      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       query[field].$regex = prefix.map(iter_regex('^')).pop();
     }
 
     // Merge into existing query structure.
     if (req.query.find) {
       if (req.query.find[field]) {
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         req.query.find[field].$in = query[field].$in;
       } else {
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         req.query.find[field] = query[field];
       }
     } else {
@@ -684,7 +700,7 @@ function configure (app, wares, ctx, env) {
    * Default is `dateString`, because that's the iso8601 field for sgv
    * entries.
    */
-  function prep_pattern_field (req, res, next) {
+  function prep_pattern_field (req: any, res: any, next: any) {
     // If req.params.field from routed path parameter is available use it.
     if (req.params.field) {
       req.patternField = req.params.field;
@@ -703,7 +719,7 @@ function configure (app, wares, ctx, env) {
    * the entries storage layer, because that's where sgv records are stored
    * by default.
    */
-  function prep_storage (req, res, next) {
+  function prep_storage (req: any, res: any, next: any) {
     if (req.params.storage && _includes(['entries', 'treatments', 'devicestatus'], req.params.storage)) {
       req.storage = ctx[req.params.storage];
     } else {
@@ -719,7 +735,7 @@ function configure (app, wares, ctx, env) {
    * Useful for understanding how the `/:prefix/:regex` route generates
    * mongodb queries.
    */
-  api.get('/times/echo/:prefix?/:regex?', prep_storage, prep_pattern_field, prep_patterns, prep_patterns, function(req, res) {
+  api.get('/times/echo/:prefix?/:regex?', prep_storage, prep_pattern_field, prep_patterns, prep_patterns, function(req: any, res: any) {
     res.json({
       req: {
         params: req.params
@@ -763,7 +779,7 @@ function configure (app, wares, ctx, env) {
    * posted back out.
    * Similar to the echo api, useful to lint/debug upload problems.
    */
-  api.post('/entries/preview', ctx.authorization.isPermitted('api:entries:create'), function(req, res, next) {
+  api.post('/entries/preview', ctx.authorization.isPermitted('api:entries:create'), function(req: any, res: any, next: any) {
     // setting this flag tells insert_entries to not actually store the results
     req.persist_entries = false;
     next();
@@ -778,7 +794,7 @@ function configure (app, wares, ctx, env) {
      * Stores incoming payload that follows basic rules about having a
      * `type` field in `entries` storage layer.
      */
-    api.post('/entries/', ctx.authorization.isPermitted('api:entries:create'), function(req, res, next) {
+    api.post('/entries/', ctx.authorization.isPermitted('api:entries:create'), function(req: any, res: any, next: any) {
       // setting this flag tells insert_entries to store the results
       req.persist_entries = true;
       next();
@@ -790,7 +806,7 @@ function configure (app, wares, ctx, env) {
      * Delete entries.  The query logic works the same way as find/list.  This
      * endpoint uses same search logic to remove records from the database.
      */
-    api.delete('/entries/:spec', ctx.authorization.isPermitted('api:entries:delete'), function(req, res, next) {
+    api.delete('/entries/:spec', ctx.authorization.isPermitted('api:entries:delete'), function(req: any, res: any, next: any) {
       // if ID, prepare to query for one record
       if (isId(req.params.spec)) {
         prepReqModel(req, req.params.model);
@@ -817,4 +833,5 @@ function configure (app, wares, ctx, env) {
 }
 
 // expose module
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = configure;

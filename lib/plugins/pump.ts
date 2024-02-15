@@ -1,14 +1,18 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
 var times = require('../times');
 
 var ALL_STATUS_FIELDS = ['reservoir', 'battery', 'clock', 'status', 'device'];
 
-function init (ctx) {
+function init (ctx: any) {
   var moment = ctx.moment;
   var translate = ctx.language.translate;
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var timeago = require('./timeago')(ctx);
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var openaps = require('./openaps')(ctx);
   var levels = ctx.levels;
 
@@ -18,13 +22,14 @@ function init (ctx) {
     , pluginType: 'pill-status'
   };
 
-  pump.getPrefs = function getPrefs (sbx) {
+  // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
+  pump.getPrefs = function getPrefs (sbx: any) {
 
-    function cleanList (value) {
+    function cleanList (value: any) {
       return decodeURIComponent(value || '').toLowerCase().split(' ');
     }
 
-    function isEmpty (list) {
+    function isEmpty (list: any) {
       return _.isEmpty(list) || _.isEmpty(list[0]);
     }
 
@@ -61,19 +66,21 @@ function init (ctx) {
     };
   };
 
-  pump.setProperties = function setProperties (sbx) {
+  // @ts-expect-error TS(2339): Property 'setProperties' does not exist on type '{... Remove this comment to see the full error message
+  pump.setProperties = function setProperties (sbx: any) {
     sbx.offerProperty('pump', function setPump ( ) {
 
+      // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
       var prefs = pump.getPrefs(sbx);
       var recentMills = sbx.time - times.mins(prefs.urgentClock * 2).msecs;
 
-      var filtered = _.filter(sbx.data.devicestatus, function (status) {
+      var filtered = _.filter(sbx.data.devicestatus, function (status: any) {
         return ('pump' in status) && sbx.entryMills(status) <= sbx.time && sbx.entryMills(status) >= recentMills;
       });
 
-      var pumpStatus = null;
+      var pumpStatus: any = null;
 
-      _.forEach(filtered, function each (status) {
+      _.forEach(filtered, function each (status: any) {
         status.clockMills = status.pump && status.pump.clock ? moment(status.pump.clock).valueOf() : status.mills;
         if (!pumpStatus || status.clockMills > pumpStatus.clockMills) {
           pumpStatus = status;
@@ -87,11 +94,14 @@ function init (ctx) {
     });
   };
 
-  pump.checkNotifications = function checkNotifications (sbx) {
+  // @ts-expect-error TS(2339): Property 'checkNotifications' does not exist on ty... Remove this comment to see the full error message
+  pump.checkNotifications = function checkNotifications (sbx: any) {
+    // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
     var prefs = pump.getPrefs(sbx);
 
     if (!prefs.enableAlerts) { return; }
 
+    // @ts-expect-error TS(2339): Property 'warnOnSuspend' does not exist on type '{... Remove this comment to see the full error message
     pump.warnOnSuspend = prefs.warnOnSuspend;
 
     var data = prepareData(sbx.properties.pump, prefs, sbx);
@@ -99,7 +109,9 @@ function init (ctx) {
     if (data.level >= levels.WARN) {
       sbx.notifications.requestNotify({
         level: data.level
+        // @ts-expect-error TS(2339): Property 'title' does not exist on type '{ level: ... Remove this comment to see the full error message
         , title: data.title
+        // @ts-expect-error TS(2339): Property 'message' does not exist on type '{ level... Remove this comment to see the full error message
         , message: data.message
         , pushoverSound: 'echo'
         , group: 'Pump'
@@ -108,18 +120,21 @@ function init (ctx) {
     }
   };
 
-  pump.updateVisualisation = function updateVisualisation (sbx) {
+  // @ts-expect-error TS(2339): Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
+  pump.updateVisualisation = function updateVisualisation (sbx: any) {
     var prop = sbx.properties.pump;
 
+    // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
     var prefs = pump.getPrefs(sbx);
     var result = prepareData(prop, prefs, sbx);
 
-    var values = [ ];
+    var values: any = [ ];
     var info = [ ];
 
     var selectedFields = sbx.data.inRetroMode ? prefs.retroFields : prefs.fields;
 
-    _.forEach(ALL_STATUS_FIELDS, function eachField (fieldName) {
+    _.forEach(ALL_STATUS_FIELDS, function eachField (fieldName: any) {
+      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       var field = result[fieldName];
       if (field) {
         var selected = _.indexOf(selectedFields, fieldName) > -1;
@@ -133,7 +148,7 @@ function init (ctx) {
 
     if (result.extended) {
       info.push({label: '------------', value: ''});
-      _.forOwn(result.extended, function(value, key) {
+      _.forOwn(result.extended, function(value: any, key: any) {
          info.push({ label: key, value: value });
       });
     }
@@ -146,7 +161,7 @@ function init (ctx) {
     });
   };
 
-  function virtAsstReservoirHandler (next, slots, sbx) {
+  function virtAsstReservoirHandler (next: any, slots: any, sbx: any) {
     var reservoir = _.get(sbx, 'properties.pump.pump.reservoir');
     if (reservoir || reservoir === 0) {
       var response = translate('virtAsstReservoir', {
@@ -160,7 +175,7 @@ function init (ctx) {
     }
   }
 
-  function virtAsstBatteryHandler (next, slots, sbx) {
+  function virtAsstBatteryHandler (next: any, slots: any, sbx: any) {
     var battery = _.get(sbx, 'properties.pump.data.battery');
     if (battery) {
       var response = translate('virtAsstPumpBattery', {
@@ -175,6 +190,7 @@ function init (ctx) {
     }
   }
 
+  // @ts-expect-error TS(2339): Property 'virtAsst' does not exist on type '{ name... Remove this comment to see the full error message
   pump.virtAsst = {
     intentHandlers:[
       {
@@ -200,7 +216,7 @@ function init (ctx) {
     ]
   };
 
-  function statusClass (level) {
+  function statusClass (level: any) {
     var cls = 'current';
 
     if (level === levels.WARN) {
@@ -213,7 +229,7 @@ function init (ctx) {
   }
 
 
-  function updateClock (prefs, result, sbx) {
+  function updateClock (prefs: any, result: any, sbx: any) {
     if (result.clock) {
       result.clock.label = 'Last Clock';
       result.clock.display = timeFormat(result.clock.value, sbx);
@@ -233,7 +249,7 @@ function init (ctx) {
     }
   }
 
-  function updateReservoir (prefs, result) {
+  function updateReservoir (prefs: any, result: any) {
     if (result.reservoir) {
       result.reservoir.label = 'Reservoir';
       result.reservoir.display = result.reservoir.value.toPrecision(3) + 'U';
@@ -259,7 +275,7 @@ function init (ctx) {
     }
   }
 
-  function updateBattery (type, prefs, result, batteryWarn) {
+  function updateBattery (type: any, prefs: any, result: any, batteryWarn: any) {
     if (result.battery) {
       result.battery.label = 'Battery';
       result.battery.display = result.battery.value + type;
@@ -279,7 +295,7 @@ function init (ctx) {
   }
 
 
-  function buildMessage (result) {
+  function buildMessage (result: any) {
     if (result.level > levels.NONE) {
       var message = [];
 
@@ -295,7 +311,7 @@ function init (ctx) {
     }
   }
 
-  function updateStatus(pump, result) {
+  function updateStatus(pump: any, result: any) {
     if (pump.status) {
       var status = pump.status.status || 'normal';
       if (pump.status.bolusing) {
@@ -311,7 +327,7 @@ function init (ctx) {
     }
   }
 
-  function prepareData (prop, prefs, sbx) {
+  function prepareData (prop: any, prefs: any, sbx: any) {
     var pump = (prop && prop.pump) || { };
     var time = (sbx.data.profile && sbx.data.profile.getTimezone()) ? moment(sbx.time).tz(sbx.data.profile.getTimezone()) : moment(sbx.time);
     var now = time.hours() + time.minutes() / 60.0 + time.seconds() / 3600.0;
@@ -332,15 +348,19 @@ function init (ctx) {
     updateStatus(pump, result);
 
     if (pump.battery && pump.battery.percent) {
+      // @ts-expect-error TS(2339): Property 'battery' does not exist on type '{ level... Remove this comment to see the full error message
       result.battery = { value: pump.battery.percent, unit: 'percent' };
       updateBattery('%', prefs, result, batteryWarn);
     } else if (pump.battery && pump.battery.voltage) {
+      // @ts-expect-error TS(2339): Property 'battery' does not exist on type '{ level... Remove this comment to see the full error message
       result.battery = { value: pump.battery.voltage, unit: 'volts'};
       updateBattery('v', prefs, result, batteryWarn);
     }
 
+    // @ts-expect-error TS(2339): Property 'device' does not exist on type '{ level:... Remove this comment to see the full error message
     result.device = { label: translate('Device'), display: prop.device };
 
+    // @ts-expect-error TS(2339): Property 'title' does not exist on type '{ level: ... Remove this comment to see the full error message
     result.title = 'Pump Status';
     result.level = levels.NONE;
 
@@ -348,10 +368,12 @@ function init (ctx) {
     if (openaps.findOfflineMarker(sbx)) {
       console.info('OpenAPS known offline, not checking for alerts');
     } else {
-      _.forEach(ALL_STATUS_FIELDS, function eachField(fieldName) {
+      _.forEach(ALL_STATUS_FIELDS, function eachField(fieldName: any) {
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         var field = result[fieldName];
         if (field && field.level > result.level) {
           result.level = field.level;
+          // @ts-expect-error TS(2339): Property 'title' does not exist on type '{ level: ... Remove this comment to see the full error message
           result.title = field.message;
         }
       });
@@ -362,7 +384,7 @@ function init (ctx) {
     return result;
   }
 
-  function timeFormat (m, sbx) {
+  function timeFormat (m: any, sbx: any) {
 
     var when;
     if (m && sbx.data.inRetroMode) {
@@ -376,7 +398,7 @@ function init (ctx) {
     return when;
   }
 
-  function formatAgo (m, nowMills) {
+  function formatAgo (m: any, nowMills: any) {
     var ago = timeago.calcDisplay({mills: m.valueOf()}, nowMills);
     return translate('%1' + ago.shortLabel + (ago.shortLabel.length === 1 ? ' ago' : ''), { params: [(ago.value ? ago.value : '')]});
   }
@@ -384,4 +406,5 @@ function init (ctx) {
   return pump;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

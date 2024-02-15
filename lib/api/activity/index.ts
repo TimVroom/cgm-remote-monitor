@@ -1,13 +1,19 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_forEach'.
 var _forEach = require('lodash/forEach');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_isNil'.
 var _isNil = require('lodash/isNil');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_isArray'.
 var _isArray = require('lodash/isArray');
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'consts'.
 var consts = require('../../constants');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'moment'.
 var moment = require('moment');
 
-function configure(app, wares, ctx) {
+function configure(app: any, wares: any, ctx: any) {
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var express = require('express')
         , api = express.Router();
 
@@ -26,12 +32,12 @@ function configure(app, wares, ctx) {
     api.use(ctx.authorization.isPermitted('api:activity:read'));
 
     // List activity data available
-    api.get('/activity', function(req, res) {
+    api.get('/activity', function(req: any, res: any) {
         var ifModifiedSince = req.get('If-Modified-Since');
-        ctx.activity.list(req.query, function(err, results) {
-            var d1 = null;
+        ctx.activity.list(req.query, function(err: any, results: any) {
+            var d1: any = null;
             
-            _forEach(results, function clean(t) {
+            _forEach(results, function clean(t: any) {
 
                 var d2 = null;
                 
@@ -65,16 +71,16 @@ function configure(app, wares, ctx) {
         });
     });
 
-    function config_authed(app, api, wares, ctx) {
+    function config_authed(app: any, api: any, wares: any, ctx: any) {
 
-        function post_response(req, res) {
+        function post_response(req: any, res: any) {
             var activity = req.body;
 
             if (!_isArray(activity)) {
                 activity = [activity];
             }
 
-            ctx.activity.create(activity, function(err, created) {
+            ctx.activity.create(activity, function(err: any, created: any) {
                 if (err) {
                     console.log('Error adding activity data', err);
                     res.sendJSONStatus(res, consts.HTTP_INTERNAL_ERROR, 'Mongo Error', err);
@@ -87,16 +93,16 @@ function configure(app, wares, ctx) {
 
         api.post('/activity/', ctx.authorization.isPermitted('api:activity:create'), post_response);
 
-        api.delete('/activity/:_id', ctx.authorization.isPermitted('api:activity:delete'), function(req, res) {
+        api.delete('/activity/:_id', ctx.authorization.isPermitted('api:activity:delete'), function(req: any, res: any) {
             ctx.activity.remove(req.params._id, function() {
                 res.json({});
             });
         });
 
         // update record
-        api.put('/activity/', ctx.authorization.isPermitted('api:activity:update'), function(req, res) {
+        api.put('/activity/', ctx.authorization.isPermitted('api:activity:update'), function(req: any, res: any) {
             var data = req.body;
-            ctx.activity.save(data, function(err, created) {
+            ctx.activity.save(data, function(err: any, created: any) {
                 if (err) {
                     res.sendJSONStatus(res, consts.HTTP_INTERNAL_ERROR, 'Mongo Error', err);
                     console.log('Error saving activity');
@@ -116,5 +122,6 @@ function configure(app, wares, ctx) {
     return api;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = configure;
 

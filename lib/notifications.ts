@@ -1,10 +1,11 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
 var THIRTY_MINUTES = 30 * 60 * 1000;
 var DEFAULT_GROUPS = ['default'];
 
-var Alarm = function(level, group, label) {
+var Alarm = function(this: any, level: any, group: any, label: any) {
   this.level = level;
   this.group = group;
   this.label = label;
@@ -15,18 +16,22 @@ var Alarm = function(level, group, label) {
 // list of alarms with their thresholds
 var alarms = {};
 
-function init (env, ctx) {
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
+function init (env: any, ctx: any) {
 
   function notifications () {
     return notifications;
   }
 
-  function getAlarm (level, group) {
+  function getAlarm (level: any, group: any) {
     var key = level + '-' + group;
+    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     var alarm = alarms[key];
     if (!alarm) {
       var display = group === 'default' ? ctx.levels.toDisplay(level) : group + ':' + level;
+      // @ts-expect-error TS(7009): 'new' expression, whose target lacks a construct s... Remove this comment to see the full error message
       alarm = new Alarm(level, group, display);
+      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       alarms[key] = alarm;
     }
 
@@ -36,7 +41,7 @@ function init (env, ctx) {
   //should only be used when auto acking the alarms after going back in range or when an error corrects
   //setting the silence time to 1ms so the alarm will be re-triggered as soon as the condition changes
   //since this wasn't ack'd by a user action
-  function autoAckAlarms (group) {
+  function autoAckAlarms (group: any) {
 
     var sendClear = false;
 
@@ -44,6 +49,7 @@ function init (env, ctx) {
       var alarm = getAlarm(level, group);
       if (alarm.lastEmitTime) {
         console.info('auto acking ' + alarm.level, ' - ', group);
+        // @ts-expect-error TS(2554): Expected 4 arguments, but got 3.
         notifications.ack(alarm.level, group, 1);
         sendClear = true;
       }
@@ -56,7 +62,7 @@ function init (env, ctx) {
     }
   }
 
-  function emitNotification (notify) {
+  function emitNotification (notify: any) {
     var alarm = getAlarm(notify.level, notify.group);
     if (ctx.ddata.lastUpdated > alarm.lastAckTime + alarm.silenceTime) {
       ctx.bus.emit('notification', notify);
@@ -79,26 +85,29 @@ function init (env, ctx) {
    * Find the first URGENT or first WARN
    * @returns a notification or undefined
    */
-  notifications.findHighestAlarm = function findHighestAlarm (group) {
+  notifications.findHighestAlarm = function findHighestAlarm (group: any) {
     group = group || 'default';
+    // @ts-expect-error TS(2339): Property 'notifies' does not exist on type '{}'.
     var filtered = _.filter(requests.notifies, { group: group });
     return _.find(filtered, { level: ctx.levels.URGENT }) || _.find(filtered, { level: ctx.levels.WARN });
   };
 
   notifications.findUnSnoozeable = function findUnSnoozeable () {
-    return _.filter(requests.notifies, function(notify) {
+    // @ts-expect-error TS(2339): Property 'notifies' does not exist on type '{}'.
+    return _.filter(requests.notifies, function(notify: any) {
       return notify.level <= ctx.levels.INFO || notify.isAnnouncement;
     });
   };
 
-  notifications.snoozedBy = function snoozedBy (notify) {
+  notifications.snoozedBy = function snoozedBy (notify: any) {
     if (notify.isAnnouncement) { return false; }
 
+    // @ts-expect-error TS(2339): Property 'snoozes' does not exist on type '{}'.
     var filtered = _.filter(requests.snoozes, { group: notify.group });
 
     if (_.isEmpty(filtered)) { return false; }
 
-    var byLevel = _.filter(filtered, function checkSnooze (snooze) {
+    var byLevel = _.filter(filtered, function checkSnooze (snooze: any) {
       return snooze.level >= notify.level;
     });
     var sorted = _.sortBy(byLevel, 'lengthMills');
@@ -106,7 +115,7 @@ function init (env, ctx) {
     return _.last(sorted);
   };
 
-  notifications.requestNotify = function requestNotify (notify) {
+  notifications.requestNotify = function requestNotify (notify: any) {
     if (!Object.prototype.hasOwnProperty.call(notify, 'level') || !notify.title || !notify.message || !notify.plugin) {
       console.error(new Error('Unable to request notification, since the notify isn\'t complete: ' + JSON.stringify(notify)));
       return;
@@ -114,10 +123,11 @@ function init (env, ctx) {
 
     notify.group = notify.group || 'default';
 
+    // @ts-expect-error TS(2339): Property 'notifies' does not exist on type '{}'.
     requests.notifies.push(notify);
   };
 
-  notifications.requestSnooze = function requestSnooze (snooze) {
+  notifications.requestSnooze = function requestSnooze (snooze: any) {
     if (!snooze.level || !snooze.title || !snooze.message || !snooze.lengthMills) {
       console.error(new Error('Unable to request snooze, since the snooze isn\'t complete: ' + JSON.stringify(snooze)));
       return;
@@ -125,16 +135,18 @@ function init (env, ctx) {
 
     snooze.group = snooze.group || 'default';
 
+    // @ts-expect-error TS(2339): Property 'snoozes' does not exist on type '{}'.
     requests.snoozes.push(snooze);
   };
 
   notifications.process = function process () {
 
-    var notifyGroups = _.map(requests.notifies, function eachNotify (notify) {
+    // @ts-expect-error TS(2339): Property 'notifies' does not exist on type '{}'.
+    var notifyGroups = _.map(requests.notifies, function eachNotify (notify: any) {
       return notify.group;
     });
 
-    var alarmGroups = _.map(_.values(alarms), function eachAlarm (alarm) {
+    var alarmGroups = _.map(_.values(alarms), function eachAlarm (alarm: any) {
       return alarm.group;
     });
 
@@ -144,10 +156,11 @@ function init (env, ctx) {
       groups = DEFAULT_GROUPS.slice();
     }
 
-    _.each(groups, function eachGroup (group) {
+    _.each(groups, function eachGroup (group: any) {
       var highestAlarm = notifications.findHighestAlarm(group);
 
       if (highestAlarm) {
+        // @ts-expect-error TS(2554): Expected 1 arguments, but got 2.
         var snoozedBy = notifications.snoozedBy(highestAlarm, group);
         if (snoozedBy) {
           logSnoozingEvent(highestAlarm, snoozedBy);
@@ -160,12 +173,12 @@ function init (env, ctx) {
       }
     });
 
-    notifications.findUnSnoozeable().forEach(function eachInfo (notify) {
+    notifications.findUnSnoozeable().forEach(function eachInfo (notify: any) {
       emitNotification(notify);
     });
   };
 
-  notifications.ack = function ack (level, group, time, sendClear) {
+  notifications.ack = function ack (level: any, group: any, time: any, sendClear: any) {
     var alarm = getAlarm(level, group);
     if (!alarm) {
       console.warn('Got an ack for an unknown alarm time, level:', level, ', group:', group);
@@ -182,6 +195,7 @@ function init (env, ctx) {
     delete alarm.lastEmitTime;
 
     if (level === 2) {
+      // @ts-expect-error TS(2554): Expected 4 arguments, but got 3.
       notifications.ack(1, group, time);
     }
 
@@ -204,7 +218,7 @@ function init (env, ctx) {
 
   };
 
-  function ifTestModeThen (callback) {
+  function ifTestModeThen (callback: any) {
     if (env.testMode) {
       return callback();
     } else {
@@ -219,7 +233,7 @@ function init (env, ctx) {
     });
   };
 
-  notifications.getAlarmForTests = function getAlarmForTests (level, group) {
+  notifications.getAlarmForTests = function getAlarmForTests (level: any, group: any) {
     return ifTestModeThen(function doResetStateForTests () {
       group = group || 'default';
       var alarm = getAlarm(level, group);
@@ -228,7 +242,7 @@ function init (env, ctx) {
     });
   };
 
-  function notifyToView (notify) {
+  function notifyToView (notify: any) {
     return {
       level: ctx.levels.toDisplay(notify.level)
       , title: notify.title
@@ -239,7 +253,7 @@ function init (env, ctx) {
     };
   }
 
-  function snoozeToView (snooze) {
+  function snoozeToView (snooze: any) {
     return {
       level: ctx.levels.toDisplay(snooze.level)
       , title: snooze.title
@@ -248,7 +262,7 @@ function init (env, ctx) {
     };
   }
 
-  function logEmitEvent (notify) {
+  function logEmitEvent (notify: any) {
     var type = notify.level >= ctx.levels.WARN ? 'ALARM' : (notify.clear ? 'ALL CLEAR' : 'NOTIFICATION');
     console.info([
       logTimestamp() + '\tEMITTING ' + type + ':'
@@ -256,7 +270,7 @@ function init (env, ctx) {
     ].join('\n'));
   }
 
-  function logSnoozingEvent (highestAlarm, snoozedBy) {
+  function logSnoozingEvent (highestAlarm: any, snoozedBy: any) {
     console.info([
       logTimestamp() + '\tSNOOZING ALARM:'
       , '  ' + JSON.stringify(notifyToView(highestAlarm))
@@ -273,4 +287,5 @@ function init (env, ctx) {
   return notifications();
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

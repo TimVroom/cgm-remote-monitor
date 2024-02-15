@@ -1,8 +1,11 @@
 'use strict';
 
-function configure (env, ctx) {
+function configure (env: any, ctx: any) {
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   const _ = require('lodash')
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , basalProcessor = require('./basaldataprocessor')
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , express = require('express')
     , api = express.Router();
 
@@ -10,7 +13,7 @@ function configure (env, ctx) {
 
   api.use(ctx.wares.compression());
 
-  function removeProps(obj,keys){
+  function removeProps(obj: any,keys: any){
     if(Array.isArray(obj)){
       obj.forEach(function(item){
         removeProps(item,keys)
@@ -24,7 +27,7 @@ function configure (env, ctx) {
     }
   }
 
-  function processSGVs(sgvs, hours) {
+  function processSGVs(sgvs: any, hours: any) {
 
     const bgData = [];
     const dataCap = Date.now() - (hours * 60 * 60 * 1000);
@@ -39,6 +42,7 @@ function configure (env, ctx) {
           };
 
           // only push noise data if there is noise
+          // @ts-expect-error TS(2339): Property 'noise' does not exist on type '{ sgv: an... Remove this comment to see the full error message
           if (bg.noise != 1) { item.noise = bg.noise; }
           bgData.push(item);
 
@@ -48,7 +52,7 @@ function configure (env, ctx) {
     }
 
   // Collect treatments that contain insulin or carbs, temp basals
-  function processTreatments(treatments, profile, hours) {
+  function processTreatments(treatments: any, profile: any, hours: any) {
 
     const rVal = {
         tempBasals: [],
@@ -68,9 +72,13 @@ function configure (env, ctx) {
         }
         if (t.eventType == 'Temporary Target') {
           rVal.targets.push({
+            // @ts-expect-error TS(2322): Type 'number' is not assignable to type 'never'.
             targetTop: Math.round(t.targetTop),
+            // @ts-expect-error TS(2322): Type 'number' is not assignable to type 'never'.
             targetBottom: Math.round(t.targetBottom),
+            // @ts-expect-error TS(2322): Type 'number' is not assignable to type 'never'.
             duration: t.duration*60,
+            // @ts-expect-error TS(2322): Type 'any' is not assignable to type 'never'.
             mills: t.mills
           });
           continue;
@@ -81,8 +89,11 @@ function configure (env, ctx) {
               const _t = {
                   mills: t.mills
               };
+              // @ts-expect-error TS(2339): Property 'carbs' does not exist on type '{ mills: ... Remove this comment to see the full error message
               if (!isNaN(t.carbs)) _t.carbs = t.carbs;
+              // @ts-expect-error TS(2339): Property 'insulin' does not exist on type '{ mills... Remove this comment to see the full error message
               if (!isNaN(t.insulin)) _t.insulin = t.insulin;
+              // @ts-expect-error TS(2345): Argument of type '{ mills: any; }' is not assignab... Remove this comment to see the full error message
               rVal.treatments.push(_t);
             }
             continue;
@@ -111,7 +122,7 @@ function configure (env, ctx) {
      return state; 
     }
 
-  api.get('/', ctx.authorization.isPermitted('api:*:read'), function (req, res) {
+  api.get('/', ctx.authorization.isPermitted('api:*:read'), function (req: any, res: any) {
 
     const hours = req.query.hours || defaultHours;
     const sgvs = processSGVs(ctx.ddata.sgvs, hours);
@@ -132,4 +143,5 @@ function configure (env, ctx) {
 
   return api;
 }
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = configure;

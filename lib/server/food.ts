@@ -1,11 +1,12 @@
 'use strict';
 
-function storage (env, ctx) {
+function storage (env: any, ctx: any) {
+   // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
    var ObjectID = require('mongodb').ObjectID;
 
-  function create (obj, fn) {
+  function create (obj: any, fn: any) {
     obj.created_at = (new Date( )).toISOString( );
-    api().insert(obj, function (err, doc) {
+    api().insert(obj, function (err: any, doc: any) {
       if (err != null && err.message) {
         console.log('Data insertion error', err.message);
         fn(err.message, null);
@@ -15,7 +16,7 @@ function storage (env, ctx) {
     });
   }
 
-  function save (obj, fn) {
+  function save (obj: any, fn: any) {
     try {
       obj._id = new ObjectID(obj._id);
     } catch (err){
@@ -23,24 +24,24 @@ function storage (env, ctx) {
       obj._id = new ObjectID();
     }
     obj.created_at = (new Date( )).toISOString( );
-    api().save(obj, function (err, doc) {
+    api().save(obj, function (err: any, doc: any) {
       fn(err, doc);
     });
   }
 
-  function list (fn) {
+  function list (fn: any) {
     return api( ).find({ }).toArray(fn);
   }
   
-  function listquickpicks (fn) {
+  function listquickpicks (fn: any) {
     return api( ).find({ $and: [ { 'type': 'quickpick'} , { 'hidden' : 'false' } ] }).sort({'position': 1}).toArray(fn);
   }
   
-  function listregular (fn) {
+  function listregular (fn: any) {
     return api( ).find( { 'type': 'food'} ).toArray(fn);
   }
   
-  function remove (_id, fn) {
+  function remove (_id: any, fn: any) {
     var objId = new ObjectID(_id);
     return api( ).remove({ '_id': objId }, fn);
   }
@@ -61,4 +62,5 @@ function storage (env, ctx) {
   return api;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = storage;

@@ -1,6 +1,8 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'apiConst'.
 const apiConst = require('../../const.json')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'opTools'.
   , opTools = require('../../shared/operationTools')
   ;
 
@@ -13,7 +15,8 @@ const apiConst = require('../../const.json')
  * @param {Object} options
  * @returns string with error message if validation fails, true in case of success
  */
-function validate (opCtx, doc, storageDoc, options) {
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'validate'.
+function validate (opCtx: any, doc: any, storageDoc: any, options: any) {
 
   const { res } = opCtx;
   const { isPatching, isDeduplication } = options || {};
@@ -45,4 +48,5 @@ function validate (opCtx, doc, storageDoc, options) {
   return opTools.validateCommon(doc, res, { isPatching });
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = validate;

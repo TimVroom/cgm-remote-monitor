@@ -1,13 +1,16 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
 var times = require('../times');
 
 // var ALL_STATUS_FIELDS = ['status-symbol', 'status-label', 'iob', 'freq', 'rssi']; Unused variable
 
-function init (ctx) {
+function init (ctx: any) {
   var moment = ctx.moment;
 
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var utils = require('../utils')(ctx);
   var translate = ctx.language.translate;
   var levels = ctx.levels;
@@ -20,7 +23,8 @@ function init (ctx) {
 
   var firstPrefs = true;
 
-  loop.getPrefs = function getPrefs (sbx) {
+  // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
+  loop.getPrefs = function getPrefs (sbx: any) {
 
     var prefs = {
       warn: sbx.extendedSettings.warn ? sbx.extendedSettings.warn : 30
@@ -36,25 +40,29 @@ function init (ctx) {
     return prefs;
   };
 
-  loop.setProperties = function setProperties (sbx) {
+  // @ts-expect-error TS(2339): Property 'setProperties' does not exist on type '{... Remove this comment to see the full error message
+  loop.setProperties = function setProperties (sbx: any) {
     sbx.offerProperty('loop', function setLoop () {
+      // @ts-expect-error TS(2339): Property 'analyzeData' does not exist on type '{ n... Remove this comment to see the full error message
       return loop.analyzeData(sbx);
     });
   };
 
-  loop.analyzeData = function analyzeData (sbx) {
+  // @ts-expect-error TS(2339): Property 'analyzeData' does not exist on type '{ n... Remove this comment to see the full error message
+  loop.analyzeData = function analyzeData (sbx: any) {
     var recentHours = 6;
     var recentMills = sbx.time - times.hours(recentHours).msecs;
 
     var recentData = _.chain(sbx.data.devicestatus)
-      .filter(function(status) {
+      .filter(function(status: any) {
         return ('loop' in status) && sbx.entryMills(status) <= sbx.time && sbx.entryMills(status) >= recentMills;
       }).value();
 
+    // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
     var prefs = loop.getPrefs(sbx);
     var recent = moment(sbx.time).subtract(prefs.warn / 2, 'minutes');
 
-    function getDisplayForStatus (status) {
+    function getDisplayForStatus (status: any) {
 
       var desc = {
         symbol: '⚠'
@@ -93,45 +101,49 @@ function init (ctx) {
       , lastOkMoment: null
     };
 
-    function assignLastEnacted (loopStatus) {
+    function assignLastEnacted (loopStatus: any) {
       var enacted = loopStatus.enacted;
       if (enacted && enacted.timestamp) {
         enacted.moment = moment(enacted.timestamp);
+        // @ts-expect-error TS(2339): Property 'moment' does not exist on type 'never'.
         if (!result.lastEnacted || enacted.moment.isAfter(result.lastEnacted.moment)) {
           result.lastEnacted = enacted;
         }
       }
     }
 
-    function assignLastPredicted (loopStatus) {
+    function assignLastPredicted (loopStatus: any) {
       if (loopStatus.predicted && loopStatus.predicted.startDate) {
         result.lastPredicted = loopStatus.predicted;
       }
     }
 
-    function assignLastLoop (loopStatus) {
+    function assignLastLoop (loopStatus: any) {
+      // @ts-expect-error TS(2339): Property 'moment' does not exist on type 'never'.
       if (!result.lastLoop || loopStatus.moment.isAfter(result.lastLoop.moment)) {
         result.lastLoop = loopStatus;
       }
     }
 
-    function assignLastOverride (status) {
+    function assignLastOverride (status: any) {
       var override = status.override;
       if (override && override.timestamp) {
         override.moment = moment(override.timestamp);
+        // @ts-expect-error TS(2339): Property 'lastOverride' does not exist on type '{ ... Remove this comment to see the full error message
         if (!result.lastOverride || override.moment.isAfter(result.lastOverride.moment)) {
+          // @ts-expect-error TS(2339): Property 'lastOverride' does not exist on type '{ ... Remove this comment to see the full error message
           result.lastOverride = override;
         }
       }
     }
 
-    function assignLastOkMoment (loopStatus) {
+    function assignLastOkMoment (loopStatus: any) {
       if (!loopStatus.failureReason && (!result.lastOkMoment || loopStatus.moment.isAfter(result.lastOkMoment))) {
         result.lastOkMoment = loopStatus.moment;
       }
     }
 
-    _.forEach(recentData, function eachStatus (status) {
+    _.forEach(recentData, function eachStatus (status: any) {
       if (status && status.loop && status.loop.timestamp) {
         var loopStatus = status.loop;
         loopStatus.moment = moment(loopStatus.timestamp);
@@ -143,12 +155,15 @@ function init (ctx) {
       }
     });
 
+    // @ts-expect-error TS(2339): Property 'display' does not exist on type '{ lastL... Remove this comment to see the full error message
     result.display = getDisplayForStatus(result.lastLoop);
 
     return result;
   };
 
-  loop.checkNotifications = function checkNotifications (sbx) {
+  // @ts-expect-error TS(2339): Property 'checkNotifications' does not exist on ty... Remove this comment to see the full error message
+  loop.checkNotifications = function checkNotifications (sbx: any) {
+    // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
     var prefs = loop.getPrefs(sbx);
 
     if (!prefs.enableAlerts) { return; }
@@ -175,7 +190,8 @@ function init (ctx) {
     }
   };
 
-  loop.getEventTypes = function getEventTypes (sbx) {
+  // @ts-expect-error TS(2339): Property 'getEventTypes' does not exist on type '{... Remove this comment to see the full error message
+  loop.getEventTypes = function getEventTypes (sbx: any) {
 
     var units = sbx.settings.units;
     console.log('units', units);
@@ -199,7 +215,7 @@ function init (ctx) {
       reasonconf.push({ name: preset.name, displayName: preset.symbol + " " + preset.name, duration: preset.duration / 60});
     }
 
-    var postLoopNotification = function (client, data, callback) {
+    var postLoopNotification = function (client: any, data: any, callback: any) {
 
       $.ajax({
         method: "POST"
@@ -210,7 +226,7 @@ function init (ctx) {
       .done(function () {
         callback();
       })
-      .fail(function (jqXHR) {
+      .fail(function (jqXHR: any) {
         callback(jqXHR.responseText);
       });
     }
@@ -270,12 +286,14 @@ function init (ctx) {
   // TODO: Add event listener to customize labels
 
 
-  loop.updateVisualisation = function updateVisualisation (sbx) {
+  // @ts-expect-error TS(2339): Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
+  loop.updateVisualisation = function updateVisualisation (sbx: any) {
     var prop = sbx.properties.loop;
 
+    // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
     var prefs = loop.getPrefs(sbx);
 
-    function valueString (prefix, value) {
+    function valueString (prefix: any, value: any) {
       return (value != null) ? prefix + value : '';
     }
 
@@ -310,7 +328,7 @@ function init (ctx) {
       var bleRSSI = "";
       var reportRSSI = "";
 
-      _.forEach(sbx.data.devicestatus, function(entry) {
+      _.forEach(sbx.data.devicestatus, function(entry: any) {
 
         if (entry.radioAdapter) {
           var entryMoment = moment(entry.created_at);
@@ -384,7 +402,7 @@ function init (ctx) {
       }
     }
 
-    function concatIOB (valueParts) {
+    function concatIOB (valueParts: any) {
       if (prop.lastLoop && prop.lastLoop.iob) {
         var iob = prop.lastLoop.iob;
         valueParts = valueParts.concat([
@@ -399,7 +417,7 @@ function init (ctx) {
       return valueParts;
     }
 
-    function concatCOB (valueParts) {
+    function concatCOB (valueParts: any) {
       if (prop.lastLoop && prop.lastLoop.cob) {
         var cob = prop.lastLoop.cob.cob;
         cob = Math.round(cob);
@@ -412,7 +430,7 @@ function init (ctx) {
       return valueParts;
     }
 
-    function concatEventualBG (valueParts) {
+    function concatEventualBG (valueParts: any) {
       if (prop.lastLoop && prop.lastLoop.predicted) {
         var predictedBGvalues = prop.lastLoop.predicted.values;
         var eventualBG = predictedBGvalues[predictedBGvalues.length - 1];
@@ -438,7 +456,7 @@ function init (ctx) {
       return valueParts;
     }
 
-    function concatRecommendedBolus (valueParts) {
+    function concatRecommendedBolus (valueParts: any) {
       if (prop.lastLoop && prop.lastLoop.recommendedBolus) {
         var recommendedBolus = prop.lastLoop.recommendedBolus;
         valueParts = valueParts.concat([
@@ -451,10 +469,10 @@ function init (ctx) {
     }
 
     function getForecastPoints () {
-      var points = [];
+      var points: any = [];
 
-      function toPoints (startTime, offset) {
-        return function toPoint (value, index) {
+      function toPoints (startTime: any, offset: any) {
+        return function toPoint (value: any, index: any) {
           return {
             mgdl: value
             , color: '#ff00ff'
@@ -491,11 +509,11 @@ function init (ctx) {
 
     addRSSI();
 
-    var sorted = _.sortBy(events, function toMill (event) {
+    var sorted = _.sortBy(events, function toMill (event: any) {
       return event.time.valueOf();
     }).reverse();
 
-    var info = _.map(sorted, function eventToInfo (event) {
+    var info = _.map(sorted, function eventToInfo (event: any) {
       return {
         label: utils.timeAt(false, sbx) + utils.timeFormat(event.time, sbx)
         , value: event.value
@@ -536,7 +554,7 @@ function init (ctx) {
     }
   };
 
-  function virtAsstForecastHandler (next, slots, sbx) {
+  function virtAsstForecastHandler (next: any, slots: any, sbx: any) {
     var predicted = _.get(sbx, 'properties.loop.lastLoop.predicted');
     if (predicted) {
       var forecast = predicted.values;
@@ -581,7 +599,7 @@ function init (ctx) {
     }
   }
 
-  function virtAsstLastLoopHandler (next, slots, sbx) {
+  function virtAsstLastLoopHandler (next: any, slots: any, sbx: any) {
     var lastLoop = _.get(sbx, 'properties.loop.lastLoop')
     if (lastLoop) {
       console.log(JSON.stringify(lastLoop));
@@ -596,6 +614,7 @@ function init (ctx) {
     }
   }
 
+  // @ts-expect-error TS(2339): Property 'virtAsst' does not exist on type '{ name... Remove this comment to see the full error message
   loop.virtAsst = {
     intentHandlers: [{
       intent: 'MetricNow'
@@ -607,7 +626,7 @@ function init (ctx) {
     }]
   };
 
-  function statusClass (prop, prefs, sbx) {
+  function statusClass (prop: any, prefs: any, sbx: any) {
     var level = statusLevel(prop, prefs, sbx);
     var cls = 'current';
 
@@ -620,7 +639,7 @@ function init (ctx) {
     return cls;
   }
 
-  function statusLevel (prop, prefs, sbx) {
+  function statusLevel (prop: any, prefs: any, sbx: any) {
     var level = levels.NONE;
     var now = moment(sbx.time);
 
@@ -642,4 +661,5 @@ function init (ctx) {
 
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

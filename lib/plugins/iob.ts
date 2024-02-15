@@ -1,11 +1,14 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 const _ = require('lodash')
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
 const times = require('../times');
 
-function init(ctx) {
+function init(ctx: any) {
   var moment = ctx.moment;
   var translate = ctx.language.translate;
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var utils = require('../utils')(ctx);
   
   var iob = {
@@ -14,33 +17,41 @@ function init(ctx) {
     , pluginType: 'pill-major'
   };
 
+  // @ts-expect-error TS(2339): Property 'RECENCY_THRESHOLD' does not exist on typ... Remove this comment to see the full error message
   iob.RECENCY_THRESHOLD = times.mins(30).msecs;
 
-  iob.setProperties = function setProperties(sbx) {
+  // @ts-expect-error TS(2339): Property 'setProperties' does not exist on type '{... Remove this comment to see the full error message
+  iob.setProperties = function setProperties(sbx: any) {
     sbx.offerProperty('iob', function setIOB ( ) {
+      // @ts-expect-error TS(2339): Property 'calcTotal' does not exist on type '{ nam... Remove this comment to see the full error message
       return iob.calcTotal(sbx.data.treatments, sbx.data.devicestatus, sbx.data.profile, sbx.time);
     });
   };
 
-  iob.calcTotal = function calcTotal(treatments, devicestatus, profile, time, spec_profile) {
+  // @ts-expect-error TS(2339): Property 'calcTotal' does not exist on type '{ nam... Remove this comment to see the full error message
+  iob.calcTotal = function calcTotal(treatments: any, devicestatus: any, profile: any, time: any, spec_profile: any) {
     if (time === undefined) {
       time = Date.now();
     }
 
+    // @ts-expect-error TS(2339): Property 'lastIOBDeviceStatus' does not exist on t... Remove this comment to see the full error message
     var result = iob.lastIOBDeviceStatus(devicestatus, time);
     
+    // @ts-expect-error TS(2339): Property 'fromTreatments' does not exist on type '... Remove this comment to see the full error message
     var treatmentResult = (treatments !== undefined && treatments.length) ? iob.fromTreatments(treatments, profile, time, spec_profile) : {};
 
     if (_.isEmpty(result)) {
       result = treatmentResult;
     } else if (treatmentResult.iob) {
+      // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
       result.treatmentIob = +(Math.round(treatmentResult.iob + "e+3")  + "e-3");
     }
+    // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
     if (result.iob) result.iob = +(Math.round(result.iob + "e+3")  + "e-3");
     return addDisplay(result);
   };
 
-  function addDisplay(iob) {
+  function addDisplay(iob: any) {
     if (_.isEmpty(iob) || iob.iob === undefined) {
       return {};
     }
@@ -51,33 +62,38 @@ function init(ctx) {
     });
   }
 
-  iob.isDeviceStatusAvailable = function isDeviceStatusAvailable (devicestatus) {
+  // @ts-expect-error TS(2339): Property 'isDeviceStatusAvailable' does not exist ... Remove this comment to see the full error message
+  iob.isDeviceStatusAvailable = function isDeviceStatusAvailable (devicestatus: any) {
 
     return _.chain(devicestatus)
+        // @ts-expect-error TS(2339): Property 'fromDeviceStatus' does not exist on type... Remove this comment to see the full error message
         .map(iob.fromDeviceStatus)
         .reject(_.isEmpty)
         .value()
         .length > 0;
   };
 
-  iob.lastIOBDeviceStatus = function lastIOBDeviceStatus(devicestatus, time) {
+  // @ts-expect-error TS(2339): Property 'lastIOBDeviceStatus' does not exist on t... Remove this comment to see the full error message
+  iob.lastIOBDeviceStatus = function lastIOBDeviceStatus(devicestatus: any, time: any) {
     if (time && time.getTime) {
       time = time.getTime();
     }
     var futureMills = time + times.mins(5).msecs; //allow for clocks to be a little off
+    // @ts-expect-error TS(2339): Property 'RECENCY_THRESHOLD' does not exist on typ... Remove this comment to see the full error message
     var recentMills = time - iob.RECENCY_THRESHOLD;
 
     // All IOBs
     var iobs = _.chain(devicestatus)
-      .filter(function (iobStatus) {
+      .filter(function (iobStatus: any) {
         return iobStatus.mills <= futureMills && iobStatus.mills >= recentMills;
       })
+      // @ts-expect-error TS(2339): Property 'fromDeviceStatus' does not exist on type... Remove this comment to see the full error message
       .map(iob.fromDeviceStatus)
       .reject(_.isEmpty)
       .sortBy('mills');
 
     // Loop IOBs 
-    var loopIOBs = iobs.filter(function (iobStatus) {
+    var loopIOBs = iobs.filter(function (iobStatus: any) {
       return iobStatus.source === 'Loop';
     });
 
@@ -85,19 +101,22 @@ function init(ctx) {
     return loopIOBs.last().value() || iobs.last().value();
   };
 
-  iob.IOBDeviceStatusesInTimeRange = function IOBDeviceStatusesInTimeRange (devicestatus, from, to) {
+  // @ts-expect-error TS(2339): Property 'IOBDeviceStatusesInTimeRange' does not e... Remove this comment to see the full error message
+  iob.IOBDeviceStatusesInTimeRange = function IOBDeviceStatusesInTimeRange (devicestatus: any, from: any, to: any) {
 
     return _.chain(devicestatus)
-      .filter(function (iobStatus) {
+      .filter(function (iobStatus: any) {
         return iobStatus.mills > from && iobStatus.mills < to;
       })
+      // @ts-expect-error TS(2339): Property 'fromDeviceStatus' does not exist on type... Remove this comment to see the full error message
       .map(iob.fromDeviceStatus)
       .reject(_.isEmpty)
       .sortBy('mills')
       .value();
   };
 
-  iob.fromDeviceStatus = function fromDeviceStatus(devicestatusEntry) {
+  // @ts-expect-error TS(2339): Property 'fromDeviceStatus' does not exist on type... Remove this comment to see the full error message
+  iob.fromDeviceStatus = function fromDeviceStatus(devicestatusEntry: any) {
     var iobOpenAPS = _.get(devicestatusEntry, 'openaps.iob');
     var iobLoop = _.get(devicestatusEntry, 'loop.iob');
     var iobPump = _.get(devicestatusEntry, 'pump.iob');
@@ -143,14 +162,16 @@ function init(ctx) {
     }
   };
 
-  iob.fromTreatments = function fromTreatments(treatments, profile, time, spec_profile) {
+  // @ts-expect-error TS(2339): Property 'fromTreatments' does not exist on type '... Remove this comment to see the full error message
+  iob.fromTreatments = function fromTreatments(treatments: any, profile: any, time: any, spec_profile: any) {
     var totalIOB = 0
       , totalActivity = 0;
 
     var lastBolus = null;
 
-    _.each(treatments, function eachTreatment(treatment) {
+    _.each(treatments, function eachTreatment(treatment: any) {
       if (treatment.mills <= time) {
+        // @ts-expect-error TS(2339): Property 'calcTreatment' does not exist on type '{... Remove this comment to see the full error message
         var tIOB = iob.calcTreatment(treatment, profile, time, spec_profile);
         if (tIOB.iobContrib > 0) {
           lastBolus = treatment;
@@ -162,6 +183,7 @@ function init(ctx) {
     });
 
     return {
+      // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
       iob: +(Math.round(totalIOB + "e+3")  + "e-3")
       , activity: totalActivity
       , lastBolus: lastBolus
@@ -169,7 +191,8 @@ function init(ctx) {
     };
   };
 
-  iob.calcTreatment = function calcTreatment(treatment, profile, time, spec_profile) {
+  // @ts-expect-error TS(2339): Property 'calcTreatment' does not exist on type '{... Remove this comment to see the full error message
+  iob.calcTreatment = function calcTreatment(treatment: any, profile: any, time: any, spec_profile: any) {
 
     var dia = 3
       , sens = 0;
@@ -208,7 +231,8 @@ function init(ctx) {
 
   };
 
-  iob.updateVisualisation = function updateVisualisation(sbx) {
+  // @ts-expect-error TS(2339): Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
+  iob.updateVisualisation = function updateVisualisation(sbx: any) {
     var info = [];
 
     var prop = sbx.properties.iob;
@@ -243,7 +267,7 @@ function init(ctx) {
 
   };
 
-  function virtAsstIOBIntentHandler (callback, slots, sbx) {
+  function virtAsstIOBIntentHandler (callback: any, slots: any, sbx: any) {
 
     var message = translate('virtAsstIobIntent', {
       params: [
@@ -253,7 +277,7 @@ function init(ctx) {
     callback(translate('virtAsstTitleCurrentIOB'), message);
   }
 
-  function virtAsstIOBRollupHandler (slots, sbx, callback) {
+  function virtAsstIOBRollupHandler (slots: any, sbx: any, callback: any) {
     var iob = getIob(sbx);
     var message = translate('virtAsstIob', {
       params: [iob]
@@ -261,7 +285,7 @@ function init(ctx) {
     callback(null, {results: message, priority: 2});
   }
 
-  function getIob(sbx) {
+  function getIob(sbx: any) {
     var iob = _.get(sbx, 'properties.iob.iob');
     if (iob !== 0) {
       return translate('virtAsstIobUnits', {
@@ -273,6 +297,7 @@ function init(ctx) {
     return translate('virtAsstNoInsulin');
   }
 
+  // @ts-expect-error TS(2339): Property 'virtAsst' does not exist on type '{ name... Remove this comment to see the full error message
   iob.virtAsst = {
     rollupHandlers: [{
       rollupGroup: 'Status'
@@ -290,4 +315,5 @@ function init(ctx) {
 
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

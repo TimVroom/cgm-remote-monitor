@@ -1,8 +1,12 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'es'.
 var es = require('event-stream');
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var find_options = require('./query');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'ObjectID'.
 var ObjectID = require('mongodb').ObjectID;
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'moment'.
 var moment = require('moment');
 
 /**********\
@@ -10,12 +14,12 @@ var moment = require('moment');
  * Encapsulate persistent storage of sgv entries.
 \**********/
 
-function storage (env, ctx) {
+function storage (env: any, ctx: any) {
 
   // TODO: Code is a little redundant.
 
   // query for entries from storage
-  function list (opts, fn) {
+  function list (opts: any, fn: any) {
     // these functions, find, sort, and limit, are used to
     // dynamically configure the request, based on the options we've
     // been given
@@ -26,7 +30,7 @@ function storage (env, ctx) {
     }
 
     // configure the limit portion of the current query
-    function limit () {
+    function limit(this: any) {
       if (opts && opts.count) {
         return this.limit(parseInt(opts.count));
       }
@@ -34,7 +38,7 @@ function storage (env, ctx) {
     }
 
     // handle all the results
-    function toArray (err, entries) {
+    function toArray (err: any, entries: any) {
       fn(err, entries);
     }
 
@@ -45,8 +49,8 @@ function storage (env, ctx) {
     ).toArray(toArray);
   }
 
-  function remove (opts, fn) {
-    api().remove(query_for(opts), function(err, stat) {
+  function remove (opts: any, fn: any) {
+    api().remove(query_for(opts), function(err: any, stat: any) {
 
       ctx.bus.emit('data-update', {
         type: 'entries'
@@ -64,16 +68,16 @@ function storage (env, ctx) {
   // return writable stream to lint each sgv record passing through it
   // TODO: get rid of this? not doing anything now
   function map () {
-    return es.map(function iter (item, next) {
+    return es.map(function iter (item: any, next: any) {
       return next(null, item);
     });
   }
 
   // writable stream that persists all records
   // takes function to call when done
-  function persist (fn) {
+  function persist (fn: any) {
     // receives entire list at end of stream
-    function done (err, result) {
+    function done (err: any, result: any) {
       // report any errors
       if (err) { return fn(err, result); }
       // batch insert a list of records
@@ -89,13 +93,13 @@ function storage (env, ctx) {
   //
 
   // store new documents using the storage mechanism
-  function create (docs, fn) {
+  function create (docs: any, fn: any) {
     // potentially a batch insert
-    var firstErr = null
+    var firstErr: any = null
       , numDocs = docs.length
       , totalCreated = 0;
 
-    docs.forEach(function(doc) {
+    docs.forEach(function(doc: any) {
 
       // Normalize dates to be in UTC, store offset in utcOffset
 
@@ -110,7 +114,7 @@ function storage (env, ctx) {
       if (doc.dateString) doc.dateString = doc.sysTime;
 
       var query = (doc.sysTime && doc.type) ? { sysTime: doc.sysTime, type: doc.type } : doc;
-      api().update(query, doc, { upsert: true }, function(err, updateResults) {
+      api().update(query, doc, { upsert: true }, function(err: any, updateResults: any) {
         firstErr = firstErr || err;
 
         if (!err) {
@@ -134,8 +138,8 @@ function storage (env, ctx) {
     });
   }
 
-  function getEntry (id, fn) {
-    api().findOne({ _id: ObjectID(id) }, function(err, entry) {
+  function getEntry (id: any, fn: any) {
+    api().findOne({ _id: ObjectID(id) }, function(err: any, entry: any) {
       if (err) {
         fn(err);
       } else {
@@ -144,7 +148,7 @@ function storage (env, ctx) {
     });
   }
 
-  function query_for (opts) {
+  function query_for (opts: any) {
     return find_options(opts, storage.queryOpts);
   }
 
@@ -163,6 +167,7 @@ function storage (env, ctx) {
   api.persist = persist;
   api.query_for = query_for;
   api.getEntry = getEntry;
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   api.aggregate = require('./aggregate')({}, api);
   api.indexedFields = [
     'date'
@@ -191,4 +196,5 @@ storage.queryOpts = {
 
 // expose module
 storage.storage = storage;
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = storage;

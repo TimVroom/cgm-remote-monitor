@@ -10,9 +10,11 @@ function init() {
   return percentile;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;
 
-percentile.html = function html(client) {
+// @ts-expect-error TS(2339): Property 'html' does not exist on type '{ name: st... Remove this comment to see the full error message
+percentile.html = function html(client: any) {
   var translate = client.translate;
   var ret =
   '<h2>'
@@ -29,6 +31,7 @@ percentile.html = function html(client) {
   return ret;
 };
 
+// @ts-expect-error TS(2339): Property 'css' does not exist on type '{ name: str... Remove this comment to see the full error message
 percentile.css =
     '#percentile-chart {'
   + '  width: 100%;'
@@ -36,10 +39,13 @@ percentile.css =
   + '}'
   ;
 
-percentile.report = function report_percentile(datastorage, sorteddaystoshow, options) {
+// @ts-expect-error TS(2339): Property 'report' does not exist on type '{ name: ... Remove this comment to see the full error message
+percentile.report = function report_percentile(datastorage: any, sorteddaystoshow: any, options: any) {
+  // @ts-expect-error TS(2339): Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
   var Nightscout = window.Nightscout;
   var client = Nightscout.client;
   var translate = client.translate;
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var ss = require('simple-statistics');
 
   var minutewindow = 30; //minute-window should be a divisor of 60
@@ -47,7 +53,7 @@ percentile.report = function report_percentile(datastorage, sorteddaystoshow, op
   var data = datastorage.allstatsrecords;
 
   var bins = [];
-  var filterFunc = function withinWindow(record) {
+  var filterFunc = function withinWindow(record: any) {
     var recdate = new Date(record.displayTime);
     return recdate.getHours() === hour && recdate.getMinutes() >= minute && recdate.getMinutes() < minute + minutewindow;
   };
@@ -65,7 +71,7 @@ percentile.report = function report_percentile(datastorage, sorteddaystoshow, op
       date.setHours(hour);
       date.setMinutes(minute);
       var readings = data.filter(filterFunc);
-      readings = readings.map(function(record) {
+      readings = readings.map(function(record: any) {
         return record.sgv;
       });
       bins.push([date, readings]);

@@ -1,5 +1,6 @@
 'use strict';
 
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 const MongoClient = require('mongodb').MongoClient;
 
 const mongo = {
@@ -7,9 +8,9 @@ const mongo = {
   db: null,
 };
 
-function init(env, cb, forceNewConnection) {
+function init(env: any, cb: any, forceNewConnection: any) {
 
-  function maybe_connect(cb) {
+  function maybe_connect(cb: any) {
 
     if (mongo.db != null && !forceNewConnection) {
       console.log('Reusing MongoDB connection handler');
@@ -29,17 +30,21 @@ function init(env, cb, forceNewConnection) {
         useUnifiedTopology: true,
       };
 
-      const connect_with_retry = async function (i) {
+      const connect_with_retry = async function (i: any) {
 
         mongo.client = new MongoClient(env.storageURI, options);
         try {
+          // @ts-expect-error TS(2531): Object is possibly 'null'.
           await mongo.client.connect();
 
           console.log('Successfully established connection to MongoDB');
 
+          // @ts-expect-error TS(2531): Object is possibly 'null'.
           const dbName = mongo.client.s.options.dbName;
+          // @ts-expect-error TS(2531): Object is possibly 'null'.
           mongo.db = mongo.client.db(dbName);
 
+          // @ts-expect-error TS(2531): Object is possibly 'null'.
           const result = await mongo.db.command({ connectionStatus: 1 });
           const roles = result.authInfo.authenticatedUserRoles;
           if (roles.length > 0 && roles[0].role == 'readAnyDatabase') {
@@ -54,18 +59,21 @@ function init(env, cb, forceNewConnection) {
             cb(null, mongo);
           }
         } catch (err) {
+          // @ts-expect-error TS(2571): Object is of type 'unknown'.
           if (err.message && err.message.includes('AuthenticationFailed')) {
             console.log('Authentication to Mongo failed');
             cb(new Error('MongoDB authentication failed! Double check the URL has the right username and password in MONGODB_URI.'), null);
             return;
           }
 
+          // @ts-expect-error TS(2571): Object is of type 'unknown'.
           if (err.name && err.name === "MongoServerSelectionError") {
             const timeout = (i > 15) ? 60000 : i * 3000;
             console.log('Error connecting to MongoDB: %j - retrying in ' + timeout / 1000 + ' sec', err);
             setTimeout(connect_with_retry, timeout, i + 1);
             if (i == 1) cb(new Error('MongoDB connection failed! Double check the MONGODB_URI setting in Heroku.'), null);
           } else {
+            // @ts-expect-error TS(2571): Object is of type 'unknown'.
             cb(new Error('MONGODB_URI seems invalid: ' + err.message));
           }
         }
@@ -76,14 +84,17 @@ function init(env, cb, forceNewConnection) {
     }
   }
 
-  mongo.collection = function get_collection(name) {
+  // @ts-expect-error TS(2339): Property 'collection' does not exist on type '{ cl... Remove this comment to see the full error message
+  mongo.collection = function get_collection(name: any) {
+    // @ts-expect-error TS(2531): Object is possibly 'null'.
     return mongo.db.collection(name);
   };
 
-  mongo.ensureIndexes = function ensureIndexes(collection, fields) {
-    fields.forEach(function (field) {
+  // @ts-expect-error TS(2339): Property 'ensureIndexes' does not exist on type '{... Remove this comment to see the full error message
+  mongo.ensureIndexes = function ensureIndexes(collection: any, fields: any) {
+    fields.forEach(function (field: any) {
       console.info('ensuring index for: ' + field);
-      collection.createIndex(field, { 'background': true }, function (err) {
+      collection.createIndex(field, { 'background': true }, function (err: any) {
         if (err) {
           console.error('unable to ensureIndex for: ' + field + ' - ' + err);
         }
@@ -94,4 +105,5 @@ function init(env, cb, forceNewConnection) {
   return maybe_connect(cb);
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

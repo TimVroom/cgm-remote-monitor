@@ -1,6 +1,7 @@
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var find_options = require('./query');
 
-function create (conf, api) {
+function create (conf: any, api: any) {
 
   var template = function ( ) {
     return [
@@ -14,10 +15,11 @@ function create (conf, api) {
   };
 
   // var collection = api( );
-  function aggregate (opts, done) {
+  function aggregate (opts: any, done: any) {
     var query = find_options(opts);
 
     var pipeline = (conf.pipeline || [ ]).concat(opts.pipeline || [ ]);
+    // @ts-expect-error TS(2769): No overload matches this call.
     var groupBy = [ {$match: query } ].concat(pipeline).concat(template( ));
     console.log('$match query', query);
     console.log('AGGREGATE', groupBy);
@@ -28,5 +30,6 @@ function create (conf, api) {
 
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = create;
 

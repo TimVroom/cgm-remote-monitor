@@ -1,8 +1,10 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'consts'.
 var consts = require('../../constants');
 
-function configure (app, wares, ctx) {
+function configure (app: any, wares: any, ctx: any) {
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var express = require('express'),
         api = express.Router( );
 
@@ -20,30 +22,30 @@ function configure (app, wares, ctx) {
     api.use(ctx.authorization.isPermitted('api:food:read'));
 
     // List foods available
-    api.get('/food/', function(req, res) {
-      ctx.food.list(function (err, attribute) {
+    api.get('/food/', function(req: any, res: any) {
+      ctx.food.list(function (err: any, attribute: any) {
         return res.json(attribute);
       });
     });
 
-    api.get('/food/quickpicks', function(req, res) {
-      ctx.food.listquickpicks(function (err, attribute) {
+    api.get('/food/quickpicks', function(req: any, res: any) {
+      ctx.food.listquickpicks(function (err: any, attribute: any) {
         return res.json(attribute);
       });
     });
 
-    api.get('/food/regular', function(req, res) {
-      ctx.food.listregular(function (err, attribute) {
+    api.get('/food/regular', function(req: any, res: any) {
+      ctx.food.listregular(function (err: any, attribute: any) {
         return res.json(attribute);
       });
     });
 
-    function config_authed (app, api, wares, ctx) {
+    function config_authed (app: any, api: any, wares: any, ctx: any) {
 
       // create new record
-      api.post('/food/', ctx.authorization.isPermitted('api:food:create'), function(req, res) {
+      api.post('/food/', ctx.authorization.isPermitted('api:food:create'), function(req: any, res: any) {
         var data = req.body;
-        ctx.food.create(data, function (err, created) {
+        ctx.food.create(data, function (err: any, created: any) {
           if (err) {
             res.sendJSONStatus(res, consts.HTTP_INTERNAL_ERROR, 'Mongo Error', err);
             console.log('Error creating food');
@@ -56,9 +58,9 @@ function configure (app, wares, ctx) {
       });
 
       // update record
-      api.put('/food/', ctx.authorization.isPermitted('api:food:update'), function(req, res) {
+      api.put('/food/', ctx.authorization.isPermitted('api:food:update'), function(req: any, res: any) {
         var data = req.body;
-        ctx.food.save(data, function (err, created) {
+        ctx.food.save(data, function (err: any, created: any) {
           if (err) {
             res.sendJSONStatus(res, consts.HTTP_INTERNAL_ERROR, 'Mongo Error', err);
             console.log('Error saving food');
@@ -70,7 +72,7 @@ function configure (app, wares, ctx) {
         });
       });
       // delete record
-      api.delete('/food/:_id', ctx.authorization.isPermitted('api:food:delete'), function(req, res) {
+      api.delete('/food/:_id', ctx.authorization.isPermitted('api:food:delete'), function(req: any, res: any) {
         ctx.food.remove(req.params._id, function ( ) {
         res.json({ });
         });
@@ -84,5 +86,6 @@ function configure (app, wares, ctx) {
     return api;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = configure;
 

@@ -1,16 +1,20 @@
 'use strict';
 
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var times = require('../times');
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var calcData = require('../data/calcdelta');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'ObjectID'.
 var ObjectID = require('mongodb').ObjectID;
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'forwarded'... Remove this comment to see the full error message
 const forwarded = require('forwarded-for');
 
-function getRemoteIP (req) {
+function getRemoteIP (req: any) {
   const address = forwarded(req, req.headers);
   return address.ip;
 }
 
-function init (env, ctx, server) {
+function init (env: any, ctx: any, server: any) {
 
   function websocket () {
     return websocket;
@@ -23,10 +27,10 @@ function init (env, ctx, server) {
   var LOG_WS = log_green + 'WS: ' + log_reset;
   var LOG_DEDUP = log_magenta + 'DEDUPE: ' + log_reset;
 
-  var io;
+  var io: any;
   var watchers = 0;
   var lastData = {};
-  var lastProfileSwitch = null;
+  var lastProfileSwitch: any = null;
 
   // TODO: this would be better to have somehow integrated/improved
   var supportedCollections = {
@@ -65,12 +69,14 @@ function init (env, ctx, server) {
     };
 
     if (activeProfile) {
+      // @ts-expect-error TS(2339): Property 'activeProfile' does not exist on type '{... Remove this comment to see the full error message
       info.activeProfile = activeProfile;
     }
     return info;
   }
 
   function start () {
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     io = require('socket.io')({
       'log level': 0
     }).listen(server, {
@@ -102,10 +108,12 @@ function init (env, ctx, server) {
 
   }
 
+  // @ts-expect-error TS(7006): Parameter 'message' implicitly has an 'any' type.
   function verifyAuthorization (message, ip, callback) {
 
     if (!message) message = {};
 
+    // @ts-expect-error TS(7006): Parameter 'err' implicitly has an 'any' type.
     ctx.authorization.resolve({ api_secret: message.secret, token: message.token, ip: ip }, function resolved (err, result) {
 
       if (err) {
@@ -125,11 +133,14 @@ function init (env, ctx, server) {
     });
   }
 
+  // @ts-expect-error TS(7006): Parameter 'delta' implicitly has an 'any' type.
   function emitData (delta) {
+    // @ts-expect-error TS(2339): Property 'cals' does not exist on type '{}'.
     if (lastData.cals) {
       // console.log(LOG_WS + 'running websocket.emitData', ctx.ddata.lastUpdated);
       if (lastProfileSwitch !== ctx.ddata.lastProfileFromSwitch) {
         // console.log(LOG_WS + 'profile switch detected OLD: ' + lastProfileSwitch + ' NEW: ' + ctx.ddata.lastProfileFromSwitch);
+        // @ts-expect-error TS(2554): Expected 0 arguments, but got 1.
         delta.status = status(ctx.ddata.profiles);
         lastProfileSwitch = ctx.ddata.lastProfileFromSwitch;
       }
@@ -138,7 +149,9 @@ function init (env, ctx, server) {
   }
 
   function listeners () {
+    // @ts-expect-error TS(7006): Parameter 'socket' implicitly has an 'any' type.
     io.sockets.on('connection', function onConnection (socket) {
+      // @ts-expect-error TS(7034): Variable 'socketAuthorization' implicitly has type... Remove this comment to see the full error message
       var socketAuthorization = null;
       var clientType = null;
       var timeDiff;
@@ -153,24 +166,29 @@ function init (env, ctx, server) {
         console.log(LOG_WS + 'Disconnected client ID: ', socket.client.id);
       });
 
+      // @ts-expect-error TS(7006): Parameter 'action' implicitly has an 'any' type.
       function checkConditions (action, data) {
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         var collection = supportedCollections[data.collection];
         if (!collection) {
           console.log('WS dbUpdate/dbAdd call: ', 'Wrong collection', data);
           return { result: 'Wrong collection' };
         }
 
+        // @ts-expect-error TS(7005): Variable 'socketAuthorization' implicitly has an '... Remove this comment to see the full error message
         if (!socketAuthorization) {
           console.log('WS dbUpdate/dbAdd call: ', 'Not authorized', data);
           return { result: 'Not authorized' };
         }
 
         if (data.collection === 'treatments') {
+          // @ts-expect-error TS(7005): Variable 'socketAuthorization' implicitly has an '... Remove this comment to see the full error message
           if (!socketAuthorization.write_treatment) {
             console.log('WS dbUpdate/dbAdd call: ', 'Not permitted', data);
             return { result: 'Not permitted' };
           }
         } else {
+          // @ts-expect-error TS(7005): Variable 'socketAuthorization' implicitly has an '... Remove this comment to see the full error message
           if (!socketAuthorization.write) {
             console.log('WS dbUpdate call: ', 'Not permitted', data);
             return { result: 'Not permitted' };
@@ -185,11 +203,13 @@ function init (env, ctx, server) {
         return null;
       }
 
+      // @ts-expect-error TS(7006): Parameter 'opts' implicitly has an 'any' type.
       socket.on('loadRetro', function loadRetro (opts, callback) {
         if (callback) {
           callback({ result: 'success' });
         }
         //TODO: use opts to only send delta for retro data
+        // @ts-expect-error TS(2339): Property 'devicestatus' does not exist on type '{}... Remove this comment to see the full error message
         socket.compress(true).emit('retroUpdate', { devicestatus: lastData.devicestatus });
         console.info('sent retroUpdate', opts);
       });
@@ -203,8 +223,10 @@ function init (env, ctx, server) {
       //      field_2: another_value
       //    }
       //  }
+      // @ts-expect-error TS(7006): Parameter 'data' implicitly has an 'any' type.
       socket.on('dbUpdate', function dbUpdate (data, callback) {
         console.log(LOG_WS + 'dbUpdate client ID: ', socket.client.id, ' data: ', data);
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         var collection = supportedCollections[data.collection];
 
         var check = checkConditions('dbUpdate', data);
@@ -214,6 +236,7 @@ function init (env, ctx, server) {
           }
           return;
         }
+        // @ts-expect-error TS(7034): Variable 'id' implicitly has type 'any' in some lo... Remove this comment to see the full error message
         var id;
         try {
           id = new ObjectID(data._id);
@@ -224,10 +247,13 @@ function init (env, ctx, server) {
 
         ctx.store.collection(collection).update({ '_id': id }
           , { $set: data.data }
+          // @ts-expect-error TS(7006): Parameter 'err' implicitly has an 'any' type.
           , function(err, results) {
 
             if (!err) {
+              // @ts-expect-error TS(7005): Variable 'id' implicitly has an 'any' type.
               ctx.store.collection(collection).findOne({ '_id': id }
+                // @ts-expect-error TS(7006): Parameter 'err' implicitly has an 'any' type.
                 , function(err, results) {
                   console.log('Got results', results);
                   if (!err && results !== null) {
@@ -257,8 +283,10 @@ function init (env, ctx, server) {
       //      field_2: 1
       //    }
       //  }
+      // @ts-expect-error TS(7006): Parameter 'data' implicitly has an 'any' type.
       socket.on('dbUpdateUnset', function dbUpdateUnset (data, callback) {
         console.log(LOG_WS + 'dbUpdateUnset client ID: ', socket.client.id, ' data: ', data);
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         var collection = supportedCollections[data.collection];
 
         var check = checkConditions('dbUpdate', data);
@@ -271,10 +299,12 @@ function init (env, ctx, server) {
 
         var objId = new ObjectID(data._id);
         ctx.store.collection(collection).update({ '_id': objId }, { $unset: data.data }
+          // @ts-expect-error TS(7006): Parameter 'err' implicitly has an 'any' type.
           , function(err, results) {
 
             if (!err) {
               ctx.store.collection(collection).findOne({ '_id': objId }
+                // @ts-expect-error TS(7006): Parameter 'err' implicitly has an 'any' type.
                 , function(err, results) {
                   console.log('Got results', results);
                   if (!err && results !== null) {
@@ -302,8 +332,10 @@ function init (env, ctx, server) {
       //      field_2: another_value
       //    }
       //  }
+      // @ts-expect-error TS(7006): Parameter 'data' implicitly has an 'any' type.
       socket.on('dbAdd', function dbAdd (data, callback) {
         console.log(LOG_WS + 'dbAdd client ID: ', socket.client.id, ' data: ', data);
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         var collection = supportedCollections[data.collection];
         var maxtimediff = times.secs(2).msecs;
 
@@ -335,6 +367,7 @@ function init (env, ctx, server) {
           }
 
           // try to find exact match
+          // @ts-expect-error TS(7006): Parameter 'err' implicitly has an 'any' type.
           ctx.store.collection(collection).find(query).toArray(function findResult (err, array) {
             if (err) {
               console.error(err);
@@ -355,34 +388,42 @@ function init (env, ctx, server) {
               created_at: { $gte: new Date(new Date(data.data.created_at).getTime() - maxtimediff).toISOString(), $lte: new Date(new Date(data.data.created_at).getTime() + maxtimediff).toISOString() }
             };
             if (data.data.insulin) {
+              // @ts-expect-error TS(2339): Property 'insulin' does not exist on type '{ creat... Remove this comment to see the full error message
               query_similiar.insulin = data.data.insulin;
               selected = true;
             }
             if (data.data.carbs) {
+              // @ts-expect-error TS(2339): Property 'carbs' does not exist on type '{ created... Remove this comment to see the full error message
               query_similiar.carbs = data.data.carbs;
               selected = true;
             }
             if (data.data.percent) {
+              // @ts-expect-error TS(2339): Property 'percent' does not exist on type '{ creat... Remove this comment to see the full error message
               query_similiar.percent = data.data.percent;
               selected = true;
             }
             if (data.data.absolute) {
+              // @ts-expect-error TS(2339): Property 'absolute' does not exist on type '{ crea... Remove this comment to see the full error message
               query_similiar.absolute = data.data.absolute;
               selected = true;
             }
             if (data.data.duration) {
+              // @ts-expect-error TS(2339): Property 'duration' does not exist on type '{ crea... Remove this comment to see the full error message
               query_similiar.duration = data.data.duration;
               selected = true;
             }
             if (data.data.NSCLIENT_ID) {
+              // @ts-expect-error TS(2339): Property 'NSCLIENT_ID' does not exist on type '{ c... Remove this comment to see the full error message
               query_similiar.NSCLIENT_ID = data.data.NSCLIENT_ID;
               selected = true;
             }
             // if none assigned add at least eventType
             if (!selected) {
+              // @ts-expect-error TS(2339): Property 'eventType' does not exist on type '{ cre... Remove this comment to see the full error message
               query_similiar.eventType = data.data.eventType;
             }
             // try to find similiar
+            // @ts-expect-error TS(7006): Parameter 'err' implicitly has an 'any' type.
             ctx.store.collection(collection).find(query_similiar).toArray(function findSimiliarResult (err, array) {
               // if found similiar just update date. next time it will match exactly
 
@@ -405,6 +446,7 @@ function init (env, ctx, server) {
               }
               // if not found create new record
               console.log(LOG_DEDUP + 'Adding new record');
+              // @ts-expect-error TS(7006): Parameter 'err' implicitly has an 'any' type.
               ctx.store.collection(collection).insert(data.data, function insertResult (err, doc) {
                 if (err != null && err.message) {
                   console.log('treatments data insertion error: ', err.message);
@@ -436,6 +478,7 @@ function init (env, ctx, server) {
           }
 
           // try to find exact match
+          // @ts-expect-error TS(7006): Parameter 'err' implicitly has an 'any' type.
           ctx.store.collection(collection).find(queryDev).toArray(function findResult (err, array) {
             if (err) {
               console.error(err);
@@ -453,6 +496,7 @@ function init (env, ctx, server) {
 
           });
 
+          // @ts-expect-error TS(7006): Parameter 'err' implicitly has an 'any' type.
           ctx.store.collection(collection).insert(data.data, function insertResult (err, doc) {
             if (err != null && err.message) {
               console.log('devicestatus insertion error: ', err.message);
@@ -471,6 +515,7 @@ function init (env, ctx, server) {
             ctx.bus.emit('data-received');
           });
         } else {
+          // @ts-expect-error TS(7006): Parameter 'err' implicitly has an 'any' type.
           ctx.store.collection(collection).insert(data.data, function insertResult (err, doc) {
             if (err != null && err.message) {
               console.log(data.collection + ' insertion error: ', err.message);
@@ -495,8 +540,10 @@ function init (env, ctx, server) {
       //    collection: treatments
       //    _id: 'some mongo record id'
       //  }
+      // @ts-expect-error TS(7006): Parameter 'data' implicitly has an 'any' type.
       socket.on('dbRemove', function dbRemove (data, callback) {
         console.log(LOG_WS + 'dbRemove client ID: ', socket.client.id, ' data: ', data);
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         var collection = supportedCollections[data.collection];
 
         var check = checkConditions('dbUpdate', data);
@@ -509,6 +556,7 @@ function init (env, ctx, server) {
 
         var objId = new ObjectID(data._id);
         ctx.store.collection(collection).remove({ '_id': objId }
+          // @ts-expect-error TS(7006): Parameter 'err' implicitly has an 'any' type.
           , function(err, stat) {
 
             if (!err) {
@@ -535,8 +583,10 @@ function init (env, ctx, server) {
       //  [, history : history_in_hours ]
       //  [, status : true ]
       // }
+      // @ts-expect-error TS(7006): Parameter 'message' implicitly has an 'any' type.
       socket.on('authorize', function authorize (message, callback) {
         const remoteIP = getRemoteIP(socket.request);
+        // @ts-expect-error TS(7006): Parameter 'err' implicitly has an 'any' type.
         verifyAuthorization(message, remoteIP, function verified (err, authorization) {
 
           if (err) {
@@ -554,10 +604,13 @@ function init (env, ctx, server) {
           if (socketAuthorization.read) {
             socket.join('DataReceivers');
 
+            // @ts-expect-error TS(2339): Property 'dataWithRecentStatuses' does not exist o... Remove this comment to see the full error message
             if (lastData && lastData.dataWithRecentStatuses) {
+              // @ts-expect-error TS(2339): Property 'dataWithRecentStatuses' does not exist o... Remove this comment to see the full error message
               let data = lastData.dataWithRecentStatuses();
 
               if (message.status) {
+                // @ts-expect-error TS(2554): Expected 0 arguments, but got 1.
                 data.status = status(data.profiles);
               }
 
@@ -575,16 +628,17 @@ function init (env, ctx, server) {
 
   function update () {
     // console.log(LOG_WS + 'running websocket.update');
+    // @ts-expect-error TS(2339): Property 'sgvs' does not exist on type '{}'.
     if (lastData.sgvs) {
       var delta = calcData(lastData, ctx.ddata);
       if (delta.delta) {
         // console.log('lastData full size', JSON.stringify(lastData).length,'bytes');
         // if (delta.sgvs) { console.log('patientData update size', JSON.stringify(delta).length,'bytes'); }
         emitData(delta);
-      }; // else { console.log('delta calculation indicates no new data is present'); }
+      } // else { console.log('delta calculation indicates no new data is present'); }
     }
     lastData = ctx.ddata.clone();
-  };
+  }
 
   start();
   listeners();
@@ -600,4 +654,5 @@ function init (env, ctx, server) {
   return websocket();
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

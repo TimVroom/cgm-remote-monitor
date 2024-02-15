@@ -1,7 +1,10 @@
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'mime'.
 var mime = require('mime')
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'url'.
 var url = require('url')
 
-module.exports = function (formats) {
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+module.exports = function (formats: any) {
   if (!Array.isArray(formats))
     throw new TypeError('Formats must be an array.')
 
@@ -18,7 +21,7 @@ module.exports = function (formats) {
 
   var regexp = new RegExp('\\.(' + formats.join('|') + ')$', 'i')
 
-  return function (req, res, next) {
+  return function (req: any, res: any, next: any) {
     var match = req.path.match(regexp)
     if (!match)
       return next()
@@ -37,5 +40,5 @@ module.exports = function (formats) {
     req.url = url.format(parsed)
 
     next()
-  }
+  };
 }

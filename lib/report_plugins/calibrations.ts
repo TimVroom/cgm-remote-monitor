@@ -1,5 +1,7 @@
 'use strict';
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'translate'... Remove this comment to see the full error message
 var translate = require('../language')().translate;
+// @ts-expect-error TS(2304): Cannot find name 'global'.
 var d3 = (global && global.d3) || require('d3');
 
 var calibrations = {
@@ -12,9 +14,11 @@ function init () {
   return calibrations;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;
 
-calibrations.html = function html (client) {
+// @ts-expect-error TS(2339): Property 'html' does not exist on type '{ name: st... Remove this comment to see the full error message
+calibrations.html = function html (client: any) {
   var translate = client.translate;
   var ret =
     '<h2>' + translate('Calibrations') + '</h2>' +
@@ -23,14 +27,16 @@ calibrations.html = function html (client) {
   return ret;
 };
 
-calibrations.report = function report_calibrations (datastorage, sorteddaystoshow) {
+// @ts-expect-error TS(2339): Property 'report' does not exist on type '{ name: ... Remove this comment to see the full error message
+calibrations.report = function report_calibrations (datastorage: any, sorteddaystoshow: any) {
+  // @ts-expect-error TS(2339): Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
   var Nightscout = window.Nightscout;
   var report_plugins = Nightscout.report_plugins;
 
   var padding = { top: 15, right: 15, bottom: 30, left: 70 };
-  var treatments = [];
-  sorteddaystoshow.forEach(function(day) {
-    treatments = treatments.concat(datastorage[day].treatments.filter(function(t) {
+  var treatments: any = [];
+  sorteddaystoshow.forEach(function(day: any) {
+    treatments = treatments.concat(datastorage[day].treatments.filter(function(t: any) {
       if (t.eventType === 'Sensor Start') {
         return true;
       }
@@ -41,23 +47,23 @@ calibrations.report = function report_calibrations (datastorage, sorteddaystosho
     }));
   });
 
-  var cals = [];
-  sorteddaystoshow.forEach(function(day) {
+  var cals: any = [];
+  sorteddaystoshow.forEach(function(day: any) {
     cals = cals.concat(datastorage[day].cal);
   });
 
-  var sgvs = [];
-  sorteddaystoshow.forEach(function(day) {
+  var sgvs: any = [];
+  sorteddaystoshow.forEach(function(day: any) {
     sgvs = sgvs.concat(datastorage[day].sgv);
   });
 
-  var mbgs = [];
-  sorteddaystoshow.forEach(function(day) {
+  var mbgs: any = [];
+  sorteddaystoshow.forEach(function(day: any) {
     mbgs = mbgs.concat(datastorage[day].mbg);
   });
-  mbgs.forEach(function(mbg) { calcmbg(mbg); });
+  mbgs.forEach(function(mbg: any) { calcmbg(mbg); });
 
-  var events = treatments.concat(cals).concat(mbgs).sort(function(a, b) { return a.mills - b.mills; });
+  var events = treatments.concat(cals).concat(mbgs).sort(function(a: any, b: any) { return a.mills - b.mills; });
 
   var colors = ['Aqua', 'Blue', 'Brown', 'Chartreuse', 'Coral', 'CornflowerBlue', 'DarkCyan', 'DarkMagenta', 'DarkOrange', 'Fuchsia', 'Green', 'Yellow'];
   var colorindex = 0;
@@ -100,7 +106,7 @@ calibrations.report = function report_calibrations (datastorage, sorteddaystosho
 
   $('.calibrations-checkbox').change(checkboxevent);
 
-  function checkLastCheckboxes (maxcals) {
+  function checkLastCheckboxes (maxcals: any) {
     for (i = events.length - 1; i > 0; i--) {
       if (typeof events[i].device !== 'undefined') {
         events[i].checked = true;
@@ -112,7 +118,7 @@ calibrations.report = function report_calibrations (datastorage, sorteddaystosho
     }
   }
 
-  function checkboxevent (event) {
+  function checkboxevent(this: any, event: any) {
     var index = $(this).attr('index');
     events[index].checked = $(this).is(':checked');
     drawelements();
@@ -130,7 +136,7 @@ calibrations.report = function report_calibrations (datastorage, sorteddaystosho
     }
   }
 
-  var calibration_context, xScale2, yScale2;
+  var calibration_context: any, xScale2: any, yScale2: any;
 
   function drawChart () {
     var maxBG = 500;
@@ -219,7 +225,7 @@ calibrations.report = function report_calibrations (datastorage, sorteddaystosho
     });
   }
 
-  function drawcal (cal) {
+  function drawcal (cal: any) {
     var color = cal.bgcolor;
     var y1 = 50000;
     var x1 = cal.scale * (y1 - cal.intercept) / cal.slope;
@@ -234,7 +240,7 @@ calibrations.report = function report_calibrations (datastorage, sorteddaystosho
       .attr('stroke', color);
   }
 
-  function calcmbg (mbg) {
+  function calcmbg (mbg: any) {
     var lastsgv = findlatest(new Date(mbg.mills), sgvs);
 
     if (lastsgv) {
@@ -248,7 +254,7 @@ calibrations.report = function report_calibrations (datastorage, sorteddaystosho
     }
   }
 
-  function drawmbg (mbg) {
+  function drawmbg (mbg: any) {
     var color = mbg.bgcolor;
     if (mbg.raw) {
       calibration_context.append('circle')
@@ -262,7 +268,7 @@ calibrations.report = function report_calibrations (datastorage, sorteddaystosho
     }
   }
 
-  function findlatest (date, storage) {
+  function findlatest (date: any, storage: any) {
     var last = null;
     var time = date.getTime();
     for (var i = 0; i < storage.length; i++) {

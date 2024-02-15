@@ -1,13 +1,22 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'apiConst'.
 const apiConst = require('../const.json')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'stringTool... Remove this comment to see the full error message
   , stringTools = require('./stringTools')
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   , uuid = require('uuid')
+  // @ts-expect-error TS(2591): Cannot find name 'Buffer'. Do you need to install ... Remove this comment to see the full error message
   , uuidNamespace = [...Buffer.from("NightscoutRocks!", "ascii")] // official namespace for NS :-)
   ;
 
 
-function sendJSON ({ res, result, status, fields }) {
+function sendJSON ({
+  res,
+  result,
+  status,
+  fields
+}: any) {
 
   const json = {
     status: status || apiConst.HTTP.OK,
@@ -26,17 +35,21 @@ function sendJSON ({ res, result, status, fields }) {
 }
 
 
-function sendJSONStatus (res, status, title, description, warning) {
+// @ts-expect-error TS(2393): Duplicate function implementation.
+function sendJSONStatus (res: any, status: any, title: any, description: any, warning: any) {
 
   const json = {
     status: status
   };
 
+  // @ts-expect-error TS(2339): Property 'message' does not exist on type '{ statu... Remove this comment to see the full error message
   if (title) { json.message = title }
 
+  // @ts-expect-error TS(2339): Property 'description' does not exist on type '{ s... Remove this comment to see the full error message
   if (description) { json.description = description }
 
   // Add optional warning message.
+  // @ts-expect-error TS(2339): Property 'warning' does not exist on type '{ statu... Remove this comment to see the full error message
   if (warning) { json.warning = warning; }
 
   res.status(status)
@@ -53,7 +66,7 @@ function sendJSONStatus (res, status, title, description, warning) {
  * @param {Object} options
  * @returns {any} - string with error message if validation fails, true in case of success
  */
-function validateCommon (doc, res, options) {
+function validateCommon (doc: any, res: any, options: any) {
 
   const { isPatching } = options || {};
 
@@ -63,6 +76,7 @@ function validateCommon (doc, res, options) {
     && (typeof(doc.date) !== 'number'
       || doc.date <= apiConst.MIN_TIMESTAMP)
   ) {
+    // @ts-expect-error TS(2554): Expected 5 arguments, but got 3.
     return sendJSONStatus(res, apiConst.HTTP.BAD_REQUEST, apiConst.MSG.HTTP_400_BAD_FIELD_DATE);
   }
 
@@ -73,6 +87,7 @@ function validateCommon (doc, res, options) {
       || doc.utcOffset < apiConst.MIN_UTC_OFFSET
       || doc.utcOffset > apiConst.MAX_UTC_OFFSET)
   ) {
+    // @ts-expect-error TS(2554): Expected 5 arguments, but got 3.
     return sendJSONStatus(res, apiConst.HTTP.BAD_REQUEST, apiConst.MSG.HTTP_400_BAD_FIELD_UTC);
   }
 
@@ -82,6 +97,7 @@ function validateCommon (doc, res, options) {
     && (typeof(doc.app) !== 'string'
         || stringTools.isNullOrWhitespace(doc.app))
   ) {
+    // @ts-expect-error TS(2554): Expected 5 arguments, but got 3.
     return sendJSONStatus(res, apiConst.HTTP.BAD_REQUEST, apiConst.MSG.HTTP_400_BAD_FIELD_APP);
   }
 
@@ -94,7 +110,7 @@ function validateCommon (doc, res, options) {
  * @param {Object} doc
  * @returns string
  */
-function calculateIdentifier (doc) {
+function calculateIdentifier (doc: any) {
   if (!doc)
     return undefined;
 
@@ -111,7 +127,7 @@ function calculateIdentifier (doc) {
  * Validate identifier in the document
  * @param {Object} doc
  */
-function resolveIdentifier (doc) {
+function resolveIdentifier (doc: any) {
 
   let identifier = calculateIdentifier(doc);
   if (doc.identifier) {
@@ -126,6 +142,7 @@ function resolveIdentifier (doc) {
 }
 
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = {
   sendJSON,
   sendJSONStatus,

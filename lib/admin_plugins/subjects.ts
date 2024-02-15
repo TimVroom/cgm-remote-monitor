@@ -1,5 +1,6 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 const _ = require('lodash');
 
 var subjects = {
@@ -8,18 +9,21 @@ var subjects = {
   , pluginType: 'admin'
 };
 
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init () {
   return subjects;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;
 
 var $status = null;
 
+// @ts-expect-error TS(2339): Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
 subjects.actions = [{
   description: 'Each subject will have a unique access token and 1 or more roles.  Click on the access token to open a new view with the selected subject, this secret link can then be shared.'
   , buttonLabel: 'Add new Subject'
-  , init: function init (client, callback) {
+  , init: function init (client: any, callback: any) {
     $status = $('#admin_' + subjects.name + '_0_status');
     $status.hide().text(client.translate('Loading database ...')).fadeIn('slow');
     var table = $('<table id="admin_subjects_table">').css('margin-top', '10px');
@@ -27,12 +31,13 @@ subjects.actions = [{
     reload(client, callback);
   }
   , preventClose: true
-  , code: function createNewSubject (client, callback) {
+  , code: function createNewSubject (client: any, callback: any) {
+    // @ts-expect-error TS(2554): Expected 2 arguments, but got 3.
     openDialog({}, client, callback);
   }
 }];
 
-function createOrSaveSubject (subject, client, callback) {
+function createOrSaveSubject (subject: any, client: any, callback: any) {
 
   var method = _.isEmpty(subject._id) ? 'POST' : 'PUT';
 
@@ -43,7 +48,7 @@ function createOrSaveSubject (subject, client, callback) {
     , data: subject
   }).done(function success () {
     reload(client, callback);
-  }).fail(function fail (err) {
+  }).fail(function fail (err: any) {
     console.error('Unable to ' + method + ' Subject', err.responseText);
     window.alert(client.translate('Unable to save Subject'));
     if (callback) {
@@ -52,14 +57,14 @@ function createOrSaveSubject (subject, client, callback) {
   });
 }
 
-function deleteSubject (subject, client, callback) {
+function deleteSubject (subject: any, client: any, callback: any) {
   $.ajax({
     method: 'DELETE'
     , url: '/api/v2/authorization/subjects/' + subject._id
     , headers: client.headers()
   }).done(function success () {
     reload(client, callback);
-  }).fail(function fail (err) {
+  }).fail(function fail (err: any) {
     console.error('Unable to delete Subject', err.responseText);
     window.alert(client.translate('Unable to delete Subject'));
     if (callback) {
@@ -68,20 +73,22 @@ function deleteSubject (subject, client, callback) {
   });
 }
 
-function reload (client, callback) {
+function reload (client: any, callback: any) {
   $.ajax({
     method: 'GET'
     , url: '/api/v2/authorization/subjects'
     , headers: client.headers()
-  }).done(function success (records) {
+  }).done(function success (records: any) {
+    // @ts-expect-error TS(2339): Property 'records' does not exist on type '{ name:... Remove this comment to see the full error message
     subjects.records = records;
     $status.hide().text(client.translate('Database contains %1 subjects', { params: [records.length] })).fadeIn('slow');
     showSubjects(records, client);
     if (callback) {
       callback();
     }
-  }).fail(function fail (err) {
+  }).fail(function fail (err: any) {
     $status.hide().text(client.translate('Error loading database')).fadeIn('slow');
+    // @ts-expect-error TS(2339): Property 'records' does not exist on type '{ name:... Remove this comment to see the full error message
     subjects.records = [];
     if (callback) {
       callback(err);
@@ -89,7 +96,7 @@ function reload (client, callback) {
   });
 }
 
-function genDialog (client) {
+function genDialog (client: any) {
   var ret =
     '<div id="editsubjectdialog" style="display:none" title="' + client.translate('Edit Subject') + '">' +
     '      <label for="edsub_name">' +
@@ -109,7 +116,7 @@ function genDialog (client) {
   return $(ret);
 }
 
-function openDialog (subject, client) {
+function openDialog (subject: any, client: any) {
   $('#editsubjectdialog').dialog({
     width: 360
     , height: 300
@@ -151,7 +158,7 @@ function openDialog (subject, client) {
 
 }
 
-function showSubject (subject, table, client) {
+function showSubject (subject: any, table: any, client: any) {
   var editIcon = $('<img title="' + client.translate('Edit this subject') + '" style="cursor:pointer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABEUlEQVQ4jZ3MMUsCYQDG8ee8IySQbNCLyyEKG/RLNAXicqvQcAeNLrcFLlE0+xHuNpt8wy04rrYm8Q4HQRE56BSC3lSqU1BwCoxM39dnffj9BWyxXvVeEzvtctBwHyRebNu2Nk2lzMlrgJB+qBEeTByiKYpihl+fIO8jTI9PDJEVF1+K2iw+M6PhDuyag4NkQi/c3FkCK5Z3ZbM76qLltpCbn+vXxq0FABsDy9hzPdBvqvtXvvXzrw1swmsDLPjfACteGeDBfwK8+FdgGwwAIgC0ncsjxGRSH/eiPBgAJADY2z8sJ4JBfNBsDqlADVYMANIzKalv/bHaefKsTH9iPFb8ISsGAJym0+Qinz3jQktbAHcxvx3559eSAAAAAElFTkSuQmCC">');
   editIcon.click(function clicked () {
     openDialog(subject, client);
@@ -160,6 +167,7 @@ function showSubject (subject, table, client) {
   deleteIcon.click(function clicked () {
     var ok = window.confirm(client.translate('Are you sure you want to delete: ') + subject.name);
     if (ok) {
+      // @ts-expect-error TS(2554): Expected 3 arguments, but got 2.
       deleteSubject(subject, client);
     }
   });
@@ -171,7 +179,7 @@ function showSubject (subject, table, client) {
   );
 }
 
-function showSubjects (subjects, client) {
+function showSubjects (subjects: any, client: any) {
   var table = $('#admin_subjects_table');
   table.empty().append($('<tr>').css('background', '#040404')
     .append($('<th>').css('width', '100px').attr('align', 'left').append(client.translate('Name')))

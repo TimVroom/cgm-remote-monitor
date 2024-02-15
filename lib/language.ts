@@ -1,8 +1,10 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
 
-function init (fs) {
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
+function init (fs: any) {
 
   function language () {
     return language;
@@ -48,14 +50,16 @@ function init (fs) {
 
   language.translations = translations;
 
-  language.offerTranslations = function offerTranslations (localization) {
+  language.offerTranslations = function offerTranslations (localization: any) {
     translations = localization;
     language.translations = translations;
   }
 
   // case sensitive
-  language.translateCS = function translateCaseSensitive (text) {
+  language.translateCS = function translateCaseSensitive (text: any) {
+    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     if (translations[text]) {
+      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       return translations[text];
     }
     // console.log('localization:', text, 'not found');
@@ -63,9 +67,9 @@ function init (fs) {
   };
 
   // case insensitive
-  language.translateCI = function translateCaseInsensitive (text) {
+  language.translateCI = function translateCaseInsensitive (text: any) {
     var utext = text.toUpperCase();
-    _.forEach(translations, function(ts, key) {
+    _.forEach(translations, function(ts: any, key: any) {
       var ukey = key.toUpperCase();
       if (ukey === utext) {
         text = ts;
@@ -74,7 +78,7 @@ function init (fs) {
     return text;
   };
 
-  language.translate = function translate (text, options) {
+  language.translate = function translate (text: any, options: any) {
     var translated;
     if (options && options.ci) {
       translated = language.translateCI(text);
@@ -117,19 +121,23 @@ function init (fs) {
     return translated;
   };
 
-  language.DOMtranslate = function DOMtranslate ($) {
+  language.DOMtranslate = function DOMtranslate ($: any) {
     // do translation of static text on load
-    $('.translate').each(function() {
+    $('.translate').each(function(this: any) {
+      // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
       $(this).text(language.translate($(this).text()));
     });
-    $('.titletranslate, .tip').each(function() {
+    $('.titletranslate, .tip').each(function(this: any) {
+      // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
       $(this).attr('title', language.translate($(this).attr('title')));
+      // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
       $(this).attr('original-title', language.translate($(this).attr('original-title')));
+      // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
       $(this).attr('placeholder', language.translate($(this).attr('placeholder')));
     });
   };
 
-  language.getFilename = function getFilename (code) {
+  language.getFilename = function getFilename (code: any) {
 
     if (code == 'en') {
       return 'en/en.json';
@@ -143,15 +151,16 @@ function init (fs) {
   }
 
   // this is a server only call and needs fs by reference as the class is also used in the client
-  language.loadLocalization = function loadLocalization (fs, path) {
+  language.loadLocalization = function loadLocalization (fs: any, path: any) {
     let filename = './translations/' + this.getFilename(this.lang);
+    // @ts-expect-error TS(2304): Cannot find name '__dirname'.
     if (path) filename = path.resolve(__dirname, filename);
     /* eslint-disable-next-line security/detect-non-literal-fs-filename */ // verified false positive; well defined set of values
     const l = fs.readFileSync(filename);
     this.offerTranslations(JSON.parse(l));
   }
 
-  language.set = function set (newlang) {
+  language.set = function set (newlang: any) {
     if (!newlang) return;
     language.lang = newlang;
 
@@ -162,7 +171,7 @@ function init (fs) {
     return language();
   };
 
-  language.get = function get (lang) {
+  language.get = function get (lang: any) {
     var r;
     language.languages.forEach(function(l) {
       if (l.code === lang) r = l;
@@ -173,10 +182,12 @@ function init (fs) {
   // if run on server and we get a filesystem handle, load english by default
   if (fs) {
     language.set('en');
+    // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
     language.loadLocalization(fs);
   }
 
   return language();
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

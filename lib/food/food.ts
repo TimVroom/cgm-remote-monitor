@@ -1,10 +1,13 @@
 'use strict';
 
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 var init = function init () {
 
 //for the tests window isn't the global object
 var $ = window.$;
+// @ts-expect-error TS(2339): Property '_' does not exist on type 'Window & type... Remove this comment to see the full error message
 var _ = window._;
+// @ts-expect-error TS(2339): Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
 var Nightscout = window.Nightscout;
 var client = Nightscout.client;
 
@@ -54,13 +57,13 @@ client.init(function loaded () {
   var icon_edit = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABEUlEQVQ4jZ3MMUsCYQDG8ee8IySQbNCLyyEKG/RLNAXicqvQcAeNLrcFLlE0+xHuNpt8wy04rrYm8Q4HQRE56BSC3lSqU1BwCoxM39dnffj9BWyxXvVeEzvtctBwHyRebNu2Nk2lzMlrgJB+qBEeTByiKYpihl+fIO8jTI9PDJEVF1+K2iw+M6PhDuyag4NkQi/c3FkCK5Z3ZbM76qLltpCbn+vXxq0FABsDy9hzPdBvqvtXvvXzrw1swmsDLPjfACteGeDBfwK8+FdgGwwAIgC0ncsjxGRSH/eiPBgAJADY2z8sJ4JBfNBsDqlADVYMANIzKalv/bHaefKsTH9iPFb8ISsGAJym0+Qinz3jQktbAHcxvx3559eSAAAAAElFTkSuQmCC';
   var icon_up = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAH3SURBVDhPlZK/a1NRFMe/9/1KotLcwbYiipo2NqmDpTpoiJiguPgPCC7iYAcbYp0LxUGkxVr6Y6lgu6iLm4uCQszi4JS6FHQRFMRBDOJrcvPyEs+97+V3A+2Bw7nvcr6f973nXoZ+8RQTqCGn1hrSuIOCWneF5tfO8MWZ2Ax/NPmYB1kop/Z2iV6AL56O3eNj4TP4Lf7iVnSKm7ByWOuFdAJ88d14lp8Oj+P9jw/Y/vMFBgK4GbnNLUaQpU5Iawbt4gEpzqPiVmirprqi/BRKjo0XW5vFSkmkMevNxAM0bPvidyQuuwJuvUrbdTBWh6ZpGOOjEM4Onn/aKIoyQR6gwBriTHzGs/09j5Jbxo5rw67aEDWhfuOiCkM3cO7wWdQcB68+viyKfyKt4zq2s/H7/OJQEj9Lv6BrOkbCJ/H62xvYBHFAx2Aurh5LITJwAgfMIA6GDiEyPBL8/LVwg2GdPHbF/PllLGwtI2CYlBYsqteOp7H6dhFkxEvHqxqmyGB70szkeU2ya+l0eSQOmh5ECR9SzzzlE8oVsN53IKm0LQGmQRCTXBBAfitAV/QBMBLoTRfyKMqBtN0VfQFymAogXZB4Xw6YD9DJheGDDFrvHUDlytHLSB1J4tJwAonBCwSk1l0ArafciDm6Vtko07+qZrqUz9o1wH8prahHZgYc2gAAAABJRU5ErkJggg==';
   
-  var foodlist = [];
-  var foodquickpick = [];
-  var foodquickpicktodelete = [];
+  var foodlist: any = [];
+  var foodquickpick: any = [];
+  var foodquickpicktodelete: any = [];
   var showhidden = false;
   var categories = {};
   
-  function restoreBoolValue(record,key) {
+  function restoreBoolValue(record: any,key: any) {
     if (typeof record[key] !== 'undefined') {
       record[key] = record[key] === 'true';
     }
@@ -70,16 +73,19 @@ client.init(function loaded () {
   $('#fe_status').hide().text('Loading food database ...').fadeIn('slow');
   $.ajax('/api/v1/food.json', {
     headers: client.headers()
-    , success: function ajaxSuccess(records) {
-      records.forEach(function processRecords(r) {
+    , success: function ajaxSuccess(records: any) {
+      records.forEach(function processRecords(r: any) {
         restoreBoolValue(r,'hidden');
         restoreBoolValue(r,'hideafteruse');
         if (r.type === 'food') {
           foodlist.push(r);
+          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           if (r.category && !categories[r.category]) {
+            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
             categories[r.category] = {};
           }
           if (r.category && r.subcategory) {
+            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
             categories[r.category][r.subcategory] = true;
           }
         } else if (r.type === 'quickpick') {
@@ -90,7 +96,7 @@ client.init(function loaded () {
         }
       });
       $('#fe_status').hide().text(translate('Database loaded')).fadeIn('slow');
-      foodquickpick.sort(function compare(a,b) { return cmp(parseInt(a.position),parseInt(b.position)) });
+      foodquickpick.sort(function compare(a: any,b: any) { return cmp(parseInt(a.position),parseInt(b.position)) });
     }
     , error: function ajaxError() {
       $('#fe_status').hide().text(translate('Error: Database failed to load')).fadeIn('slow');
@@ -108,11 +114,11 @@ client.init(function loaded () {
     $('#fe_filter_subcategory').change(doFilter);
     $('#fe_quickpick_showhidden').change(showHidden);
     $('#fe_filter_name').on('input',doFilter);
-    $('#fe_category_list').change(function categoryListChange(event) { 
+    $('#fe_category_list').change(function categoryListChange(event: any) { 
       $('#fe_category').val($('#fe_category_list').val()); 
       fillEditSubcategories(event);
     });
-    $('#fe_subcategory_list').change(function subcategoryListChange(event) { 
+    $('#fe_subcategory_list').change(function subcategoryListChange(event: any) { 
       $('#fe_subcategory').val($('#fe_subcategory_list').val());
       event.preventDefault();
     });
@@ -122,46 +128,54 @@ client.init(function loaded () {
     }
   
     // Set values from profile to html
+    // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
     fillForm();
     // show proper submit button
+    // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
     updateSaveButton();
 
     console.log('Done initeditor()');
   }
   
-  function updateSaveButton(event) {
+  function updateSaveButton(event: any) {
     if($('#fe_id').val()==='') {
       $('#fe_editcreate').text(translate('Create new record'));
     } else {
       $('#fe_editcreate').text(translate('Save record'));
     }
+     // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
      maybePreventDefault(event);
   }
   
-  function fillFilterSubcategories(event) {
+  function fillFilterSubcategories(event: any) {
     var s;
     maybePreventDefault(event,GUIToObject);
 
     filter.subcategory = '';
     $('#fe_filter_subcategory').empty().append(new Option(translate('(none)'),''));
     if (filter.category !== '') {
+      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       for (s in categories[filter.category]) {
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         if (Object.prototype.hasOwnProperty.call(categories[filter.category],s)) {
           $('#fe_filter_subcategory').append(new Option(s,s));
         }
       }
     }
+    // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
     doFilter();
   }
   
-  function fillEditSubcategories(event) {
+  function fillEditSubcategories(event: any) {
     maybePreventDefault(event,GUIToObject);
 
     var s;
     foodrec.subcategory = '';
     $('#fe_subcategory_list').empty().append(new Option(translate('(none)'),''));
     if (foodrec.category !== '') {
+      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       for (s in categories[foodrec.category]) {
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         if (Object.prototype.hasOwnProperty.call(categories[foodrec.category],s)) {
           $('#fe_subcategory_list').append(new Option(s,s));
         }
@@ -170,23 +184,28 @@ client.init(function loaded () {
     $('#fe_subcategory').val('');
   }
   
-  function doEdit(event) {
+  function doEdit(this: any, event: any) {
     var index = $(this).attr('index');
     foodrec = _.cloneDeep(foodlist[index]);
     objectToGUI();
+    // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
     updateSaveButton();
+    // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
     maybePreventDefault(event);
     return false;
   }
   
-  function updateFoodArray(newrec) {
+  function updateFoodArray(newrec: any) {
     for (var i=0; i<foodlist.length; i++) {
       if (foodlist[i]._id === newrec._id) {
         foodlist[i] = _.cloneDeep(newrec);
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         if (newrec.category && !categories[newrec.category]) {
+          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           categories[newrec.category] = {};
         }
         if (newrec.category && newrec.subcategory) {
+          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           categories[newrec.category][newrec.subcategory] = true;
         }
         return;
@@ -194,7 +213,7 @@ client.init(function loaded () {
     }
   }
 
-  function fillForm(event) {
+  function fillForm(event: any) {
     $('#fe_filter_category').empty().append(new Option(translate('(none)'),''));
     $('#fe_category_list').empty().append(new Option(translate('(none)'),''));
     for (var s in categories) {
@@ -203,15 +222,17 @@ client.init(function loaded () {
         $('#fe_category_list').append(new Option(s,s));
       }
     }
+    // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
     fillFilterSubcategories();
     drawQuickpick();
     
     objectToGUI();
+    // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
     maybePreventDefault(event);
     return false;
   }
   
-  function doFilter(event) {
+  function doFilter(event: any) {
     if (event) {
       GUIToObject();
     }
@@ -266,37 +287,42 @@ client.init(function loaded () {
       scope: 'foodlist',
       revert: 'invalid'
     });
+    // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
     maybePreventDefault(event);
   }
   
-  function deleteQuickpickRecord(event) {
+  function deleteQuickpickRecord(this: any, event: any) {
     var index = $(this).attr('index');
     foodquickpicktodelete.push(foodquickpick[index]._id);
     foodquickpick.splice(index,1);
     drawQuickpick();
+    // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
     maybePreventDefault(event);
     return false;
   }
   
-  function deleteFoodRecord(event) {
+  function deleteFoodRecord(this: any, event: any) {
     var index = $(this).attr('index');
     deleteRecord(foodlist[index]._id);
     foodlist.splice(index,1);
+    // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
     fillForm();
+    // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
     maybePreventDefault(event);
     return false;
   }
   
-  function showHidden(event) {
+  function showHidden(event: any) {
     GUIToObject();
     drawQuickpick();
+    // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
     maybePreventDefault(event);
     return false;
   }
   
   function drawQuickpick() {
     
-    function addHeaderOrHint(q,i) {
+    function addHeaderOrHint(q: any,i: any) {
       if (q.foods.length) {
         $('#fe_qpfieldset_'+i)
           .append($('<span>').addClass('width50px'))
@@ -310,7 +336,7 @@ client.init(function loaded () {
       }
     }
     
-    function addHiddenCount(hiddentotal) {
+    function addHiddenCount(hiddentotal: any) {
       $('#fe_quickpick_hiddencount').text(hiddentotal ? (' ('+hiddentotal+')') : '');
     }
     
@@ -360,12 +386,12 @@ client.init(function loaded () {
 
     addHiddenCount(hiddentotal);
     
-    $('.fe_qpname').change(function nameChange(event) {
+    $('.fe_qpname').change(function nameChange(this: any, event: any) {
       var index = $(this).attr('index');
       foodquickpick[index].name = $(this).val();
       event.preventDefault();
     });
-    $('.fq_hidden').change(function hiddenChange(event) {
+    $('.fq_hidden').change(function hiddenChange(this: any, event: any) {
       var index = $(this).attr('index');
       foodquickpick[index].hidden = this.checked;
       if (!this.checked) {
@@ -375,7 +401,7 @@ client.init(function loaded () {
       event.preventDefault();
     });
     
-    $('.fq_hideafteruse').change(function hideAfterUseChange(event) {
+    $('.fq_hideafteruse').change(function hideAfterUseChange(this: any, event: any) {
       var index = $(this).attr('index');
       foodquickpick[index].hideafteruse = this.checked;
       event.preventDefault();
@@ -395,7 +421,7 @@ client.init(function loaded () {
     });
   }
   
-  function savePortions(event) {
+  function savePortions(this: any, event: any) {
     var index = $(this).attr('index');
     var findex = $(this).attr('findex');
     var val = parseFloat($(this).val().replace(/,/g,'.'));
@@ -406,7 +432,7 @@ client.init(function loaded () {
     return false;
   }
   
-  function deleteQuickpickFood(event) {
+  function deleteQuickpickFood(this: any, event: any) {
     var index = $(this).attr('index');
     var findex = $(this).attr('findex');
     foodquickpick[index].foods.splice(findex,1);
@@ -416,7 +442,7 @@ client.init(function loaded () {
     return false;
   }
   
-  function dropFood(event,ui) {
+  function dropFood(this: any, event: any, ui: any) {
 
     var item = ui.draggable;
     var fi = foodlist[item.attr('index')];
@@ -431,7 +457,7 @@ client.init(function loaded () {
     drawQuickpick();
   }
 
-  function calculateCarbs(index) {
+  function calculateCarbs(index: any) {
     var qp = foodquickpick[index];
     qp.carbs = 0;
     if (qp.foods) {
@@ -443,7 +469,7 @@ client.init(function loaded () {
     }
   }
   
-  function resortArray(event,ui) {
+  function resortArray(event: any,ui: any) {
     var newHtmlIndex = ui.item.index();
     var oldArrayIndex = ui.item.attr('index');
     var draggeditem = foodquickpick.splice(oldArrayIndex, 1)[0];
@@ -454,10 +480,11 @@ client.init(function loaded () {
     return;
   }
   
-  function quickpickMoveToTop(event) {
+  function quickpickMoveToTop(this: any, event: any) {
     var index = $(this).attr('index');
     foodquickpick.splice(0, 0, foodquickpick.splice(index, 1)[0]);
     drawQuickpick();
+    // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
     maybePreventDefault(event);
     return false;
   }
@@ -511,19 +538,22 @@ client.init(function loaded () {
     showhidden = $('#fe_quickpick_showhidden').is(':checked');
   }
   
-  function clearRec(event) {
+  function clearRec(event: any) {
     foodrec = _.cloneDeep(foodrec_template);
     objectToGUI();
+    // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
     updateSaveButton();
+    // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
     maybePreventDefault(event);
     return false;
   }
   
-  function foodSubmit(event) {
+  function foodSubmit(event: any) {
     GUIToObject();
 
     if (!client.hashauth.isAuthenticated()) {
       alert(translate('Your device is not authenticated yet'));
+      // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
       maybePreventDefault(event);
       return false;
     }
@@ -538,17 +568,22 @@ client.init(function loaded () {
         url: '/api/v1/food/',
         data: foodrec,
         headers: client.headers()
-      }).done(function success (response) {
+      }).done(function success (response: any) {
         $('#fe_status').hide().text('OK').fadeIn('slow');
         foodrec._id = response[0]._id;
         foodlist.push(foodrec);
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         if (foodrec.category && !categories[foodrec.category]) {
+          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           categories[foodrec.category] = {};
         }
         if (foodrec.category && foodrec.subcategory) {
+          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           categories[foodrec.category][foodrec.subcategory] = true;
         }
+        // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
         clearRec();
+        // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
         fillForm();
        }).fail(function fail() {
         $('#fe_status').hide().text(translate('Error')).fadeIn('slow');
@@ -563,19 +598,23 @@ client.init(function loaded () {
       }).done(function success () {
         $('#fe_status').hide().text('OK').fadeIn('slow');
         updateFoodArray(foodrec);
+        // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
         clearRec();
+        // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
         fillForm();
        }).fail(function fail() {
         $('#fe_status').hide().text(translate('Error')).fadeIn('slow');
       });
     }
+    // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
     maybePreventDefault(event);
     return false;
   }
 
-  function deleteRecord(_id) {
+  function deleteRecord(_id: any) {
     if (!client.hashauth.isAuthenticated()) {
       alert(translate('Your device is not authenticated yet'));
+      // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
       maybePreventDefault(event);
       return false;
     }
@@ -594,9 +633,10 @@ client.init(function loaded () {
     return false;
   }
 
-  function updateRecord(foodrec) {
+  function updateRecord(foodrec: any) {
     if (!client.hashauth.isAuthenticated()) {
       alert(translate('Your device is not authenticated yet'));
+      // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
       maybePreventDefault(event);
       return false;
     }
@@ -606,16 +646,17 @@ client.init(function loaded () {
       url: '/api/v1/food/',
       data: foodrec,
       headers: client.headers()
-    }).done(function success (response) {
+    }).done(function success (response: any) {
       console.log('Updated record: ',response);
     });
   }
 
-  function quickpickCreateRecord(event) {
+  function quickpickCreateRecord(event: any) {
     var newrec = _.cloneDeep(quickpickrec_template);
     
     if (!client.hashauth.isAuthenticated()) {
       alert(translate('Your device is not authenticated yet'));
+      // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
       maybePreventDefault(event);
       return false;
     }
@@ -628,7 +669,7 @@ client.init(function loaded () {
       url: '/api/v1/food/',
       data: newrec,
       headers: client.headers()
-    }).done(function success (response) {
+    }).done(function success (response: any) {
       $('#fe_status').hide().text('OK').fadeIn('slow');
       newrec._id = response[0]._id;
       foodquickpick.unshift(newrec);
@@ -637,11 +678,12 @@ client.init(function loaded () {
       $('#fe_status').hide().text(translate('Error')).fadeIn('slow');
     });
 
+    // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
     maybePreventDefault(event);
     return false;
   }
 
-  function quickpickSave(event) {
+  function quickpickSave(event: any) {
     if (!client.hashauth.isAuthenticated()) {
       alert(translate('Your device is not authenticated yet'));
       return false;
@@ -660,15 +702,16 @@ client.init(function loaded () {
       }
       updateRecord(fqp);
     }
+    // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
     maybePreventDefault(event);
     return false;
   }
   
-  function cmp(v1,v2){
+  function cmp(v1: any,v2: any){
     return (v1<v2?-1:(v1>v2?1:0));
   }
 
-  function maybePreventDefault(event,after) {
+  function maybePreventDefault(event: any,after: any) {
     if (event) {
       event.preventDefault();
     }
@@ -679,4 +722,5 @@ client.init(function loaded () {
 });
 };
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

@@ -1,5 +1,6 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'consts'.
 var consts = require('../constants');
 
 var glucosedistribution = {
@@ -12,9 +13,11 @@ function init () {
   return glucosedistribution;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;
 
-glucosedistribution.html = function html (client) {
+// @ts-expect-error TS(2339): Property 'html' does not exist on type '{ name: st... Remove this comment to see the full error message
+glucosedistribution.html = function html (client: any) {
   var translate = client.translate;
   var ret =
     '<h2>' +
@@ -71,6 +74,7 @@ glucosedistribution.html = function html (client) {
   return ret;
 };
 
+// @ts-expect-error TS(2339): Property 'css' does not exist on type '{ name: str... Remove this comment to see the full error message
 glucosedistribution.css =
   '#glucosedistribution-overviewchart {' +
   '  width: 2.4in;' +
@@ -84,12 +88,15 @@ glucosedistribution.css =
   '    text-align:center;' +
   '}';
 
-glucosedistribution.report = function report_glucosedistribution (datastorage, sorteddaystoshow, options) {
+// @ts-expect-error TS(2339): Property 'report' does not exist on type '{ name: ... Remove this comment to see the full error message
+glucosedistribution.report = function report_glucosedistribution (datastorage: any, sorteddaystoshow: any, options: any) {
+  // @ts-expect-error TS(2339): Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
   var Nightscout = window.Nightscout;
   var client = Nightscout.client;
   var translate = client.translate;
   var displayUnits = Nightscout.client.settings.units;
 
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var ss = require('simple-statistics');
 
   var colors = ['#f88', '#8f8', '#ff8'];
@@ -107,7 +114,7 @@ glucosedistribution.report = function report_glucosedistribution (datastorage, s
   var stability = $('#glucosedistribution-stability');
   stability.empty();
 
-  var stats = [];
+  var stats: any = [];
   var table = $('<table class="centeraligned">');
   var thead = $('<tr/>');
   $('<th>' + translate('Range') + '</th>').appendTo(thead);
@@ -137,8 +144,8 @@ glucosedistribution.report = function report_glucosedistribution (datastorage, s
 
   // Filter data for noise
   // data cleaning pass 0 - remove duplicates and non-sgv entries, sort
-  var seen = [];
-  data = data.filter(function(item) {
+  var seen: any = [];
+  data = data.filter(function(item: any) {
     if (!item.sgv || !item.bgValue || !item.displayTime || item.bgValue < 39) {
       console.log(item);
       return false;
@@ -146,7 +153,7 @@ glucosedistribution.report = function report_glucosedistribution (datastorage, s
     return seen.includes(item.displayTime) ? false : (seen[item.displayTime] = true);
   });
 
-  data.sort(function(a, b) {
+  data.sort(function(a: any, b: any) {
     return a.displayTime.getTime() - b.displayTime.getTime();
   });
 
@@ -259,7 +266,9 @@ glucosedistribution.report = function report_glucosedistribution (datastorage, s
   var daysTotal = timeTotal / (1000 * 60 * 60 * 24);
 
   ['Low', 'Normal', 'High'].forEach(function(range) {
+    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     result[range] = {};
+    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     var r = result[range];
     r.rangeRecords = glucose_data.filter(function(r) {
       if (range === 'Low') {
@@ -271,12 +280,12 @@ glucosedistribution.report = function report_glucosedistribution (datastorage, s
       }
     });
     stats.push(r.rangeRecords.length);
-    r.rangeRecords.sort(function(a, b) {
+    r.rangeRecords.sort(function(a: any, b: any) {
       return a.sgv - b.sgv;
     });
-    r.localBgs = r.rangeRecords.map(function(r) {
+    r.localBgs = r.rangeRecords.map(function(r: any) {
       return r.sgv;
-    }).filter(function(bg) {
+    }).filter(function(bg: any) {
       return !!bg;
     });
     r.midpoint = Math.floor(r.rangeRecords.length / 2);
@@ -289,10 +298,12 @@ glucosedistribution.report = function report_glucosedistribution (datastorage, s
   });
 
   // make sure we have total 100%
+  // @ts-expect-error TS(2339): Property 'Normal' does not exist on type '{}'.
   result.Normal.readingspct = (100 - result.Low.readingspct - result.High.readingspct).toFixed(1);
 
   ['Low', 'Normal', 'High'].forEach(function(range) {
     var tr = $('<tr>');
+    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     var r = result[range];
 
     var rangeExp = '';
@@ -306,6 +317,7 @@ glucosedistribution.report = function report_glucosedistribution (datastorage, s
     var rangeLabel = range;
     if (rangeLabel == 'Normal') rangeLabel = 'In Range';
 
+    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     $('<td class="tdborder" style="background-color:' + tablecolors[range] + '"><strong>' + translate(rangeLabel) + rangeExp + ': </strong></td>').appendTo(tr);
     $('<td class="tdborder">' + r.readingspct + '%</td>').appendTo(tr);
     $('<td class="tdborder">' + r.rangeRecords.length + '</td>').appendTo(tr);
@@ -423,6 +435,7 @@ glucosedistribution.report = function report_glucosedistribution (datastorage, s
   console.log('GVI', GVI, 'GVIIdeal', GVIIdeal, 'GVITotal', GVITotal, 'GVIIdeal_Time', GVIIdeal_Time);
 
   var glucoseMean = Math.floor(glucoseTotal / usedRecords);
+  // @ts-expect-error TS(2339): Property 'Normal' does not exist on type '{}'.
   var tirMultiplier = result.Normal.readingspct / 100.0;
   var PGS = Math.round(GVI * glucoseMean * (1 - tirMultiplier) * 100) / 100;
   console.log('glucoseMean', glucoseMean, 'tirMultiplier', tirMultiplier, 'PGS', PGS);

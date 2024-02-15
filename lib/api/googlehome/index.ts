@@ -1,9 +1,12 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'moment'.
 var moment = require('moment');
 
-function configure (app, wares, ctx, env) {
+function configure (app: any, wares: any, ctx: any, env: any) {
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var express = require('express')
     , api = express.Router( );
   var translate = ctx.language.translate;
@@ -18,7 +21,7 @@ function configure (app, wares, ctx, env) {
 
   ctx.virtAsstBase.setupVirtAsstHandlers(ctx.googleHome);
 
-  api.post('/googlehome', ctx.authorization.isPermitted('api:*:read'), function (req, res, next) {
+  api.post('/googlehome', ctx.authorization.isPermitted('api:*:read'), function (req: any, res: any, next: any) {
     console.log('Incoming request from Google Home');
     var locale = _.get(req, 'body.queryResult.languageCode');
     if(locale){
@@ -32,7 +35,7 @@ function configure (app, wares, ctx, env) {
     var handler = ctx.googleHome.getIntentHandler(req.body.queryResult.intent.displayName, req.body.queryResult.parameters.metric);
     if (handler){
       var sbx = ctx.sbx;
-      handler(function (title, response) {
+      handler(function (title: any, response: any) {
         res.json(ctx.googleHome.buildSpeechletResponse(response, false));
         next( );
         return;
@@ -49,4 +52,5 @@ function configure (app, wares, ctx, env) {
   return api;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = configure;

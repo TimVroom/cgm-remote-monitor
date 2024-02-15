@@ -1,6 +1,8 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
 var times = require('../times');
 
 var BG_REF = 140; //Central tendency
@@ -14,7 +16,7 @@ var AR = [-0.723, 1.716];
 //TODO: move this to css
 var AR2_COLOR = 'cyan';
 
-function init (ctx) {
+function init (ctx: any) {
   var translate = ctx.language.translate;
   var moment = ctx.moment;
 
@@ -24,7 +26,7 @@ function init (ctx) {
     , pluginType: 'forecast'
   };
 
-  function buildTitle (prop, sbx) {
+  function buildTitle (prop: any, sbx: any) {
     var rangeLabel = prop.eventName ? sbx.translate(prop.eventName, { ci: true }).toUpperCase() : sbx.translate('Check BG');
     var title = sbx.levels.toDisplay(prop.level) + ', ' + rangeLabel;
 
@@ -35,24 +37,29 @@ function init (ctx) {
     return title;
   }
 
-  ar2.setProperties = function setProperties (sbx) {
+  // @ts-expect-error TS(2339): Property 'setProperties' does not exist on type '{... Remove this comment to see the full error message
+  ar2.setProperties = function setProperties (sbx: any) {
     sbx.offerProperty('ar2', function setAR2 () {
 
       var prop = {
+        // @ts-expect-error TS(2339): Property 'forecast' does not exist on type '{ name... Remove this comment to see the full error message
         forecast: ar2.forecast(sbx)
       };
 
       var result = checkForecast(prop.forecast, sbx);
 
       if (result) {
+        // @ts-expect-error TS(2339): Property 'level' does not exist on type '{ forecas... Remove this comment to see the full error message
         prop.level = result.level;
+        // @ts-expect-error TS(2339): Property 'eventName' does not exist on type '{ for... Remove this comment to see the full error message
         prop.eventName = result.eventName;
       }
 
       var predicted = prop.forecast && prop.forecast.predicted;
-      var scaled = predicted && _.map(predicted, function(p) { return sbx.scaleEntry(p) });
+      var scaled = predicted && _.map(predicted, function(p: any) { return sbx.scaleEntry(p) });
 
       if (scaled && scaled.length >= 3) {
+        // @ts-expect-error TS(2339): Property 'displayLine' does not exist on type '{ f... Remove this comment to see the full error message
         prop.displayLine = 'BG 15m: ' + scaled[2] + ' ' + sbx.unitsLabel;
       }
 
@@ -60,7 +67,8 @@ function init (ctx) {
     });
   };
 
-  ar2.checkNotifications = function checkNotifications (sbx) {
+  // @ts-expect-error TS(2339): Property 'checkNotifications' does not exist on ty... Remove this comment to see the full error message
+  ar2.checkNotifications = function checkNotifications (sbx: any) {
     if (sbx.time - sbx.lastSGVMills() > times.mins(10).msecs) {
       return;
     }
@@ -81,7 +89,8 @@ function init (ctx) {
     }
   };
 
-  ar2.forecast = function forecast (sbx) {
+  // @ts-expect-error TS(2339): Property 'forecast' does not exist on type '{ name... Remove this comment to see the full error message
+  ar2.forecast = function forecast (sbx: any) {
 
     var result = {
       predicted: []
@@ -102,17 +111,21 @@ function init (ctx) {
     // compute current loss
     var size = Math.min(result.predicted.length - 1, 6);
     for (var j = 0; j <= size; j++) {
+      // @ts-expect-error TS(2339): Property 'mgdl' does not exist on type 'never'.
       result.avgLoss += 1 / size * Math.pow(log10(result.predicted[j].mgdl / 120), 2);
     }
 
     return result;
   };
 
-  ar2.updateVisualisation = function updateVisualisation (sbx) {
+  // @ts-expect-error TS(2339): Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
+  ar2.updateVisualisation = function updateVisualisation (sbx: any) {
+    // @ts-expect-error TS(2339): Property 'forecastCone' does not exist on type '{ ... Remove this comment to see the full error message
     sbx.pluginBase.addForecastPoints(ar2.forecastCone(sbx), { type: 'ar2', label: 'AR2 Forecast' });
   };
 
-  ar2.forecastCone = function forecastCone (sbx) {
+  // @ts-expect-error TS(2339): Property 'forecastCone' does not exist on type '{ ... Remove this comment to see the full error message
+  ar2.forecastCone = function forecastCone (sbx: any) {
 
     if (!okToForecast(sbx)) {
       return [];
@@ -120,7 +133,7 @@ function init (ctx) {
 
     var coneFactor = getConeFactor(sbx);
 
-    function pushConePoints (result, step) {
+    function pushConePoints (result: any, step: any) {
       var next = incrementAR2(result);
 
       //offset from points so they are at a unique time
@@ -147,7 +160,7 @@ function init (ctx) {
     return result.points;
   };
 
-  function virtAsstAr2Handler (next, slots, sbx) {
+  function virtAsstAr2Handler (next: any, slots: any, sbx: any) {
     var predicted = _.get(sbx, 'properties.ar2.forecast.predicted');
     if (predicted) {
       var forecast = predicted;
@@ -188,6 +201,7 @@ function init (ctx) {
     }
   }
 
+  // @ts-expect-error TS(2339): Property 'virtAsst' does not exist on type '{ name... Remove this comment to see the full error message
   ar2.virtAsst = {
     intentHandlers: [{
       intent: 'MetricNow'
@@ -199,7 +213,7 @@ function init (ctx) {
   return ar2;
 }
 
-function checkForecast (forecast, sbx) {
+function checkForecast (forecast: any, sbx: any) {
   var result = undefined;
 
   if (forecast && forecast.avgLoss > URGENT_THRESHOLD) {
@@ -209,15 +223,17 @@ function checkForecast (forecast, sbx) {
   }
 
   if (result) {
+    // @ts-expect-error TS(2339): Property 'forecast' does not exist on type '{ leve... Remove this comment to see the full error message
     result.forecast = forecast;
+    // @ts-expect-error TS(2339): Property 'eventName' does not exist on type '{ lev... Remove this comment to see the full error message
     result.eventName = selectEventType(result, sbx);
   }
 
   return result;
 }
 
-function selectEventType (prop, sbx) {
-  var predicted = prop.forecast && _.map(prop.forecast.predicted, function(p) { return sbx.scaleEntry(p) });
+function selectEventType (prop: any, sbx: any) {
+  var predicted = prop.forecast && _.map(prop.forecast.predicted, function(p: any) { return sbx.scaleEntry(p) });
 
   var in20mins = predicted && predicted.length >= 4 ? predicted[3] : undefined;
 
@@ -235,7 +251,7 @@ function selectEventType (prop, sbx) {
   return eventName;
 }
 
-function pushoverSound (prop, levels) {
+function pushoverSound (prop: any, levels: any) {
   var sound;
 
   if (prop.level === levels.URGENT) {
@@ -249,7 +265,7 @@ function pushoverSound (prop, levels) {
   return sound;
 }
 
-function getConeFactor (sbx) {
+function getConeFactor (sbx: any) {
   var value = Number(sbx.extendedSettings.coneFactor);
   if (isNaN(value) || value < 0) {
     value = 2;
@@ -257,7 +273,7 @@ function getConeFactor (sbx) {
   return value;
 }
 
-function okToForecast (sbx) {
+function okToForecast (sbx: any) {
 
   var bgnow = sbx.properties.bgnow;
   var delta = sbx.properties.delta;
@@ -269,7 +285,7 @@ function okToForecast (sbx) {
   return bgnow.mean >= BG_MIN && delta.mean5MinsAgo && _.isNumber(delta.mean5MinsAgo);
 }
 
-function initAR2 (sbx) {
+function initAR2 (sbx: any) {
   var bgnow = sbx.properties.bgnow;
   var delta = sbx.properties.delta;
   var mean5MinsAgo = delta.mean5MinsAgo;
@@ -282,7 +298,7 @@ function initAR2 (sbx) {
   };
 }
 
-function incrementAR2 (result) {
+function incrementAR2 (result: any) {
   return {
     forecastTime: result.forecastTime + times.mins(5).msecs
     , points: result.points || []
@@ -291,7 +307,7 @@ function incrementAR2 (result) {
   };
 }
 
-function pushPoint (result) {
+function pushPoint (result: any) {
   var next = incrementAR2(result);
 
   next.points.push(ar2Point(
@@ -302,7 +318,7 @@ function pushPoint (result) {
   return next;
 }
 
-function ar2Point (next, options) {
+function ar2Point (next: any, options: any) {
   var step = options.step || 0;
   var coneFactor = options.coneFactor || 0;
   var offset = options.offset || 0;
@@ -318,15 +334,16 @@ function ar2Point (next, options) {
   };
 }
 
-function buildDebug (prop, sbx) {
+function buildDebug (prop: any, sbx: any) {
   return prop.forecast && {
     forecast: {
       avgLoss: prop.forecast.avgLoss
-      , predicted: _.map(prop.forecast.predicted, function(p) { return sbx.scaleEntry(p) }).join(', ')
+      , predicted: _.map(prop.forecast.predicted, function(p: any) { return sbx.scaleEntry(p) }).join(', ')
     }
   };
 }
 
-function log10 (val) { return Math.log(val) / Math.LN10; }
+function log10 (val: any) { return Math.log(val) / Math.LN10; }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

@@ -1,11 +1,13 @@
 'use strict';
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var Stream = require('stream');
 
-function init (settings) {
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
+function init (settings: any) {
   var beats = 0;
   var started = new Date( );
   var interval = settings.heartbeat * 1000;
-  let busInterval;
+  let busInterval: any;
 
   var stream = new Stream;
 
@@ -35,5 +37,6 @@ function init (settings) {
   busInterval = setInterval(repeat, interval);
   return stream;
 }
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;
 

@@ -1,9 +1,11 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
 var times = require('../times');
 
-function init(ctx) {
+function init(ctx: any) {
   var translate = ctx.language.translate;
 
   var upbat = {
@@ -13,7 +15,8 @@ function init(ctx) {
     , pillFlip: true
   };
 
-  upbat.getPrefs = function getPrefs(sbx) {
+  // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
+  upbat.getPrefs = function getPrefs(sbx: any) {
     return {
       warn: sbx.extendedSettings.warn ? sbx.extendedSettings.warn : 30
       , urgent: sbx.extendedSettings.urgent ? sbx.extendedSettings.urgent : 20
@@ -21,24 +24,28 @@ function init(ctx) {
     };
   };
 
-  upbat.setProperties = function setProperties (sbx) {
+  // @ts-expect-error TS(2339): Property 'setProperties' does not exist on type '{... Remove this comment to see the full error message
+  upbat.setProperties = function setProperties (sbx: any) {
     sbx.offerProperty('upbat', function setUpbat2 ( ) {
+      // @ts-expect-error TS(2339): Property 'analyzeData' does not exist on type '{ n... Remove this comment to see the full error message
       return upbat.analyzeData(sbx);
     });
   };
 
-  function byBattery (status) {
+  function byBattery (status: any) {
     return status.uploader.battery;
   }
 
-  upbat.analyzeData = function analyzeData (sbx) {
+  // @ts-expect-error TS(2339): Property 'analyzeData' does not exist on type '{ n... Remove this comment to see the full error message
+  upbat.analyzeData = function analyzeData (sbx: any) {
 
+    // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
     var prefs = upbat.getPrefs(sbx);
 
     var recentMins = 30;
     var recentMills = sbx.time - times.mins(recentMins).msecs;
 
-    var recentData = _.filter(sbx.data.devicestatus, function eachStatus (status) {
+    var recentData = _.filter(sbx.data.devicestatus, function eachStatus (status: any) {
       return ('uploader' in status) && sbx.entryMills(status) <= sbx.time && sbx.entryMills(status) >= recentMills;
     });
 
@@ -49,8 +56,9 @@ function init(ctx) {
       , devices: {}
     };
 
-    function getDevice (status) {
+    function getDevice (status: any) {
       var uri = status.device || 'uploader';
+      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       var device = result.devices[uri];
 
       if (!device) {
@@ -61,12 +69,13 @@ function init(ctx) {
           , statuses: [ ]
         };
 
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         result.devices[uri] = device;
       }
       return device;
     }
 
-    function analyzeStatus (status) {
+    function analyzeStatus (status: any) {
 
       var uploaderStatus = status.uploader;
 
@@ -115,21 +124,21 @@ function init(ctx) {
       }
     }
 
-    _.forEach(recentData, function eachRecentStatus (status) {
+    _.forEach(recentData, function eachRecentStatus (status: any) {
       analyzeStatus(status);
       var device = getDevice(status);
       device.statuses.push(_.pick(status, ['uploader', 'created_at', 'mills', '_id']));
     });
 
-    var recentLowests = [ ];
-    _.forEach(result.devices, function eachDevice (device) {
-      device.statuses = _.sortBy(device.statuses, function (status) {
+    var recentLowests: any = [ ];
+    _.forEach(result.devices, function eachDevice (device: any) {
+      device.statuses = _.sortBy(device.statuses, function (status: any) {
         return sbx.entryMills(status);
       }).reverse();
       var first = _.first(device.statuses);
       var recent = sbx.entryMills(first) - times.mins(10).msecs;
       var recentLowest = _.chain(device.statuses)
-        .filter(function isRecent (status) {
+        .filter(function isRecent (status: any) {
           return sbx.entryMills(status) > recent;
         })
         .minBy(byBattery)
@@ -145,20 +154,23 @@ function init(ctx) {
       result.level = min.uploader.level;
       result.display = min.uploader.display;
       result.status = ctx.levels.toStatusClass(min.uploader.notification);
+      // @ts-expect-error TS(2339): Property 'min' does not exist on type '{ level: un... Remove this comment to see the full error message
       result.min = min.uploader;
     }
 
     return result;
   };
 
-  upbat.checkNotifications = function checkNotifications(sbx) {
+  // @ts-expect-error TS(2339): Property 'checkNotifications' does not exist on ty... Remove this comment to see the full error message
+  upbat.checkNotifications = function checkNotifications(sbx: any) {
+    // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
     var prefs = upbat.getPrefs(sbx);
 
     var prop = sbx.properties.upbat;
     if (!prop || !prefs.enableAlerts) { return; }
 
     if (prop.min && prop.min.notification && prop.min.notification >= ctx.levels.WARN) {
-      var message = _.map(_.values(prop.devices), function toMessage (device) {
+      var message = _.map(_.values(prop.devices), function toMessage (device: any) {
         var info = [
           device.name
           , device.min.display
@@ -183,13 +195,14 @@ function init(ctx) {
     }
   };
 
-  upbat.updateVisualisation = function updateVisualisation (sbx) {
+  // @ts-expect-error TS(2339): Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
+  upbat.updateVisualisation = function updateVisualisation (sbx: any) {
     var prop = sbx.properties.upbat;
 
     var infos = null;
 
     if (_.values(prop.devices).length > 1) {
-      infos = _.map(_.values(prop.devices), function toInfo (device) {
+      infos = _.map(_.values(prop.devices), function toInfo (device: any) {
         var info = {
           label: device.name
           , value: device.min.display
@@ -209,6 +222,7 @@ function init(ctx) {
         infos = [{label: 'Voltage', value: prop.min.voltageDisplay}];
       }
       if (prop.min && prop.min.temperature) {
+        // @ts-expect-error TS(2531): Object is possibly 'null'.
         infos.push({label: 'Temp', value : prop.min.temperature});
       }
     }
@@ -222,7 +236,7 @@ function init(ctx) {
     });
   };
 
-  function virtAsstUploaderBatteryHandler (next, slots, sbx) {
+  function virtAsstUploaderBatteryHandler (next: any, slots: any, sbx: any) {
     var upBat = _.get(sbx, 'properties.upbat.display');
     if (upBat) {
       var response = translate('virtAsstUploaderBattery', {
@@ -236,6 +250,7 @@ function init(ctx) {
     }
   }
 
+  // @ts-expect-error TS(2339): Property 'virtAsst' does not exist on type '{ name... Remove this comment to see the full error message
   upbat.virtAsst = {
     intentHandlers: [
       {
@@ -255,4 +270,5 @@ function init(ctx) {
 
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

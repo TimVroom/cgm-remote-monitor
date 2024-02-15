@@ -1,6 +1,8 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'utils'.
 const utils = require('./utils')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
   , _ = require('lodash')
   ;
 
@@ -12,7 +14,7 @@ const utils = require('./utils')
  * @param {Object} projection
  * @param {Object} options
  */
-function findOne (col, identifier, projection, options) {
+function findOne (col: any, identifier: any, projection: any, options: any) {
 
   return new Promise(function (resolve, reject) {
 
@@ -21,7 +23,7 @@ function findOne (col, identifier, projection, options) {
     col.find(filter)
       .project(projection)
       .sort({ identifier: -1 }) // document with identifier first (not the fallback one)
-      .toArray(function mongoDone (err, result) {
+      .toArray(function mongoDone (err: any, result: any) {
 
         if (err) {
           reject(err);
@@ -43,14 +45,14 @@ function findOne (col, identifier, projection, options) {
  * @param {Object} projection
  * @param {Object} options
  */
-function findOneFilter (col, filter, projection, options) {
+function findOneFilter (col: any, filter: any, projection: any, options: any) {
 
   return new Promise(function (resolve, reject) {
 
     col.find(filter)
       .project(projection)
       .sort({ identifier: -1 }) // document with identifier first (not the fallback one)
-      .toArray(function mongoDone (err, result) {
+      .toArray(function mongoDone (err: any, result: any) {
 
         if (err) {
           reject(err);
@@ -68,7 +70,7 @@ function findOneFilter (col, filter, projection, options) {
 /**
  * Find many documents matching the filtering criteria
  */
-function findMany (col, args) {
+function findMany (col: any, args: any) {
   const logicalOperator = args.logicalOperator || 'and';
   return new Promise(function (resolve, reject) {
 
@@ -79,7 +81,7 @@ function findMany (col, args) {
       .limit(args.limit)
       .skip(args.skip)
       .project(args.projection)
-      .toArray(function mongoDone (err, result) {
+      .toArray(function mongoDone (err: any, result: any) {
 
         if (err) {
           reject(err);
@@ -94,6 +96,7 @@ function findMany (col, args) {
 }
 
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = {
   findOne,
   findOneFilter,

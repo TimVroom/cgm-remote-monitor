@@ -1,8 +1,10 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'consts'.
 var consts = require('../constants');
 
-function configure (app, ctx) {
+function configure (app: any, ctx: any) {
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var express = require('express')
     , api = express.Router( )
     ;
@@ -14,8 +16,8 @@ function configure (app, ctx) {
   }));
   api.use(ctx.wares.urlencodedParser);
   
-  api.post('/loop', ctx.authorization.isPermitted('notifications:loop:push'), function (req, res) {
-    ctx.loop.sendNotification(req.body, req.connection.remoteAddress, function (error) {
+  api.post('/loop', ctx.authorization.isPermitted('notifications:loop:push'), function (req: any, res: any) {
+    ctx.loop.sendNotification(req.body, req.connection.remoteAddress, function (error: any) {
       if (error) {
         res.status(consts.HTTP_INTERNAL_ERROR).send(error)
         console.log("error sending notification to Loop: ", error);
@@ -27,4 +29,5 @@ function configure (app, ctx) {
 
   return api;
 }
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = configure;

@@ -1,14 +1,21 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_forEach'.
 const _forEach = require('lodash/forEach');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_isNil'.
 const _isNil = require('lodash/isNil');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_isArray'.
 const _isArray = require('lodash/isArray');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_take'.
 const _take = require('lodash/take');
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'constants'... Remove this comment to see the full error message
 const constants = require('../../constants');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'moment'.
 const moment = require('moment');
 
-function configure (app, wares, ctx, env) {
+function configure (app: any, wares: any, ctx: any, env: any) {
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var express = require('express')
     , api = express.Router();
 
@@ -28,15 +35,15 @@ function configure (app, wares, ctx, env) {
 
   api.use(ctx.authorization.isPermitted('api:treatments:read'));
 
-  function serveTreatments(req,res, err, results) {
+  function serveTreatments(req: any,res: any, err: any, results: any) {
 
     var ifModifiedSince = req.get('If-Modified-Since');
 
-    var d1 = null;
+    var d1: any = null;
 
     const deNormalizeDates = env.settings.deNormalizeDates;
 
-    _forEach(results, function clean (t) {
+    _forEach(results, function clean (t: any) {
       t.carbs = Number(t.carbs);
       t.insulin = Number(t.insulin);
 
@@ -80,7 +87,7 @@ function configure (app, wares, ctx, env) {
   }
 
   // List treatments available
-  api.get('/treatments', function(req, res) {
+  api.get('/treatments', function(req: any, res: any) {
     var query = req.query;
     if (!query.count) {
         // If there's a date search involved, default to a higher number of objects
@@ -93,15 +100,15 @@ function configure (app, wares, ctx, env) {
     if (canServeFromMemory) {
       serveTreatments(req, res, null, _take(inMemoryData,query.count));
     } else {
-      ctx.treatments.list(query, function(err, results) {
+      ctx.treatments.list(query, function(err: any, results: any) {
         serveTreatments(req,res,err,results);
       });
     }
   });
 
-  function config_authed (app, api, wares, ctx) {
+  function config_authed (app: any, api: any, wares: any, ctx: any) {
 
-    function post_response (req, res) {
+    function post_response (req: any, res: any) {
       var treatments = req.body;
 
       if (!_isArray(treatments)) {
@@ -133,7 +140,7 @@ function configure (app, wares, ctx, env) {
        
       }
 
-      ctx.treatments.create(treatments, function(err, created) {
+      ctx.treatments.create(treatments, function(err: any, created: any) {
         if (err) {
           console.log('Error adding treatment', err);
           res.sendJSONStatus(res, constants.HTTP_INTERNAL_ERROR, 'Mongo Error', err);
@@ -151,14 +158,14 @@ function configure (app, wares, ctx, env) {
      * Delete treatments.  The query logic works the same way as find/list.  This
      * endpoint uses same search logic to remove records from the database.
      */
-    function delete_records (req, res, next) {
+    function delete_records (req: any, res: any, next: any) {
       var query = req.query;
       if (!query.count) {
         query.count = 10
       }
 
       // remove using the query
-      ctx.treatments.remove(query, function(err, stat) {
+      ctx.treatments.remove(query, function(err: any, stat: any) {
         if (err) {
           console.log('treatments delete error: ', err);
           return next(err);
@@ -171,7 +178,7 @@ function configure (app, wares, ctx, env) {
       });
     }
 
-    api.delete('/treatments/:id', ctx.authorization.isPermitted('api:treatments:delete'), function(req, res, next) {
+    api.delete('/treatments/:id', ctx.authorization.isPermitted('api:treatments:delete'), function(req: any, res: any, next: any) {
       if (!req.query.find) {
         req.query.find = {
           _id: req.params.id
@@ -191,9 +198,9 @@ function configure (app, wares, ctx, env) {
     api.delete('/treatments/', ctx.authorization.isPermitted('api:treatments:delete'), delete_records);
 
     // update record
-    api.put('/treatments/', ctx.authorization.isPermitted('api:treatments:update'), function(req, res) {
+    api.put('/treatments/', ctx.authorization.isPermitted('api:treatments:update'), function(req: any, res: any) {
       var data = req.body;
-      ctx.treatments.save(data, function(err, created) {
+      ctx.treatments.save(data, function(err: any, created: any) {
         if (err) {
           res.sendJSONStatus(res, constants.HTTP_INTERNAL_ERROR, 'Mongo Error', err);
           console.log('Error saving treatment', err);
@@ -212,4 +219,5 @@ function configure (app, wares, ctx, env) {
   return api;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = configure;

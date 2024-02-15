@@ -1,7 +1,9 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 const _ = require('lodash')
   , checkForHexRegExp = new RegExp("^[0-9a-fA-F]{24}$")
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'ObjectID'.
   , ObjectID = require('mongodb').ObjectID
 ;
 
@@ -10,7 +12,7 @@ const _ = require('lodash')
  * Normalize document (make it mongoDB independent)
  * @param {Object} doc - document loaded from mongoDB
  */
-function normalizeDoc (doc) {
+function normalizeDoc (doc: any) {
   if (!doc.identifier) {
     doc.identifier = doc._id.toString();
   }
@@ -25,7 +27,7 @@ function normalizeDoc (doc) {
  * @param {string} logicalOperator
  * @param {bool} onlyValid
  */
-function parseFilter (filterDef, logicalOperator, onlyValid) {
+function parseFilter (filterDef: any, logicalOperator: any, onlyValid: any) {
   let filter = { };
   if (!filterDef)
     return filter;
@@ -82,10 +84,12 @@ function parseFilter (filterDef, logicalOperator, onlyValid) {
 
     if (logicalOperator === 'or') {
       let clause = { };
+      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       clause[itemDef.field] = item;
       clauses.push(clause);
     }
     else {
+      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       filter[itemDef.field] = item;
     }
   }
@@ -95,6 +99,7 @@ function parseFilter (filterDef, logicalOperator, onlyValid) {
   }
 
   if (onlyValid) {
+    // @ts-expect-error TS(2339): Property 'isValid' does not exist on type '{}'.
     filter.isValid = { $ne: false };
   }
 
@@ -106,12 +111,13 @@ function parseFilter (filterDef, logicalOperator, onlyValid) {
  * Create query filter for single document with identifier fallback
  * @param {string} identifier
  */
-function filterForOne (identifier) {
+function filterForOne (identifier: any) {
 
   const filterOpts = [ { identifier } ];
 
   // fallback to "identifier = _id"
   if (checkForHexRegExp.test(identifier)) {
+    // @ts-expect-error TS(2345): Argument of type '{ _id: any; }' is not assignable... Remove this comment to see the full error message
     filterOpts.push({ _id: ObjectID(identifier) });
   }
 
@@ -127,7 +133,7 @@ function filterForOne (identifier) {
  * @param {Array} dedupFallbackFields - fields that all need to be matched to identify document via fallback deduplication
  * @returns {Object} - query filter for mongo or null in case of no identifying possibility
  */
-function identifyingFilter (identifier, doc, dedupFallbackFields) {
+function identifyingFilter (identifier: any, doc: any, dedupFallbackFields: any) {
 
   const filterItems = [];
 
@@ -145,11 +151,12 @@ function identifyingFilter (identifier, doc, dedupFallbackFields) {
   if (!_.isEmpty(doc) && _.isArray(dedupFallbackFields) && dedupFallbackFields.length > 0) {
     let dedupFilterItems = [];
 
-    _.each(dedupFallbackFields, function addDedupField (field) {
+    _.each(dedupFallbackFields, function addDedupField (field: any) {
 
       if (doc[field] !== undefined) {
 
         let dedupFilterItem = { };
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         dedupFilterItem[field] = doc[field];
         dedupFilterItems.push(dedupFilterItem);
       }
@@ -169,6 +176,7 @@ function identifyingFilter (identifier, doc, dedupFallbackFields) {
 }
 
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = {
   normalizeDoc,
   parseFilter,

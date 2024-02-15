@@ -1,31 +1,35 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'consts'.
 var consts = require('../constants');
 
 const MAX_BG_MMOL = 22;
 const MAX_BG_MGDL = MAX_BG_MMOL * consts.MMOL_TO_MGDL;
 
-module.exports = function fitTreatmentsToBGCurve (ddata, env, ctx) {
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+module.exports = function fitTreatmentsToBGCurve (ddata: any, env: any, ctx: any) {
 
   var settings = env.settings;
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var rawbg = require('../plugins/rawbg')({
     settings: settings
     , language: ctx.language
   });
 
-  function updateTreatmentBG(treatment) {
+  function updateTreatmentBG(treatment: any) {
 
     function mgdlByTime() {
 
-      var withBGs = _.filter(ddata.sgvs, function(d) {
+      var withBGs = _.filter(ddata.sgvs, function(d: any) {
         return d.mgdl > 39 || settings.isEnabled('rawbg');
       });
 
-      var beforeTreatment = _.findLast(withBGs, function (d) {
+      var beforeTreatment = _.findLast(withBGs, function (d: any) {
         return d.mills <= treatment.mills;
       });
-      var afterTreatment = _.find(withBGs, function (d) {
+      var afterTreatment = _.find(withBGs, function (d: any) {
         return d.mills >= treatment.mills;
       });
 
@@ -44,11 +48,11 @@ module.exports = function fitTreatmentsToBGCurve (ddata, env, ctx) {
       return Math.round(calcedBG) || 180;
     }
 
-    function mgdlValue (entry) {
+    function mgdlValue (entry: any) {
       return entry && entry.mgdl >= 39 && Number(entry.mgdl);
     }
 
-    function calcRaw (entry) {
+    function calcRaw (entry: any) {
       var raw;
       if (entry && settings.isEnabled('rawbg')) {
         var cal = _.last(ddata.cals);

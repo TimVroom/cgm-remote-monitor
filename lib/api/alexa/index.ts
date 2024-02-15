@@ -1,9 +1,12 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'moment'.
 var moment = require('moment');
 
-function configure (app, wares, ctx, env) {
+function configure (app: any, wares: any, ctx: any, env: any) {
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var express = require('express')
     , api = express.Router( );
   var translate = ctx.language.translate;
@@ -20,7 +23,7 @@ function configure (app, wares, ctx, env) {
 
   ctx.virtAsstBase.setupVirtAsstHandlers(ctx.alexa);
 
-  api.post('/alexa', ctx.authorization.isPermitted('api:*:read'), function (req, res, next) {
+  api.post('/alexa', ctx.authorization.isPermitted('api:*:read'), function (req: any, res: any, next: any) {
     console.log('Incoming request from Alexa');
     var locale = _.get(req, 'body.request.locale');
     if(locale){
@@ -53,7 +56,7 @@ function configure (app, wares, ctx, env) {
         }
         // if intent is set then fallback to IntentRequest
       case 'IntentRequest': // eslint-disable-line no-fallthrough
-        onIntent(req.body.request.intent, function (title, response) {
+        onIntent(req.body.request.intent, function (title: any, response: any) {
           res.json(ctx.alexa.buildSpeechletResponse(title, response, '', true));
           next( );
         });
@@ -63,23 +66,23 @@ function configure (app, wares, ctx, env) {
 
   ctx.virtAsstBase.setupMutualIntents(ctx.alexa);
 
-  function onLaunch(next) {
+  function onLaunch(next: any) {
     console.log('Session launched');
     next( );
   }
 
-  function onIntent(intent, next) {
+  function onIntent(intent: any, next: any) {
     console.log('Received intent request');
     console.log(JSON.stringify(intent));
     handleIntent(intent.name, intent.slots, next);
   }
 
-  function onSessionEnded(next) {
+  function onSessionEnded(next: any) {
     console.log('Session ended');
     next( );
   }
 
-  function handleIntent(intentName, slots, next) {
+  function handleIntent(intentName: any, slots: any, next: any) {
     var metric;
     if (slots) {
       var slotStatus = _.get(slots, 'metric.resolutions.resolutionsPerAuthority[0].status.code');
@@ -106,4 +109,5 @@ function configure (app, wares, ctx, env) {
   return api;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = configure;

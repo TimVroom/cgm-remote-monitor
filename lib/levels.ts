@@ -1,5 +1,6 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'constants'... Remove this comment to see the full error message
 var constants = require('./constants');
 
 var levels = {
@@ -11,7 +12,9 @@ var levels = {
   , NONE: constants.LEVEL_NONE
 };
 
+// @ts-expect-error TS(2339): Property 'language' does not exist on type '{ URGE... Remove this comment to see the full error message
 levels.language = require('./language')();
+// @ts-expect-error TS(2339): Property 'translate' does not exist on type '{ URG... Remove this comment to see the full error message
 levels.translate = levels.language.translate;
 
 var level2Display = {
@@ -23,20 +26,26 @@ var level2Display = {
   , '-3': 'None'
 };
 
-levels.isAlarm = function isAlarm(level) {
+// @ts-expect-error TS(2339): Property 'isAlarm' does not exist on type '{ URGEN... Remove this comment to see the full error message
+levels.isAlarm = function isAlarm(level: any) {
   return level === levels.WARN || level === levels.URGENT;
 };
 
-levels.toDisplay = function toDisplay(level) {
+// @ts-expect-error TS(2339): Property 'toDisplay' does not exist on type '{ URG... Remove this comment to see the full error message
+levels.toDisplay = function toDisplay(level: any) {
   var key = level !== undefined && level.toString();
+  // @ts-expect-error TS(2339): Property 'translate' does not exist on type '{ URG... Remove this comment to see the full error message
   return key && levels.translate(level2Display[key]) || levels.translate('Unknown');
 };
 
-levels.toLowerCase = function toLowerCase(level) {
+// @ts-expect-error TS(2339): Property 'toLowerCase' does not exist on type '{ U... Remove this comment to see the full error message
+levels.toLowerCase = function toLowerCase(level: any) {
+  // @ts-expect-error TS(2339): Property 'toDisplay' does not exist on type '{ URG... Remove this comment to see the full error message
   return levels.toDisplay(level).toLowerCase();
 };
 
-levels.toStatusClass = function toStatusClass(level) {
+// @ts-expect-error TS(2339): Property 'toStatusClass' does not exist on type '{... Remove this comment to see the full error message
+levels.toStatusClass = function toStatusClass(level: any) {
   var cls = 'current';
 
   if (level === levels.WARN) {
@@ -49,4 +58,5 @@ levels.toStatusClass = function toStatusClass(level) {
 };
 
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = levels;

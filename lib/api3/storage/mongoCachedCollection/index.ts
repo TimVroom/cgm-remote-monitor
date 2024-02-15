@@ -1,5 +1,6 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 const _ = require('lodash')
 
 /**
@@ -9,7 +10,7 @@ const _ = require('lodash')
  * @param {string} colName - name of the collection in mongo database
  * @param {Object} baseStorage - wrapped mongo storage implementation
  */
-function MongoCachedCollection (ctx, env, colName, baseStorage) {
+function MongoCachedCollection(this: any, ctx: any, env: any, colName: any, baseStorage: any) {
 
   const self = this;
 
@@ -17,14 +18,14 @@ function MongoCachedCollection (ctx, env, colName, baseStorage) {
 
   self.identifyingFilter = baseStorage.identifyingFilter;
 
-  self.findOne = (...args) => baseStorage.findOne(...args);
+  self.findOne = (...args: any[]) => baseStorage.findOne(...args);
 
-  self.findOneFilter = (...args) => baseStorage.findOneFilter(...args);
+  self.findOneFilter = (...args: any[]) => baseStorage.findOneFilter(...args);
 
-  self.findMany = (...args) => baseStorage.findMany(...args);
+  self.findMany = (...args: any[]) => baseStorage.findMany(...args);
 
 
-  self.insertOne = async (doc) => {
+  self.insertOne = async (doc: any) => {
     const result = await baseStorage.insertOne(doc, { normalize: false });
 
     if (cacheSupported()) {
@@ -38,7 +39,7 @@ function MongoCachedCollection (ctx, env, colName, baseStorage) {
   }
 
 
-  self.replaceOne = async (identifier, doc) => {
+  self.replaceOne = async (identifier: any, doc: any) => {
     const result = await baseStorage.replaceOne(identifier, doc);
 
     if (cacheSupported()) {
@@ -50,7 +51,7 @@ function MongoCachedCollection (ctx, env, colName, baseStorage) {
   }
 
 
-  self.updateOne = async (identifier, setFields) => {
+  self.updateOne = async (identifier: any, setFields: any) => {
     const result = await baseStorage.updateOne(identifier, setFields);
 
     if (cacheSupported()) {
@@ -67,7 +68,7 @@ function MongoCachedCollection (ctx, env, colName, baseStorage) {
     return result;
   }
 
-  self.deleteOne = async (identifier) => {
+  self.deleteOne = async (identifier: any) => {
     let invalidateDocs
     if (cacheSupported()) {
       invalidateDocs = await baseStorage.findOne(identifier, { _id: 1 }, { normalize: false })
@@ -82,7 +83,7 @@ function MongoCachedCollection (ctx, env, colName, baseStorage) {
     return result;
   }
 
-  self.deleteManyOr = async (filter) => {
+  self.deleteManyOr = async (filter: any) => {
     let invalidateDocs
     if (cacheSupported()) {
       invalidateDocs = await baseStorage.findMany({ filter,
@@ -101,9 +102,9 @@ function MongoCachedCollection (ctx, env, colName, baseStorage) {
     return result;
   }
 
-  self.version = (...args) => baseStorage.version(...args);
+  self.version = (...args: any[]) => baseStorage.version(...args);
 
-  self.getLastModified = (...args) => baseStorage.getLastModified(...args);
+  self.getLastModified = (...args: any[]) => baseStorage.getLastModified(...args);
 
   function cacheSupported () {
     return ctx.cache
@@ -111,7 +112,7 @@ function MongoCachedCollection (ctx, env, colName, baseStorage) {
       && _.isArray(ctx.cache[colName]);
   }
 
-  function updateInCache (doc) {
+  function updateInCache (doc: any) {
     if (doc && doc.isValid === false) {
       deleteInCache([doc._id])
     }
@@ -124,7 +125,7 @@ function MongoCachedCollection (ctx, env, colName, baseStorage) {
     }
   }
 
-  function deleteInCache (docs) {
+  function deleteInCache (docs: any) {
     let changes
     if (_.isArray(docs)) {
       if (docs.length === 0) {
@@ -144,4 +145,5 @@ function MongoCachedCollection (ctx, env, colName, baseStorage) {
   }
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = MongoCachedCollection;

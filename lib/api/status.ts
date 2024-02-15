@@ -1,7 +1,9 @@
 'use strict';
 
-function configure (app, wares, env, ctx) {
+function configure (app: any, wares: any, env: any, ctx: any) {
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var express = require('express'),
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     forwarded = require('forwarded-for'),
     api = express.Router( )
     ;
@@ -14,14 +16,14 @@ function configure (app, wares, env, ctx) {
   api.use(ctx.authorization.isPermitted('api:status:read'));
 
   // Status badge/text/json
-  api.get('/status', function (req, res) {
+  api.get('/status', function (req: any, res: any) {
     
     let extended = env.settings.filteredSettings(app.extendedClientSettings);
     let settings = env.settings.filteredSettings(env.settings);
 
     var authToken = req.query.token || req.query.secret || '';
 
-    function getRemoteIP (req) {
+    function getRemoteIP (req: any) {
       const address = forwarded(req, req.headers);
       return address.ip;
     }
@@ -68,4 +70,5 @@ function configure (app, wares, env, ctx) {
 
   return api;
 }
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = configure;

@@ -1,18 +1,23 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 const _ = require('lodash');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'async'.
 const async = require('async');
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 const fitTreatmentsToBGCurve = require('./treatmenttocurve');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'constants'... Remove this comment to see the full error message
 const constants = require('../constants');
 
-function uniqBasedOnMills(a) {
+function uniqBasedOnMills(a: any) {
     var seen = {};
-    return a.filter(function(item) {
+    return a.filter(function(item: any) {
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         return Object.prototype.hasOwnProperty.call(seen, item.mills) ? false : (seen[item.mills] = true);
     });
 }
 
-const processForRuntime = (obj) => {
+const processForRuntime = (obj: any) => {
     Object.keys(obj).forEach(key => {
         if (typeof obj[key] === 'object' && obj[key]) {
           if (obj[key].hasOwnProperty('_id')) {
@@ -25,7 +30,7 @@ const processForRuntime = (obj) => {
     });
 }
 
-const findLatestMills = (data) => {
+const findLatestMills = (data: any) => {
     if (!data) return;
     let max = data[0].mills;
     for (let i = 0, len = data.length; i < len; i++) {
@@ -35,11 +40,11 @@ const findLatestMills = (data) => {
     return max;
 }
 
-function mergeProcessSort(oldData, newData, ageLimit) {
+function mergeProcessSort(oldData: any, newData: any, ageLimit: any) {
 
   processForRuntime(newData);
 
-  var filtered = _.filter(newData, function hasId(object) {
+  var filtered = _.filter(newData, function hasId(object: any) {
     const hasId = !_.isEmpty(object._id);
     const isFresh = (ageLimit && object.mills >= ageLimit) || (!ageLimit);
     return isFresh && hasId;
@@ -65,17 +70,19 @@ function mergeProcessSort(oldData, newData, ageLimit) {
       merged = filtered;
   }
 
-  return _.sortBy(merged, function(item) {
+  return _.sortBy(merged, function(item: any) {
     return item.mills;
   });
 
 }
 
-function init(env, ctx) {
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
+function init(env: any, ctx: any) {
 
     var dataloader = {};
 
-    dataloader.update = function update(ddata, opts, done) {
+    // @ts-expect-error TS(2339): Property 'update' does not exist on type '{}'.
+    dataloader.update = function update(ddata: any, opts: any, done: any) {
 
         if (opts && done == null && opts.call) {
             done = opts;
@@ -94,7 +101,7 @@ function init(env, ctx) {
         }
         ddata.lastUpdated = opts.lastUpdated;
 
-        const normalizeTreatments = (obj) => {
+        const normalizeTreatments = (obj: any) => {
             Object.keys(obj).forEach(key => {
                 if (typeof obj[key] === 'object' && obj[key]) {
                     const element = obj[key];
@@ -109,19 +116,19 @@ function init(env, ctx) {
             });
         }
 
-        function loadComplete(err, result) {
+        function loadComplete(err: any, result: any) {
 
             // convert all IDs to strings, as these are not used after load
 
             normalizeTreatments(ddata);
 
-            ddata.treatments = _.uniq(ddata.treatments, false, function(item) {
+            ddata.treatments = _.uniq(ddata.treatments, false, function(item: any) {
                 return item._id;
             });
 
             //sort treatments so the last is the most recent
             
-            ddata.treatments = _.sortBy(ddata.treatments, function(item) {
+            ddata.treatments = _.sortBy(ddata.treatments, function(item: any) {
                 return item.mills;
             });
 
@@ -131,8 +138,8 @@ function init(env, ctx) {
             }
             ddata.processTreatments(true);
 
-            var counts = [];
-            _.forIn(ddata, function each(value, key) {
+            var counts: any = [];
+            _.forIn(ddata, function each(value: any, key: any) {
                 if (_.isArray(value) && value.length > 0) {
                     counts.push(key + ':' + value.length);
                 }
@@ -168,7 +175,7 @@ function init(env, ctx) {
 
 }
 
-function loadEntries(ddata, ctx, callback) {
+function loadEntries(ddata: any, ctx: any, callback: any) {
 
     const withFrame = ddata.page && ddata.page.frame;
     const longLoad = Math.round(constants.TWO_DAYS);
@@ -178,6 +185,7 @@ function loadEntries(ddata, ctx, callback) {
         $gte: ddata.lastUpdated - loadTime
     };
     if (withFrame) {
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         dateRange['$lte'] = ddata.lastUpdated;
     }
     var q = {
@@ -190,7 +198,7 @@ function loadEntries(ddata, ctx, callback) {
     };
 
     var obscureDeviceProvenance = ctx.settings.obscureDeviceProvenance;
-    ctx.entries.list(q, function(err, results) {
+    ctx.entries.list(q, function(err: any, results: any) {
 
         if (err) {
             console.log("Problem loading entries");
@@ -201,11 +209,11 @@ function loadEntries(ddata, ctx, callback) {
             const r = ctx.ddata.processRawDataForRuntime(results);
             const currentData = ctx.cache.insertData('entries', r).reverse();
 
-            const mbgs = [];
-            const sgvs = [];
-            const cals = [];
+            const mbgs: any = [];
+            const sgvs: any = [];
+            const cals: any = [];
 
-            currentData.forEach(function(element) {
+            currentData.forEach(function(element: any) {
                 if (element) {
                     if (!element.mills) element.mills = element.date;
                     if (element.mbg) {
@@ -251,11 +259,12 @@ function loadEntries(ddata, ctx, callback) {
     });
 }
 
-function loadActivity(ddata, ctx, callback) {
+function loadActivity(ddata: any, ctx: any, callback: any) {
     var dateRange = {
         $gte: new Date(ddata.lastUpdated - (constants.ONE_DAY * 2)).toISOString()
     };
     if (ddata.page && ddata.page.frame) {
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         dateRange['$lte'] = new Date(ddata.lastUpdated).toISOString();
     }
 
@@ -268,15 +277,15 @@ function loadActivity(ddata, ctx, callback) {
         }
     };
 
-    ctx.activity.list(q, function(err, results) {
+    ctx.activity.list(q, function(err: any, results: any) {
 
         if (err) {
             console.log("Problem loading activity data");
         }
 
         if (!err && results) {
-            var activity = [];
-            results.forEach(function(element) {
+            var activity: any = [];
+            results.forEach(function(element: any) {
                 if (element) {
                     if (element.created_at) {
                         var d = new Date(element.created_at);
@@ -296,7 +305,7 @@ function loadActivity(ddata, ctx, callback) {
     });
 }
 
-function loadTreatments(ddata, ctx, callback) {
+function loadTreatments(ddata: any, ctx: any, callback: any) {
 
     const withFrame = ddata.page && ddata.page.frame;
     const longLoad = Math.round(constants.ONE_DAY * 2.5); //ONE_DAY * 2.5;
@@ -310,6 +319,7 @@ function loadTreatments(ddata, ctx, callback) {
         $gte: new Date(ddata.lastUpdated - loadTime).toISOString()
     };
     if (withFrame) {
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         dateRange['$lte'] = new Date(ddata.lastUpdated).toISOString();
     }
     var tq = {
@@ -321,7 +331,7 @@ function loadTreatments(ddata, ctx, callback) {
         }
     };
 
-    ctx.treatments.list(tq, function(err, results) {
+    ctx.treatments.list(tq, function(err: any, results: any) {
         if (!err && results) {
 
             // update cache and apply to runtime data
@@ -334,12 +344,13 @@ function loadTreatments(ddata, ctx, callback) {
     });
 }
 
-function loadProfileSwitchTreatments(ddata, ctx, callback) {
+function loadProfileSwitchTreatments(ddata: any, ctx: any, callback: any) {
     var dateRange = {
         $gte: new Date(ddata.lastUpdated - (constants.ONE_DAY * 31 * 12)).toISOString()
     };
 
     if (ddata.page && ddata.page.frame) {
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         dateRange['$lte'] = new Date(ddata.lastUpdated).toISOString();
     }
 
@@ -356,8 +367,9 @@ function loadProfileSwitchTreatments(ddata, ctx, callback) {
         count: 1
     };
 
-    ctx.treatments.list(tq, function(err, results) {
+    ctx.treatments.list(tq, function(err: any, results: any) {
         if (!err && results) {
+            // @ts-expect-error TS(2554): Expected 3 arguments, but got 2.
             ddata.treatments = mergeProcessSort(ddata.treatments, results);
         }
 
@@ -378,7 +390,7 @@ function loadProfileSwitchTreatments(ddata, ctx, callback) {
     });
 }
 
-function loadSensorAndInsulinTreatments(ddata, ctx, callback) {
+function loadSensorAndInsulinTreatments(ddata: any, ctx: any, callback: any) {
     async.parallel([
         loadLatestSingle.bind(null, ddata, ctx, 'Sensor Start')
         ,loadLatestSingle.bind(null, ddata, ctx, 'Sensor Change')
@@ -389,13 +401,14 @@ function loadSensorAndInsulinTreatments(ddata, ctx, callback) {
     ], callback);
 }
 
-function loadLatestSingle(ddata, ctx, dataType, callback) {
+function loadLatestSingle(ddata: any, ctx: any, dataType: any, callback: any) {
 
     var dateRange = {
         $gte: new Date(ddata.lastUpdated - (constants.ONE_DAY * 62)).toISOString()
     };
 
     if (ddata.page && ddata.page.frame) {
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         dateRange['$lte'] = new Date(ddata.lastUpdated).toISOString();
     }
 
@@ -412,19 +425,20 @@ function loadLatestSingle(ddata, ctx, dataType, callback) {
         count: 1
     };
 
-    ctx.treatments.list(tq, function(err, results) {
+    ctx.treatments.list(tq, function(err: any, results: any) {
         if (!err && results) {
+            // @ts-expect-error TS(2554): Expected 3 arguments, but got 2.
             ddata.treatments = mergeProcessSort(ddata.treatments, results);
         }
         callback();
     });
 }
 
-function loadProfile(ddata, ctx, callback) {
-    ctx.profile.last(function(err, results) {
+function loadProfile(ddata: any, ctx: any, callback: any) {
+    ctx.profile.last(function(err: any, results: any) {
         if (!err && results) {
-            var profiles = [];
-            results.forEach(function(element) {
+            var profiles: any = [];
+            results.forEach(function(element: any) {
                 if (element) {
                     profiles[0] = element;
                 }
@@ -435,8 +449,8 @@ function loadProfile(ddata, ctx, callback) {
     });
 }
 
-function loadFood(ddata, ctx, callback) {
-    ctx.food.list(function(err, results) {
+function loadFood(ddata: any, ctx: any, callback: any) {
+    ctx.food.list(function(err: any, results: any) {
         if (!err && results) {
             ddata.food = results;
         }
@@ -444,7 +458,7 @@ function loadFood(ddata, ctx, callback) {
     });
 }
 
-function loadDeviceStatus(ddata, env, ctx, callback) {
+function loadDeviceStatus(ddata: any, env: any, ctx: any, callback: any) {
 
     const withFrame = ddata.page && ddata.page.frame;
     const longLoad = env.extendedSettings.devicestatus && env.extendedSettings.devicestatus.days && env.extendedSettings.devicestatus.days == 2 ? constants.TWO_DAYS : constants.ONE_DAY;
@@ -455,6 +469,7 @@ function loadDeviceStatus(ddata, env, ctx, callback) {
     };
 
     if (withFrame) {
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         dateRange['$lte'] = new Date(ddata.lastUpdated).toISOString();
     }
 
@@ -467,14 +482,14 @@ function loadDeviceStatus(ddata, env, ctx, callback) {
         }
     };
 
-    ctx.devicestatus.list(opts, function(err, results) {
+    ctx.devicestatus.list(opts, function(err: any, results: any) {
         if (!err && results) {
 
             // update cache and apply to runtime data
             const r = ctx.ddata.processRawDataForRuntime(results);
             const currentData = ctx.cache.insertData('devicestatus', r);
 
-            const res2 = _.map(currentData, function eachStatus(result) {
+            const res2 = _.map(currentData, function eachStatus(result: any) {
                 if ('uploaderBattery' in result) {
                     result.uploader = {
                         battery: result.uploaderBattery
@@ -484,6 +499,7 @@ function loadDeviceStatus(ddata, env, ctx, callback) {
                 return result;
             });
 
+            // @ts-expect-error TS(2554): Expected 3 arguments, but got 2.
             ddata.devicestatus = mergeProcessSort(ddata.devicestatus, res2);
         } else {
             ddata.devicestatus = [];
@@ -492,8 +508,8 @@ function loadDeviceStatus(ddata, env, ctx, callback) {
     });
 }
 
-function loadDatabaseStats(ddata, ctx, callback) {
-    ctx.store.db.stats(function mongoDone (err, result) {
+function loadDatabaseStats(ddata: any, ctx: any, callback: any) {
+    ctx.store.db.stats(function mongoDone (err: any, result: any) {
         if (err) {
             console.log("Problem loading database stats");
         }
@@ -507,5 +523,6 @@ function loadDatabaseStats(ddata, ctx, callback) {
     });
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;
 

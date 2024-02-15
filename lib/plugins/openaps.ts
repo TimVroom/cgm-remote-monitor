@@ -1,13 +1,17 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
 var times = require('../times');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'consts'.
 var consts = require('../constants');
 
 // var ALL_STATUS_FIELDS = ['status-symbol', 'status-label', 'iob', 'meal-assist', 'freq', 'rssi']; Unused variable
 
-function init (ctx) {
+function init (ctx: any) {
   var moment = ctx.moment;
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var utils = require('../utils')(ctx);
   var openaps = {
     name: 'openaps'
@@ -18,6 +22,7 @@ function init (ctx) {
   var firstPrefs = true;
   var levels = ctx.levels;
 
+  // @ts-expect-error TS(2339): Property 'getClientPrefs' does not exist on type '... Remove this comment to see the full error message
   openaps.getClientPrefs = function getClientPrefs() {
     return ([{
       label: "Color prediction lines",
@@ -26,13 +31,14 @@ function init (ctx) {
     }]);
   }
 
-  openaps.getPrefs = function getPrefs (sbx) {
+  // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
+  openaps.getPrefs = function getPrefs (sbx: any) {
 
-    function cleanList (value) {
+    function cleanList (value: any) {
       return decodeURIComponent(value || '').toLowerCase().split(' ');
     }
 
-    function isEmpty (list) {
+    function isEmpty (list: any) {
       return _.isEmpty(list) || _.isEmpty(list[0]);
     }
 
@@ -69,21 +75,24 @@ function init (ctx) {
     return prefs;
   };
 
-  openaps.setProperties = function setProperties (sbx) {
+  // @ts-expect-error TS(2339): Property 'setProperties' does not exist on type '{... Remove this comment to see the full error message
+  openaps.setProperties = function setProperties (sbx: any) {
     sbx.offerProperty('openaps', function setOpenAPS () {
+      // @ts-expect-error TS(2339): Property 'analyzeData' does not exist on type '{ n... Remove this comment to see the full error message
       return openaps.analyzeData(sbx);
     });
   };
 
-  openaps.analyzeData = function analyzeData (sbx) {
+  // @ts-expect-error TS(2339): Property 'analyzeData' does not exist on type '{ n... Remove this comment to see the full error message
+  openaps.analyzeData = function analyzeData (sbx: any) {
     var recentHours = 6; //TODO dia*2
     var recentMills = sbx.time - times.hours(recentHours).msecs;
 
     var recentData = _.chain(sbx.data.devicestatus)
-      .filter(function(status) {
+      .filter(function(status: any) {
         return ('openaps' in status) && sbx.entryMills(status) <= sbx.time && sbx.entryMills(status) >= recentMills;
       })
-      .map(function(status) {
+      .map(function(status: any) {
         if (status.openaps && _.isArray(status.openaps.iob) && status.openaps.iob.length > 0) {
           status.openaps.iob = status.openaps.iob[0];
           if (status.openaps.iob.time) {
@@ -94,6 +103,7 @@ function init (ctx) {
       })
       .value();
 
+    // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
     var prefs = openaps.getPrefs(sbx);
     var recent = moment(sbx.time).subtract(prefs.warn / 2, 'minutes');
 
@@ -107,8 +117,9 @@ function init (ctx) {
       , lastPredBGs: null
     };
 
-    function getDevice (status) {
+    function getDevice (status: any) {
       var uri = status.device || 'device';
+      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       var device = result.seenDevices[uri];
 
       if (!device) {
@@ -117,12 +128,13 @@ function init (ctx) {
           , uri: uri
         };
 
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         result.seenDevices[uri] = device;
       }
       return device;
     }
 
-    function toMoments (status) {
+    function toMoments (status: any) {
       var enacted = false;
       var notEnacted = false;
       if (status.openaps.enacted && status.openaps.enacted.timestamp && (status.openaps.enacted.recieved || status.openaps.enacted.received)) {
@@ -162,7 +174,7 @@ function init (ctx) {
       };
     }
 
-    function momentsToLoopStatus (moments, noWarning) {
+    function momentsToLoopStatus (moments: any, noWarning: any) {
 
       var status = {
         symbol: '⚠'
@@ -192,7 +204,7 @@ function init (ctx) {
       return status;
     }
 
-    _.forEach(recentData, function eachStatus (status) {
+    _.forEach(recentData, function eachStatus (status: any) {
       var device = getDevice(status);
 
       var moments = toMoments(status);
@@ -204,6 +216,7 @@ function init (ctx) {
       }
 
       var enacted = status.openaps && status.openaps.enacted;
+      // @ts-expect-error TS(2339): Property 'isAfter' does not exist on type 'true'.
       if (enacted && moments.enacted && (!result.lastEnacted || moments.enacted.isAfter(result.lastEnacted.moment))) {
         if (enacted.mills) {
           enacted.moment = moment(enacted.mills);
@@ -211,12 +224,15 @@ function init (ctx) {
           enacted.moment = moment(enacted.timestamp);
         }
         result.lastEnacted = enacted;
+        // @ts-expect-error TS(2339): Property 'moment' does not exist on type 'never'.
         if (enacted.predBGs && (!result.lastPredBGs || enacted.moment.isAfter(result.lastPredBGs.moment))) {
           result.lastPredBGs = _.isArray(enacted.predBGs) ? { values: enacted.predBGs } : enacted.predBGs;
+          // @ts-expect-error TS(2531): Object is possibly 'null'.
           result.lastPredBGs.moment = enacted.moment;
         }
       }
 
+      // @ts-expect-error TS(2339): Property 'isAfter' does not exist on type 'true'.
       if (enacted && moments.notEnacted && (!result.lastNotEnacted || moments.notEnacted.isAfter(result.lastNotEnacted.moment))) {
         if (enacted.mills) {
           enacted.moment = moment(enacted.mills);
@@ -227,6 +243,7 @@ function init (ctx) {
       }
 
       var suggested = status.openaps && status.openaps.suggested;
+      // @ts-expect-error TS(2339): Property 'isAfter' does not exist on type 'true'.
       if (suggested && moments.suggested && (!result.lastSuggested || moments.suggested.isAfter(result.lastSuggested.moment))) {
         if (suggested.mills) {
           suggested.moment = moment(suggested.mills);
@@ -234,13 +251,16 @@ function init (ctx) {
           suggested.moment = moment(suggested.timestamp);
         }
         result.lastSuggested = suggested;
+        // @ts-expect-error TS(2339): Property 'moment' does not exist on type 'never'.
         if (suggested.predBGs && (!result.lastPredBGs || suggested.moment.isAfter(result.lastPredBGs.moment))) {
           result.lastPredBGs = _.isArray(suggested.predBGs) ? { values: suggested.predBGs } : suggested.predBGs;
+          // @ts-expect-error TS(2531): Object is possibly 'null'.
           result.lastPredBGs.moment = suggested.moment;
         }
       }
 
       var iob = status.openaps && status.openaps.iob;
+      // @ts-expect-error TS(2339): Property 'moment' does not exist on type 'never'.
       if (moments.iob && (!result.lastIOB || moment(iob.timestamp).isAfter(result.lastIOB.moment))) {
         iob.moment = moments.iob;
         result.lastIOB = iob;
@@ -255,31 +275,48 @@ function init (ctx) {
     });
 
     if (result.lastEnacted && result.lastSuggested) {
+      // @ts-expect-error TS(2339): Property 'moment' does not exist on type 'never'.
       if (result.lastEnacted.moment.isAfter(result.lastSuggested.moment)) {
+        // @ts-expect-error TS(2339): Property 'lastLoopMoment' does not exist on type '... Remove this comment to see the full error message
         result.lastLoopMoment = result.lastEnacted.moment;
+        // @ts-expect-error TS(2339): Property 'lastEventualBG' does not exist on type '... Remove this comment to see the full error message
         result.lastEventualBG = result.lastEnacted.eventualBG;
       } else {
+        // @ts-expect-error TS(2339): Property 'lastLoopMoment' does not exist on type '... Remove this comment to see the full error message
         result.lastLoopMoment = result.lastSuggested.moment;
+        // @ts-expect-error TS(2339): Property 'lastEventualBG' does not exist on type '... Remove this comment to see the full error message
         result.lastEventualBG = result.lastSuggested.eventualBG;
       }
+    // @ts-expect-error TS(2339): Property 'moment' does not exist on type 'never'.
     } else if (result.lastEnacted && result.lastEnacted.moment) {
+      // @ts-expect-error TS(2339): Property 'lastLoopMoment' does not exist on type '... Remove this comment to see the full error message
       result.lastLoopMoment = result.lastEnacted.moment;
+      // @ts-expect-error TS(2339): Property 'lastEventualBG' does not exist on type '... Remove this comment to see the full error message
       result.lastEventualBG = result.lastEnacted.eventualBG;
+    // @ts-expect-error TS(2339): Property 'moment' does not exist on type 'never'.
     } else if (result.lastSuggested && result.lastSuggested.moment) {
+      // @ts-expect-error TS(2339): Property 'lastLoopMoment' does not exist on type '... Remove this comment to see the full error message
       result.lastLoopMoment = result.lastSuggested.moment;
+      // @ts-expect-error TS(2339): Property 'lastEventualBG' does not exist on type '... Remove this comment to see the full error message
       result.lastEventualBG = result.lastSuggested.eventualBG;
     }
 
+    // @ts-expect-error TS(2339): Property 'status' does not exist on type '{ seenDe... Remove this comment to see the full error message
     result.status = momentsToLoopStatus({
+      // @ts-expect-error TS(2339): Property 'moment' does not exist on type 'never'.
       enacted: result.lastEnacted && result.lastEnacted.moment
+      // @ts-expect-error TS(2339): Property 'moment' does not exist on type 'never'.
       , notEnacted: result.lastNotEnacted && result.lastNotEnacted.moment
+      // @ts-expect-error TS(2339): Property 'moment' does not exist on type 'never'.
       , suggested: result.lastSuggested && result.lastSuggested.moment
+    // @ts-expect-error TS(2554): Expected 2 arguments, but got 3.
     }, false, recent);
 
     return result;
   };
 
-  openaps.getEventTypes = function getEventTypes (sbx) {
+  // @ts-expect-error TS(2339): Property 'getEventTypes' does not exist on type '{... Remove this comment to see the full error message
+  openaps.getEventTypes = function getEventTypes (sbx: any) {
 
     var units = sbx.settings.units;
     console.log('units', units);
@@ -341,7 +378,9 @@ function init (ctx) {
     ];
   };
 
-  openaps.checkNotifications = function checkNotifications (sbx) {
+  // @ts-expect-error TS(2339): Property 'checkNotifications' does not exist on ty... Remove this comment to see the full error message
+  openaps.checkNotifications = function checkNotifications (sbx: any) {
+    // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
     var prefs = openaps.getPrefs(sbx);
 
     if (!prefs.enableAlerts) { return; }
@@ -368,22 +407,25 @@ function init (ctx) {
     }
   };
 
-  openaps.findOfflineMarker = function findOfflineMarker (sbx) {
-    return _.findLast(sbx.data.treatments, function match (treatment) {
+  // @ts-expect-error TS(2339): Property 'findOfflineMarker' does not exist on typ... Remove this comment to see the full error message
+  openaps.findOfflineMarker = function findOfflineMarker (sbx: any) {
+    return _.findLast(sbx.data.treatments, function match (treatment: any) {
       var eventTime = sbx.entryMills(treatment);
       var eventEnd = treatment.duration ? eventTime + times.mins(treatment.duration).msecs : eventTime;
       return eventTime <= sbx.time && treatment.eventType === 'OpenAPS Offline' && eventEnd >= sbx.time;
     });
   };
 
-  openaps.updateVisualisation = function updateVisualisation (sbx) {
+  // @ts-expect-error TS(2339): Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
+  openaps.updateVisualisation = function updateVisualisation (sbx: any) {
     var prop = sbx.properties.openaps;
 
+    // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
     var prefs = openaps.getPrefs(sbx);
 
     var selectedFields = sbx.data.inRetroMode ? prefs.retroFields : prefs.fields;
 
-    function valueString (prefix, value) {
+    function valueString (prefix: any, value: any) {
       return value ? prefix + value : '';
     }
 
@@ -415,7 +457,7 @@ function init (ctx) {
       }
     }
 
-    function concatIOB (valueParts) {
+    function concatIOB (valueParts: any) {
       if (prop.lastIOB) {
         valueParts = valueParts.concat([
           ', IOB: '
@@ -429,10 +471,10 @@ function init (ctx) {
     }
 
     function getForecastPoints () {
-      var points = [];
+      var points: any = [];
 
-      function toPoints (offset, forecastType) {
-        return function toPoint (value, index) {
+      function toPoints (offset: any, forecastType: any) {
+        return function toPoint (value: any, index: any) {
           var colors = {
             'Values': '#ff00ff'
             , 'IOB': prefs.predIOBColor
@@ -444,6 +486,7 @@ function init (ctx) {
           
           return {
             mgdl: value
+            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
             , color: prefs.colorPredictionLines ? colors[forecastType] : '#ff00ff'
             , mills: prop.lastPredBGs.moment.valueOf() + times.mins(5 * index).msecs + offset
             , noFade: true
@@ -501,7 +544,7 @@ function init (ctx) {
       addSuggestion();
     }
 
-    _.forIn(prop.seenDevices, function seenDevice (device) {
+    _.forIn(prop.seenDevices, function seenDevice (device: any) {
       var deviceInfo = [device.name];
 
       if (_.includes(selectedFields, 'status-symbol')) {
@@ -513,7 +556,7 @@ function init (ctx) {
       }
 
       if (device.mmtune) {
-        var best = _.maxBy(device.mmtune.scanDetails, function(d) {
+        var best = _.maxBy(device.mmtune.scanDetails, function(d: any) {
           return d[2];
         });
 
@@ -530,11 +573,11 @@ function init (ctx) {
       });
     });
 
-    var sorted = _.sortBy(events, function toMill (event) {
+    var sorted = _.sortBy(events, function toMill (event: any) {
       return event.time.valueOf();
     }).reverse();
 
-    var info = _.map(sorted, function eventToInfo (event) {
+    var info = _.map(sorted, function eventToInfo (event: any) {
       return {
         label: utils.timeAt(false, sbx) + utils.timeFormat(event.time, sbx)
         , value: event.value
@@ -559,7 +602,7 @@ function init (ctx) {
     }
   };
 
-  function virtAsstForecastHandler (next, slots, sbx) {
+  function virtAsstForecastHandler (next: any, slots: any, sbx: any) {
     var lastEventualBG = _.get(sbx, 'properties.openaps.lastEventualBG');
     if (lastEventualBG) {
       var response = translate('virtAsstOpenAPSForecast', {
@@ -573,7 +616,7 @@ function init (ctx) {
     }
   }
 
-  function virtAsstLastLoopHandler (next, slots, sbx) {
+  function virtAsstLastLoopHandler (next: any, slots: any, sbx: any) {
     var lastLoopMoment = _.get(sbx, 'properties.openaps.lastLoopMoment');
     if (lastLoopMoment) {
       var response = translate('virtAsstLastLoop', {
@@ -587,6 +630,7 @@ function init (ctx) {
     }
   }
 
+  // @ts-expect-error TS(2339): Property 'virtAsst' does not exist on type '{ name... Remove this comment to see the full error message
   openaps.virtAsst = {
     intentHandlers: [{
       intent: 'MetricNow'
@@ -598,15 +642,16 @@ function init (ctx) {
     }]
   };
 
-  function statusClass (prop, prefs, sbx) {
+  function statusClass (prop: any, prefs: any, sbx: any) {
     var level = statusLevel(prop, prefs, sbx);
     return levels.toStatusClass(level);
   }
 
-  function statusLevel (prop, prefs, sbx) {
+  function statusLevel (prop: any, prefs: any, sbx: any) {
     var level = levels.NONE;
     var now = moment(sbx.time);
 
+    // @ts-expect-error TS(2339): Property 'findOfflineMarker' does not exist on typ... Remove this comment to see the full error message
     if (openaps.findOfflineMarker(sbx)) {
       console.info('OpenAPS known offline, not checking for alerts');
     } else if (prop.lastLoopMoment) {
@@ -627,4 +672,5 @@ function init (ctx) {
 
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

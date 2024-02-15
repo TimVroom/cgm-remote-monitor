@@ -1,16 +1,20 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
 
 // VERSION 1 - 0.9.0 - 2015-Nov-07 - initial version
 var STORAGE_VERSION = 1;
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var Storages = require('js-storage');
 
-function init (client, serverSettings, $) {
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
+function init (client: any, serverSettings: any, $: any) {
 
   serverSettings = serverSettings || { settings: {} };
 
   var storage = Storages.localStorage;
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var settings = require('../settings')();
 
   function updateBolusRender () {
@@ -22,7 +26,7 @@ function init (client, serverSettings, $) {
     }
     var sortedRenderOverOptions = _.chain(allRenderOverOptions).uniq().sort().reverse().value();
 
-    _.forEach(sortedRenderOverOptions, function (optionValue) {
+    _.forEach(sortedRenderOverOptions, function (optionValue: any) {
       $('#bolusRenderOver').append(
         $('<option></option>')
           .attr('value', optionValue)
@@ -41,7 +45,7 @@ function init (client, serverSettings, $) {
     var language = client.language;
     var translate = language.translate;
 
-    function appendThresholdValue (threshold) {
+    function appendThresholdValue (threshold: any) {
       return settings.alarmTypes.indexOf('simple') === -1 ? '' : ' (' + utils.scaleMgdl(threshold) + ')';
     }
 
@@ -83,7 +87,7 @@ function init (client, serverSettings, $) {
 
     var langSelect = $('#language');
 
-    _.each(language.languages, function eachLanguage (lang) {
+    _.each(language.languages, function eachLanguage (lang: any) {
       langSelect.append('<option value="' + lang.code + '">' + lang.language + '</option>');
     });
 
@@ -104,9 +108,9 @@ function init (client, serverSettings, $) {
     var showPluginsSettings = $('#show-plugins');
     var hasPluginsToShow = false;
 
-    const pluginPrefs = [];
+    const pluginPrefs: any = [];
 
-    client.plugins.eachEnabledPlugin(function each (plugin) {
+    client.plugins.eachEnabledPlugin(function each (plugin: any) {
       if (client.plugins.specialPlugins.indexOf(plugin.name) > -1) {
         //ignore these, they are always on for now
       } else {
@@ -129,16 +133,16 @@ function init (client, serverSettings, $) {
     showPluginsSettings.toggle(hasPluginsToShow);
 
     const bs = $('#browserSettings');
-    const toggleCheckboxes = [];
+    const toggleCheckboxes: any = [];
 
     if (pluginPrefs.length > 0) {
-      pluginPrefs.forEach(function(e) {
+      pluginPrefs.forEach(function(e: any) {
         // Only show settings if plugin is visible
         if (settings.showPlugins.indexOf(e.plugin.name) > -1) {
           const label = e.plugin.label;
           const dl = $('<dl>');
           dl.append(`<dt>` + translate(label) + `</dt>`);
-          e.prefs.forEach(function(p) {
+          e.prefs.forEach(function(p: any) {
             const id = e.plugin.name + "-" + p.id;
             const label = p.label;
             if (p.type == 'boolean') {
@@ -155,7 +159,7 @@ function init (client, serverSettings, $) {
       });
     }
 
-    toggleCheckboxes.forEach(function(cb) {
+    toggleCheckboxes.forEach(function(cb: any) {
       $('#' + cb).prop('checked', true);
     });
 
@@ -182,8 +186,8 @@ function init (client, serverSettings, $) {
   }
 
   function wireForm () {
-    $('#useDefaults').click(function(event) {
-      settings.eachSetting(function clearEachSetting (name) {
+    $('#useDefaults').click(function(event: any) {
+      settings.eachSetting(function clearEachSetting (name: any) {
         storage.remove(name);
       });
       storage.remove('basalrender');
@@ -192,20 +196,20 @@ function init (client, serverSettings, $) {
       client.browserUtils.reload();
     });
 
-    $('#save').click(function(event) {
+    $('#save').click(function(event: any) {
       function checkedPluginNames () {
-        var checkedPlugins = [];
-        $('#show-plugins input:checked').each(function eachPluginCheckbox (index, checkbox) {
+        var checkedPlugins: any = [];
+        $('#show-plugins input:checked').each(function eachPluginCheckbox (index: any, checkbox: any) {
           checkedPlugins.push($(checkbox).val());
         });
         return checkedPlugins.join(' ');
       }
 
-      client.plugins.eachEnabledPlugin(function each (plugin) {
+      client.plugins.eachEnabledPlugin(function each (plugin: any) {
         if (plugin.getClientPrefs) {
           const prefs = plugin.getClientPrefs();
 
-          prefs.forEach(function(p) {
+          prefs.forEach(function(p: any) {
             const id = plugin.name + "-" + p.id;
             if (p.type == 'boolean') {
               const val = $("#" + id).prop('checked');
@@ -215,7 +219,7 @@ function init (client, serverSettings, $) {
         }
       });
 
-      function storeInBrowser (data) {
+      function storeInBrowser (data: any) {
         Object.keys(data).forEach(k => {
           /* eslint-disable-next-line security/detect-object-injection */ // verified false positive
           storage.set(k, data[k]);
@@ -280,7 +284,7 @@ function init (client, serverSettings, $) {
   settings.extendedSettings = serverSettings.extendedSettings || { settings: {} };
 
   try {
-    settings.eachSetting(function setEach (name) {
+    settings.eachSetting(function setEach (name: any) {
       var stored = storage.get(name);
       /* eslint-disable-next-line security/detect-object-injection */ // verified false positive
       return stored !== undefined && stored !== null ? stored : serverSettings.settings[name];
@@ -324,14 +328,16 @@ function init (client, serverSettings, $) {
     showLocalstorageError();
   }
 
+  // @ts-expect-error TS(2339): Property 'loadAndWireForm' does not exist on type ... Remove this comment to see the full error message
   init.loadAndWireForm = function loadAndWireForm () {
     loadForm();
     wireForm();
   };
 
-  init.loadPluginSettings = function loadPluginSettings (client) {
+  // @ts-expect-error TS(2339): Property 'loadPluginSettings' does not exist on ty... Remove this comment to see the full error message
+  init.loadPluginSettings = function loadPluginSettings (client: any) {
 
-    client.plugins.eachEnabledPlugin(function each (plugin) {
+    client.plugins.eachEnabledPlugin(function each (plugin: any) {
       if (plugin.getClientPrefs) {
         const prefs = plugin.getClientPrefs();
 
@@ -341,7 +347,7 @@ function init (client, serverSettings, $) {
 
         const settingsBase = settings.extendedSettings[plugin.name];
 
-        prefs.forEach(function(p) {
+        prefs.forEach(function(p: any) {
           const id = plugin.name + "-" + p.id;
           const stored = storage.get(id);
           if (stored !== null) {
@@ -356,4 +362,5 @@ function init (client, serverSettings, $) {
   return settings;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

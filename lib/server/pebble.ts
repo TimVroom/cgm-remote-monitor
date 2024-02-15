@@ -1,8 +1,11 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
 
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var sandbox = require('../sandbox')();
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var units = require('../units')();
 
 var DIRECTIONS = {
@@ -18,23 +21,24 @@ var DIRECTIONS = {
   , 'RATE OUT OF RANGE': 9
 };
 
-function directionToTrend (direction) {
+function directionToTrend (direction: any) {
   var trend = 8;
   if (direction in DIRECTIONS) {
+    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     trend = DIRECTIONS[direction];
   }
   return trend;
 }
 
-function reverseAndSlice (entries, req) {
+function reverseAndSlice (entries: any, req: any) {
   var reversed = entries.slice(0);
   reversed.reverse();
   return reversed.slice(0, req.count);
 }
 
 
-function mapSGVs(req, sbx) {
-  function scaleMgdlAPebbleLegacyHackThatWillNotGoAway (bg) {
+function mapSGVs(req: any, sbx: any) {
+  function scaleMgdlAPebbleLegacyHackThatWillNotGoAway (bg: any) {
     if (req.mmol) {
       return units.mgdlToMMOL(bg);
     } else {
@@ -44,14 +48,17 @@ function mapSGVs(req, sbx) {
 
   var cal = sbx.lastEntry(sbx.data.cals);
 
-  return _.map(reverseAndSlice(sbx.data.sgvs, req), function transformSGV(sgv) {
+  return _.map(reverseAndSlice(sbx.data.sgvs, req), function transformSGV(sgv: any) {
     var transformed = {
       sgv: scaleMgdlAPebbleLegacyHackThatWillNotGoAway(sgv.mgdl), trend: directionToTrend(sgv.direction), direction: sgv.direction, datetime: sgv.mills
     };
 
     if (req.rawbg && cal) {
+      // @ts-expect-error TS(2339): Property 'filtered' does not exist on type '{ sgv:... Remove this comment to see the full error message
       transformed.filtered = sgv.filtered;
+      // @ts-expect-error TS(2339): Property 'unfiltered' does not exist on type '{ sg... Remove this comment to see the full error message
       transformed.unfiltered = sgv.unfiltered;
+      // @ts-expect-error TS(2339): Property 'noise' does not exist on type '{ sgv: an... Remove this comment to see the full error message
       transformed.noise = sgv.noise;
     }
 
@@ -60,7 +67,7 @@ function mapSGVs(req, sbx) {
 
 }
 
-function addExtraData (first, req, sbx) {
+function addExtraData (first: any, req: any, sbx: any) {
   //for compatibility we're keeping battery and iob on the first bg, but they would be better somewhere else
 
   var data = sbx.data;
@@ -76,7 +83,7 @@ function addExtraData (first, req, sbx) {
   }
 
   function addBattery() {
-    var uploaderStatus = _.findLast(data.devicestatus, function (status) {
+    var uploaderStatus = _.findLast(data.devicestatus, function (status: any) {
       return ('uploader' in status);
     });
 
@@ -120,7 +127,7 @@ function addExtraData (first, req, sbx) {
   addCOB();
 }
 
-function prepareBGs (req, sbx) {
+function prepareBGs (req: any, sbx: any) {
   if (sbx.data.sgvs.length === 0) {
     return [];
   }
@@ -131,11 +138,11 @@ function prepareBGs (req, sbx) {
   return bgs;
 }
 
-function prepareCals (req, sbx) {
+function prepareCals (req: any, sbx: any) {
   var data = sbx.data;
 
   if (req.rawbg && data.cals && data.cals.length > 0) {
-    return _.map(reverseAndSlice(data.cals, req), function transformCal (cal) {
+    return _.map(reverseAndSlice(data.cals, req), function transformCal (cal: any) {
       return _.pick(cal, ['slope', 'intercept', 'scale']);
     });
   } else {
@@ -143,7 +150,7 @@ function prepareCals (req, sbx) {
   }
 }
 
-function prepareSandbox (req) {
+function prepareSandbox (req: any) {
   var clonedEnv = _.cloneDeep(req.env);
   if (req.mmol) {
     clonedEnv.settings.units = 'mmol';
@@ -155,7 +162,7 @@ function prepareSandbox (req) {
   return sbx;
 }
 
-function pebble (req, res) {
+function pebble (req: any, res: any) {
   var sbx = prepareSandbox(req);
 
   res.setHeader('content-type', 'application/json');
@@ -168,9 +175,10 @@ function pebble (req, res) {
   res.end( );
 }
 
-function configure (env, ctx) {
+function configure (env: any, ctx: any) {
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var wares = require('../middleware/')(env);
-  function middle (req, res, next) {
+  function middle (req: any, res: any, next: any) {
     req.env = env;
     req.ctx = ctx;
     req.rawbg = env.settings.isEnabled('rawbg');
@@ -186,4 +194,5 @@ function configure (env, ctx) {
 
 configure.pebble = pebble;
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = configure;
