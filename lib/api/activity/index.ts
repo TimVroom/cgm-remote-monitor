@@ -1,19 +1,19 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_forEach'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_forEach'.
 var _forEach = require('lodash/forEach');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_isNil'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_isNil'.
 var _isNil = require('lodash/isNil');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_isArray'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_isArray'.
 var _isArray = require('lodash/isArray');
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'consts'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'consts'.
 var consts = require('../../constants');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'moment'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'moment'.
 var moment = require('moment');
 
 function configure(app: any, wares: any, ctx: any) {
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var express = require('express')
         , api = express.Router();
 
@@ -122,6 +122,6 @@ function configure(app: any, wares: any, ctx: any) {
     return api;
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = configure;
 

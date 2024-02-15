@@ -1,8 +1,8 @@
 'use strict';
 
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var _map = require('lodash/map');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_each'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_each'.
 var _each = require('lodash/each');
 
 var TOOLTIP_WIDTH = 275;  //min-width + padding
@@ -11,9 +11,9 @@ function init (majorPills: any, minorPills: any, statusPills: any, bgStatus: any
 
   var pluginBase = { };
 
-  // @ts-expect-error TS(2339): Property 'forecastInfos' does not exist on type '{... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'forecastInfos' does not exist on type '{... Remove this comment to see the full error message
   pluginBase.forecastInfos = [];
-  // @ts-expect-error TS(2339): Property 'forecastPoints' does not exist on type '... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'forecastPoints' does not exist on type '... Remove this comment to see the full error message
   pluginBase.forecastPoints = {};
 
   function findOrCreatePill (plugin: any) {
@@ -55,7 +55,7 @@ function init (majorPills: any, minorPills: any, statusPills: any, bgStatus: any
     return pill;
   }
 
-  // @ts-expect-error TS(2339): Property 'updatePillText' does not exist on type '... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'updatePillText' does not exist on type '... Remove this comment to see the full error message
   pluginBase.updatePillText = function updatePillText (plugin: any, options: any) {
 
     var pill = findOrCreatePill(plugin);
@@ -106,7 +106,7 @@ function init (majorPills: any, minorPills: any, statusPills: any, bgStatus: any
     }
   };
 
-  // @ts-expect-error TS(2339): Property 'addForecastPoints' does not exist on typ... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'addForecastPoints' does not exist on typ... Remove this comment to see the full error message
   pluginBase.addForecastPoints = function addForecastPoints (points: any, info: any) {
     _each(points, function eachPoint (point: any) {
       point.type = 'forecast';
@@ -116,14 +116,14 @@ function init (majorPills: any, minorPills: any, statusPills: any, bgStatus: any
       }
     });
 
-    // @ts-expect-error TS(2339): Property 'forecastInfos' does not exist on type '{... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'forecastInfos' does not exist on type '{... Remove this comment to see the full error message
     pluginBase.forecastInfos.push(info);
-    // @ts-expect-error TS(2339): Property 'forecastPoints' does not exist on type '... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'forecastPoints' does not exist on type '... Remove this comment to see the full error message
     pluginBase.forecastPoints[info.type] = points;
   };
 
   return pluginBase;
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

@@ -1,18 +1,18 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'consts'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'consts'.
 var consts = require('../constants');
 
 const MAX_BG_MMOL = 22;
 const MAX_BG_MGDL = MAX_BG_MMOL * consts.MMOL_TO_MGDL;
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = function fitTreatmentsToBGCurve (ddata: any, env: any, ctx: any) {
 
   var settings = env.settings;
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var rawbg = require('../plugins/rawbg')({
     settings: settings
     , language: ctx.language

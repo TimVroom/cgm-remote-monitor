@@ -1,8 +1,8 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'times'.
 var times = require('../times');
 
 var BG_REF = 140; //Central tendency
@@ -37,21 +37,21 @@ function init (ctx: any) {
     return title;
   }
 
-  // @ts-expect-error TS(2339): Property 'setProperties' does not exist on type '{... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'setProperties' does not exist on type '{... Remove this comment to see the full error message
   ar2.setProperties = function setProperties (sbx: any) {
     sbx.offerProperty('ar2', function setAR2 () {
 
       var prop = {
-        // @ts-expect-error TS(2339): Property 'forecast' does not exist on type '{ name... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'forecast' does not exist on type '{ name... Remove this comment to see the full error message
         forecast: ar2.forecast(sbx)
       };
 
       var result = checkForecast(prop.forecast, sbx);
 
       if (result) {
-        // @ts-expect-error TS(2339): Property 'level' does not exist on type '{ forecas... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'level' does not exist on type '{ forecas... Remove this comment to see the full error message
         prop.level = result.level;
-        // @ts-expect-error TS(2339): Property 'eventName' does not exist on type '{ for... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'eventName' does not exist on type '{ for... Remove this comment to see the full error message
         prop.eventName = result.eventName;
       }
 
@@ -59,7 +59,7 @@ function init (ctx: any) {
       var scaled = predicted && _.map(predicted, function(p: any) { return sbx.scaleEntry(p) });
 
       if (scaled && scaled.length >= 3) {
-        // @ts-expect-error TS(2339): Property 'displayLine' does not exist on type '{ f... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'displayLine' does not exist on type '{ f... Remove this comment to see the full error message
         prop.displayLine = 'BG 15m: ' + scaled[2] + ' ' + sbx.unitsLabel;
       }
 
@@ -67,7 +67,7 @@ function init (ctx: any) {
     });
   };
 
-  // @ts-expect-error TS(2339): Property 'checkNotifications' does not exist on ty... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'checkNotifications' does not exist on ty... Remove this comment to see the full error message
   ar2.checkNotifications = function checkNotifications (sbx: any) {
     if (sbx.time - sbx.lastSGVMills() > times.mins(10).msecs) {
       return;
@@ -89,7 +89,7 @@ function init (ctx: any) {
     }
   };
 
-  // @ts-expect-error TS(2339): Property 'forecast' does not exist on type '{ name... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'forecast' does not exist on type '{ name... Remove this comment to see the full error message
   ar2.forecast = function forecast (sbx: any) {
 
     var result = {
@@ -111,20 +111,20 @@ function init (ctx: any) {
     // compute current loss
     var size = Math.min(result.predicted.length - 1, 6);
     for (var j = 0; j <= size; j++) {
-      // @ts-expect-error TS(2339): Property 'mgdl' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'mgdl' does not exist on type 'never'.
       result.avgLoss += 1 / size * Math.pow(log10(result.predicted[j].mgdl / 120), 2);
     }
 
     return result;
   };
 
-  // @ts-expect-error TS(2339): Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
   ar2.updateVisualisation = function updateVisualisation (sbx: any) {
-    // @ts-expect-error TS(2339): Property 'forecastCone' does not exist on type '{ ... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'forecastCone' does not exist on type '{ ... Remove this comment to see the full error message
     sbx.pluginBase.addForecastPoints(ar2.forecastCone(sbx), { type: 'ar2', label: 'AR2 Forecast' });
   };
 
-  // @ts-expect-error TS(2339): Property 'forecastCone' does not exist on type '{ ... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'forecastCone' does not exist on type '{ ... Remove this comment to see the full error message
   ar2.forecastCone = function forecastCone (sbx: any) {
 
     if (!okToForecast(sbx)) {
@@ -201,7 +201,7 @@ function init (ctx: any) {
     }
   }
 
-  // @ts-expect-error TS(2339): Property 'virtAsst' does not exist on type '{ name... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'virtAsst' does not exist on type '{ name... Remove this comment to see the full error message
   ar2.virtAsst = {
     intentHandlers: [{
       intent: 'MetricNow'
@@ -223,9 +223,9 @@ function checkForecast (forecast: any, sbx: any) {
   }
 
   if (result) {
-    // @ts-expect-error TS(2339): Property 'forecast' does not exist on type '{ leve... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'forecast' does not exist on type '{ leve... Remove this comment to see the full error message
     result.forecast = forecast;
-    // @ts-expect-error TS(2339): Property 'eventName' does not exist on type '{ lev... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'eventName' does not exist on type '{ lev... Remove this comment to see the full error message
     result.eventName = selectEventType(result, sbx);
   }
 
@@ -345,5 +345,5 @@ function buildDebug (prop: any, sbx: any) {
 
 function log10 (val: any) { return Math.log(val) / Math.LN10; }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

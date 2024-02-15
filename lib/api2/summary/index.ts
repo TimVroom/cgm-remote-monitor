@@ -1,11 +1,11 @@
 'use strict';
 
 function configure (env: any, ctx: any) {
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   const _ = require('lodash')
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , basalProcessor = require('./basaldataprocessor')
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , express = require('express')
     , api = express.Router();
 
@@ -42,7 +42,7 @@ function configure (env: any, ctx: any) {
           };
 
           // only push noise data if there is noise
-          // @ts-expect-error TS(2339): Property 'noise' does not exist on type '{ sgv: an... Remove this comment to see the full error message
+          // @ts-expect-error TS(2339) FIXME: Property 'noise' does not exist on type '{ sgv: an... Remove this comment to see the full error message
           if (bg.noise != 1) { item.noise = bg.noise; }
           bgData.push(item);
 
@@ -72,13 +72,13 @@ function configure (env: any, ctx: any) {
         }
         if (t.eventType == 'Temporary Target') {
           rVal.targets.push({
-            // @ts-expect-error TS(2322): Type 'number' is not assignable to type 'never'.
+            // @ts-expect-error TS(2322) FIXME: Type 'number' is not assignable to type 'never'.
             targetTop: Math.round(t.targetTop),
-            // @ts-expect-error TS(2322): Type 'number' is not assignable to type 'never'.
+            // @ts-expect-error TS(2322) FIXME: Type 'number' is not assignable to type 'never'.
             targetBottom: Math.round(t.targetBottom),
-            // @ts-expect-error TS(2322): Type 'number' is not assignable to type 'never'.
+            // @ts-expect-error TS(2322) FIXME: Type 'number' is not assignable to type 'never'.
             duration: t.duration*60,
-            // @ts-expect-error TS(2322): Type 'any' is not assignable to type 'never'.
+            // @ts-expect-error TS(2322) FIXME: Type 'any' is not assignable to type 'never'.
             mills: t.mills
           });
           continue;
@@ -89,11 +89,11 @@ function configure (env: any, ctx: any) {
               const _t = {
                   mills: t.mills
               };
-              // @ts-expect-error TS(2339): Property 'carbs' does not exist on type '{ mills: ... Remove this comment to see the full error message
+              // @ts-expect-error TS(2339) FIXME: Property 'carbs' does not exist on type '{ mills: ... Remove this comment to see the full error message
               if (!isNaN(t.carbs)) _t.carbs = t.carbs;
-              // @ts-expect-error TS(2339): Property 'insulin' does not exist on type '{ mills... Remove this comment to see the full error message
+              // @ts-expect-error TS(2339) FIXME: Property 'insulin' does not exist on type '{ mills... Remove this comment to see the full error message
               if (!isNaN(t.insulin)) _t.insulin = t.insulin;
-              // @ts-expect-error TS(2345): Argument of type '{ mills: any; }' is not assignab... Remove this comment to see the full error message
+              // @ts-expect-error TS(2345) FIXME: Argument of type '{ mills: any; }' is not assignab... Remove this comment to see the full error message
               rVal.treatments.push(_t);
             }
             continue;
@@ -143,5 +143,5 @@ function configure (env: any, ctx: any) {
 
   return api;
 }
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = configure;

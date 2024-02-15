@@ -1,11 +1,11 @@
 'use strict';
 
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 require('should');
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var benv = require('benv');
 
-// @ts-expect-error TS(2403): Subsequent variable declarations must have the sam... Remove this comment to see the full error message
+// @ts-expect-error TS(2403) FIXME: Subsequent variable declarations must have the sam... Remove this comment to see the full error message
 var nowData = {
   sgvs: [
     { mgdl: 100, mills: Date.now(), direction: 'Flat', type: 'sgv' }
@@ -13,19 +13,19 @@ var nowData = {
   , treatments: []
 };
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'sleep'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'sleep'.
 function sleep(ms: any) {
   return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+// @ts-expect-error TS(2593) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('careportal', function(this: any) {
   this.timeout(60000); // TODO: see why this test takes longer on Travis to complete
 
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var headless = require('./fixtures/headless')(benv, this);
 
-  // @ts-expect-error TS(2304): Cannot find name 'before'.
+  // @ts-expect-error TS(2304) FIXME: Cannot find name 'before'.
   before(function (done: any) {
 
     const t = Date.now();
@@ -40,24 +40,24 @@ describe('careportal', function(this: any) {
     console.log('Headless setup for Careportal test done');
   });
 
-  // @ts-expect-error TS(2304): Cannot find name 'after'.
+  // @ts-expect-error TS(2304) FIXME: Cannot find name 'after'.
   after(function (done: any) {
     headless.teardown( );
     done( );
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it ('open careportal, and enter a treatment', async () =>{
 
     console.log('Careportal test client start');
 
-// @ts-expect-error TS(2339): Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
 	  var client = window.Nightscout.client;
 	
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var hashauth = require('../lib/client/hashauth');
     hashauth.init(client,$);
-    // @ts-expect-error TS(7006): Parameter 'next' implicitly has an 'any' type.
+    // @ts-expect-error TS(7006) FIXME: Parameter 'next' implicitly has an 'any' type.
     hashauth.verifyAuthentication = function mockVerifyAuthentication(next) { 
       hashauth.authenticated = true;
       next(true); 
@@ -87,9 +87,9 @@ describe('careportal', function(this: any) {
     client.careportal.dateTimeChange();
 
     window.confirm = function mockConfirm (message) {
-      // @ts-expect-error TS(7006): Parameter 'line' implicitly has an 'any' type.
+      // @ts-expect-error TS(7006) FIXME: Parameter 'line' implicitly has an 'any' type.
       function containsLine (line) {
-        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+        // @ts-expect-error TS(2532) FIXME: Object is possibly 'undefined'.
         message.indexOf(line + '\n').should.be.greaterThan(0);
       }
 

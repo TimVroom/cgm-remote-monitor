@@ -1,25 +1,25 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'dateTools'... Remove this comment to see the full error message
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'dateTools'... Remove this comment to see the full error message
 const dateTools = require('../../shared/dateTools')
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'renderer'.
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'renderer'.
   , renderer = require('../../shared/renderer')
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'apiConst'.
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'apiConst'.
   , apiConst = require('../../const.json')
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'security'.
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'security'.
   , security = require('../../security')
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'opTools'.
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'opTools'.
   , opTools = require('../../shared/operationTools')
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'FieldsProj... Remove this comment to see the full error message
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'FieldsProj... Remove this comment to see the full error message
   , FieldsProjector = require('../../shared/fieldsProjector')
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
   , _ = require('lodash')
   ;
 
 /**
  * HISTORY: Retrieves incremental changes since timestamp
  */
-// @ts-expect-error TS(2300): Duplicate identifier 'history'.
+// @ts-expect-error TS(2300) FIXME: Duplicate identifier 'history'.
 async function history (opCtx: any, fieldsProjector: any) {
 
   const { req, res, col } = opCtx;
@@ -72,7 +72,7 @@ async function history (opCtx: any, fieldsProjector: any) {
 /**
  * Parse history filtering criteria from Last-Modified header
  */
-// @ts-expect-error TS(2393): Duplicate function implementation.
+// @ts-expect-error TS(2393) FIXME: Duplicate function implementation.
 function parseFilter (opCtx: any) {
 
   const { req, res } = opCtx;
@@ -128,7 +128,7 @@ function prepareSort () {
 }
 
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'historyOpe... Remove this comment to see the full error message
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'historyOpe... Remove this comment to see the full error message
 function historyOperation (ctx: any, env: any, app: any, col: any) {
 
   return async function operation (req: any, res: any) {
@@ -136,7 +136,7 @@ function historyOperation (ctx: any, env: any, app: any, col: any) {
     const opCtx = { app, ctx, env, col, req, res };
 
     try {
-      // @ts-expect-error TS(2339): Property 'auth' does not exist on type '{ app: any... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'auth' does not exist on type '{ app: any... Remove this comment to see the full error message
       opCtx.auth = await security.authenticate(opCtx);
 
       if (col.colName === 'settings') {
@@ -147,7 +147,7 @@ function historyOperation (ctx: any, env: any, app: any, col: any) {
 
       const fieldsProjector = new FieldsProjector(req.query.fields);
 
-      // @ts-expect-error TS(2349): This expression is not callable.
+      // @ts-expect-error TS(2349) FIXME: This expression is not callable.
       await history(opCtx, fieldsProjector);
 
     } catch (err) {
@@ -159,5 +159,5 @@ function historyOperation (ctx: any, env: any, app: any, col: any) {
   };
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = historyOperation;

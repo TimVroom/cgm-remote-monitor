@@ -1,33 +1,33 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'should'.
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var should = require('should');
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var times = require('../lib/times');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'helper'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'helper'.
 const helper = require('./inithelper')();
 
-// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+// @ts-expect-error TS(2593) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('sage', function ( ) {
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var env = require('../lib/server/env')();
   var ctx = helper.getctx();
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   ctx.ddata = require('../lib/data/ddata')();
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   ctx.notifications = require('../lib/notifications')(env, ctx);
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var sage = require('../lib/plugins/sensorage')(ctx);
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var sandbox = require('../lib/sandbox')();
 
   function prepareSandbox ( ) {
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var sbx = require('../lib/sandbox')().serverInit(env, ctx);
     return sbx;
   }
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('set a pill to the current age since start with change', function (done: any) {
 
     var data = {
@@ -54,7 +54,7 @@ describe('sage', function ( ) {
         }
       }
     };
-    // @ts-expect-error TS(2339): Property 'language' does not exist on type '{ sett... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'language' does not exist on type '{ sett... Remove this comment to see the full error message
     ctx.language = require('../lib/language')();
 
     var sbx = sandbox.clientInit(ctx, Date.now(), data);
@@ -63,7 +63,7 @@ describe('sage', function ( ) {
 
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('set a pill to the current age since start without change', function (done: any) {
 
     var data = {
@@ -84,7 +84,7 @@ describe('sage', function ( ) {
         }
       }
     };
-    // @ts-expect-error TS(2339): Property 'language' does not exist on type '{ sett... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'language' does not exist on type '{ sett... Remove this comment to see the full error message
     ctx.language = require('../lib/language')();
 
     var sbx = sandbox.clientInit(ctx, Date.now(), data);
@@ -93,7 +93,7 @@ describe('sage', function ( ) {
 
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('set a pill to the current age since change without start', function (done: any) {
 
     var data = {
@@ -114,7 +114,7 @@ describe('sage', function ( ) {
         }
       }
     };
-    // @ts-expect-error TS(2339): Property 'language' does not exist on type '{ sett... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'language' does not exist on type '{ sett... Remove this comment to see the full error message
     ctx.language = require('../lib/language')();
 
     var sbx = sandbox.clientInit(ctx, Date.now(), data);
@@ -123,7 +123,7 @@ describe('sage', function ( ) {
 
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('set a pill to the current age since change after start', function (done: any) {
 
     var data = {
@@ -146,7 +146,7 @@ describe('sage', function ( ) {
         }
       }
     };
-    // @ts-expect-error TS(2339): Property 'language' does not exist on type '{ sett... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'language' does not exist on type '{ sett... Remove this comment to see the full error message
     ctx.language = require('../lib/language')();
 
     var sbx = sandbox.clientInit(ctx, Date.now(), data);
@@ -155,7 +155,7 @@ describe('sage', function ( ) {
 
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('trigger an alarm when sensor is 6 days and 22 hours old', function (done: any) {
     ctx.notifications.initRequests();
 
@@ -174,7 +174,7 @@ describe('sage', function ( ) {
     done();
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('not trigger an alarm when sensor is 6 days and 23 hours old', function (done: any) {
     ctx.notifications.initRequests();
 

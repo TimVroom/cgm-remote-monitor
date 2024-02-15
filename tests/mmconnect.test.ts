@@ -2,14 +2,14 @@
 /* globals describe, it */
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash'),
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'should'.
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'should'.
   should = require('should');
 
-// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+// @ts-expect-error TS(2593) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('mmconnect', function () {
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var mmconnect = require('../lib/plugins/mmconnect');
 
   var env = {
@@ -26,9 +26,9 @@ describe('mmconnect', function () {
     }
   };
 
-  // @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
   describe('init()', function () {
-    // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+    // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
     it('should create a runner if env vars are present', function () {
       var runner = mmconnect.init(env);
       should.exist(runner);
@@ -36,7 +36,7 @@ describe('mmconnect', function () {
       runner.run.should.be.instanceof(Function);
     });
 
-    // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+    // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
     it('should not create a runner if any env vars are absent', function () {
       [
         {}
@@ -50,9 +50,9 @@ describe('mmconnect', function () {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
   describe('getOptions()', function () {
-    // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+    // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
     it('should set the carelink client config from env', function () {
       mmconnect.getOptions(env).should.have.properties({
         username: 'nightscout'
@@ -66,9 +66,9 @@ describe('mmconnect', function () {
 
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
   describe('rawDataEntry()', function () {
-    // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+    // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
     it('should generate a "carelink_raw" entry with sgs truncated and PII redacted', function () {
       var data = {
         'lastMedicalDeviceDataUpdateServerTime': 1445471797479

@@ -1,12 +1,13 @@
 'use strict';
 
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var find_options = require('./query');
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'consts'.
 var consts = require('../constants');
 
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'storage'.
 function storage (collection: any, ctx: any) {
-   // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+   // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
    var ObjectID = require('mongodb').ObjectID;
 
   function create (obj: any, fn: any) {
@@ -50,7 +51,7 @@ function storage (collection: any, ctx: any) {
 
     return limit.call(api()
       .find(query_for(opts))
-      // @ts-expect-error TS(2554): Expected 1 arguments, but got 2.
+      // @ts-expect-error TS(2554) FIXME: Expected 1 arguments, but got 2.
       .sort(opts && opts.sort && query_sort(opts) || { startDate: -1 }), opts)
       .toArray(fn);
   }
@@ -102,5 +103,5 @@ function storage (collection: any, ctx: any) {
   return api;
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = storage;

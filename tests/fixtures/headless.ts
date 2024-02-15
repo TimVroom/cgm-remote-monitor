@@ -1,7 +1,7 @@
 
-// @ts-expect-error TS(2300): Duplicate identifier 'read'.
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var read = require('fs').readFileSync;
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
 
 function headless (benv: any, binding: any) {
@@ -17,9 +17,9 @@ function headless (benv: any, binding: any) {
 
     console.log('Headless init');
 
-    // @ts-expect-error TS(2304): Cannot find name '__dirname'.
+    // @ts-expect-error TS(2304) FIXME: Cannot find name '__dirname'.
     var htmlFile = opts.htmlFile || __dirname + '/../../views/index.html';
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var serverSettings = opts.serverSettings || require('./default-server-settings');
     var someData = opts.mockAjax || { };
 
@@ -29,14 +29,14 @@ function headless (benv: any, binding: any) {
 
       console.log('Setting up benv', Date.now() - t);
 
-      // @ts-expect-error TS(2304): Cannot find name '__dirname'.
+      // @ts-expect-error TS(2304) FIXME: Cannot find name '__dirname'.
       benv.require(__dirname + '/../../node_modules/.cache/_ns_cache/public/js/bundle.app.js');
       
       console.log('Bundle loaded', Date.now() - t);
 
       self.$ = $;
       
-      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+      // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       self.localCookieStorage = self.localStorage = self.$.localStorage = require(localStorage);
 
       self.$.fn.tooltip = function mockTooltip ( ) { };
@@ -46,7 +46,7 @@ function headless (benv: any, binding: any) {
 
       console.log('HTML set', Date.now() - t);
 
-      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+      // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       var d3 = require('d3');
       //disable all d3 transitions so most of the other code can run with jsdom
       d3.timer = function mockTimer() { };
@@ -155,13 +155,13 @@ function headless (benv: any, binding: any) {
         , io: {
           connect: function mockConnect ( ) {
             return {
-              // @ts-expect-error TS(7006): Parameter 'event' implicitly has an 'any' type.
+              // @ts-expect-error TS(7006) FIXME: Parameter 'event' implicitly has an 'any' type.
               on: function mockOn (event, callback) {
                 if ('connect' === event && callback) {
                   callback();
                 }
               }
-              // @ts-expect-error TS(7006): Parameter 'event' implicitly has an 'any' type.
+              // @ts-expect-error TS(7006) FIXME: Parameter 'event' implicitly has an 'any' type.
               , emit: function mockEmit (event, data, callback) {
                 if ('authorize' === event && callback) {
                   callback({
@@ -175,7 +175,7 @@ function headless (benv: any, binding: any) {
       });
 
       var extraRequires = opts.benvRequires || [ ];
-      // @ts-expect-error TS(7006): Parameter 'req' implicitly has an 'any' type.
+      // @ts-expect-error TS(7006) FIXME: Parameter 'req' implicitly has an 'any' type.
       extraRequires.forEach(function (req) {
         benv.require(req);
       });
@@ -193,5 +193,5 @@ function headless (benv: any, binding: any) {
   return root;
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = headless;

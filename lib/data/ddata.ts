@@ -1,15 +1,14 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'times'.
 var times = require('../times');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'consts'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'consts'.
 var consts = require('../constants');
 
 var DEVICE_TYPE_FIELDS = ['uploader', 'pump', 'openaps', 'loop', 'xdripjs'];
 
-// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init () {
 
   var ddata = {
@@ -30,7 +29,7 @@ function init () {
    * significantly faster processing than constant date parsing, plus simplified
    * logic
    */
-  // @ts-expect-error TS(2339): Property 'processRawDataForRuntime' does not exist... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'processRawDataForRuntime' does not exist... Remove this comment to see the full error message
   ddata.processRawDataForRuntime = (data: any) => {
 
     let obj = _.cloneDeep(data);
@@ -59,7 +58,7 @@ function init () {
    * @param {array} oldData 
    * @param {array} newData 
    */
-  // @ts-expect-error TS(2339): Property 'idMergePreferNew' does not exist on type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'idMergePreferNew' does not exist on type... Remove this comment to see the full error message
   ddata.idMergePreferNew = (oldData: any, newData: any) => {
 
     if (!newData && oldData) return oldData;
@@ -82,7 +81,7 @@ function init () {
     return merged;
   };
 
-  // @ts-expect-error TS(2339): Property 'clone' does not exist on type '{ sgvs: n... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'clone' does not exist on type '{ sgvs: n... Remove this comment to see the full error message
   ddata.clone = function clone () {
     return _.clone(ddata, function(value: any) {
       //special handling of mongo ObjectID's
@@ -96,14 +95,14 @@ function init () {
     });
   };
 
-  // @ts-expect-error TS(2339): Property 'dataWithRecentStatuses' does not exist o... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'dataWithRecentStatuses' does not exist o... Remove this comment to see the full error message
   ddata.dataWithRecentStatuses = function dataWithRecentStatuses () {
     var results = {};
-    // @ts-expect-error TS(2339): Property 'devicestatus' does not exist on type '{}... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'devicestatus' does not exist on type '{}... Remove this comment to see the full error message
     results.devicestatus = ddata.recentDeviceStatus(Date.now());
-    // @ts-expect-error TS(2339): Property 'sgvs' does not exist on type '{}'.
+    // @ts-expect-error TS(2339) FIXME: Property 'sgvs' does not exist on type '{}'.
     results.sgvs = ddata.sgvs;
-    // @ts-expect-error TS(2339): Property 'cals' does not exist on type '{}'.
+    // @ts-expect-error TS(2339) FIXME: Property 'cals' does not exist on type '{}'.
     results.cals = ddata.cals;
 
     var profiles = _.cloneDeep(ddata.profiles);
@@ -114,21 +113,21 @@ function init () {
         }
       })
     }
-    // @ts-expect-error TS(2339): Property 'profiles' does not exist on type '{}'.
+    // @ts-expect-error TS(2339) FIXME: Property 'profiles' does not exist on type '{}'.
     results.profiles = profiles;
-    // @ts-expect-error TS(2339): Property 'mbgs' does not exist on type '{}'.
+    // @ts-expect-error TS(2339) FIXME: Property 'mbgs' does not exist on type '{}'.
     results.mbgs = ddata.mbgs;
-    // @ts-expect-error TS(2339): Property 'food' does not exist on type '{}'.
+    // @ts-expect-error TS(2339) FIXME: Property 'food' does not exist on type '{}'.
     results.food = ddata.food;
-    // @ts-expect-error TS(2339): Property 'treatments' does not exist on type '{}'.
+    // @ts-expect-error TS(2339) FIXME: Property 'treatments' does not exist on type '{}'.
     results.treatments = ddata.treatments;
-    // @ts-expect-error TS(2339): Property 'dbstats' does not exist on type '{}'.
+    // @ts-expect-error TS(2339) FIXME: Property 'dbstats' does not exist on type '{}'.
     results.dbstats = ddata.dbstats;
 
     return results;
   }
 
-  // @ts-expect-error TS(2339): Property 'recentDeviceStatus' does not exist on ty... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'recentDeviceStatus' does not exist on ty... Remove this comment to see the full error message
   ddata.recentDeviceStatus = function recentDeviceStatus (time: any) {
 
     var deviceAndTypes =
@@ -179,7 +178,7 @@ function init () {
 
   };
 
-  // @ts-expect-error TS(2339): Property 'processDurations' does not exist on type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'processDurations' does not exist on type... Remove this comment to see the full error message
   ddata.processDurations = function processDurations (treatments: any, keepzeroduration: any) {
 
     treatments = _.uniqBy(treatments, 'mills');
@@ -227,91 +226,91 @@ function init () {
     }
   };
 
-  // @ts-expect-error TS(2339): Property 'processTreatments' does not exist on typ... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'processTreatments' does not exist on typ... Remove this comment to see the full error message
   ddata.processTreatments = function processTreatments (preserveOrignalTreatments: any) {
 
     // filter & prepare 'Site Change' events
-    // @ts-expect-error TS(2339): Property 'sitechangeTreatments' does not exist on ... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'sitechangeTreatments' does not exist on ... Remove this comment to see the full error message
     ddata.sitechangeTreatments = ddata.treatments.filter(function filterSensor (t) {
-      // @ts-expect-error TS(2339): Property 'eventType' does not exist on type 'never... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'eventType' does not exist on type 'never... Remove this comment to see the full error message
       return t.eventType.indexOf('Site Change') > -1;
-    // @ts-expect-error TS(2345): Argument of type '(a: never, b: never) => boolean'... Remove this comment to see the full error message
+    // @ts-expect-error TS(2345) FIXME: Argument of type '(a: never, b: never) => boolean'... Remove this comment to see the full error message
     }).sort(function(a, b) {
-      // @ts-expect-error TS(2339): Property 'mills' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'mills' does not exist on type 'never'.
       return a.mills > b.mills;
     });
 
     // filter & prepare 'Insulin Change' events
-    // @ts-expect-error TS(2339): Property 'insulinchangeTreatments' does not exist ... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'insulinchangeTreatments' does not exist ... Remove this comment to see the full error message
     ddata.insulinchangeTreatments = ddata.treatments.filter(function filterInsulin (t) {
-      // @ts-expect-error TS(2339): Property 'eventType' does not exist on type 'never... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'eventType' does not exist on type 'never... Remove this comment to see the full error message
       return t.eventType.indexOf('Insulin Change') > -1;
-    // @ts-expect-error TS(2345): Argument of type '(a: never, b: never) => boolean'... Remove this comment to see the full error message
+    // @ts-expect-error TS(2345) FIXME: Argument of type '(a: never, b: never) => boolean'... Remove this comment to see the full error message
     }).sort(function(a, b) {
-      // @ts-expect-error TS(2339): Property 'mills' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'mills' does not exist on type 'never'.
       return a.mills > b.mills;
     });
 
     // filter & prepare 'Pump Battery Change' events
-    // @ts-expect-error TS(2339): Property 'batteryTreatments' does not exist on typ... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'batteryTreatments' does not exist on typ... Remove this comment to see the full error message
     ddata.batteryTreatments = ddata.treatments.filter(function filterSensor (t) {
-      // @ts-expect-error TS(2339): Property 'eventType' does not exist on type 'never... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'eventType' does not exist on type 'never... Remove this comment to see the full error message
       return t.eventType.indexOf('Pump Battery Change') > -1;
-    // @ts-expect-error TS(2345): Argument of type '(a: never, b: never) => boolean'... Remove this comment to see the full error message
+    // @ts-expect-error TS(2345) FIXME: Argument of type '(a: never, b: never) => boolean'... Remove this comment to see the full error message
     }).sort(function(a, b) {
-      // @ts-expect-error TS(2339): Property 'mills' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'mills' does not exist on type 'never'.
       return a.mills > b.mills;
     });
 
     // filter & prepare 'Sensor' events
-    // @ts-expect-error TS(2339): Property 'sensorTreatments' does not exist on type... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'sensorTreatments' does not exist on type... Remove this comment to see the full error message
     ddata.sensorTreatments = ddata.treatments.filter(function filterSensor (t) {
-      // @ts-expect-error TS(2339): Property 'eventType' does not exist on type 'never... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'eventType' does not exist on type 'never... Remove this comment to see the full error message
       return t.eventType.indexOf('Sensor') > -1;
-    // @ts-expect-error TS(2345): Argument of type '(a: never, b: never) => boolean'... Remove this comment to see the full error message
+    // @ts-expect-error TS(2345) FIXME: Argument of type '(a: never, b: never) => boolean'... Remove this comment to see the full error message
     }).sort(function(a, b) {
-      // @ts-expect-error TS(2339): Property 'mills' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'mills' does not exist on type 'never'.
       return a.mills > b.mills;
     });
 
     // filter & prepare 'Profile Switch' events
     var profileTreatments = ddata.treatments.filter(function filterProfiles (t) {
-      // @ts-expect-error TS(2339): Property 'eventType' does not exist on type 'never... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'eventType' does not exist on type 'never... Remove this comment to see the full error message
       return t.eventType === 'Profile Switch';
-    // @ts-expect-error TS(2345): Argument of type '(a: never, b: never) => boolean'... Remove this comment to see the full error message
+    // @ts-expect-error TS(2345) FIXME: Argument of type '(a: never, b: never) => boolean'... Remove this comment to see the full error message
     }).sort(function(a, b) {
-      // @ts-expect-error TS(2339): Property 'mills' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'mills' does not exist on type 'never'.
       return a.mills > b.mills;
     });
     if (preserveOrignalTreatments)
       profileTreatments = _.cloneDeep(profileTreatments);
-    // @ts-expect-error TS(2339): Property 'profileTreatments' does not exist on typ... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'profileTreatments' does not exist on typ... Remove this comment to see the full error message
     ddata.profileTreatments = ddata.processDurations(profileTreatments, true);
 
     // filter & prepare 'Combo Bolus' events
-    // @ts-expect-error TS(2339): Property 'combobolusTreatments' does not exist on ... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'combobolusTreatments' does not exist on ... Remove this comment to see the full error message
     ddata.combobolusTreatments = ddata.treatments.filter(function filterComboBoluses (t) {
-      // @ts-expect-error TS(2339): Property 'eventType' does not exist on type 'never... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'eventType' does not exist on type 'never... Remove this comment to see the full error message
       return t.eventType === 'Combo Bolus';
-    // @ts-expect-error TS(2345): Argument of type '(a: never, b: never) => boolean'... Remove this comment to see the full error message
+    // @ts-expect-error TS(2345) FIXME: Argument of type '(a: never, b: never) => boolean'... Remove this comment to see the full error message
     }).sort(function(a, b) {
-      // @ts-expect-error TS(2339): Property 'mills' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'mills' does not exist on type 'never'.
       return a.mills > b.mills;
     });
 
     // filter & prepare temp basals
     var tempbasalTreatments = ddata.treatments.filter(function filterBasals (t) {
-      // @ts-expect-error TS(2339): Property 'eventType' does not exist on type 'never... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'eventType' does not exist on type 'never... Remove this comment to see the full error message
       return t.eventType && t.eventType.indexOf('Temp Basal') > -1;
     });
     if (preserveOrignalTreatments)
       tempbasalTreatments = _.cloneDeep(tempbasalTreatments);
-    // @ts-expect-error TS(2339): Property 'tempbasalTreatments' does not exist on t... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'tempbasalTreatments' does not exist on t... Remove this comment to see the full error message
     ddata.tempbasalTreatments = ddata.processDurations(tempbasalTreatments, false);
 
     // filter temp target
     var tempTargetTreatments = ddata.treatments.filter(function filterTargets (t) {
-      // @ts-expect-error TS(2339): Property 'eventType' does not exist on type 'never... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'eventType' does not exist on type 'never... Remove this comment to see the full error message
       return t.eventType && t.eventType.indexOf('Temporary Target') > -1;
     });
 
@@ -347,7 +346,7 @@ function init () {
 
     if (preserveOrignalTreatments) tempTargetTreatments = _.cloneDeep(tempTargetTreatments);
     tempTargetTreatments = convertTempTargetTreatmentUnites(tempTargetTreatments);
-    // @ts-expect-error TS(2339): Property 'tempTargetTreatments' does not exist on ... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'tempTargetTreatments' does not exist on ... Remove this comment to see the full error message
     ddata.tempTargetTreatments = ddata.processDurations(tempTargetTreatments, false);
 
   };
@@ -356,5 +355,5 @@ function init () {
 
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

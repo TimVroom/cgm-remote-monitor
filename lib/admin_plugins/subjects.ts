@@ -1,6 +1,6 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 const _ = require('lodash');
 
 var subjects = {
@@ -9,17 +9,16 @@ var subjects = {
   , pluginType: 'admin'
 };
 
-// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init () {
   return subjects;
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;
 
 var $status = null;
 
-// @ts-expect-error TS(2339): Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
 subjects.actions = [{
   description: 'Each subject will have a unique access token and 1 or more roles.  Click on the access token to open a new view with the selected subject, this secret link can then be shared.'
   , buttonLabel: 'Add new Subject'
@@ -32,7 +31,7 @@ subjects.actions = [{
   }
   , preventClose: true
   , code: function createNewSubject (client: any, callback: any) {
-    // @ts-expect-error TS(2554): Expected 2 arguments, but got 3.
+    // @ts-expect-error TS(2554) FIXME: Expected 2 arguments, but got 3.
     openDialog({}, client, callback);
   }
 }];
@@ -79,7 +78,7 @@ function reload (client: any, callback: any) {
     , url: '/api/v2/authorization/subjects'
     , headers: client.headers()
   }).done(function success (records: any) {
-    // @ts-expect-error TS(2339): Property 'records' does not exist on type '{ name:... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'records' does not exist on type '{ name:... Remove this comment to see the full error message
     subjects.records = records;
     $status.hide().text(client.translate('Database contains %1 subjects', { params: [records.length] })).fadeIn('slow');
     showSubjects(records, client);
@@ -88,7 +87,7 @@ function reload (client: any, callback: any) {
     }
   }).fail(function fail (err: any) {
     $status.hide().text(client.translate('Error loading database')).fadeIn('slow');
-    // @ts-expect-error TS(2339): Property 'records' does not exist on type '{ name:... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'records' does not exist on type '{ name:... Remove this comment to see the full error message
     subjects.records = [];
     if (callback) {
       callback(err);
@@ -167,7 +166,7 @@ function showSubject (subject: any, table: any, client: any) {
   deleteIcon.click(function clicked () {
     var ok = window.confirm(client.translate('Are you sure you want to delete: ') + subject.name);
     if (ok) {
-      // @ts-expect-error TS(2554): Expected 3 arguments, but got 2.
+      // @ts-expect-error TS(2554) FIXME: Expected 3 arguments, but got 2.
       deleteSubject(subject, client);
     }
   });

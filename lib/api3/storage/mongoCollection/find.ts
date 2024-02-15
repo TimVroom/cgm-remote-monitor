@@ -1,8 +1,8 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'utils'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'utils'.
 const utils = require('./utils')
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
   , _ = require('lodash')
   ;
 
@@ -18,6 +18,7 @@ function findOne (col: any, identifier: any, projection: any, options: any) {
 
   return new Promise(function (resolve, reject) {
 
+    // @ts-expect-error TS(2339) FIXME: Property 'filterForOne' does not exist on type '{}... Remove this comment to see the full error message
     const filter = utils.filterForOne(identifier);
 
     col.find(filter)
@@ -29,6 +30,7 @@ function findOne (col: any, identifier: any, projection: any, options: any) {
           reject(err);
         } else {
           if (!options || options.normalize !== false) {
+            // @ts-expect-error TS(2339) FIXME: Property 'normalizeDoc' does not exist on type '{}... Remove this comment to see the full error message
             _.each(result, utils.normalizeDoc);
           }
           resolve(result);
@@ -58,6 +60,7 @@ function findOneFilter (col: any, filter: any, projection: any, options: any) {
           reject(err);
         } else {
           if (!options || options.normalize !== false) {
+            // @ts-expect-error TS(2339) FIXME: Property 'normalizeDoc' does not exist on type '{}... Remove this comment to see the full error message
             _.each(result, utils.normalizeDoc);
           }
           resolve(result);
@@ -74,6 +77,7 @@ function findMany (col: any, args: any) {
   const logicalOperator = args.logicalOperator || 'and';
   return new Promise(function (resolve, reject) {
 
+    // @ts-expect-error TS(2339) FIXME: Property 'parseFilter' does not exist on type '{}'... Remove this comment to see the full error message
     const filter = utils.parseFilter(args.filter, logicalOperator, args.onlyValid);
 
     col.find(filter)
@@ -87,6 +91,7 @@ function findMany (col: any, args: any) {
           reject(err);
         } else {
           if (!args.options || args.options.normalize !== false) {
+            // @ts-expect-error TS(2339) FIXME: Property 'normalizeDoc' does not exist on type '{}... Remove this comment to see the full error message
             _.each(result, utils.normalizeDoc);
           }
           resolve(result);
@@ -96,7 +101,7 @@ function findMany (col: any, args: any) {
 }
 
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = {
   findOne,
   findOneFilter,

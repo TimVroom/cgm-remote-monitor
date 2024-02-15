@@ -12,9 +12,9 @@
  * altogether.
  */
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 const _ = require('lodash');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'constants'... Remove this comment to see the full error message
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'constants'... Remove this comment to see the full error message
 const constants = require('../constants');
 
 function cache (env: any, ctx: any) {
@@ -62,28 +62,28 @@ function cache (env: any, ctx: any) {
 
   }
 
-  // @ts-expect-error TS(2339): Property 'isEmpty' does not exist on type '{ treat... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'isEmpty' does not exist on type '{ treat... Remove this comment to see the full error message
   data.isEmpty = (datatype: any) => {
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     return data[datatype].length < 20;
   }
 
-  // @ts-expect-error TS(2339): Property 'getData' does not exist on type '{ treat... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'getData' does not exist on type '{ treat... Remove this comment to see the full error message
   data.getData = (datatype: any) => {
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     return _.cloneDeep(data[datatype]);
   }
 
-  // @ts-expect-error TS(2339): Property 'insertData' does not exist on type '{ tr... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'insertData' does not exist on type '{ tr... Remove this comment to see the full error message
   data.insertData = (datatype: any, newData: any) => {
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     data[datatype] = mergeCacheArrays(data[datatype], newData, retentionPeriods[datatype]);
-    // @ts-expect-error TS(2339): Property 'getData' does not exist on type '{ treat... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'getData' does not exist on type '{ treat... Remove this comment to see the full error message
     return data.getData(datatype);
   }
 
   function dataChanged (operation: any) {
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     if (!data[operation.type]) return;
 
     if (operation.op == 'remove') {
@@ -93,13 +93,13 @@ function cache (env: any, ctx: any) {
         data.devicestatus = [];
         data.entries = [];
       } else {
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         removeFromArray(data[operation.type], operation.changes);
       }
     }
 
     if (operation.op == 'update') {
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       data[operation.type] = mergeCacheArrays(data[operation.type], operation.changes, retentionPeriods[operation.type]);
     }
   }
@@ -120,5 +120,5 @@ function cache (env: any, ctx: any) {
   return data;
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = cache;

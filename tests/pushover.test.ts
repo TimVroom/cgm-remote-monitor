@@ -1,16 +1,16 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'should'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'should'.
 var should = require('should');
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var levels = require('../lib/levels');
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'ctx'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'ctx'.
 var ctx = {
   levels:levels
 }
 
-// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+// @ts-expect-error TS(2593) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('pushover', function ( ) {
 
   var baseurl = 'https://nightscout.test';
@@ -28,10 +28,10 @@ describe('pushover', function ( ) {
     , levels:levels
   };
 
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var pushover = require('../lib/plugins/pushover')(env, ctx);
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('convert a warning to a message and send it', function (done: any) {
 
     var notify = {
@@ -54,7 +54,7 @@ describe('pushover', function ( ) {
     pushover.send(notify);
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('convert an urgent to a message and send it', function (done: any) {
 
     var notify = {
@@ -79,7 +79,7 @@ describe('pushover', function ( ) {
 
 });
 
-// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+// @ts-expect-error TS(2593) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('support legacy pushover groupkey', function ( ) {
   var env = {
     extendedSettings: {
@@ -91,10 +91,10 @@ describe('support legacy pushover groupkey', function ( ) {
     , levels: levels
   };
 
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var pushover = require('../lib/plugins/pushover')(env, ctx);
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('send', function (done: any) {
 
     var notify = {
@@ -118,7 +118,7 @@ describe('support legacy pushover groupkey', function ( ) {
 
 });
 
-// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+// @ts-expect-error TS(2593) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('multi announcement pushover', function ( ) {
   var env = {
     extendedSettings: {
@@ -131,10 +131,10 @@ describe('multi announcement pushover', function ( ) {
     , levels: levels
   };
 
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var pushover = require('../lib/plugins/pushover')(env, ctx);
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('send multiple pushes if there are multiple keys', function (done: any) {
 
     var notify = {
@@ -167,7 +167,7 @@ describe('multi announcement pushover', function ( ) {
 
 });
 
-// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+// @ts-expect-error TS(2593) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('announcement only pushover', function ( ) {
   var env = {
     extendedSettings: {
@@ -179,10 +179,10 @@ describe('announcement only pushover', function ( ) {
     , levels: levels
   };
 
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var pushover = require('../lib/plugins/pushover')(env, ctx);
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('send push if announcement', function (done: any) {
 
     var notify = {
@@ -205,7 +205,7 @@ describe('announcement only pushover', function ( ) {
     pushover.send(notify);
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('not send push if not announcement and no user key', function (done: any) {
 
     var notify = {

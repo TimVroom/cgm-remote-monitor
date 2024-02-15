@@ -16,7 +16,7 @@ function init(ctx: any) {
     };
 
 
-    // @ts-expect-error TS(2339): Property 'say' does not exist on type '{ name: str... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'say' does not exist on type '{ name: str... Remove this comment to see the full error message
     speech.say = function say(sayIt: any) {
         console.log('saying', sayIt, 'using lang code',  speechLangCode);
         
@@ -25,14 +25,14 @@ function init(ctx: any) {
         window.speechSynthesis.speak(msg);
     }
 
-    // @ts-expect-error TS(2339): Property 'visualizeAlarm' does not exist on type '... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'visualizeAlarm' does not exist on type '... Remove this comment to see the full error message
     speech.visualizeAlarm = function visualizeAlarm(sbx: any, alarm: any, alarmMessage: any) {
       console.log('Speech got an Alarm Message:',alarmMessage);
-      // @ts-expect-error TS(2339): Property 'say' does not exist on type '{ name: str... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'say' does not exist on type '{ name: str... Remove this comment to see the full error message
       speech.say(alarmMessage);
     }
 
-    // @ts-expect-error TS(2339): Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
     speech.updateVisualisation = function updateVisualisation(sbx: any) {
 
         if (sbx.data.inRetroMode) return;
@@ -70,7 +70,7 @@ function init(ctx: any) {
                         sayIt += ", IOB " + iobString;
                     }
                 }
-                // @ts-expect-error TS(2339): Property 'say' does not exist on type '{ name: str... Remove this comment to see the full error message
+                // @ts-expect-error TS(2339) FIXME: Property 'say' does not exist on type '{ name: str... Remove this comment to see the full error message
                 speech.say(sayIt);
 
             } else {
@@ -80,7 +80,7 @@ function init(ctx: any) {
 
                     var lastEntryString = translate('Last entry {0} minutes ago');
                     sayIt = lastEntryString.replace('{0}', timeMinutes);
-                    // @ts-expect-error TS(2339): Property 'say' does not exist on type '{ name: str... Remove this comment to see the full error message
+                    // @ts-expect-error TS(2339) FIXME: Property 'say' does not exist on type '{ name: str... Remove this comment to see the full error message
                     speech.say(sayIt);
                 }
             }
@@ -91,5 +91,5 @@ function init(ctx: any) {
 
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

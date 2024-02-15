@@ -1,8 +1,7 @@
 'use strict';
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var Stream = require('stream');
 
-// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init (settings: any) {
   var beats = 0;
   var started = new Date( );
@@ -37,6 +36,6 @@ function init (settings: any) {
   busInterval = setInterval(repeat, interval);
   return stream;
 }
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;
 

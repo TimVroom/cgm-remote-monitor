@@ -1,31 +1,31 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'should'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'should'.
 var should = require('should');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'helper'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'helper'.
 const helper = require('./inithelper')();
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'FIVE_MINS'... Remove this comment to see the full error message
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'FIVE_MINS'... Remove this comment to see the full error message
 var FIVE_MINS = 300000;
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'SIX_MINS'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'SIX_MINS'.
 var SIX_MINS = 360000;
 
-// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+// @ts-expect-error TS(2593) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('BG Now', function ( ) {
 
   const ctx = helper.ctx;
 
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var bgnow = require('../lib/plugins/bgnow')(ctx);
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var sandbox = require('../lib/sandbox')(ctx);
 
   var now = Date.now();
   var before = now - FIVE_MINS;
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should calculate BG Delta', function (done: any) {
     var ctx = {
       settings: { units: 'mg/dl' }
@@ -40,9 +40,9 @@ describe('BG Now', function ( ) {
       }
     };
     
-    // @ts-expect-error TS(2339): Property 'language' does not exist on type '{ sett... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'language' does not exist on type '{ sett... Remove this comment to see the full error message
     ctx.language = ctx.pluginBase.language;
-    // @ts-expect-error TS(2339): Property 'levels' does not exist on type '{ settin... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'levels' does not exist on type '{ settin... Remove this comment to see the full error message
     ctx.levels = require('../lib/levels');
    
     var data = {sgvs: [{mills: before, mgdl: 100}, {mills: now, mgdl: 105}]};
@@ -60,7 +60,7 @@ describe('BG Now', function ( ) {
     bgnow.updateVisualisation(sbx);
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should calculate BG Delta by interpolating when more than 5mins apart', function (done: any) {
     var data = {sgvs: [{mills: before - SIX_MINS, mgdl: 100}, {mills: now, mgdl: 105}]};
 
@@ -78,7 +78,7 @@ describe('BG Now', function ( ) {
           done();
         }
       }
-      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+      // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , language: require('../lib/language')()
       , moment: helper.ctx.moment
     };
@@ -96,14 +96,14 @@ describe('BG Now', function ( ) {
 
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should calculate BG Delta in mmol', function (done: any) {
     var ctx = {
       settings: {
         units: 'mmol'
       }
       , pluginBase: {}
-      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+      // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , language: require('../lib/language')()
       , moment: helper.ctx.moment
     };
@@ -144,14 +144,14 @@ describe('BG Now', function ( ) {
     bgnow.setProperties(sbx);
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should calculate BG Delta in mmol and not show a change because of rounding', function (done: any) {
     var ctx = {
       settings: {
         units: 'mmol'
       }
       , pluginBase: {}
-      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+      // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , language: require('../lib/language')()
       , moment: helper.ctx.moment
     };
@@ -193,14 +193,14 @@ describe('BG Now', function ( ) {
     bgnow.setProperties(sbx);
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should calculate BG Delta in mmol by interpolating when more than 5mins apart', function (done: any) {
     var ctx = {
       settings: {
         units: 'mmol'
       }
       , pluginBase: {}
-      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+      // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , language: require('../lib/language')()
       , moment: helper.ctx.moment
     };

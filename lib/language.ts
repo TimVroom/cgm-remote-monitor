@@ -1,9 +1,8 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
 
-// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init (fs: any) {
 
   function language () {
@@ -57,9 +56,9 @@ function init (fs: any) {
 
   // case sensitive
   language.translateCS = function translateCaseSensitive (text: any) {
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     if (translations[text]) {
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       return translations[text];
     }
     // console.log('localization:', text, 'not found');
@@ -124,15 +123,15 @@ function init (fs: any) {
   language.DOMtranslate = function DOMtranslate ($: any) {
     // do translation of static text on load
     $('.translate').each(function(this: any) {
-      // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
+      // @ts-expect-error TS(2554) FIXME: Expected 2 arguments, but got 1.
       $(this).text(language.translate($(this).text()));
     });
     $('.titletranslate, .tip').each(function(this: any) {
-      // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
+      // @ts-expect-error TS(2554) FIXME: Expected 2 arguments, but got 1.
       $(this).attr('title', language.translate($(this).attr('title')));
-      // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
+      // @ts-expect-error TS(2554) FIXME: Expected 2 arguments, but got 1.
       $(this).attr('original-title', language.translate($(this).attr('original-title')));
-      // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
+      // @ts-expect-error TS(2554) FIXME: Expected 2 arguments, but got 1.
       $(this).attr('placeholder', language.translate($(this).attr('placeholder')));
     });
   };
@@ -153,7 +152,7 @@ function init (fs: any) {
   // this is a server only call and needs fs by reference as the class is also used in the client
   language.loadLocalization = function loadLocalization (fs: any, path: any) {
     let filename = './translations/' + this.getFilename(this.lang);
-    // @ts-expect-error TS(2304): Cannot find name '__dirname'.
+    // @ts-expect-error TS(2304) FIXME: Cannot find name '__dirname'.
     if (path) filename = path.resolve(__dirname, filename);
     /* eslint-disable-next-line security/detect-non-literal-fs-filename */ // verified false positive; well defined set of values
     const l = fs.readFileSync(filename);
@@ -182,12 +181,12 @@ function init (fs: any) {
   // if run on server and we get a filesystem handle, load english by default
   if (fs) {
     language.set('en');
-    // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
+    // @ts-expect-error TS(2554) FIXME: Expected 2 arguments, but got 1.
     language.loadLocalization(fs);
   }
 
   return language();
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

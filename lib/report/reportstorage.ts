@@ -1,6 +1,7 @@
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'storage'.
 const storage = require('js-storage').localStorage;
 const COOKIE_KEY = 'reportProperties';
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'defaultVal... Remove this comment to see the full error message
 const defaultValues = {
     insulin: true,
     carbs: true,
@@ -24,7 +25,7 @@ const saveProps = function (props: any) {
     for (const prop in props) {
         if (!Object.prototype.hasOwnProperty.call(defaultValues, prop))
             continue;
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         propsToSave[prop] = props[prop];
     }
     storage.set(COOKIE_KEY, propsToSave);
@@ -36,5 +37,5 @@ const getValue = function (p: any) {
     return cachedProps[p];
 };
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = {saveProps: saveProps, getValue: getValue};

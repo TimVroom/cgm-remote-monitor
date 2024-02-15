@@ -1,6 +1,6 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'moment'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'moment'.
 var moment;
 
 var cleanstatusdb = {
@@ -9,16 +9,16 @@ var cleanstatusdb = {
   , pluginType: 'admin'
 };
 
-// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init (ctx: any) {
+  // @ts-expect-error TS(2588) FIXME: Cannot assign to 'moment' because it is a constant... Remove this comment to see the full error message
   moment = ctx.moment;
   return cleanstatusdb;
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;
 
-// @ts-expect-error TS(2339): Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
 cleanstatusdb.actions = [
   {
     name: 'Delete all documents from devicestatus collection'
@@ -35,7 +35,7 @@ cleanstatusdb.actions = [
     }
   ];
 
-// @ts-expect-error TS(2339): Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
 cleanstatusdb.actions[0].init = function init (client: any, callback: any) {
   var translate = client.translate;
   var $status = $('#admin_' + cleanstatusdb.name + '_0_status');
@@ -53,7 +53,7 @@ cleanstatusdb.actions[0].init = function init (client: any, callback: any) {
   }).done(function() { if (callback) { callback(); } });
 };
 
-// @ts-expect-error TS(2339): Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
 cleanstatusdb.actions[0].code = function deleteRecords (client: any, callback: any) {
   var translate = client.translate;
   var $status = $('#admin_' + cleanstatusdb.name + '_0_status');
@@ -84,7 +84,7 @@ cleanstatusdb.actions[0].code = function deleteRecords (client: any, callback: a
   });
 };
 
-// @ts-expect-error TS(2339): Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
 cleanstatusdb.actions[1].init = function init (client: any, callback: any) {
   var translate = client.translate;
   var $status = $('#admin_' + cleanstatusdb.name + '_1_status');
@@ -102,7 +102,7 @@ cleanstatusdb.actions[1].init = function init (client: any, callback: any) {
   if (callback) { callback(); }
 };
 
-// @ts-expect-error TS(2339): Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
 cleanstatusdb.actions[1].code = function deleteOldRecords (client: any, callback: any) {
   var translate = client.translate;
   var $status = $('#admin_' + cleanstatusdb.name + '_1_status');

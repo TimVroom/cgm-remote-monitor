@@ -33,15 +33,14 @@ var factories = {
   }
 };
 
-// @ts-expect-error TS(2393): Duplicate function implementation.
 function create (types: any) {
   return function withValue (value: any) {
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     return factories[types](value);
   };
 }
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'times'.
 var times = {
   week: function ( ) { return create('weeks')(1); }
   , weeks: function (value: any) { return create('weeks')(value); }
@@ -57,5 +56,5 @@ var times = {
   , msecs: function (value: any) { return create('msecs')(value); }
 };
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = times;

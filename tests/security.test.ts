@@ -1,14 +1,14 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'request'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'request'.
 const request = require('supertest');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'should'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'should'.
 const should = require('should');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'language'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'language'.
 const language = require('../lib/language')();
 //const io = require('socket.io-client');
 
-// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+// @ts-expect-error TS(2593) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('API_SECRET', function(this: any) {
   var api: any;
   var scope = this;
@@ -19,7 +19,7 @@ describe('API_SECRET', function(this: any) {
 
   this.timeout(7000);
 
-  // @ts-expect-error TS(2304): Cannot find name 'afterEach'.
+  // @ts-expect-error TS(2304) FIXME: Cannot find name 'afterEach'.
   afterEach(function(done: any) {
     if (listener) {
       listener.close(done);
@@ -27,7 +27,7 @@ describe('API_SECRET', function(this: any) {
     done();
   });
 
-  // @ts-expect-error TS(2304): Cannot find name 'after'.
+  // @ts-expect-error TS(2304) FIXME: Cannot find name 'after'.
   after(function(done: any) {
     if (listener) {
       listener.close(done);
@@ -36,9 +36,9 @@ describe('API_SECRET', function(this: any) {
   });
 
   function setup_app (env: any, fn: any) {
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     api = require('../lib/api/');
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     require('../lib/server/bootevent')(env, language).boot(function booted (ctx: any) {
       ctx.app = api(env, ctx);
       scope.app = ctx.app;
@@ -48,35 +48,35 @@ describe('API_SECRET', function(this: any) {
   }
 
   function setup_big_app (env: any, fn: any) {
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     api = require('../lib/api/');
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     require('../lib/server/bootevent')(env, language).boot(function booted (ctx: any) {
       ctx.app = api(env, ctx);
       scope.app = ctx.app;
       scope.entries = ctx.entries;
 
-      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+      // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       app = require('../lib/server/app')(env, ctx);
-      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+      // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       server = require('http').createServer(app);
       listener = server.listen(1337, 'localhost');
-      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+      // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       websocket = require('../lib/server/websocket')(env, ctx, server);
 
       fn(ctx);
     });
   }
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should fail when unauthorized', function(done: any) {
     var known = 'b723e97aa97846eb92d5264f084b2823f57c4aa1';
 
-    // @ts-expect-error TS(2591): Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
     delete process.env.API_SECRET;
-    // @ts-expect-error TS(2591): Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
     process.env.API_SECRET = 'this is my long pass phrase';
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var env = require('../lib/server/env')();
 
     env.enclave.isApiKey(known).should.equal(true);
@@ -93,14 +93,14 @@ describe('API_SECRET', function(this: any) {
 
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should work fine set', function(done: any) {
     var known = 'b723e97aa97846eb92d5264f084b2823f57c4aa1';
-    // @ts-expect-error TS(2591): Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
     delete process.env.API_SECRET;
-    // @ts-expect-error TS(2591): Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
     process.env.API_SECRET = 'this is my long pass phrase';
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var env = require('../lib/server/env')();
     env.enclave.isApiKey(known).should.equal(true);
     setup_app(env, function(ctx: any) {
@@ -115,13 +115,13 @@ describe('API_SECRET', function(this: any) {
 
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should not work short', function() {
-    // @ts-expect-error TS(2591): Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
     delete process.env.API_SECRET;
-    // @ts-expect-error TS(2591): Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
     process.env.API_SECRET = 'tooshort';
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var env = require('../lib/server/env')();
     should.not.exist(env.api_secret);
     env.err[0].desc.should.startWith('API_SECRET should be at least');

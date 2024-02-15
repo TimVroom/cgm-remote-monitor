@@ -1,6 +1,7 @@
 'use strict';
 
 //var _ = require('lodash');
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'moment'.
 var moment = window.moment;
 //var times = require('../times');
 //var d3 = (global && global.d3) || require('d3');
@@ -15,7 +16,7 @@ function init () {
   return loopalyzer;
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;
 
 var laDebug = false; // If we should print console.logs
@@ -24,7 +25,7 @@ var risingInterpolationGap = 6; // How large a gap in COB/IOB graph is allowed t
 var fallingInterpolationGap = 24; // And if less than start
 var interpolationRatio = 1.25; // But do allow rising interpolation if gap larger than interpolationGap and end value is less than 10% larger than start
 
-// @ts-expect-error TS(2339): Property 'html' does not exist on type '{ name: st... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'html' does not exist on type '{ name: st... Remove this comment to see the full error message
 loopalyzer.html = function html (client: any) {
   var translate = client.translate;
   var ret = '';
@@ -79,7 +80,7 @@ loopalyzer.html = function html (client: any) {
   return ret;
 };
 
-// @ts-expect-error TS(2339): Property 'css' does not exist on type '{ name: str... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'css' does not exist on type '{ name: str... Remove this comment to see the full error message
 loopalyzer.css =
   '#loopalyzer-charts, #loopalyzer-profiles { padding: 20px; } ' +
   '#loopalyzer-basal, #loopalyzer-bg, #loopalyzer-tempbasal, #loopalyzer-iob, #loopalyzer-cob, #loopalyzer-profiles {' +
@@ -94,7 +95,7 @@ loopalyzer.css =
   '#loopalyzer-profiles-table td td { text-align: right; vertical-align: top; padding: 0 1px; }' +
   '#loopalyzer-profiles-table td td td { padding: 1px 8px; }';
 
-// @ts-expect-error TS(2339): Property 'prepareHtml' does not exist on type '{ n... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'prepareHtml' does not exist on type '{ n... Remove this comment to see the full error message
 loopalyzer.prepareHtml = function loopalyzerPrepareHtml () {
   //  $('#loopalyzer-charts').append($('<table><tr><td><div id="loopalyzerchart"></div></td><td><div id="loopalyzerstatchart"></td></tr></table>'));
 };
@@ -104,10 +105,10 @@ loopalyzer.prepareHtml = function loopalyzerPrepareHtml () {
 //
 // Functions to pull data from datastorage and prepare in bins
 //
-// @ts-expect-error TS(2339): Property 'getSGVs' does not exist on type '{ name:... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'getSGVs' does not exist on type '{ name:... Remove this comment to see the full error message
 loopalyzer.getSGVs = function(datastorage: any, daysToShow: any) {
   var data = datastorage.allstatsrecords;
-  // @ts-expect-error TS(2339): Property 'getEmptyBins' does not exist on type '{ ... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'getEmptyBins' does not exist on type '{ ... Remove this comment to see the full error message
   var bins = loopalyzer.getEmptyBins();
 
   // Loop thru the days to show, for each day find the matching SGVs and insert into the bins entry array
@@ -131,15 +132,15 @@ loopalyzer.getSGVs = function(datastorage: any, daysToShow: any) {
       fromDate.add(5, 'minutes');
       toDate.add(5, 'minutes');
     }
-    // @ts-expect-error TS(2339): Property 'addArrayToBins' does not exist on type '... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'addArrayToBins' does not exist on type '... Remove this comment to see the full error message
     loopalyzer.addArrayToBins(bins, entries);
   });
   return bins;
 }
 
-// @ts-expect-error TS(2339): Property 'getBasals' does not exist on type '{ nam... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'getBasals' does not exist on type '{ nam... Remove this comment to see the full error message
 loopalyzer.getBasals = function(datastorage: any, daysToShow: any, profile: any) {
-  // @ts-expect-error TS(2339): Property 'getEmptyBins' does not exist on type '{ ... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'getEmptyBins' does not exist on type '{ ... Remove this comment to see the full error message
   var bins = loopalyzer.getEmptyBins();
 
   daysToShow.forEach(function(day: any) {
@@ -155,15 +156,15 @@ loopalyzer.getBasals = function(datastorage: any, daysToShow: any, profile: any)
         basals[index++] = basal.basal;
     }
     if (laDebug) console.log('getBasals ' + day, basals);
-    // @ts-expect-error TS(2339): Property 'addArrayToBins' does not exist on type '... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'addArrayToBins' does not exist on type '... Remove this comment to see the full error message
     loopalyzer.addArrayToBins(bins, basals);
   });
   return bins;
 }
 
-// @ts-expect-error TS(2339): Property 'getTempBasalDeltas' does not exist on ty... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'getTempBasalDeltas' does not exist on ty... Remove this comment to see the full error message
 loopalyzer.getTempBasalDeltas = function(datastorage: any, daysToShow: any, profile: any) {
-  // @ts-expect-error TS(2339): Property 'getEmptyBins' does not exist on type '{ ... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'getEmptyBins' does not exist on type '{ ... Remove this comment to see the full error message
   var bins = loopalyzer.getEmptyBins();
 
   daysToShow.forEach(function(day: any) {
@@ -179,18 +180,18 @@ loopalyzer.getTempBasalDeltas = function(datastorage: any, daysToShow: any, prof
         temps[index++] = basal.tempbasal - basal.basal;
     }
     if (laDebug) console.log('getTempBasalDeltas ' + day, temps);
-    // @ts-expect-error TS(2339): Property 'addArrayToBins' does not exist on type '... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'addArrayToBins' does not exist on type '... Remove this comment to see the full error message
     loopalyzer.addArrayToBins(bins, temps);
   });
   return bins;
 }
 
-// @ts-expect-error TS(2339): Property 'getIOBs' does not exist on type '{ name:... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'getIOBs' does not exist on type '{ name:... Remove this comment to see the full error message
 loopalyzer.getIOBs = function(datastorage: any, daysToShow: any, profile: any, client: any, treatments: any) {
   var iobStatusAvailable = client.plugins('iob').isDeviceStatusAvailable(datastorage.devicestatus);
   if (laDebug) console.log('getIOBs iobStatusAvailable=' + iobStatusAvailable);
 
-  // @ts-expect-error TS(2339): Property 'getEmptyBins' does not exist on type '{ ... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'getEmptyBins' does not exist on type '{ ... Remove this comment to see the full error message
   var bins = loopalyzer.getEmptyBins();
 
   daysToShow.forEach(function(day: any) {
@@ -207,7 +208,7 @@ loopalyzer.getIOBs = function(datastorage: any, daysToShow: any, profile: any, c
         iobs[index] = entry.iob;
       });
 
-      // @ts-expect-error TS(2339): Property 'fillNanWithTreatments' does not exist on... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'fillNanWithTreatments' does not exist on... Remove this comment to see the full error message
       if (daysToShow.length === 1) loopalyzer.fillNanWithTreatments(iobs, treatments);
 
       // Loop thru these entries and where no IOB has been found, interpolate between nearby to get a continuous array
@@ -227,11 +228,11 @@ loopalyzer.getIOBs = function(datastorage: any, daysToShow: any, profile: any, c
             // Compute the y=k*x+m = (y2-y1)/(x2-x1)*x+y1
             // Only interpolate on decreasing or steady, or on increasing if the gap is less than interpolationGap
             // if (stopIndex-startIndex<interpolationGap && (iobs[stopIndex] <= iobs[startIndex]*interpolationRatio || (stopIndex-startIndex<interpolationGap && iobs[startIndex]!==0))) {
-            // @ts-expect-error TS(2339): Property 'canInterpolate' does not exist on type '... Remove this comment to see the full error message
+            // @ts-expect-error TS(2339) FIXME: Property 'canInterpolate' does not exist on type '... Remove this comment to see the full error message
             if (loopalyzer.canInterpolate(iobs, startIndex, stopIndex)) {
-              // @ts-expect-error TS(7022): 'k' implicitly has type 'any' because it does not ... Remove this comment to see the full error message
+              // @ts-expect-error TS(7022) FIXME: 'k' implicitly has type 'any' because it does not ... Remove this comment to see the full error message
               var k = (iobs[stopIndex] - iobs[startIndex]) / (stopIndex - startIndex);
-              // @ts-expect-error TS(7022): 'm' implicitly has type 'any' because it does not ... Remove this comment to see the full error message
+              // @ts-expect-error TS(7022) FIXME: 'm' implicitly has type 'any' because it does not ... Remove this comment to see the full error message
               var m = iobs[startIndex];
               for (var x = 0; x < (stopIndex - startIndex); x++) {
                 iobs[x + startIndex] = k * x + m;
@@ -249,18 +250,18 @@ loopalyzer.getIOBs = function(datastorage: any, daysToShow: any, profile: any, c
       }
     }
     if (laDebug) console.log('getIOBs ' + day, iobs);
-    // @ts-expect-error TS(2339): Property 'addArrayToBins' does not exist on type '... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'addArrayToBins' does not exist on type '... Remove this comment to see the full error message
     loopalyzer.addArrayToBins(bins, iobs);
   });
   return bins;
 }
 
-// @ts-expect-error TS(2339): Property 'getCOBs' does not exist on type '{ name:... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'getCOBs' does not exist on type '{ name:... Remove this comment to see the full error message
 loopalyzer.getCOBs = function(datastorage: any, daysToShow: any, profile: any, client: any, treatments: any) {
   var cobStatusAvailable = client.plugins('cob').isDeviceStatusAvailable(datastorage.devicestatus);
   if (laDebug) console.log('getCOBs cobStatusAvailable=' + cobStatusAvailable);
 
-  // @ts-expect-error TS(2339): Property 'getEmptyBins' does not exist on type '{ ... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'getEmptyBins' does not exist on type '{ ... Remove this comment to see the full error message
   var bins = loopalyzer.getEmptyBins();
 
   daysToShow.forEach(function(day: any) {
@@ -277,7 +278,7 @@ loopalyzer.getCOBs = function(datastorage: any, daysToShow: any, profile: any, c
         cobs[index] = entry.cob;
       });
 
-      // @ts-expect-error TS(2339): Property 'fillNanWithTreatments' does not exist on... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'fillNanWithTreatments' does not exist on... Remove this comment to see the full error message
       if (daysToShow.length === 1) loopalyzer.fillNanWithTreatments(cobs, treatments);
 
       // Loop thru these entries and where no COB has been found, interpolate between nearby to get a continuous array
@@ -300,7 +301,7 @@ loopalyzer.getCOBs = function(datastorage: any, daysToShow: any, profile: any, c
             // Compute the y=k*x+m = (y2-y1)/(x2-x1)*x+y1
             // Only interpolate on decreasing or steady, or on increasing if the gap is less than interpolationGap
             // if (stopIndex-startIndex<interpolationGap && (cobs[stopIndex] <= cobs[startIndex]*interpolationRatio || (stopIndex-startIndex<interpolationGap && cobs[startIndex]!==0))) {
-            // @ts-expect-error TS(2339): Property 'canInterpolate' does not exist on type '... Remove this comment to see the full error message
+            // @ts-expect-error TS(2339) FIXME: Property 'canInterpolate' does not exist on type '... Remove this comment to see the full error message
             if (loopalyzer.canInterpolate(cobs, startIndex, stopIndex)) {
               k = (cobs[stopIndex] - cobs[startIndex]) / (stopIndex - startIndex);
               m = cobs[startIndex];
@@ -323,14 +324,14 @@ loopalyzer.getCOBs = function(datastorage: any, daysToShow: any, profile: any, c
       }
     }
     if (laDebug) console.log('getCOBs ' + day, cobs);
-    // @ts-expect-error TS(2339): Property 'addArrayToBins' does not exist on type '... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'addArrayToBins' does not exist on type '... Remove this comment to see the full error message
     loopalyzer.addArrayToBins(bins, cobs);
   });
   return bins;
 }
 
 /* Fills NaN gaps with treatments if treatments are available and value at start is less than value at stop */
-// @ts-expect-error TS(2339): Property 'fillNanWithTreatments' does not exist on... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'fillNanWithTreatments' does not exist on... Remove this comment to see the full error message
 loopalyzer.fillNanWithTreatments = function(array: any, treatments: any) {
   treatments.forEach(function(treatment: any) {
     var dayStart = moment(treatment.date).startOf('day');
@@ -350,7 +351,7 @@ loopalyzer.fillNanWithTreatments = function(array: any, treatments: any) {
       // var gap = stop - start;
       // if (isNaN(array[start]) || isNaN(array[stop]) || gap > interpolationGap || (gap < interpolationGap && array[start]<array[stop])) {
       // if ( isNaN(array[start]) || isNaN(array[stop]) || (array[start] < array[stop] && (gap >= interpolationGap || array[start]==0)) ) {
-      // @ts-expect-error TS(2339): Property 'canInterpolate' does not exist on type '... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'canInterpolate' does not exist on type '... Remove this comment to see the full error message
       var interpolate = (isNaN(array[start]) || isNaN(array[stop]) ? true : loopalyzer.canInterpolate(array, start, stop));
       if (!interpolate) {
         array[index] = treatment.amount;
@@ -360,7 +361,7 @@ loopalyzer.fillNanWithTreatments = function(array: any, treatments: any) {
 }
 
 /* Returns true if we can interpolate between this start and end */
-// @ts-expect-error TS(2339): Property 'canInterpolate' does not exist on type '... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'canInterpolate' does not exist on type '... Remove this comment to see the full error message
 loopalyzer.canInterpolate = function(array: any, start: any, stop: any) {
   var interpolate = false;
   if (array[stop] <= array[start] * interpolationRatio) {
@@ -374,7 +375,7 @@ loopalyzer.canInterpolate = function(array: any, start: any, stop: any) {
 }
 
 /* Returns the carbs treatments array as [date, amount] */
-// @ts-expect-error TS(2339): Property 'getCarbTreatments' does not exist on typ... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'getCarbTreatments' does not exist on typ... Remove this comment to see the full error message
 loopalyzer.getCarbTreatments = function(datastorage: any, daysToShow: any) {
   var treatments: any = []; // Holds the treatments [date, amount]
   var startDate = moment(daysToShow[0]);
@@ -390,7 +391,7 @@ loopalyzer.getCarbTreatments = function(datastorage: any, daysToShow: any) {
 }
 
 /* Returns the insulin treatments array as [date, amount] */
-// @ts-expect-error TS(2339): Property 'getInsulinTreatments' does not exist on ... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'getInsulinTreatments' does not exist on ... Remove this comment to see the full error message
 loopalyzer.getInsulinTreatments = function(datastorage: any, daysToShow: any) {
   var treatments: any = []; // Holds the treatments [date, amount]
   var startDate = moment(daysToShow[0]);
@@ -407,13 +408,13 @@ loopalyzer.getInsulinTreatments = function(datastorage: any, daysToShow: any) {
 
 // PREDICTIONS START
 //
-// @ts-expect-error TS(2339): Property 'getAllTreatmentTimestampsForADay' does n... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'getAllTreatmentTimestampsForADay' does n... Remove this comment to see the full error message
 loopalyzer.getAllTreatmentTimestampsForADay = function(datastorage: any, day: any) {
   var timestamps: any = [];
   var dayStart = moment(day).startOf('day');
-  // @ts-expect-error TS(2339): Property 'getCarbTreatments' does not exist on typ... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'getCarbTreatments' does not exist on typ... Remove this comment to see the full error message
   var carbTreatments = loopalyzer.getCarbTreatments(datastorage, [day]);
-  // @ts-expect-error TS(2339): Property 'getInsulinTreatments' does not exist on ... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'getInsulinTreatments' does not exist on ... Remove this comment to see the full error message
   var insulinTreatments = loopalyzer.getInsulinTreatments(datastorage, [day]);
   carbTreatments.forEach(function(entry: any) { timestamps.push(entry.date) });
   insulinTreatments.forEach(function(entry: any) { timestamps.push(entry.date) });
@@ -422,7 +423,7 @@ loopalyzer.getAllTreatmentTimestampsForADay = function(datastorage: any, day: an
   return timestamps;
 }
 
-// @ts-expect-error TS(2339): Property 'getAllPredictionsForADay' does not exist... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'getAllPredictionsForADay' does not exist... Remove this comment to see the full error message
 loopalyzer.getAllPredictionsForADay = function(datastorage: any, day: any) {
   var predictions = [];
   var dayStart = moment(day).startOf('day');
@@ -433,16 +434,16 @@ loopalyzer.getAllPredictionsForADay = function(datastorage: any, day: any) {
         predictions.push(datastorage.devicestatus[i].loop.predicted);
     } else if (datastorage.devicestatus[i].openaps && datastorage.devicestatus[i].openaps.suggested && datastorage.devicestatus[i].openaps.suggested.predBGs) {
       var entry = {};
-      // @ts-expect-error TS(2339): Property 'startDate' does not exist on type '{}'.
+      // @ts-expect-error TS(2339) FIXME: Property 'startDate' does not exist on type '{}'.
       entry.startDate = datastorage.devicestatus[i].openaps.suggested.timestamp;
       // For OpenAPS/AndroidAPS we fall back from COB if present, to UAM, then IOB
       if (datastorage.devicestatus[i].openaps.suggested.predBGs.COB) {
-        // @ts-expect-error TS(2339): Property 'values' does not exist on type '{}'.
+        // @ts-expect-error TS(2339) FIXME: Property 'values' does not exist on type '{}'.
         entry.values = datastorage.devicestatus[i].openaps.suggested.predBGs.COB;
       } else if (datastorage.devicestatus[i].openaps.suggested.predBGs.UAM) {
-        // @ts-expect-error TS(2339): Property 'values' does not exist on type '{}'.
+        // @ts-expect-error TS(2339) FIXME: Property 'values' does not exist on type '{}'.
         entry.values = datastorage.devicestatus[i].openaps.suggested.predBGs.UAM;
-      // @ts-expect-error TS(2339): Property 'values' does not exist on type '{}'.
+      // @ts-expect-error TS(2339) FIXME: Property 'values' does not exist on type '{}'.
       } else entry.values = datastorage.devicestatus[i].openaps.suggested.predBGs.IOB;
       predictions.push(entry);
     }
@@ -459,7 +460,7 @@ loopalyzer.getAllPredictionsForADay = function(datastorage: any, day: any) {
 /* Find the earliest new predicted instance that has a timestamp equal to or larger than timestamp */
 /* (so if we have bolused or eaten we want to find the prediction that Loop has estimated just after that) */
 /* Returns the index into the predictions array that is the predicted we are looking for */
-// @ts-expect-error TS(2339): Property 'findPredicted' does not exist on type '{... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'findPredicted' does not exist on type '{... Remove this comment to see the full error message
 loopalyzer.findPredicted = function(predictions: any, timestamp: any, offset: any) {
   var ts = moment(timestamp).add(offset, 'minutes');
   var predicted = null;
@@ -479,7 +480,7 @@ loopalyzer.findPredicted = function(predictions: any, timestamp: any, offset: an
   return predicted;
 }
 
-// @ts-expect-error TS(2339): Property 'getPredictions' does not exist on type '... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'getPredictions' does not exist on type '... Remove this comment to see the full error message
 loopalyzer.getPredictions = function(datastorage: any, daysToShow: any, client: any) {
 
   if (!datastorage.devicestatus)
@@ -500,9 +501,9 @@ loopalyzer.getPredictions = function(datastorage: any, daysToShow: any, client: 
   daysToShow.forEach(function(day: any) {
     var p = []; // Array with all prediction SGVs for this day, we'll fill this and then insert into the bins later
     for (var i = 0; i < 288; i++) p.push(NaN);
-    // @ts-expect-error TS(2339): Property 'getAllTreatmentTimestampsForADay' does n... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'getAllTreatmentTimestampsForADay' does n... Remove this comment to see the full error message
     var treatmentTimestamps = loopalyzer.getAllTreatmentTimestampsForADay(datastorage, day);
-    // @ts-expect-error TS(2339): Property 'getAllPredictionsForADay' does not exist... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'getAllPredictionsForADay' does not exist... Remove this comment to see the full error message
     var predictions = loopalyzer.getAllPredictionsForADay(datastorage, day);
 
     if (predictions.length > 0 && treatmentTimestamps.length > 0) {
@@ -510,7 +511,7 @@ loopalyzer.getPredictions = function(datastorage: any, daysToShow: any, client: 
       // Iterate over all treatments, find the predictions for each and add them to the entries array p, aligned on timestamp
       for (var treatmentsIndex = 0; treatmentsIndex < treatmentTimestamps.length; treatmentsIndex++) {
         var timestamp = treatmentTimestamps[treatmentsIndex];
-        // @ts-expect-error TS(2339): Property 'findPredicted' does not exist on type '{... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'findPredicted' does not exist on type '{... Remove this comment to see the full error message
         var predictedIndex = loopalyzer.findPredicted(predictions, timestamp, predictedOffset); // Find predictions offset before or after timestamp
 
         if (predictedIndex != null) {
@@ -552,7 +553,7 @@ loopalyzer.getPredictions = function(datastorage: any, daysToShow: any, client: 
 // VARIOUS UTILITY FUNCTIONS //
 
 /* Create an empty bins array with date stamps for today */
-// @ts-expect-error TS(2339): Property 'getEmptyBins' does not exist on type '{ ... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'getEmptyBins' does not exist on type '{ ... Remove this comment to see the full error message
 loopalyzer.getEmptyBins = function() {
   var bins = [];
   var todayStart = moment().startOf('day');
@@ -564,7 +565,7 @@ loopalyzer.getEmptyBins = function() {
 }
 
 /* Takes an array of 288 values and adds to the bins */
-// @ts-expect-error TS(2339): Property 'addArrayToBins' does not exist on type '... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'addArrayToBins' does not exist on type '... Remove this comment to see the full error message
 loopalyzer.addArrayToBins = function(bins: any, values: any) {
   if (bins && bins.length === 288 && values && values.length === 288) {
     values.forEach(function(value: any, index: any) {
@@ -575,7 +576,7 @@ loopalyzer.addArrayToBins = function(bins: any, values: any) {
 }
 
 /* Fill all NaNs in an array by interpolating between adjacent values */
-// @ts-expect-error TS(2339): Property 'interpolateArray' does not exist on type... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'interpolateArray' does not exist on type... Remove this comment to see the full error message
 loopalyzer.interpolateArray = function(values: any, allowNegative: any) {
   var startIndex = 0
     , stopIndex = 0
@@ -611,7 +612,7 @@ loopalyzer.interpolateArray = function(values: any, allowNegative: any) {
 }
 
 /* Compute min value in bins */
-// @ts-expect-error TS(2339): Property 'min' does not exist on type '{ name: str... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'min' does not exist on type '{ name: str... Remove this comment to see the full error message
 loopalyzer.min = function(xBins: any) {
   var min = xBins[0][1];
   for (var i = 0; i < xBins.length; i++) {
@@ -622,7 +623,7 @@ loopalyzer.min = function(xBins: any) {
 }
 
 /* Compute max value in bins */
-// @ts-expect-error TS(2339): Property 'max' does not exist on type '{ name: str... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'max' does not exist on type '{ name: str... Remove this comment to see the full error message
 loopalyzer.max = function(xBins: any) {
   var max = xBins[0][1];
   for (var i = 0; i < xBins.length; i++) {
@@ -633,7 +634,7 @@ loopalyzer.max = function(xBins: any) {
 }
 
 /* Compute avg value in bins */
-// @ts-expect-error TS(2339): Property 'avg' does not exist on type '{ name: str... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'avg' does not exist on type '{ name: str... Remove this comment to see the full error message
 loopalyzer.avg = function(xBins: any) {
   var out: any = [];
   xBins.forEach(function(entry: any) {
@@ -652,7 +653,7 @@ loopalyzer.avg = function(xBins: any) {
 }
 
 // Timeshifts a bins array with subarrays for multiple days
-// @ts-expect-error TS(2339): Property 'timeShiftBins' does not exist on type '{... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'timeShiftBins' does not exist on type '{... Remove this comment to see the full error message
 loopalyzer.timeShiftBins = function(bins: any, timeShift: any) {
   if (bins && bins.length > 0) {
     timeShift.forEach(function(minutes: any, dayIndex: any) {
@@ -692,7 +693,7 @@ loopalyzer.timeShiftBins = function(bins: any, timeShift: any) {
 }
 
 // Modifies the timestamp in the bin by timeShift minutes, for each day
-// @ts-expect-error TS(2339): Property 'timeShiftSingleBin' does not exist on ty... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'timeShiftSingleBin' does not exist on ty... Remove this comment to see the full error message
 loopalyzer.timeShiftSingleBin = function(bin: any, daysToShow: any, timeShift: any) {
   if (bin && bin.length > 0) {
     daysToShow.forEach(function(day: any, dayIndex: any) {
@@ -710,7 +711,7 @@ loopalyzer.timeShiftSingleBin = function(bin: any, daysToShow: any, timeShift: a
 }
 
 /* Returns true if the profile values in a is identical to values in b, false otherwise */
-// @ts-expect-error TS(2339): Property 'isSameProfileValues' does not exist on t... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'isSameProfileValues' does not exist on t... Remove this comment to see the full error message
 loopalyzer.isSameProfileValues = function(a: any, b: any) {
   // Because the order of the keys are random when stringifying we do our own custom stringify ourselves
   var aString = '';
@@ -754,7 +755,7 @@ loopalyzer.isSameProfileValues = function(a: any, b: any) {
   return (aString == bString);
 }
 
-// @ts-expect-error TS(2339): Property 'renderProfilesTable' does not exist on t... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'renderProfilesTable' does not exist on t... Remove this comment to see the full error message
 loopalyzer.renderProfilesTable = function(datastoreProfiles: any, daysToShow: any, client: any) {
 
   // Loop thru the daysToShow and get the timestamp of the first day displayed
@@ -779,7 +780,7 @@ loopalyzer.renderProfilesTable = function(datastoreProfiles: any, daysToShow: an
   var profilesArray1: any = [];
   datastoreProfiles.forEach(function(entry: any) {
     var newEntry = {};
-    // @ts-expect-error TS(2339): Property 'startDate' does not exist on type '{}'.
+    // @ts-expect-error TS(2339) FIXME: Property 'startDate' does not exist on type '{}'.
     newEntry.startDate = entry.startDate;
     var store = entry.store;
     if (store) {
@@ -787,15 +788,15 @@ loopalyzer.renderProfilesTable = function(datastoreProfiles: any, daysToShow: an
         if (laDebug) console.log('profile ' + key);
         if (Object.prototype.hasOwnProperty.call(store, key)) {
           var defaultProfile = store[key];
-          // @ts-expect-error TS(2339): Property 'profileName' does not exist on type '{}'... Remove this comment to see the full error message
+          // @ts-expect-error TS(2339) FIXME: Property 'profileName' does not exist on type '{}'... Remove this comment to see the full error message
           newEntry.profileName = key;
-          // @ts-expect-error TS(2339): Property 'basal' does not exist on type '{}'.
+          // @ts-expect-error TS(2339) FIXME: Property 'basal' does not exist on type '{}'.
           if (defaultProfile.basal) newEntry.basal = defaultProfile.basal;
-          // @ts-expect-error TS(2339): Property 'carbratio' does not exist on type '{}'.
+          // @ts-expect-error TS(2339) FIXME: Property 'carbratio' does not exist on type '{}'.
           if (defaultProfile.carbratio) newEntry.carbratio = defaultProfile.carbratio;
-          // @ts-expect-error TS(2339): Property 'sens' does not exist on type '{}'.
+          // @ts-expect-error TS(2339) FIXME: Property 'sens' does not exist on type '{}'.
           if (defaultProfile.sens) newEntry.sens = defaultProfile.sens;
-          // @ts-expect-error TS(2339): Property 'basal' does not exist on type '{}'.
+          // @ts-expect-error TS(2339) FIXME: Property 'basal' does not exist on type '{}'.
           if ((newEntry.basal || newEntry.carbratio || newEntry.sens) && moment(entry.startDate).isBefore(endOfLastDay))
             profilesArray1.push(newEntry);
         }
@@ -819,7 +820,7 @@ loopalyzer.renderProfilesTable = function(datastoreProfiles: any, daysToShow: an
       console.log('Comparing ' + JSON.stringify(profileToCompareWith.startDate) + ' to ' + JSON.stringify(entry.startDate));
       console.log(profileToCompareWith, entry);
     }
-    // @ts-expect-error TS(2339): Property 'isSameProfileValues' does not exist on t... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'isSameProfileValues' does not exist on t... Remove this comment to see the full error message
     if (!loopalyzer.isSameProfileValues(profileToCompareWith, entry)) {
       profilesArray2.push(entry);
       profileToCompareWith = entry;
@@ -922,7 +923,7 @@ loopalyzer.renderProfilesTable = function(datastoreProfiles: any, daysToShow: an
 };
 
 // Main method
-// @ts-expect-error TS(2339): Property 'report' does not exist on type '{ name: ... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'report' does not exist on type '{ name: ... Remove this comment to see the full error message
 loopalyzer.report = function(datastorage: any, sorteddaystoshow: any, options: any) {
   if (laDebug) console.log('Loopalyzer ' + laVersion);
 
@@ -942,7 +943,7 @@ loopalyzer.report = function(datastorage: any, sorteddaystoshow: any, options: a
     $("#loopalyzer-charts").show();
     $("#loopalyzer-profiles-table").show();
     $("#loopalyzer-help").hide();
-    // @ts-expect-error TS(2339): Property 'generateReport' does not exist on type '... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'generateReport' does not exist on type '... Remove this comment to see the full error message
     loopalyzer.generateReport(datastorage, daysToShow, options);
   } else {
     $("#loopalyzer-notenoughdata").show();
@@ -954,9 +955,9 @@ loopalyzer.report = function(datastorage: any, sorteddaystoshow: any, options: a
   }
 }
 
-// @ts-expect-error TS(2339): Property 'generateReport' does not exist on type '... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'generateReport' does not exist on type '... Remove this comment to see the full error message
 loopalyzer.generateReport = function(datastorage: any, daysToShow: any, options: any) {
-  // @ts-expect-error TS(2339): Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
   var Nightscout = window.Nightscout;
   var client = Nightscout.client;
   var translate = client.translate;
@@ -971,7 +972,7 @@ loopalyzer.generateReport = function(datastorage: any, daysToShow: any, options:
   if (daysToShow.length > 1) dateInfo += ' - ' + moment(daysToShow[daysToShow.length - 1]).format('ddd MMM D'); // .split(',')[0];
   $("#loopalyzer-dateinfo").html(dateInfo);
 
-  // @ts-expect-error TS(2339): Property 'prepareHtml' does not exist on type '{ n... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'prepareHtml' does not exist on type '{ n... Remove this comment to see the full error message
   loopalyzer.prepareHtml();
   $("#loopalyzer-buttons").show();
   if (daysToShow.length == 1) {
@@ -993,7 +994,7 @@ loopalyzer.generateReport = function(datastorage: any, daysToShow: any, options:
   // Check if there is data in the profiles and render the profiles table if there is
   if ($("#rp_loopalyzerprofiles").is(":checked") && (datastorage.profiles && datastorage.profiles.length > 0)) {
     $("#loopalyzer-profiles-table").show();
-    // @ts-expect-error TS(2339): Property 'renderProfilesTable' does not exist on t... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'renderProfilesTable' does not exist on t... Remove this comment to see the full error message
     loopalyzer.renderProfilesTable(datastorage.profiles, daysToShow, client);
   } else
     $("#loopalyzer-profiles-table").hide();
@@ -1001,24 +1002,24 @@ loopalyzer.generateReport = function(datastorage: any, daysToShow: any, options:
   // Pull all necessary treatment information
   profile.updateTreatments(datastorage.profileSwitchTreatments, datastorage.tempbasalTreatments, datastorage.combobolusTreatments);
 
-  // @ts-expect-error TS(2339): Property 'getCarbTreatments' does not exist on typ... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'getCarbTreatments' does not exist on typ... Remove this comment to see the full error message
   var carbTreatments = loopalyzer.getCarbTreatments(datastorage, daysToShow);
-  // @ts-expect-error TS(2339): Property 'getInsulinTreatments' does not exist on ... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'getInsulinTreatments' does not exist on ... Remove this comment to see the full error message
   var insulinTreatments = loopalyzer.getInsulinTreatments(datastorage, daysToShow);
-  // @ts-expect-error TS(2339): Property 'getSGVs' does not exist on type '{ name:... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'getSGVs' does not exist on type '{ name:... Remove this comment to see the full error message
   var sgvBin = loopalyzer.getSGVs(datastorage, daysToShow);
-  // @ts-expect-error TS(2339): Property 'getBasals' does not exist on type '{ nam... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'getBasals' does not exist on type '{ nam... Remove this comment to see the full error message
   var basalsBin = loopalyzer.getBasals(datastorage, daysToShow, profile);
-  // @ts-expect-error TS(2339): Property 'getTempBasalDeltas' does not exist on ty... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'getTempBasalDeltas' does not exist on ty... Remove this comment to see the full error message
   var tempBasalsBin = loopalyzer.getTempBasalDeltas(datastorage, daysToShow, profile);
-  // @ts-expect-error TS(2339): Property 'getIOBs' does not exist on type '{ name:... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'getIOBs' does not exist on type '{ name:... Remove this comment to see the full error message
   var iobBin = loopalyzer.getIOBs(datastorage, daysToShow, profile, client, insulinTreatments);
-  // @ts-expect-error TS(2339): Property 'getCOBs' does not exist on type '{ name:... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'getCOBs' does not exist on type '{ name:... Remove this comment to see the full error message
   var cobBin = loopalyzer.getCOBs(datastorage, daysToShow, profile, client, carbTreatments);
   var predictionsBin = [];
 
   if ($("#rp_loopalyzerpredictions").is(":checked")) {
-    // @ts-expect-error TS(2339): Property 'getPredictions' does not exist on type '... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'getPredictions' does not exist on type '... Remove this comment to see the full error message
     predictionsBin = loopalyzer.getPredictions(datastorage, daysToShow, client);
   }
 
@@ -1106,21 +1107,21 @@ loopalyzer.generateReport = function(datastorage: any, daysToShow: any, options:
       });
 
       if (doTimeShift) {
-        // @ts-expect-error TS(2339): Property 'timeShiftBins' does not exist on type '{... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'timeShiftBins' does not exist on type '{... Remove this comment to see the full error message
         loopalyzer.timeShiftBins(sgvBin, timeShifts);
-        // @ts-expect-error TS(2339): Property 'timeShiftBins' does not exist on type '{... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'timeShiftBins' does not exist on type '{... Remove this comment to see the full error message
         loopalyzer.timeShiftBins(basalsBin, timeShifts);
-        // @ts-expect-error TS(2339): Property 'timeShiftBins' does not exist on type '{... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'timeShiftBins' does not exist on type '{... Remove this comment to see the full error message
         loopalyzer.timeShiftBins(tempBasalsBin, timeShifts);
-        // @ts-expect-error TS(2339): Property 'timeShiftBins' does not exist on type '{... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'timeShiftBins' does not exist on type '{... Remove this comment to see the full error message
         loopalyzer.timeShiftBins(iobBin, timeShifts);
-        // @ts-expect-error TS(2339): Property 'timeShiftBins' does not exist on type '{... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'timeShiftBins' does not exist on type '{... Remove this comment to see the full error message
         loopalyzer.timeShiftBins(cobBin, timeShifts);
-        // @ts-expect-error TS(2339): Property 'timeShiftBins' does not exist on type '{... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'timeShiftBins' does not exist on type '{... Remove this comment to see the full error message
         loopalyzer.timeShiftBins(predictionsBin, timeShifts);
-        // @ts-expect-error TS(2339): Property 'timeShiftSingleBin' does not exist on ty... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'timeShiftSingleBin' does not exist on ty... Remove this comment to see the full error message
         loopalyzer.timeShiftSingleBin(carbTreatments, daysToShow, timeShifts);
-        // @ts-expect-error TS(2339): Property 'timeShiftSingleBin' does not exist on ty... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'timeShiftSingleBin' does not exist on ty... Remove this comment to see the full error message
         loopalyzer.timeShiftSingleBin(insulinTreatments, daysToShow, timeShifts);
       }
     } else {
@@ -1129,17 +1130,17 @@ loopalyzer.generateReport = function(datastorage: any, daysToShow: any, options:
   }
 
   // After timeShift code block, get the average values
-  // @ts-expect-error TS(2339): Property 'avg' does not exist on type '{ name: str... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'avg' does not exist on type '{ name: str... Remove this comment to see the full error message
   var sgvAvg = loopalyzer.avg(sgvBin);
-  // @ts-expect-error TS(2339): Property 'avg' does not exist on type '{ name: str... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'avg' does not exist on type '{ name: str... Remove this comment to see the full error message
   var basalsAvg = loopalyzer.avg(basalsBin);
-  // @ts-expect-error TS(2339): Property 'avg' does not exist on type '{ name: str... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'avg' does not exist on type '{ name: str... Remove this comment to see the full error message
   var tempBasalsAvg = loopalyzer.avg(tempBasalsBin);
-  // @ts-expect-error TS(2339): Property 'avg' does not exist on type '{ name: str... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'avg' does not exist on type '{ name: str... Remove this comment to see the full error message
   var iobAvg = loopalyzer.avg(iobBin);
-  // @ts-expect-error TS(2339): Property 'avg' does not exist on type '{ name: str... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'avg' does not exist on type '{ name: str... Remove this comment to see the full error message
   var cobAvg = loopalyzer.avg(cobBin);
-  // @ts-expect-error TS(2339): Property 'avg' does not exist on type '{ name: str... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'avg' does not exist on type '{ name: str... Remove this comment to see the full error message
   var predictionsAvg = loopalyzer.avg(predictionsBin);
 
   var high = options.targetHigh;
@@ -1232,7 +1233,7 @@ loopalyzer.generateReport = function(datastorage: any, daysToShow: any, options:
       , data: predictionsAvg
       , id: 'predictions'
       , color: predictionsColor
-      // @ts-expect-error TS(2322): Type '{ show: true; fill: true; radius: number; fi... Remove this comment to see the full error message
+      // @ts-expect-error TS(2322) FIXME: Type '{ show: true; fill: true; radius: number; fi... Remove this comment to see the full error message
       , points: { show: true, fill: true, radius: 0.75, fillColor: predictionsColor }
       , lines: { show: false }
     });
@@ -1331,7 +1332,7 @@ loopalyzer.generateReport = function(datastorage: any, daysToShow: any, options:
     endDate.add(5, 'minutes');
     markings.push({ xaxis: { from: startDate.toDate(), to: endDate.toDate() }, yaxis: { from: 0, to: treatment.amount }, color: markingColor });
   })
-  // @ts-expect-error TS(2790): The operand of a 'delete' operator must be optiona... Remove this comment to see the full error message
+  // @ts-expect-error TS(2790) FIXME: The operand of a 'delete' operator must be optiona... Remove this comment to see the full error message
   delete xaxisCfg.font; // Remove the font config so HH:MM is shown on the last chart
 
   var chartCOBData = [{

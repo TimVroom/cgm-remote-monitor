@@ -1,7 +1,7 @@
 'use strict';
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'translate'... Remove this comment to see the full error message
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'translate'... Remove this comment to see the full error message
 var translate = require('../language')().translate;
-// @ts-expect-error TS(2304): Cannot find name 'global'.
+// @ts-expect-error TS(2304) FIXME: Cannot find name 'global'.
 var d3 = (global && global.d3) || require('d3');
 
 var calibrations = {
@@ -14,10 +14,10 @@ function init () {
   return calibrations;
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;
 
-// @ts-expect-error TS(2339): Property 'html' does not exist on type '{ name: st... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'html' does not exist on type '{ name: st... Remove this comment to see the full error message
 calibrations.html = function html (client: any) {
   var translate = client.translate;
   var ret =
@@ -27,9 +27,9 @@ calibrations.html = function html (client: any) {
   return ret;
 };
 
-// @ts-expect-error TS(2339): Property 'report' does not exist on type '{ name: ... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'report' does not exist on type '{ name: ... Remove this comment to see the full error message
 calibrations.report = function report_calibrations (datastorage: any, sorteddaystoshow: any) {
-  // @ts-expect-error TS(2339): Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
   var Nightscout = window.Nightscout;
   var report_plugins = Nightscout.report_plugins;
 

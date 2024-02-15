@@ -1,43 +1,43 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'fs'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'fs'.
 const fs = require('fs');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'request'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'request'.
 const request = require('supertest');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'language'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'language'.
 const language = require('../lib/language')(fs);
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'bodyParser... Remove this comment to see the full error message
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'bodyParser... Remove this comment to see the full error message
 const bodyParser = require('body-parser');
 
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 require('should');
 
-// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+// @ts-expect-error TS(2593) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('Alexa REST api', function(this: any) {
   this.timeout(10000);
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   const apiRoot = require('../lib/api/root');
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   const api = require('../lib/api/');
-  // @ts-expect-error TS(2304): Cannot find name 'before'.
+  // @ts-expect-error TS(2304) FIXME: Cannot find name 'before'.
   before(function(this: any, done: any) {
-    // @ts-expect-error TS(2591): Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
     delete process.env.API_SECRET;
-    // @ts-expect-error TS(2591): Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
     process.env.API_SECRET = 'this is my long pass phrase';
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var env = require('../lib/server/env')( );
     env.settings.enable = ['alexa'];
     env.settings.authDefaultRoles = 'readable';
     env.api_secret = 'this is my long pass phrase';
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     this.wares = require('../lib/middleware/')(env);
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     this.app = require('express')( );
     this.app.enable('api');
     var self = this;
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     require('../lib/server/bootevent')(env, language).boot(function booted (ctx: any) {
       self.app.use('/api', bodyParser({
         limit: 1048576 * 50
@@ -50,7 +50,7 @@ describe('Alexa REST api', function(this: any) {
     });
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('Launch Request', function(this: any, done: any) {
     request(this.app)
       .post('/api/v1/alexa')
@@ -73,7 +73,7 @@ describe('Alexa REST api', function(this: any) {
       });
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('Launch Request With Intent', function(this: any, done: any) {
     request(this.app)
       .post('/api/v1/alexa')
@@ -98,7 +98,7 @@ describe('Alexa REST api', function(this: any) {
       });
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('Session Ended', function(this: any, done: any) {
     request(this.app)
       .post('/api/v1/alexa')

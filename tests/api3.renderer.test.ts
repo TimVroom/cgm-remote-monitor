@@ -1,25 +1,25 @@
 /* eslint require-atomic-updates: 0 */
 'use strict';
 
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 require('should');
 
-// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+// @ts-expect-error TS(2593) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('API3 output renderers', function(this: any) {
   const self = this
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , testConst = require('./fixtures/api3/const.json')
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , instance = require('./fixtures/api3/instance')
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , authSubject = require('./fixtures/api3/authSubject')
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , opTools = require('../lib/api3/shared/operationTools')
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , _ = require('lodash')
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , xml2js = require('xml2js')
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , csvParse = require('csv-parse/lib/sync')
     ;
 
@@ -45,7 +45,7 @@ describe('API3 output renderers', function(this: any) {
   self.timeout(15000);
 
 
-  // @ts-expect-error TS(2304): Cannot find name 'before'.
+  // @ts-expect-error TS(2304) FIXME: Cannot find name 'before'.
   before(async () => {
     self.instance = await instance.create({});
 
@@ -66,19 +66,19 @@ describe('API3 output renderers', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2304): Cannot find name 'after'.
+  // @ts-expect-error TS(2304) FIXME: Cannot find name 'after'.
   after(() => {
     self.instance.server.close();
   });
 
 
-  // @ts-expect-error TS(2304): Cannot find name 'beforeEach'.
+  // @ts-expect-error TS(2304) FIXME: Cannot find name 'beforeEach'.
   beforeEach(() => {
     self.cache.clear();
   });
 
 
-  // @ts-expect-error TS(2304): Cannot find name 'afterEach'.
+  // @ts-expect-error TS(2304) FIXME: Cannot find name 'afterEach'.
   afterEach(() => {
     self.cache.shouldBeEmpty();
   });
@@ -152,7 +152,7 @@ describe('API3 output renderers', function(this: any) {
   };
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should create 2 mock documents', async () => {
 
     async function createDoc (doc: any) {
@@ -176,7 +176,7 @@ describe('API3 output renderers', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('READ/SEARCH/HISTORY should not accept unsupported content type', async () => {
 
     async function check406 (request: any) {
@@ -201,7 +201,7 @@ describe('API3 output renderers', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('READ should accept xml content type', async () => {
     let res = await self.instance.get(`${self.url}/${self.doc1.identifier}.xml?fields=_all`, self.jwt.read)
       .expect(200);
@@ -220,7 +220,7 @@ describe('API3 output renderers', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('READ should accept csv content type', async () => {
     let res = await self.instance.get(`${self.url}/${self.doc1.identifier}.csv?fields=_all`, self.jwt.read)
       .expect(200);
@@ -235,7 +235,7 @@ describe('API3 output renderers', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('SEARCH should accept xml content type', async () => {
     let res = await self.instance.get(`${self.url}.xml?date$gte=${self.doc1.date}`, self.jwt.read)
       .expect(200);
@@ -250,7 +250,7 @@ describe('API3 output renderers', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('SEARCH should accept csv content type', async () => {
     let res = await self.instance.get(`${self.url}.csv?date$gte=${self.doc1.date}`, self.jwt.read)
       .expect(200);
@@ -265,7 +265,7 @@ describe('API3 output renderers', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('HISTORY should accept xml content type', async () => {
     let res = await self.instance.get(`${self.url}/history/${self.historyFrom}.xml`, self.jwt.read)
       .expect(200);
@@ -280,7 +280,7 @@ describe('API3 output renderers', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('HISTORY should accept csv content type', async () => {
     let res = await self.instance.get(`${self.url}/history/${self.historyFrom}.csv`, self.jwt.read)
       .expect(200);
@@ -295,7 +295,7 @@ describe('API3 output renderers', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should remove mock documents', async () => {
 
     async function deleteDoc (identifier: any) {

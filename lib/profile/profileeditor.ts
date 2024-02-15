@@ -3,9 +3,8 @@
 var init = function init () {
   //for the tests window isn't the global object
   var $ = window.$;
-  // @ts-expect-error TS(2339): Property '_' does not exist on type 'Window & type... Remove this comment to see the full error message
   var _ = window._;
-  // @ts-expect-error TS(2339): Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
   var Nightscout = window.Nightscout;
   var client = Nightscout.client;
 
@@ -103,7 +102,7 @@ var init = function init () {
             // allign with default profile
             for (var key in defaultprofile) {
               if (Object.prototype.hasOwnProperty.call(defaultprofile,key) && !Object.prototype.hasOwnProperty.call(p,key)) {
-                  // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+                  // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
                   p[key] = defaultprofile[key];
               }
             }
@@ -189,7 +188,7 @@ var init = function init () {
     // prepare basal profiles
     initRecord();
     // hide unused style of ratios
-    // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
+    // @ts-expect-error TS(2554) FIXME: Expected 1 arguments, but got 0.
     switchStyle();
 
     console.log('Done initeditor()');
@@ -247,7 +246,7 @@ var init = function init () {
     c_profile = mongorecords[currentrecord].store[currentprofile];
     mongorecords[currentrecord].defaultProfile = currentprofile;
     // Set values from profile to html
-    // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
+    // @ts-expect-error TS(2554) FIXME: Expected 1 arguments, but got 0.
     fillTimeRanges();
     refreshTotalBasal();
   }
@@ -255,7 +254,7 @@ var init = function init () {
   // Handling of record list box change
   function recordChange (event: any) {
     if (dirty && window.confirm(translate('Save current record before switching to new?'))) {
-      // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
+      // @ts-expect-error TS(2554) FIXME: Expected 1 arguments, but got 0.
       profileSubmit();
     }
     currentrecord = databaseRecords.val();
@@ -267,7 +266,7 @@ var init = function init () {
 
   function recordAdd (event: any) {
     if (dirty && window.confirm(translate('Save current record before switching to new?'))) {
-      // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
+      // @ts-expect-error TS(2554) FIXME: Expected 1 arguments, but got 0.
       profileSubmit();
     }
     mongorecords.push({
@@ -317,7 +316,7 @@ var init = function init () {
 
   function recordClone (event: any) {
     if (dirty && window.confirm(translate('Save current record before switching to new?'))) {
-      // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
+      // @ts-expect-error TS(2554) FIXME: Expected 1 arguments, but got 0.
       profileSubmit();
     }
     GUIToObject();
@@ -480,7 +479,7 @@ var init = function init () {
       var pos = $(this).attr('pos');
       GUIToObject();
       c_profile[array].splice(pos,0,{time:'00:00',value:0});
-      // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
+      // @ts-expect-error TS(2554) FIXME: Expected 1 arguments, but got 0.
       var retVal = fillTimeRanges();
       refreshTotalBasal();
       return retVal;
@@ -492,7 +491,7 @@ var init = function init () {
       GUIToObject();
       c_profile[array].splice(pos,1);
       c_profile[array][0].time = '00:00';
-      // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
+      // @ts-expect-error TS(2554) FIXME: Expected 1 arguments, but got 0.
       var retVal = fillTimeRanges();
       refreshTotalBasal();
       return retVal;
@@ -542,7 +541,7 @@ var init = function init () {
       c_profile.target_low.splice(pos,0,{time:'00:00',value:0});
       c_profile.target_high.splice(pos,0,{time:'00:00',value:0});
       dirty = true;
-      // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
+      // @ts-expect-error TS(2554) FIXME: Expected 1 arguments, but got 0.
       return fillTimeRanges();
     });
 
@@ -554,7 +553,7 @@ var init = function init () {
       c_profile.target_low[0].time = '00:00';
       c_profile.target_high[0].time = '00:00';
       dirty = true;
-      // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
+      // @ts-expect-error TS(2554) FIXME: Expected 1 arguments, but got 0.
       return fillTimeRanges();
     });
 
@@ -759,5 +758,5 @@ var init = function init () {
   });
 };
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

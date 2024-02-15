@@ -5,7 +5,7 @@
  * @param instance
  * @constructor
  */
-// @ts-expect-error TS(2300): Duplicate identifier 'CacheMonitor'.
+// @ts-expect-error TS(2300) FIXME: Duplicate identifier 'CacheMonitor'.
 function CacheMonitor(this: any, instance: any) {
 
   const self = this;
@@ -77,5 +77,5 @@ function CacheMonitor(this: any, instance: any) {
 
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = CacheMonitor;

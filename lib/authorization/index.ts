@@ -1,17 +1,17 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 const _ = require('lodash');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'jwt'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'jwt'.
 const jwt = require('jsonwebtoken');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'shiroTrie'... Remove this comment to see the full error message
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'shiroTrie'... Remove this comment to see the full error message
 const shiroTrie = require('shiro-trie');
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'consts'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'consts'.
 const consts = require('./../constants');
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'sleep'.
 const sleep = require('util').promisify(setTimeout);
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'forwarded'... Remove this comment to see the full error message
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'forwarded'... Remove this comment to see the full error message
 const forwarded = require('forwarded-for');
 
 function getRemoteIP (req: any) {
@@ -19,17 +19,16 @@ function getRemoteIP (req: any) {
   return address.ip;
 }
 
-// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init (env: any, ctx: any) {
 
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   const ipdelaylist = require('./delaylist')(env, ctx);
   const addFailedRequest = ipdelaylist.addFailedRequest;
   const shouldDelayRequest = ipdelaylist.shouldDelayRequest;
   const requestSucceeded = ipdelaylist.requestSucceeded;
 
   var authorization = {};
-  // @ts-expect-error TS(2339): Property 'storage' does not exist on type '{}'.
+  // @ts-expect-error TS(2339) FIXME: Property 'storage' does not exist on type '{}'.
   var storage = authorization.storage = require('./storage')(env, ctx);
   var defaultRoles = (env.settings.authDefaultRoles || '').split(/[, :]/);
 
@@ -65,7 +64,7 @@ function init (env: any, ctx: any) {
 
       if (accessToken) {
         // validate and parse the token
-        // @ts-expect-error TS(2339): Property 'authorize' does not exist on type '{}'.
+        // @ts-expect-error TS(2339) FIXME: Property 'authorize' does not exist on type '{}'.
         const authed = authorization.authorize(accessToken);
         if (authed && authed.token) {
           token = authed.token;
@@ -78,7 +77,7 @@ function init (env: any, ctx: any) {
     return token;
   }
 
-  // @ts-expect-error TS(2339): Property 'extractToken' does not exist on type '{}... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'extractToken' does not exist on type '{}... Remove this comment to see the full error message
   authorization.extractToken = extractJWTfromRequest;
 
   /**
@@ -112,25 +111,25 @@ function init (env: any, ctx: any) {
     return env.enclave.isApiKey(secret);
   }
 
-  // @ts-expect-error TS(2339): Property 'seenPermissions' does not exist on type ... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'seenPermissions' does not exist on type ... Remove this comment to see the full error message
   authorization.seenPermissions = [];
 
-  // @ts-expect-error TS(2339): Property 'expandedPermissions' does not exist on t... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'expandedPermissions' does not exist on t... Remove this comment to see the full error message
   authorization.expandedPermissions = function expandedPermissions () {
     var permissions = shiroTrie.new();
-    // @ts-expect-error TS(2339): Property 'seenPermissions' does not exist on type ... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'seenPermissions' does not exist on type ... Remove this comment to see the full error message
     permissions.add(authorization.seenPermissions);
     return permissions;
   };
 
-  // @ts-expect-error TS(2339): Property 'resolveWithRequest' does not exist on ty... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'resolveWithRequest' does not exist on ty... Remove this comment to see the full error message
   authorization.resolveWithRequest = function resolveWithRequest (req: any, callback: any) {
     const resolveData = {
       api_secret: apiSecretFromRequest(req)
       , token: extractJWTfromRequest(req)
       , ip: getRemoteIP(req)
     };
-    // @ts-expect-error TS(2339): Property 'resolve' does not exist on type '{}'.
+    // @ts-expect-error TS(2339) FIXME: Property 'resolve' does not exist on type '{}'.
     authorization.resolve(resolveData, callback);
   };
 
@@ -143,7 +142,7 @@ function init (env: any, ctx: any) {
    * @param {*} shiros Shiros
    */
 
-  // @ts-expect-error TS(2339): Property 'checkMultiple' does not exist on type '{... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'checkMultiple' does not exist on type '{... Remove this comment to see the full error message
   authorization.checkMultiple = function checkMultiple (permission: any, shiros: any) {
     var found = _.find(shiros, function checkEach (shiro: any) {
       return shiro && shiro.check(permission);
@@ -158,7 +157,7 @@ function init (env: any, ctx: any) {
    * @param {*} data 
    * @param {*} callback 
    */
-  // @ts-expect-error TS(2339): Property 'resolve' does not exist on type '{}'.
+  // @ts-expect-error TS(2339) FIXME: Property 'resolve' does not exist on type '{}'.
   authorization.resolve = async function resolve (data: any, callback: any) {
 
     if (!data.ip) {
@@ -219,7 +218,7 @@ function init (env: any, ctx: any) {
 
     if (token) {
       requestSucceeded(data.ip);
-      // @ts-expect-error TS(2339): Property 'resolveAccessToken' does not exist on ty... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'resolveAccessToken' does not exist on ty... Remove this comment to see the full error message
       const results = authorization.resolveAccessToken(token, null, defaultShiros);
       if (callback) { callback(null, results); }
       return results;
@@ -238,7 +237,7 @@ function init (env: any, ctx: any) {
 
   };
 
-  // @ts-expect-error TS(2339): Property 'resolveAccessToken' does not exist on ty... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'resolveAccessToken' does not exist on ty... Remove this comment to see the full error message
   authorization.resolveAccessToken = function resolveAccessToken (accessToken: any, callback: any, defaultShiros: any) {
 
     if (!defaultShiros) {
@@ -265,10 +264,10 @@ function init (env: any, ctx: any) {
    * 
    * @param {*} permission Permission being checked
    */
-  // @ts-expect-error TS(2339): Property 'isPermitted' does not exist on type '{}'... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'isPermitted' does not exist on type '{}'... Remove this comment to see the full error message
   authorization.isPermitted = function isPermitted (permission: any) {
 
-    // @ts-expect-error TS(2339): Property 'seenPermissions' does not exist on type ... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'seenPermissions' does not exist on type ... Remove this comment to see the full error message
     authorization.seenPermissions = _.chain(authorization.seenPermissions)
       .push(permission)
       .sort()
@@ -283,9 +282,9 @@ function init (env: any, ctx: any) {
 
       const data = { api_secret: secret, token, ip: remoteIP };
 
-      // @ts-expect-error TS(2339): Property 'resolve' does not exist on type '{}'.
+      // @ts-expect-error TS(2339) FIXME: Property 'resolve' does not exist on type '{}'.
       const permissions = await authorization.resolve(data);
-      // @ts-expect-error TS(2339): Property 'checkMultiple' does not exist on type '{... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'checkMultiple' does not exist on type '{... Remove this comment to see the full error message
       const permitted = authorization.checkMultiple(permission, permissions.shiros);
 
       if (permitted) {
@@ -305,7 +304,7 @@ function init (env: any, ctx: any) {
    * 
    * @param {*} accessToken token to be used for generating a JWT for the client
    */
-  // @ts-expect-error TS(2339): Property 'authorize' does not exist on type '{}'.
+  // @ts-expect-error TS(2339) FIXME: Property 'authorize' does not exist on type '{}'.
   authorization.authorize = function authorize (accessToken: any) {
 
 
@@ -337,11 +336,11 @@ function init (env: any, ctx: any) {
     return authorized;
   };
 
-  // @ts-expect-error TS(2339): Property 'endpoints' does not exist on type '{}'.
+  // @ts-expect-error TS(2339) FIXME: Property 'endpoints' does not exist on type '{}'.
   authorization.endpoints = require('./endpoints')(env, authorization);
 
   return authorization;
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

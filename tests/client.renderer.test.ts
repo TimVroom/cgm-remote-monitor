@@ -1,16 +1,16 @@
 'use strict';
 
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 require('should');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 let _ = require('lodash');
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'renderer'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'renderer'.
 let renderer = require('../lib/client/renderer');
 
-// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+// @ts-expect-error TS(2593) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('renderer', () => {
-  // @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
   describe('bubbleScale', () => {
     const MAX_DELTA = 0.0001;
     const PREV_CHART_WIDTHS = [
@@ -20,14 +20,14 @@ describe('renderer', () => {
     ];
 
     _.forEach(PREV_CHART_WIDTHS, (prev: any) => {
-      // @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+      // @ts-expect-error TS(2593) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
       describe(`prevChartWidth < ${prev.width}`, () => {
         let mockClient = {
           utils: true
           , chart: { prevChartWidth: prev.width }
           , focusRangeMS: true
         };
-        // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+        // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
         it('scales correctly', () => {
           renderer(mockClient, {}).bubbleScale().should.be.approximately(prev.expectedScale, MAX_DELTA);
         });
@@ -35,7 +35,7 @@ describe('renderer', () => {
     });
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
   describe('highlightBrushPoints', () => {
     const BRUSH_EXTENTS = [
       { mills: 100, times: [200, 300], expectedOpacity: 0.5, expectation: 'Uses default opacity' }
@@ -70,9 +70,9 @@ describe('renderer', () => {
         , latestSGV: { mills: 120 }
       };
 
-      // @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+      // @ts-expect-error TS(2593) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
       describe(`data.mills ${extent.mills} and chart().brush.extent() times ${extent.times}`, () => {
-        // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+        // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
         it(extent.expectation, () => {
           var selectedRange = mockClient.chart.createAdjustedRange();
           var from = selectedRange[0].getTime();

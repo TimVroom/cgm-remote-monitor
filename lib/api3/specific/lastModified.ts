@@ -1,14 +1,14 @@
 'use strict';
 
 function configure (app: any, ctx: any, env: any) {
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   const express = require('express')
     , api = express.Router( )
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , apiConst = require('../const.json')
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , security = require('../security')
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , opTools = require('../shared/operationTools')
   ;
 
@@ -62,7 +62,7 @@ function configure (app: any, ctx: any, env: any) {
 
       for (const result of results) {
         if (result.lastModified)
-          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+          // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           output[result.colName] = result.lastModified;
       }
 
@@ -89,7 +89,7 @@ function configure (app: any, ctx: any, env: any) {
     const opCtx = { app, ctx, env, req, res };
 
     try {
-      // @ts-expect-error TS(2339): Property 'auth' does not exist on type '{ app: any... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'auth' does not exist on type '{ app: any... Remove this comment to see the full error message
       opCtx.auth = await security.authenticate(opCtx);
 
       await operation(opCtx);
@@ -104,5 +104,5 @@ function configure (app: any, ctx: any, env: any) {
 
   return api;
 }
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = configure;

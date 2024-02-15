@@ -1,6 +1,6 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 const _ = require('lodash');
 
 var roles = {
@@ -9,17 +9,16 @@ var roles = {
   , pluginType: 'admin'
 };
 
-// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init () {
   return roles;
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;
 
 var $status: any = null;
 
-// @ts-expect-error TS(2339): Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
 roles.actions = [{
   description: 'Each role will have a 1 or more permissions.  The <em>*</em> permission is a wildcard, permissions are a hierarchy using <em>:</em> as a separator.'
   , buttonLabel: 'Add new Role'
@@ -33,7 +32,7 @@ roles.actions = [{
   , preventClose: true
   , code: function createNewRole (client: any, callback: any) {
     var role = {};
-    // @ts-expect-error TS(2554): Expected 2 arguments, but got 3.
+    // @ts-expect-error TS(2554) FIXME: Expected 2 arguments, but got 3.
     openDialog(role, client, callback);
   }
 }];
@@ -74,14 +73,14 @@ function deleteRole (role: any, client: any, callback: any) {
   });
 }
 
-// @ts-expect-error TS(2393): Duplicate function implementation.
+// @ts-expect-error TS(2393) FIXME: Duplicate function implementation.
 function reload (client: any, callback: any) {
   $.ajax({
     method: 'GET'
     , url: '/api/v2/authorization/roles'
     , headers: client.headers()
   }).done(function success (records: any) {
-    // @ts-expect-error TS(2339): Property 'records' does not exist on type '{ name:... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'records' does not exist on type '{ name:... Remove this comment to see the full error message
     roles.records = records;
     $status.hide().text(client.translate('Database contains %1 roles', { params: [records.length] })).fadeIn('slow');
     showRoles(records, client);
@@ -90,7 +89,7 @@ function reload (client: any, callback: any) {
     }
   }).fail(function fail (err: any) {
     $status.hide().text(client.translate('Error loading database')).fadeIn('slow');
-    // @ts-expect-error TS(2339): Property 'records' does not exist on type '{ name:... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'records' does not exist on type '{ name:... Remove this comment to see the full error message
     roles.records = [];
     if (callback) {
       callback(err);
@@ -98,7 +97,7 @@ function reload (client: any, callback: any) {
   });
 }
 
-// @ts-expect-error TS(2393): Duplicate function implementation.
+// @ts-expect-error TS(2393) FIXME: Duplicate function implementation.
 function genDialog (client: any) {
   var ret =
     '<div id="editroledialog" style="display:none" title="' + client.translate('Edit Role') + '">' +
@@ -117,7 +116,7 @@ function genDialog (client: any) {
   return $(ret);
 }
 
-// @ts-expect-error TS(2393): Duplicate function implementation.
+// @ts-expect-error TS(2393) FIXME: Duplicate function implementation.
 function openDialog (role: any, client: any) {
   $('#editroledialog').dialog({
     width: 360
@@ -171,11 +170,11 @@ function showRole (role: any, table: any, client: any) {
   var deleteIcon = '';
   if (role._id) {
     deleteIcon = $('<img title="Delete this role" class="titletranslate" style="cursor:pointer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAACrElEQVQ4T42Ty2sTQRzHv5tmk2yyjRNtpfZhL8V6s2KoUNC2XqwgaCsVQcGiFqpHi0c9iRdR/ANE9KR40FIQX4cueKoPaKFoLdSYNtE0abKT1+5s9iW7aUMiHtzTzO7v85md+c6PA4DrHbsPCKIgOWO1pA7dT6YXnXH949SE/F63pqwZtRrO+SCKgjQ5NUV+azpmHj2krMwaJC4c8Erj+/eRyloMMwWFKgbn1nC3ervlK1evkXBLGBZT8SOewotnTylTNLdgeg/pDgZDC2cPHSR8bB22DVC9hFe0SG/H0xFXcHlykjRHRDBWgJcZSCY38Xx2lhqMnRYE34Px/sN9vlQWeoHBAx2yXsRruVAVuFsIBaSJ8+eJGPaBqQV4NROJjTzez89jLBoFn6FgybQL54wS3uTyVDFQ3cL2IYpBv3RhdJSIIQ80tQyv7gEqJvS8AmUlBs7UXPhtjtZgh3UFNYngk86NHCfNAg9dMwHVBPu+CpsVkTXKeJeVG+AGgTOZ3tt6MSKKjy+NjEBjFrR4ElZmA4pdxstMFsyyJu6tZZ7Ux9vwB6EAL50ZGiRECEPPUOixVTRxHlicgSVWxEdZpuZWfNuS2hk48NjwMIkIYZglBnV5Cbqtws/5IaAJmsfCglrEl2y2QeKmEBJ80tixKmxrFpSVr0gV0viQoxho2YUuPohmeFD22PiklLC4ma5JuBvdrfLJI0dJd0s7bM0ES8aR/BXDXGaTskqlL+D3Lwy0tZEePoAd4EA5YF4tYymdonfjmQh3s6dTPjU4SHYGwjAKecSXFyGlM1TdytntE56T+ts7SC/vhw3gm6njc2Kd3vm5Ub1IwQAvnYhGiZpYw1wiWYPrIw7wnBTt7CLOOwdmut14kQQvqt24tfK/utGR6LaF+iRqMf4N/O/8D28HiiCRYqzAAAAAAElFTkSuQmCC">');
-    // @ts-expect-error TS(2339): Property 'click' does not exist on type 'string'.
+    // @ts-expect-error TS(2339) FIXME: Property 'click' does not exist on type 'string'.
     deleteIcon.click(function clicked () {
       var ok = window.confirm(client.translate('Are you sure you want to delete: ') + role.name);
       if (ok) {
-        // @ts-expect-error TS(2554): Expected 3 arguments, but got 2.
+        // @ts-expect-error TS(2554) FIXME: Expected 3 arguments, but got 2.
         deleteRole(role, client);
       }
     });

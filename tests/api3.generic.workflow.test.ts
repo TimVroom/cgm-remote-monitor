@@ -1,19 +1,19 @@
 /* eslint require-atomic-updates: 0 */
 'use strict';
 
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 require('should');
 
-// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+// @ts-expect-error TS(2593) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('Generic REST API3', function(this: any) {
   const self = this
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , testConst = require('./fixtures/api3/const.json')
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , instance = require('./fixtures/api3/instance')
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , authSubject = require('./fixtures/api3/authSubject')
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , opTools = require('../lib/api3/shared/operationTools')
     ;
 
@@ -32,7 +32,7 @@ describe('Generic REST API3', function(this: any) {
 
     this.timeout(30000);
 
-  // @ts-expect-error TS(2304): Cannot find name 'before'.
+  // @ts-expect-error TS(2304) FIXME: Cannot find name 'before'.
   before(async () => {
     self.instance = await instance.create({});
 
@@ -56,19 +56,19 @@ describe('Generic REST API3', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2304): Cannot find name 'after'.
+  // @ts-expect-error TS(2304) FIXME: Cannot find name 'after'.
   after(() => {
     self.instance.ctx.bus.teardown();
   });
 
 
-  // @ts-expect-error TS(2304): Cannot find name 'beforeEach'.
+  // @ts-expect-error TS(2304) FIXME: Cannot find name 'beforeEach'.
   beforeEach(() => {
     self.cache.clear();
   });
 
 
-  // @ts-expect-error TS(2304): Cannot find name 'afterEach'.
+  // @ts-expect-error TS(2304) FIXME: Cannot find name 'afterEach'.
   afterEach(() => {
     self.cache.shouldBeEmpty();
   });
@@ -94,7 +94,7 @@ describe('Generic REST API3', function(this: any) {
   };
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('LAST MODIFIED to get actual server timestamp', async () => {
     let res = await self.instance.get(`${self.urlLastModified}`, self.jwt.read)
       .expect(200);
@@ -108,7 +108,7 @@ describe('Generic REST API3', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('STATUS to get actual server timestamp', async () => {
     let res = await self.instance.get(`/api/v3/status`, self.jwt.read)
       .expect(200);
@@ -119,14 +119,14 @@ describe('Generic REST API3', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('READ of not existing document is not found', async () => {
     await self.instance.get(`${self.urlResource}`, self.jwt.read)
       .expect(404);
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('SEARCH of not existing document (not found)', async () => {
     let res = await self.instance.get(`${self.urlCol}`, self.jwt.read)
       .query({ 'identifier_eq': self.identifier })
@@ -137,14 +137,14 @@ describe('Generic REST API3', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('DELETE of not existing document is not found', async () => {
     await self.instance.delete(`${self.urlResource}`, self.jwt.delete)
       .expect(404);
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('CREATE new document', async () => {
     await self.instance.post(`${self.urlCol}`, self.jwt.create)
       .send(self.docOriginal)
@@ -154,7 +154,7 @@ describe('Generic REST API3', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('READ existing document', async () => {
     let res = await self.instance.get(`${self.urlResource}`, self.jwt.read)
       .expect(200);
@@ -169,7 +169,7 @@ describe('Generic REST API3', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('SEARCH existing document (found)', async () => {
     let res = await self.instance.get(`${self.urlCol}`, self.jwt.read)
       .query({ 'identifier$eq': self.identifier })
@@ -183,13 +183,13 @@ describe('Generic REST API3', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('new document in HISTORY', async () => {
     await self.checkHistoryExistence();
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('UPDATE document', async () => {
     self.docActual.insulin = 0.5;
 
@@ -205,13 +205,13 @@ describe('Generic REST API3', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('document changed in HISTORY', async () => {
     await self.checkHistoryExistence();
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('document changed in READ', async () => {
     let res = await self.instance.get(`${self.urlResource}`, self.jwt.read)
       .expect(200);
@@ -223,7 +223,7 @@ describe('Generic REST API3', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('PATCH document', async () => {
     self.docActual.carbs = 5;
     self.docActual.insulin = 0.4;
@@ -239,13 +239,13 @@ describe('Generic REST API3', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('document changed in HISTORY', async () => {
     await self.checkHistoryExistence();
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('document changed in READ', async () => {
     let res = await self.instance.get(`${self.urlResource}`, self.jwt.read)
       .expect(200);
@@ -257,7 +257,7 @@ describe('Generic REST API3', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('soft DELETE', async () => {
     let res = await self.instance.delete(`${self.urlResource}`, self.jwt.delete)
       .expect(200);
@@ -267,7 +267,7 @@ describe('Generic REST API3', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('READ of deleted is gone', async () => {
     await self.instance.get(`${self.urlResource}`, self.jwt.read)
       .expect(410);
@@ -275,7 +275,7 @@ describe('Generic REST API3', function(this: any) {
 
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('SEARCH of deleted document missing it', async () => {
     let res = await self.instance.get(`${self.urlCol}`, self.jwt.read)
       .query({ 'identifier_eq': self.identifier })
@@ -286,7 +286,7 @@ describe('Generic REST API3', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('document deleted in HISTORY', async () => {
     await self.checkHistoryExistence((value: any) => {
       value.isValid.should.be.eql(false);
@@ -294,7 +294,7 @@ describe('Generic REST API3', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('permanent DELETE', async () => {
     let res = await self.instance.delete(`${self.urlResource}`, self.jwt.delete)
       .query({ 'permanent': 'true' })
@@ -305,14 +305,14 @@ describe('Generic REST API3', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('READ of permanently deleted is not found', async () => {
     await self.instance.get(`${self.urlResource}`, self.jwt.read)
       .expect(404);
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('document permanently deleted not in HISTORY', async () => {
     let res = await self.instance.get(`${self.urlHistory}/${self.historyTimestamp}`, self.jwt.read);
 
@@ -323,7 +323,7 @@ describe('Generic REST API3', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should not modify read-only document', async () => {
     await self.instance.post(`${self.urlCol}`, self.jwt.create)
       .send(Object.assign({}, self.docOriginal, { isReadOnly: true }))

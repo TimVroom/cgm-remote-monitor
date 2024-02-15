@@ -3,9 +3,8 @@ var init = function init () {
   'use strict';
   //for the tests window isn't the global object
   var $ = window.$;
-  // @ts-expect-error TS(2339): Property '_' does not exist on type 'Window & type... Remove this comment to see the full error message
   var _ = window._;
-  // @ts-expect-error TS(2339): Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
   var Nightscout = window.Nightscout;
   var client = Nightscout.client;
   var report_plugins_preinit = Nightscout.report_plugins_preinit;
@@ -64,7 +63,7 @@ var init = function init () {
         $('#rp_category').append('<option value="' + s + '">' + s + '</option>');
       });
       filter.category = '';
-      // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
+      // @ts-expect-error TS(2554) FIXME: Expected 1 arguments, but got 0.
       fillFoodSubcategories();
 
       $('#rp_category').change(fillFoodSubcategories);
@@ -83,7 +82,7 @@ var init = function init () {
           $('#rp_subcategory').append('<option value="' + s + '">' + s + '</option>');
         });
       }
-      // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
+      // @ts-expect-error TS(2554) FIXME: Expected 1 arguments, but got 0.
       doFoodFilter();
       return maybePrevent(event);
     }
@@ -119,7 +118,7 @@ var init = function init () {
           if (r.category && !food_categories[r.category]) { food_categories[r.category] = {}; }
           if (r.category && r.subcategory) { food_categories[r.category][r.subcategory] = true; }
         });
-        // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
+        // @ts-expect-error TS(2554) FIXME: Expected 1 arguments, but got 0.
         fillFoodForm();
       }
     }).done(function() {
@@ -172,9 +171,9 @@ var init = function init () {
       });
       $('#rp_eventtype').append('<option value="sensor">' + '>>> ' + translate('All sensor events') + '</option>');
 
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       $('#rp_targetlow').val(targetBGdefault[client.settings.units.toLowerCase()].low);
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       $('#rp_targethigh').val(targetBGdefault[client.settings.units.toLowerCase()].high);
 
       if (client.settings.scaleY === 'linear') {
@@ -232,42 +231,42 @@ var init = function init () {
       options.raw = $('#rp_optionsraw').is(':checked');
       options.iob = $('#rp_optionsiob').is(':checked');
       options.cob = $('#rp_optionscob').is(':checked');
-      // @ts-expect-error TS(2339): Property 'openAps' does not exist on type '{ width... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'openAps' does not exist on type '{ width... Remove this comment to see the full error message
       options.openAps = $('#rp_optionsopenaps').is(':checked');
-      // @ts-expect-error TS(2339): Property 'predicted' does not exist on type '{ wid... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'predicted' does not exist on type '{ wid... Remove this comment to see the full error message
       options.predicted = $('#rp_optionspredicted').is(':checked');
-      // @ts-expect-error TS(2339): Property 'predictedTruncate' does not exist on typ... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'predictedTruncate' does not exist on typ... Remove this comment to see the full error message
       options.predictedTruncate = $('#rp_optionsPredictedTruncate').is(':checked');
       options.basal = $('#rp_optionsbasal').is(':checked');
       options.notes = $('#rp_optionsnotes').is(':checked');
       options.food = $('#rp_optionsfood').is(':checked');
       options.insulin = $('#rp_optionsinsulin').is(':checked');
-      // @ts-expect-error TS(2339): Property 'insulindistribution' does not exist on t... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'insulindistribution' does not exist on t... Remove this comment to see the full error message
       options.insulindistribution = $('#rp_optionsdistribution').is(':checked');
       options.carbs = $('#rp_optionscarbs').is(':checked');
       options.scale = ($('#rp_linear').is(':checked') ? report_plugins.consts.SCALE_LINEAR : report_plugins.consts.SCALE_LOG);
       options.weekscale = ($('#wrp_linear').is(':checked') ? report_plugins.consts.SCALE_LINEAR : report_plugins.consts.SCALE_LOG);
-      // @ts-expect-error TS(2339): Property 'order' does not exist on type '{ width: ... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'order' does not exist on type '{ width: ... Remove this comment to see the full error message
       options.order = ($('#rp_oldestontop').is(':checked') ? report_plugins.consts.ORDER_OLDESTONTOP : report_plugins.consts.ORDER_NEWESTONTOP);
       options.width = parseInt($('#rp_size :selected').attr('x'));
       options.weekwidth = parseInt($('#wrp_size :selected').attr('x'));
       options.height = parseInt($('#rp_size :selected').attr('y'));
       options.weekheight = parseInt($('#wrp_size :selected').attr('y'));
-      // @ts-expect-error TS(2339): Property 'loopalyzer' does not exist on type '{ wi... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'loopalyzer' does not exist on type '{ wi... Remove this comment to see the full error message
       options.loopalyzer = $("#loopalyzer").hasClass("selected"); // We only want to run through Loopalyzer if that tab is selected
-      // @ts-expect-error TS(2339): Property 'loopalyzer' does not exist on type '{ wi... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'loopalyzer' does not exist on type '{ wi... Remove this comment to see the full error message
       if (options.loopalyzer) {
         options.iob = true;
         options.cob = true;
-        // @ts-expect-error TS(2339): Property 'openAps' does not exist on type '{ width... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'openAps' does not exist on type '{ width... Remove this comment to see the full error message
         options.openAps = true;
       }
-      // @ts-expect-error TS(2339): Property 'bgcheck' does not exist on type '{ width... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'bgcheck' does not exist on type '{ width... Remove this comment to see the full error message
       options.bgcheck = $('#rp_optionsbgcheck').is(':checked');
-      // @ts-expect-error TS(2339): Property 'othertreatments' does not exist on type ... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'othertreatments' does not exist on type ... Remove this comment to see the full error message
       options.othertreatments = $('#rp_optionsothertreatments').is(':checked');
       
-      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+      // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       const reportStorage = require('./reportstorage');
       reportStorage.saveProps(options);
       var matchesneeded = 0;
@@ -283,12 +282,12 @@ var init = function init () {
           console.log("FROM", from.format( ), "TO", to.format( ), 'timerange', timerange);
           //console.log($('#rp_from').val(),$('#rp_to').val(),zone,timerange);
           while (from <= to) {
-            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+            // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
             if (daystoshow[from.format('YYYY-MM-DD')]) {
-              // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+              // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
               daystoshow[from.format('YYYY-MM-DD')]++;
             } else {
-              // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+              // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
               daystoshow[from.format('YYYY-MM-DD')] = 1;
             }
             from.add(1, 'days');
@@ -321,12 +320,12 @@ var init = function init () {
             }).done(function() {
               //console.log('Foodfilter: ',treatmentData);
               for (var d = 0; d < treatmentData.length; d++) {
-                // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+                // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
                 if (daystoshow[treatmentData[d]]) {
-                  // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+                  // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
                   daystoshow[treatmentData[d]]++;
                 } else {
-                  // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+                  // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
                   daystoshow[treatmentData[d]] = 1;
                 }
               }
@@ -361,12 +360,12 @@ var init = function init () {
             }).done(function() {
               //console.log('Notesfilter: ',treatmentData);
               for (var d = 0; d < treatmentData.length; d++) {
-                // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+                // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
                 if (daystoshow[treatmentData[d]]) {
-                  // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+                  // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
                   daystoshow[treatmentData[d]]++;
                 } else {
-                  // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+                  // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
                   daystoshow[treatmentData[d]] = 1;
                 }
               }
@@ -401,12 +400,12 @@ var init = function init () {
             }).done(function() {
               //console.log('Eventtypefilter: ',treatmentData);
               for (var d = 0; d < treatmentData.length; d++) {
-                // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+                // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
                 if (daystoshow[treatmentData[d]]) {
-                  // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+                  // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
                   daystoshow[treatmentData[d]]++;
                 } else {
-                  // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+                  // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
                   daystoshow[treatmentData[d]] = 1;
                 }
               }
@@ -422,19 +421,19 @@ var init = function init () {
         matchesneeded++;
         Object.keys(daystoshow).forEach(function eachDay (d) {
           var day = moment.tz(d, zone).day();
-          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+          // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           if (day === 0 && $('#rp_su').is(':checked')) { daystoshow[d]++; }
-          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+          // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           if (day === 1 && $('#rp_mo').is(':checked')) { daystoshow[d]++; }
-          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+          // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           if (day === 2 && $('#rp_tu').is(':checked')) { daystoshow[d]++; }
-          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+          // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           if (day === 3 && $('#rp_we').is(':checked')) { daystoshow[d]++; }
-          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+          // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           if (day === 4 && $('#rp_th').is(':checked')) { daystoshow[d]++; }
-          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+          // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           if (day === 5 && $('#rp_fr').is(':checked')) { daystoshow[d]++; }
-          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+          // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           if (day === 6 && $('#rp_sa').is(':checked')) { daystoshow[d]++; }
         });
         countDays();
@@ -453,7 +452,7 @@ var init = function init () {
             loadData(d, options, dataLoadedCallback);
           } else {
             $('#info').append($('<div>' + d + ' ' + translate('not displayed') + '.</div>'));
-            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+            // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
             delete daystoshow[d];
           }
         }
@@ -469,13 +468,13 @@ var init = function init () {
       function countDays () {
         for (var d in daystoshow) {
           if (Object.prototype.hasOwnProperty.call(daystoshow, d)) {
-            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+            // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
             if (daystoshow[d] === matchesneeded) {
               if (dayscount < maxdays) {
                 dayscount++;
               }
             } else {
-              // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+              // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
               delete daystoshow[d];
             }
           }
@@ -489,9 +488,9 @@ var init = function init () {
             var day = moment.tz(d, zone);
             var previous = day.subtract(1, 'days');
             var formated = previous.format('YYYY-MM-DD');
-            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+            // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
             if (!daystoshow[formated]) {
-              // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+              // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
               daystoshow[formated] = { treatmentsonly: true };
               console.log('Adding ' + formated + ' for loading treatments');
               dayscount++;
@@ -503,7 +502,7 @@ var init = function init () {
 
       function dataLoadedCallback (day: any) {
         loadeddays++;
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         if (!daystoshow[day].treatmentsonly) {
           sorteddaystoshow.push(day);
         }
@@ -512,7 +511,7 @@ var init = function init () {
           var dFrom = sorteddaystoshow[0];
           var dTo = sorteddaystoshow[(sorteddaystoshow.length - 1)];
 
-          // @ts-expect-error TS(2339): Property 'order' does not exist on type '{ width: ... Remove this comment to see the full error message
+          // @ts-expect-error TS(2339) FIXME: Property 'order' does not exist on type '{ width: ... Remove this comment to see the full error message
           if (options.order === report_plugins.consts.ORDER_NEWESTONTOP) {
             sorteddaystoshow.reverse();
           }
@@ -536,16 +535,16 @@ var init = function init () {
 
     function showreports (options: any) {
       // prepare some data used in more reports
-      // @ts-expect-error TS(2339): Property 'allstatsrecords' does not exist on type ... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'allstatsrecords' does not exist on type ... Remove this comment to see the full error message
       datastorage.allstatsrecords = [];
-      // @ts-expect-error TS(2339): Property 'alldays' does not exist on type '{}'.
+      // @ts-expect-error TS(2339) FIXME: Property 'alldays' does not exist on type '{}'.
       datastorage.alldays = 0;
       sorteddaystoshow.forEach(function eachDay (day: any) {
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         if (!daystoshow[day].treatmentsonly) {
-          // @ts-expect-error TS(2339): Property 'allstatsrecords' does not exist on type ... Remove this comment to see the full error message
+          // @ts-expect-error TS(2339) FIXME: Property 'allstatsrecords' does not exist on type ... Remove this comment to see the full error message
           datastorage.allstatsrecords = datastorage.allstatsrecords.concat(datastorage[day].statsrecords);
-          // @ts-expect-error TS(2339): Property 'alldays' does not exist on type '{}'.
+          // @ts-expect-error TS(2339) FIXME: Property 'alldays' does not exist on type '{}'.
           datastorage.alldays++;
         }
       });
@@ -553,36 +552,36 @@ var init = function init () {
       options.maxCarbsValue = maxCarbsValue;
       options.maxDailyCarbsValue = maxDailyCarbsValue;
 
-      // @ts-expect-error TS(2339): Property 'treatments' does not exist on type '{}'.
+      // @ts-expect-error TS(2339) FIXME: Property 'treatments' does not exist on type '{}'.
       datastorage.treatments = [];
-      // @ts-expect-error TS(2339): Property 'devicestatus' does not exist on type '{}... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'devicestatus' does not exist on type '{}... Remove this comment to see the full error message
       datastorage.devicestatus = [];
-      // @ts-expect-error TS(2339): Property 'combobolusTreatments' does not exist on ... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'combobolusTreatments' does not exist on ... Remove this comment to see the full error message
       datastorage.combobolusTreatments = [];
-      // @ts-expect-error TS(2339): Property 'tempbasalTreatments' does not exist on t... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'tempbasalTreatments' does not exist on t... Remove this comment to see the full error message
       datastorage.tempbasalTreatments = [];
       Object.keys(daystoshow).forEach(function eachDay (day) {
-        // @ts-expect-error TS(2339): Property 'treatments' does not exist on type '{}'.
+        // @ts-expect-error TS(2339) FIXME: Property 'treatments' does not exist on type '{}'.
         datastorage.treatments = datastorage.treatments.concat(datastorage[day].treatments);
-        // @ts-expect-error TS(2339): Property 'devicestatus' does not exist on type '{}... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'devicestatus' does not exist on type '{}... Remove this comment to see the full error message
         datastorage.devicestatus = datastorage.devicestatus.concat(datastorage[day].devicestatus);
-        // @ts-expect-error TS(2339): Property 'combobolusTreatments' does not exist on ... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'combobolusTreatments' does not exist on ... Remove this comment to see the full error message
         datastorage.combobolusTreatments = datastorage.combobolusTreatments.concat(datastorage[day].combobolusTreatments);
-        // @ts-expect-error TS(2339): Property 'tempbasalTreatments' does not exist on t... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'tempbasalTreatments' does not exist on t... Remove this comment to see the full error message
         datastorage.tempbasalTreatments = datastorage.tempbasalTreatments.concat(datastorage[day].tempbasalTreatments);
       });
-      // @ts-expect-error TS(2339): Property 'tempbasalTreatments' does not exist on t... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'tempbasalTreatments' does not exist on t... Remove this comment to see the full error message
       datastorage.tempbasalTreatments = Nightscout.client.ddata.processDurations(datastorage.tempbasalTreatments);
-      // @ts-expect-error TS(2339): Property 'treatments' does not exist on type '{}'.
+      // @ts-expect-error TS(2339) FIXME: Property 'treatments' does not exist on type '{}'.
       datastorage.treatments.sort(function sort (a: any, b: any) { return a.mills - b.mills; });
 
       for (var d in daystoshow) {
         if (Object.prototype.hasOwnProperty.call(daystoshow, d)) {
-          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+          // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           if (daystoshow[d].treatmentsonly) {
-            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+            // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
             delete daystoshow[d];
-            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+            // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
             delete datastorage[d];
           }
         }
@@ -635,10 +634,10 @@ var init = function init () {
 
     function loadData (day: any, options: any, callback: any) {
       // check for loaded data
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       if ((options.openAps || options.predicted || options.iob || options.cob) && datastorage[day] && !datastorage[day].devicestatus.length) {
         // OpenAPS requested but data not loaded. Load anyway ...
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       } else if (datastorage[day] && day !== moment().format('YYYY-MM-DD')) {
         callback(day);
         return;
@@ -659,13 +658,13 @@ var init = function init () {
       var to = from + 1000 * 60 * 60 * 24;
 
       function loadCGMData () {
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         if (daystoshow[day].treatmentsonly) {
-          // @ts-expect-error TS(2339): Property 'sgv' does not exist on type '{}'.
+          // @ts-expect-error TS(2339) FIXME: Property 'sgv' does not exist on type '{}'.
           data.sgv = [];
-          // @ts-expect-error TS(2339): Property 'mbg' does not exist on type '{}'.
+          // @ts-expect-error TS(2339) FIXME: Property 'mbg' does not exist on type '{}'.
           data.mbg = [];
-          // @ts-expect-error TS(2339): Property 'cal' does not exist on type '{}'.
+          // @ts-expect-error TS(2339) FIXME: Property 'cal' does not exist on type '{}'.
           data.cal = [];
           return $.Deferred().resolve();
         }
@@ -707,34 +706,34 @@ var init = function init () {
               }
             });
             // sometimes cgm contains duplicates.  uniq it.
-            // @ts-expect-error TS(2339): Property 'sgv' does not exist on type '{}'.
+            // @ts-expect-error TS(2339) FIXME: Property 'sgv' does not exist on type '{}'.
             data.sgv = cgmData.slice();
-            // @ts-expect-error TS(2339): Property 'sgv' does not exist on type '{}'.
+            // @ts-expect-error TS(2339) FIXME: Property 'sgv' does not exist on type '{}'.
             data.sgv.sort(function(a: any, b: any) { return a.mills - b.mills; });
             var lastDate = 0;
-            // @ts-expect-error TS(2339): Property 'sgv' does not exist on type '{}'.
+            // @ts-expect-error TS(2339) FIXME: Property 'sgv' does not exist on type '{}'.
             data.sgv = data.sgv.filter(function(d: any) {
               var ok = (lastDate + ONE_MIN_IN_MS) <= d.mills;
               lastDate = d.mills;
               if (!ok) { console.log("itm", JSON.stringify(d)); }
               return ok;
             });
-            // @ts-expect-error TS(2339): Property 'mbg' does not exist on type '{}'.
+            // @ts-expect-error TS(2339) FIXME: Property 'mbg' does not exist on type '{}'.
             data.mbg = mbgData.slice();
-            // @ts-expect-error TS(2339): Property 'mbg' does not exist on type '{}'.
+            // @ts-expect-error TS(2339) FIXME: Property 'mbg' does not exist on type '{}'.
             data.mbg.sort(function(a: any, b: any) { return a.mills - b.mills; });
-            // @ts-expect-error TS(2339): Property 'cal' does not exist on type '{}'.
+            // @ts-expect-error TS(2339) FIXME: Property 'cal' does not exist on type '{}'.
             data.cal = calData.slice();
-            // @ts-expect-error TS(2339): Property 'cal' does not exist on type '{}'.
+            // @ts-expect-error TS(2339) FIXME: Property 'cal' does not exist on type '{}'.
             data.cal.sort(function(a: any, b: any) { return a.mills - b.mills; });
           }
         });
       }
 
       function loadTreatmentData () {
-        // @ts-expect-error TS(2339): Property 'profileSwitchTreatments' does not exist ... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'profileSwitchTreatments' does not exist ... Remove this comment to see the full error message
         if (!datastorage.profileSwitchTreatments)
-          // @ts-expect-error TS(2339): Property 'profileSwitchTreatments' does not exist ... Remove this comment to see the full error message
+          // @ts-expect-error TS(2339) FIXME: Property 'profileSwitchTreatments' does not exist ... Remove this comment to see the full error message
           datastorage.profileSwitchTreatments = [];
         $('#info-' + day).html('<b>' + translate('Loading treatments data of') + ' ' + day + ' ...</b>');
         var tquery = '?find[created_at][$gte]=' + new Date(from).toISOString() + '&find[created_at][$lt]=' + new Date(to).toISOString() + '&count=1000';
@@ -747,35 +746,35 @@ var init = function init () {
               treatment.mills = timestamp.getTime();
               return treatment;
             });
-            // @ts-expect-error TS(2339): Property 'treatments' does not exist on type '{}'.
+            // @ts-expect-error TS(2339) FIXME: Property 'treatments' does not exist on type '{}'.
             data.treatments = treatmentData.slice();
-            // @ts-expect-error TS(2339): Property 'treatments' does not exist on type '{}'.
+            // @ts-expect-error TS(2339) FIXME: Property 'treatments' does not exist on type '{}'.
             data.treatments.sort(function(a: any, b: any) { return a.mills - b.mills; });
             // filter 'Combo Bolus' events
-            // @ts-expect-error TS(2339): Property 'combobolusTreatments' does not exist on ... Remove this comment to see the full error message
+            // @ts-expect-error TS(2339) FIXME: Property 'combobolusTreatments' does not exist on ... Remove this comment to see the full error message
             data.combobolusTreatments = data.treatments.filter(function filterComboBoluses (t: any) {
               return t.eventType === 'Combo Bolus';
             });
             // filter temp basal treatments
-            // @ts-expect-error TS(2339): Property 'tempbasalTreatments' does not exist on t... Remove this comment to see the full error message
+            // @ts-expect-error TS(2339) FIXME: Property 'tempbasalTreatments' does not exist on t... Remove this comment to see the full error message
             data.tempbasalTreatments = data.treatments.filter(function filterTempBasals (t: any) {
               return t.eventType === 'Temp Basal';
             });
             // filter profile switch treatments
-            // @ts-expect-error TS(2339): Property 'treatments' does not exist on type '{}'.
+            // @ts-expect-error TS(2339) FIXME: Property 'treatments' does not exist on type '{}'.
             var profileSwitch = data.treatments.filter(function filterProfileSwitch (t: any) {
               return t.eventType === 'Profile Switch';
             });
-            // @ts-expect-error TS(2339): Property 'profileSwitchTreatments' does not exist ... Remove this comment to see the full error message
+            // @ts-expect-error TS(2339) FIXME: Property 'profileSwitchTreatments' does not exist ... Remove this comment to see the full error message
             datastorage.profileSwitchTreatments = datastorage.profileSwitchTreatments.concat(profileSwitch);
           }
         });
       }
 
       function loadDevicestatusData () {
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         if (daystoshow[day].treatmentsonly) {
-          // @ts-expect-error TS(2339): Property 'devicestatus' does not exist on type '{}... Remove this comment to see the full error message
+          // @ts-expect-error TS(2339) FIXME: Property 'devicestatus' does not exist on type '{}... Remove this comment to see the full error message
           data.devicestatus = [];
           return $.Deferred().resolve();
         }
@@ -785,7 +784,7 @@ var init = function init () {
           return $.ajax('/api/v1/devicestatus.json' + tquery, {
             headers: client.headers()
             , success: function(xhr: any) {
-              // @ts-expect-error TS(2339): Property 'devicestatus' does not exist on type '{}... Remove this comment to see the full error message
+              // @ts-expect-error TS(2339) FIXME: Property 'devicestatus' does not exist on type '{}... Remove this comment to see the full error message
               data.devicestatus = xhr.map(function(devicestatus: any) {
                 devicestatus.mills = new Date(devicestatus.timestamp || devicestatus.created_at).getTime();
                 return devicestatus;
@@ -793,7 +792,7 @@ var init = function init () {
             }
           });
         } else {
-          // @ts-expect-error TS(2339): Property 'devicestatus' does not exist on type '{}... Remove this comment to see the full error message
+          // @ts-expect-error TS(2339) FIXME: Property 'devicestatus' does not exist on type '{}... Remove this comment to see the full error message
           data.devicestatus = [];
           return $.Deferred().resolve();
         }
@@ -816,13 +815,13 @@ var init = function init () {
             treatment.mills = timestamp.getTime();
             return treatment;
           });
-          // @ts-expect-error TS(2339): Property 'profileSwitchTreatments' does not exist ... Remove this comment to see the full error message
+          // @ts-expect-error TS(2339) FIXME: Property 'profileSwitchTreatments' does not exist ... Remove this comment to see the full error message
           if (!datastorage.profileSwitchTreatments)
-            // @ts-expect-error TS(2339): Property 'profileSwitchTreatments' does not exist ... Remove this comment to see the full error message
+            // @ts-expect-error TS(2339) FIXME: Property 'profileSwitchTreatments' does not exist ... Remove this comment to see the full error message
             datastorage.profileSwitchTreatments = [];
-          // @ts-expect-error TS(2339): Property 'profileSwitchTreatments' does not exist ... Remove this comment to see the full error message
+          // @ts-expect-error TS(2339) FIXME: Property 'profileSwitchTreatments' does not exist ... Remove this comment to see the full error message
           datastorage.profileSwitchTreatments = datastorage.profileSwitchTreatments.concat(treatmentData);
-          // @ts-expect-error TS(2339): Property 'profileSwitchTreatments' does not exist ... Remove this comment to see the full error message
+          // @ts-expect-error TS(2339) FIXME: Property 'profileSwitchTreatments' does not exist ... Remove this comment to see the full error message
           datastorage.profileSwitchTreatments.sort(function(a: any, b: any) { return a.mills - b.mills; });
         }
       }).done(function() {
@@ -834,14 +833,14 @@ var init = function init () {
       $('#info > b').html('<b>' + translate('Loading profile range') + ' ...</b>');
 
       $.when(
-          // @ts-expect-error TS(2554): Expected 2 arguments, but got 3.
+          // @ts-expect-error TS(2554) FIXME: Expected 2 arguments, but got 3.
           loadProfilesRangeCore(dateFrom, dateTo, dayCount)
           , loadProfilesRangePrevious(dateFrom)
           , loadProfilesRangeNext(dateTo)
         )
         .done(callback)
         .fail(function() {
-          // @ts-expect-error TS(2339): Property 'profiles' does not exist on type '{}'.
+          // @ts-expect-error TS(2339) FIXME: Property 'profiles' does not exist on type '{}'.
           datastorage.profiles = [];
         });
     }
@@ -856,7 +855,7 @@ var init = function init () {
         headers: client.headers()
         , async: false
         , success: function(records: any) {
-          // @ts-expect-error TS(2339): Property 'profiles' does not exist on type '{}'.
+          // @ts-expect-error TS(2339) FIXME: Property 'profiles' does not exist on type '{}'.
           datastorage.profiles = records;
         }
       });
@@ -873,7 +872,7 @@ var init = function init () {
         , async: false
         , success: function(records: any) {
           records.forEach(function(r: any) {
-            // @ts-expect-error TS(2339): Property 'profiles' does not exist on type '{}'.
+            // @ts-expect-error TS(2339) FIXME: Property 'profiles' does not exist on type '{}'.
             datastorage.profiles.push(r);
           });
         }
@@ -892,7 +891,7 @@ var init = function init () {
         , success: function(records: any) {
           records.forEach(function(r: any) {
             //must be inserted as top to maintain profiles being sorted by date in descending order
-            // @ts-expect-error TS(2339): Property 'profiles' does not exist on type '{}'.
+            // @ts-expect-error TS(2339) FIXME: Property 'profiles' does not exist on type '{}'.
             datastorage.profiles.unshift(r);
           });
         }
@@ -900,9 +899,9 @@ var init = function init () {
     }
 
     function processData (data: any, day: any, options: any, callback: any) {
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       if (daystoshow[day].treatmentsonly) {
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         datastorage[day] = data;
         $('#info-' + day).html('');
         callback(day);
@@ -991,16 +990,16 @@ var init = function init () {
         }
       }).map(function(r: any) {
         var ret = {};
-        // @ts-expect-error TS(2339): Property 'sgv' does not exist on type '{}'.
+        // @ts-expect-error TS(2339) FIXME: Property 'sgv' does not exist on type '{}'.
         ret.sgv = parseFloat(r.sgv);
-        // @ts-expect-error TS(2339): Property 'bgValue' does not exist on type '{}'.
+        // @ts-expect-error TS(2339) FIXME: Property 'bgValue' does not exist on type '{}'.
         ret.bgValue = parseInt(r.y);
-        // @ts-expect-error TS(2339): Property 'displayTime' does not exist on type '{}'... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'displayTime' does not exist on type '{}'... Remove this comment to see the full error message
         ret.displayTime = r.date;
         return ret;
       });
 
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       datastorage[day] = data;
       $('#info-' + day).html('');
       callback(day);
@@ -1015,5 +1014,5 @@ var init = function init () {
   });
 };
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

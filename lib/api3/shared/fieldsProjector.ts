@@ -1,13 +1,13 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_each'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_each'.
 const _each = require('lodash/each');
 
 /**
   * Decoder of 'fields' parameter providing storage projections
   * @param {string} fieldsString - fields parameter from user
   */
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'FieldsProj... Remove this comment to see the full error message
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'FieldsProj... Remove this comment to see the full error message
 function FieldsProjector(this: any, fieldsString: any) {
   
   const self = this
@@ -35,24 +35,24 @@ function FieldsProjector(this: any, fieldsString: any) {
 
     if (specific) {
       _each(specific, function include (field: any) {
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         projection[field] = 1;
       });
 
       _each(systemFields, function include (field: any) {
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         projection[field] = 1;
       });
     }
     else {
       _each(exclude, function exclude (field: any) {
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         projection[field] = 0;
       });
 
       _each(exclude, function exclude (field: any) {
         if (systemFields.indexOf(field) >= 0) {
-          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+          // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           delete projection[field];
         }
       });
@@ -85,5 +85,5 @@ function FieldsProjector(this: any, fieldsString: any) {
   };
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = FieldsProjector;

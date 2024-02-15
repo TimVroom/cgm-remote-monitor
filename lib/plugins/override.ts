@@ -7,7 +7,7 @@ function init() {
     , pluginType: 'pill-status'
   };
 
-  // @ts-expect-error TS(2339): Property 'isActive' does not exist on type '{ name... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'isActive' does not exist on type '{ name... Remove this comment to see the full error message
   override.isActive = function isActive(overrideStatus: any, sbx: any) {
 
     if (!overrideStatus) {
@@ -20,12 +20,12 @@ function init() {
 
   };
 
-  // @ts-expect-error TS(2339): Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
   override.updateVisualisation = function updateVisualisation (sbx: any) {
     var lastOverride = sbx.properties.loop.lastOverride;
     var info: any = [ ];
     var label = '';
-    // @ts-expect-error TS(2339): Property 'isActive' does not exist on type '{ name... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'isActive' does not exist on type '{ name... Remove this comment to see the full error message
     var isActive = override.isActive(lastOverride, sbx);
 
     if (isActive) {
@@ -67,5 +67,5 @@ function init() {
 }
 
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

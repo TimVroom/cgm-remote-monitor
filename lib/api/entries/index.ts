@@ -1,23 +1,23 @@
 'use strict';
 
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 const _last = require('lodash/last');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_isNil'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_isNil'.
 const _isNil = require('lodash/isNil');
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 const _first = require('lodash/first');
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 const _includes = require('lodash/includes');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 const _ = require('lodash');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'moment'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'moment'.
 const moment = require('moment');
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'consts'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'consts'.
 const consts = require('../../constants');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'es'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'es'.
 const es = require('event-stream');
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 const braces = require('braces');
 const expand = braces.expand;
 
@@ -41,10 +41,11 @@ function isId (value: any) {
  * @param Object ctx The global ctx with all modules, storage, and event buses
  * configured.
  */
+// @ts-expect-error TS(2393) FIXME: Duplicate function implementation.
 function configure (app: any, wares: any, ctx: any, env: any) {
   // default storage biased towards entries.
   const entries = ctx.entries;
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   const express = require('express')
     , api = express.Router();
 
@@ -176,7 +177,7 @@ function configure (app: any, wares: any, ctx: any, env: any) {
     if (!_isNil(lastEntry)) {
       if (lastEntry.mills) lastEntryDate = new Date(lastEntry.mills);
       if (!lastEntry.mills && lastEntry.date) lastEntryDate = new Date(lastEntry.date);
-      // @ts-expect-error TS(2531): Object is possibly 'null'.
+      // @ts-expect-error TS(2531) FIXME: Object is possibly 'null'.
       res.setHeader('Last-Modified', lastEntryDate.toUTCString());
     }
 
@@ -656,12 +657,12 @@ function configure (app: any, wares: any, ctx: any, env: any) {
 
     // save pattern for other middlewares, eg echo, query, etc.
     req.pattern = pattern;
-    // @ts-expect-error TS(2554): Expected 2 arguments, but got 0.
+    // @ts-expect-error TS(2554) FIXME: Expected 2 arguments, but got 0.
     var matches = pattern.map(iter_regex());
     // prepare the query against a configurable field name.
     var field = req.patternField;
     var query = {};
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     query[field] = {
       // $regex: prefix,
       // configure query to perform regex against list of potential regexp
@@ -670,17 +671,17 @@ function configure (app: any, wares: any, ctx: any, env: any) {
     if (prefix.length === 1) {
       // If there is a single prefix pattern, mongo can optimize this against
       // an indexed field
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       query[field].$regex = prefix.map(iter_regex('^')).pop();
     }
 
     // Merge into existing query structure.
     if (req.query.find) {
       if (req.query.find[field]) {
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         req.query.find[field].$in = query[field].$in;
       } else {
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         req.query.find[field] = query[field];
       }
     } else {
@@ -833,5 +834,5 @@ function configure (app: any, wares: any, ctx: any, env: any) {
 }
 
 // expose module
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = configure;

@@ -1,10 +1,10 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'moment'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'moment'.
 const moment = require('moment')
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'stringTool... Remove this comment to see the full error message
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'stringTool... Remove this comment to see the full error message
   , stringTools = require('./stringTools')
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'apiConst'.
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'apiConst'.
   , apiConst = require('../const.json')
   ;
 
@@ -24,7 +24,7 @@ function floorSeconds (date: any) {
  * Parse date as moment object from value or array of values.
  * @param {any} value
  */
-// @ts-expect-error TS(7023): 'parseToMoment' implicitly has return type 'any' b... Remove this comment to see the full error message
+// @ts-expect-error TS(7023) FIXME: 'parseToMoment' implicitly has return type 'any' b... Remove this comment to see the full error message
 function parseToMoment (value: any)
 {
   if (!value)
@@ -32,7 +32,7 @@ function parseToMoment (value: any)
 
   if (Array.isArray(value)) {
     for (let item of value) {
-      // @ts-expect-error TS(7022): 'm' implicitly has type 'any' because it does not ... Remove this comment to see the full error message
+      // @ts-expect-error TS(7022) FIXME: 'm' implicitly has type 'any' because it does not ... Remove this comment to see the full error message
       let m = parseToMoment(item);
 
       if (m !== null)
@@ -77,7 +77,7 @@ function parseToMoment (value: any)
   return null;
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = {
   floorSeconds,
   parseToMoment

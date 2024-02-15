@@ -1,18 +1,18 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 const _ = require('lodash')
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'dateTools'... Remove this comment to see the full error message
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'dateTools'... Remove this comment to see the full error message
   , dateTools = require('../../shared/dateTools')
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'apiConst'.
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'apiConst'.
   , apiConst = require('../../const.json')
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'security'.
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'security'.
   , security = require('../../security')
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'insert'.
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'insert'.
   , insert = require('../create/insert')
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'replace'.
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'replace'.
   , replace = require('./replace')
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'opTools'.
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'opTools'.
   , opTools = require('../../shared/operationTools')
   ;
 
@@ -70,7 +70,7 @@ async function updateConditional (opCtx: any, doc: any, storageDoc: any) {
 }
 
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'updateOper... Remove this comment to see the full error message
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'updateOper... Remove this comment to see the full error message
 function updateOperation (ctx: any, env: any, app: any, col: any) {
 
   return async function operation (req: any, res: any) {
@@ -78,7 +78,7 @@ function updateOperation (ctx: any, env: any, app: any, col: any) {
     const opCtx = { app, ctx, env, col, req, res };
 
     try {
-      // @ts-expect-error TS(2339): Property 'auth' does not exist on type '{ app: any... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'auth' does not exist on type '{ app: any... Remove this comment to see the full error message
       opCtx.auth = await security.authenticate(opCtx);
 
       await update(opCtx);
@@ -92,5 +92,5 @@ function updateOperation (ctx: any, env: any, app: any, col: any) {
   };
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = updateOperation;

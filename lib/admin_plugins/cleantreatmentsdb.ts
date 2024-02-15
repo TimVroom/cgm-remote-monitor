@@ -1,6 +1,6 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'moment'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'moment'.
 var moment;
 
 var cleantreatmentsdb = {
@@ -9,16 +9,16 @@ var cleantreatmentsdb = {
   , pluginType: 'admin'
 };
 
-// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init(ctx: any) {
+  // @ts-expect-error TS(2588) FIXME: Cannot assign to 'moment' because it is a constant... Remove this comment to see the full error message
   moment = ctx.moment;
   return cleantreatmentsdb;
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;
 
-// @ts-expect-error TS(2339): Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
 cleantreatmentsdb.actions = [
     {
         name: 'Delete all documents from treatments collection older than 180 days'
@@ -29,7 +29,7 @@ cleantreatmentsdb.actions = [
     }
   ];
 
-// @ts-expect-error TS(2339): Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
 cleantreatmentsdb.actions[0].init = function init(client: any, callback: any) {
   var translate = client.translate;
   var $status = $('#admin_' + cleantreatmentsdb.name + '_0_status');
@@ -47,7 +47,7 @@ cleantreatmentsdb.actions[0].init = function init(client: any, callback: any) {
   if (callback) { callback(); }
 };
 
-// @ts-expect-error TS(2339): Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
 cleantreatmentsdb.actions[0].code =  function deleteOldRecords(client: any, callback: any) {
   var translate = client.translate;
   var $status = $('#admin_' + cleantreatmentsdb.name + '_0_status');

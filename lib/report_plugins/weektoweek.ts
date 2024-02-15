@@ -1,10 +1,10 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'moment'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'moment'.
 var moment = window.moment;
-// @ts-expect-error TS(2304): Cannot find name 'global'.
+// @ts-expect-error TS(2304) FIXME: Cannot find name 'global'.
 var d3 = (global && global.d3) || require('d3');
 
 var dayColors = [
@@ -25,7 +25,7 @@ var weektoweek = {
 
 function init (ctx: any) {
 
-  // @ts-expect-error TS(2339): Property 'html' does not exist on type '{ name: st... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'html' does not exist on type '{ name: st... Remove this comment to see the full error message
   weektoweek.html = function html (client: any) {
     var translate = client.translate;
     var ret =
@@ -50,7 +50,7 @@ function init (ctx: any) {
     return ret;
   };
 
-  // @ts-expect-error TS(2339): Property 'prepareHtml' does not exist on type '{ n... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'prepareHtml' does not exist on type '{ n... Remove this comment to see the full error message
   weektoweek.prepareHtml = function weektoweekPrepareHtml (weekstoshow: any) {
     $('#weektoweekcharts').html('');
 
@@ -76,9 +76,9 @@ function init (ctx: any) {
     });
   };
 
-  // @ts-expect-error TS(2339): Property 'report' does not exist on type '{ name: ... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'report' does not exist on type '{ name: ... Remove this comment to see the full error message
   weektoweek.report = function report_weektoweek (datastorage: any, sorteddaystoshow: any, options: any) {
-    // @ts-expect-error TS(2339): Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
     var Nightscout = window.Nightscout;
     var client = Nightscout.client;
     var report_plugins = Nightscout.report_plugins;
@@ -103,7 +103,7 @@ function init (ctx: any) {
       return _.sortBy(week);
     });
 
-    // @ts-expect-error TS(2339): Property 'prepareHtml' does not exist on type '{ n... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'prepareHtml' does not exist on type '{ n... Remove this comment to see the full error message
     weektoweek.prepareHtml(weekstoshow);
 
     weekstoshow.forEach(function eachWeek (week: any) {
@@ -331,5 +331,5 @@ function init (ctx: any) {
   return weektoweek;
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

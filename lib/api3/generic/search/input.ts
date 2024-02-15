@@ -1,12 +1,12 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'apiConst'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'apiConst'.
 const apiConst = require('../../const.json')
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'dateTools'... Remove this comment to see the full error message
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'dateTools'... Remove this comment to see the full error message
   , dateTools = require('../../shared/dateTools')
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'stringTool... Remove this comment to see the full error message
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'stringTool... Remove this comment to see the full error message
   , stringTools = require('../../shared/stringTools')
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'opTools'.
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'opTools'.
   , opTools = require('../../shared/operationTools')
   ;
 
@@ -101,21 +101,21 @@ function parseSort (req: any, res: any) {
 
   if (req.query.sort$desc) {
     sortDirection = -1;
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     sort[req.query.sort$desc] = sortDirection;
   }
   else {
     if (req.query.sort) {
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       sort[req.query.sort] = sortDirection;
     }
   }
 
-  // @ts-expect-error TS(2339): Property 'identifier' does not exist on type '{}'.
+  // @ts-expect-error TS(2339) FIXME: Property 'identifier' does not exist on type '{}'.
   sort.identifier = sortDirection;
-  // @ts-expect-error TS(2339): Property 'created_at' does not exist on type '{}'.
+  // @ts-expect-error TS(2339) FIXME: Property 'created_at' does not exist on type '{}'.
   sort.created_at = sortDirection;
-  // @ts-expect-error TS(2339): Property 'date' does not exist on type '{}'.
+  // @ts-expect-error TS(2339) FIXME: Property 'date' does not exist on type '{}'.
   sort.date = sortDirection;
 
   return sort;
@@ -142,7 +142,7 @@ function parseSkip (req: any, res: any) {
 }
 
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = {
   parseFilter,
   parseSort,

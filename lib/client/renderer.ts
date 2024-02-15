@@ -1,10 +1,10 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'times'.
 var times = require('../times');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'consts'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'consts'.
 var consts = require('../constants');
 
 var DEFAULT_FOCUS = times.hours(3).msecs
@@ -15,7 +15,6 @@ var DEFAULT_FOCUS = times.hours(3).msecs
 
 const zeroDate = new Date(0);
 
-// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init (client: any, d3: any) {
 
   var renderer = {};
@@ -62,7 +61,7 @@ function init (client: any, d3: any) {
   }
 
   // get the desired opacity for context chart based on the brush extent
-  // @ts-expect-error TS(2339): Property 'highlightBrushPoints' does not exist on ... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'highlightBrushPoints' does not exist on ... Remove this comment to see the full error message
   renderer.highlightBrushPoints = function highlightBrushPoints (data: any, from: any, to: any) {
     if (client.latestSGV && data.mills >= from && data.mills <= to) {
       return chart().futureOpacity(data.mills - client.latestSGV.mills);
@@ -71,13 +70,13 @@ function init (client: any, d3: any) {
     }
   };
 
-  // @ts-expect-error TS(2339): Property 'bubbleScale' does not exist on type '{}'... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'bubbleScale' does not exist on type '{}'... Remove this comment to see the full error message
   renderer.bubbleScale = function bubbleScale () {
     // a higher bubbleScale will produce smaller bubbles (it's not a radius like focusDotRadius)
     return (chart().prevChartWidth < WIDTH_SMALL_DOTS ? 4 : (chart().prevChartWidth < WIDTH_BIG_DOTS ? 3 : 2)) * focusRangeAdjustment();
   };
 
-  // @ts-expect-error TS(2339): Property 'addFocusCircles' does not exist on type ... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'addFocusCircles' does not exist on type ... Remove this comment to see the full error message
   renderer.addFocusCircles = function addFocusCircles () {
 
     function updateFocusCircles (sel: any) {
@@ -144,10 +143,10 @@ function init (client: any, d3: any) {
         var info = {};
         var sbx = client.sbx.withExtendedSettings(client.rawbg);
         if (d.type === 'sgv') {
-          // @ts-expect-error TS(2339): Property 'noise' does not exist on type '{}'.
+          // @ts-expect-error TS(2339) FIXME: Property 'noise' does not exist on type '{}'.
           info.noise = client.rawbg.noiseCodeToDisplay(d.mgdl, d.noise);
           if (client.rawbg.showRawBGs(d.mgdl, d.noise, client.ddata.cal, sbx)) {
-            // @ts-expect-error TS(2339): Property 'value' does not exist on type '{}'.
+            // @ts-expect-error TS(2339) FIXME: Property 'value' does not exist on type '{}'.
             info.value = utils.scaleMgdl(client.rawbg.calc(d, client.ddata.cal, sbx));
           }
         }
@@ -160,9 +159,9 @@ function init (client: any, d3: any) {
       client.tooltip.html('<strong>' + translate('BG') + ':</strong> ' + client.sbx.scaleEntry(d) +
           (d.type === 'mbg' ? '<br/><strong>' + translate('Device') + ': </strong>' + d.device : '') +
           (d.type === 'forecast' && d.forecastType ? '<br/><strong>' + translate('Forecast Type') + ': </strong>' + d.forecastType : '') +
-          // @ts-expect-error TS(2339): Property 'value' does not exist on type '{}'.
+          // @ts-expect-error TS(2339) FIXME: Property 'value' does not exist on type '{}'.
           (rawbgInfo.value ? '<br/><strong>' + translate('Raw BG') + ':</strong> ' + rawbgInfo.value : '') +
-          // @ts-expect-error TS(2339): Property 'noise' does not exist on type '{}'.
+          // @ts-expect-error TS(2339) FIXME: Property 'noise' does not exist on type '{}'.
           (rawbgInfo.noise ? '<br/><strong>' + translate('Noise') + ':</strong> ' + rawbgInfo.noise : '') +
           '<br/><strong>' + translate('Time') + ':</strong> ' + client.formatTime(getOrAddDate(d)))
         .style('left', tooltipLeft())
@@ -212,7 +211,7 @@ function init (client: any, d3: any) {
 
   };
 
-  // @ts-expect-error TS(2339): Property 'addTreatmentCircles' does not exist on t... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'addTreatmentCircles' does not exist on t... Remove this comment to see the full error message
   renderer.addTreatmentCircles = function addTreatmentCircles (nowDate: any) {
     function treatmentTooltip (d: any) {
       var targetBottom = d.targetBottom;
@@ -478,7 +477,7 @@ function init (client: any, d3: any) {
 
 
 
-  // @ts-expect-error TS(2339): Property 'addContextCircles' does not exist on typ... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'addContextCircles' does not exist on typ... Remove this comment to see the full error message
   renderer.addContextCircles = function addContextCircles () {
     // bind up the context chart data to an array of circles
     var contextCircles = chart().context.selectAll('circle').data(client.entries);
@@ -556,9 +555,9 @@ function init (client: any, d3: any) {
     ]
       , arc_data_1_elements = [];
 
-    // @ts-expect-error TS(2339): Property 'outlineOnly' does not exist on type '{ e... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'outlineOnly' does not exist on type '{ e... Remove this comment to see the full error message
     arc_data[0].outlineOnly = !treatment.carbs;
-    // @ts-expect-error TS(2339): Property 'outlineOnly' does not exist on type '{ e... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'outlineOnly' does not exist on type '{ e... Remove this comment to see the full error message
     arc_data[2].outlineOnly = !treatment.insulin;
 
     if (treatment.carbs > 0) {
@@ -677,7 +676,7 @@ function init (client: any, d3: any) {
     var insulinRect = { x: 0, y: 0, width: 0, height: 0 };
     var carbsRect = { x: 0, y: 0, width: 0, height: 0 };
     var operation: any;
-    // @ts-expect-error TS(2339): Property 'drag' does not exist on type '{}'.
+    // @ts-expect-error TS(2339) FIXME: Property 'drag' does not exist on type '{}'.
     renderer.drag = d3.drag()
       .on('start', function() {
         //console.log(treatment);
@@ -955,7 +954,7 @@ function init (client: any, d3: any) {
     if (client.editMode) {
       treatmentDots
         .style('cursor', 'move')
-        // @ts-expect-error TS(2339): Property 'drag' does not exist on type '{}'.
+        // @ts-expect-error TS(2339) FIXME: Property 'drag' does not exist on type '{}'.
         .call(renderer.drag);
     }
 
@@ -1009,7 +1008,7 @@ function init (client: any, d3: any) {
     }
   }
 
-  // @ts-expect-error TS(2339): Property 'drawTreatments' does not exist on type '... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'drawTreatments' does not exist on type '... Remove this comment to see the full error message
   renderer.drawTreatments = function drawTreatments (client: any) {
 
     var treatmentCount = 0;
@@ -1027,9 +1026,9 @@ function init (client: any, d3: any) {
       if (d.insulin && d.insulin < bolusSettings.renderOver && bolusSettings.renderFormatSmall == 'hidden') {
         showLabels = false;
       }
-      // @ts-expect-error TS(2339): Property 'drawTreatment' does not exist on type '{... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'drawTreatment' does not exist on type '{... Remove this comment to see the full error message
       renderer.drawTreatment(d, {
-        // @ts-expect-error TS(2339): Property 'bubbleScale' does not exist on type '{}'... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'bubbleScale' does not exist on type '{}'... Remove this comment to see the full error message
         scale: renderer.bubbleScale()
         , showLabels: showLabels
         , treatments: treatmentCount
@@ -1039,7 +1038,7 @@ function init (client: any, d3: any) {
     });
   };
 
-  // @ts-expect-error TS(2339): Property 'drawTreatment' does not exist on type '{... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'drawTreatment' does not exist on type '{... Remove this comment to see the full error message
   renderer.drawTreatment = function drawTreatment (treatment: any, opts: any, carbratio: any, bolusSettings: any) {
     if (!treatment.carbs && !treatment.protein && !treatment.fat && !treatment.insulin) {
       return;
@@ -1063,7 +1062,7 @@ function init (client: any, d3: any) {
     appendLabels(treatmentDots, arc, opts);
   };
 
-  // @ts-expect-error TS(2339): Property 'addBasals' does not exist on type '{}'.
+  // @ts-expect-error TS(2339) FIXME: Property 'addBasals' does not exist on type '{}'.
   renderer.addBasals = function addBasals (client: any) {
 
     if (!client.settings.isEnabled('basal')) {
@@ -1211,7 +1210,7 @@ function init (client: any, d3: any) {
     client.chart.basals.attr('display', !mode || 'none' === mode ? 'none' : '');
   };
 
-  // @ts-expect-error TS(2339): Property 'addTreatmentProfiles' does not exist on ... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'addTreatmentProfiles' does not exist on ... Remove this comment to see the full error message
   renderer.addTreatmentProfiles = function addTreatmentProfiles (client: any) {
     if (client.profilefunctions.listBasalProfiles().length < 2) {
       return; // do not visualize profiles if there is only one
@@ -1302,5 +1301,5 @@ function init (client: any, d3: any) {
   return renderer;
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

@@ -1,11 +1,11 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 const _ = require('lodash')
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'request'.
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'request'.
   , request = require('supertest')
   ;
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 require('should');
 
 function createRole (authStorage: any, name: any, permissions: any) {
@@ -69,7 +69,7 @@ async function initJwts (accessToken: any, tokensNeeded: any, app: any) {
     return jwt;
 
   for (const tokenNeeded of tokensNeeded) {
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     jwt[tokenNeeded] = await new Promise((resolve, reject) => {
       try {
         const authToken = accessToken[tokenNeeded];
@@ -121,27 +121,27 @@ async function authSubject (authStorage: any, tokensNeeded: any, app: any) {
   };
 
   const accessToken = {
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
+    // @ts-expect-error TS(2571) FIXME: Object is of type 'unknown'.
     all: subject.apiAll.accessToken,
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
+    // @ts-expect-error TS(2571) FIXME: Object is of type 'unknown'.
     admin: subject.apiAdmin.accessToken,
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
+    // @ts-expect-error TS(2571) FIXME: Object is of type 'unknown'.
     create: subject.apiCreate.accessToken,
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
+    // @ts-expect-error TS(2571) FIXME: Object is of type 'unknown'.
     read: subject.apiRead.accessToken,
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
+    // @ts-expect-error TS(2571) FIXME: Object is of type 'unknown'.
     update: subject.apiUpdate.accessToken,
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
+    // @ts-expect-error TS(2571) FIXME: Object is of type 'unknown'.
     delete: subject.apiDelete.accessToken,
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
+    // @ts-expect-error TS(2571) FIXME: Object is of type 'unknown'.
     denied: subject.denied.accessToken,
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
+    // @ts-expect-error TS(2571) FIXME: Object is of type 'unknown'.
     adminAll: subject.admin.accessToken,
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
+    // @ts-expect-error TS(2571) FIXME: Object is of type 'unknown'.
     readable: subject.readable.accessToken,
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
+    // @ts-expect-error TS(2571) FIXME: Object is of type 'unknown'.
     noneSubject: subject.noneSubject.accessToken,
-    // @ts-expect-error TS(2571): Object is of type 'unknown'.
+    // @ts-expect-error TS(2571) FIXME: Object is of type 'unknown'.
     noneRole: subject.noneRole.accessToken
   };
 
@@ -150,5 +150,5 @@ async function authSubject (authStorage: any, tokensNeeded: any, app: any) {
   return {subject, accessToken, jwt};
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = authSubject;

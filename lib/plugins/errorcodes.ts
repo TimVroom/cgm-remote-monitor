@@ -1,8 +1,8 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'times'.
 var times = require('../times');
 
 function init(ctx: any) {
@@ -31,14 +31,14 @@ function init(ctx: any) {
   };
 
   function toDisplay (errorCode: any) {
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     return code2Display[errorCode] || errorCode + '??';
   }
 
-  // @ts-expect-error TS(2339): Property 'toDisplay' does not exist on type '{ nam... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'toDisplay' does not exist on type '{ nam... Remove this comment to see the full error message
   errorcodes.toDisplay = toDisplay;
 
-  // @ts-expect-error TS(2339): Property 'checkNotifications' does not exist on ty... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'checkNotifications' does not exist on ty... Remove this comment to see the full error message
   errorcodes.checkNotifications = function checkNotifications (sbx: any) {
     var now = sbx.time;
     var lastSGV = sbx.lastSGVEntry();
@@ -47,9 +47,9 @@ function init(ctx: any) {
 
     if (lastSGV && now - lastSGV.mills < times.mins(10).msecs && lastSGV.mgdl < 39) {
       var errorDisplay = toDisplay(lastSGV.mgdl);
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       var pushoverSound = code2PushoverSound[lastSGV.mgdl] || null;
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       var notifyLevel = code2Level[lastSGV.mgdl];
 
       if (notifyLevel !== undefined) {
@@ -80,7 +80,7 @@ function init(ctx: any) {
       var rawValues = value && value.split(' ') || [];
       _.each(rawValues, function (num: any) {
         if (!isNaN(num)) {
-          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+          // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           mapping[Number(num)] = level;
         }
       });
@@ -94,7 +94,7 @@ function init(ctx: any) {
   }
 
   //for tests
-  // @ts-expect-error TS(2339): Property 'buildMappingFromSettings' does not exist... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'buildMappingFromSettings' does not exist... Remove this comment to see the full error message
   errorcodes.buildMappingFromSettings = buildMappingFromSettings;
 
 
@@ -102,5 +102,5 @@ function init(ctx: any) {
 
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

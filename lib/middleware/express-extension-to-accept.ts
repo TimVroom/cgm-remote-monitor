@@ -1,9 +1,9 @@
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'mime'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'mime'.
 var mime = require('mime')
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'url'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'url'.
 var url = require('url')
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = function (formats: any) {
   if (!Array.isArray(formats))
     throw new TypeError('Formats must be an array.')

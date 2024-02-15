@@ -1,14 +1,14 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'apiConst'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'apiConst'.
 const apiConst = require('../../const.json')
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'security'.
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'security'.
   , security = require('../../security')
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'validate'.
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'validate'.
   , validate = require('./validate.js')
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'path'.
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'path'.
   , path = require('path')
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'opTools'.
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'opTools'.
   , opTools = require('../../shared/operationTools')
   ;
 
@@ -17,7 +17,7 @@ const apiConst = require('../../const.json')
  * @param {Object} opCtx
  * @param {Object} doc
  */
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'insert'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'insert'.
 async function insert (opCtx: any, doc: any) {
 
   const { ctx, auth, col, req, res } = opCtx;
@@ -56,5 +56,5 @@ async function insert (opCtx: any, doc: any) {
 }
 
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = insert;

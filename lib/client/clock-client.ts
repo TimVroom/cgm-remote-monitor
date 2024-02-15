@@ -1,11 +1,11 @@
 'use strict';
 
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var browserSettings = require('./browser-settings');
 var client = {};
 var latestProperties = {};
 
-// @ts-expect-error TS(2339): Property 'query' does not exist on type '{}'.
+// @ts-expect-error TS(2339) FIXME: Property 'query' does not exist on type '{}'.
 client.query = function query () {
   var parts = (location.search || '?').substring(1).split('&');
   var token = '';
@@ -32,28 +32,28 @@ client.query = function query () {
     }
     , success: function gotData (data: any) {
       latestProperties = data;
-      // @ts-expect-error TS(2339): Property 'render' does not exist on type '{}'.
+      // @ts-expect-error TS(2339) FIXME: Property 'render' does not exist on type '{}'.
       client.render();
     }
   });
 };
 
-// @ts-expect-error TS(2339): Property 'render' does not exist on type '{}'.
+// @ts-expect-error TS(2339) FIXME: Property 'render' does not exist on type '{}'.
 client.render = function render () {
 
-  // @ts-expect-error TS(2339): Property 'bgnow' does not exist on type '{}'.
+  // @ts-expect-error TS(2339) FIXME: Property 'bgnow' does not exist on type '{}'.
   if (!latestProperties.bgnow && !latestProperties.bgnow.sgvs) {
     console.error('BG data not available');
     return;
   }
 
-  // @ts-expect-error TS(2339): Property 'bgnow' does not exist on type '{}'.
+  // @ts-expect-error TS(2339) FIXME: Property 'bgnow' does not exist on type '{}'.
   let rec = latestProperties.bgnow.sgvs[0];
   let deltaDisplayValue;
 
-  // @ts-expect-error TS(2339): Property 'delta' does not exist on type '{}'.
+  // @ts-expect-error TS(2339) FIXME: Property 'delta' does not exist on type '{}'.
   if (latestProperties.delta) {
-    // @ts-expect-error TS(2339): Property 'delta' does not exist on type '{}'.
+    // @ts-expect-error TS(2339) FIXME: Property 'delta' does not exist on type '{}'.
     deltaDisplayValue = latestProperties.delta.display;
   }
 
@@ -79,12 +79,10 @@ client.render = function render () {
 
   // Backward compatible
   if (face === 'clock-color') {
-    // @ts-expect-error TS(2339): Property 'serverSettings' does not exist on type '... Remove this comment to see the full error message
     face = 'c' + (window.serverSettings.settings.showClockLastTime ? 'y' : 'n') + '13-sg35-' + (window.serverSettings.settings.showClockDelta ? 'dt14-' : '') + 'nl-ar25-nl-ag6';
   } else if (face === 'clock') {
     face = 'bn0-sg40';
   } else if (face === 'bgclock') {
-    // @ts-expect-error TS(2339): Property 'serverSettings' does not exist on type '... Remove this comment to see the full error message
     face = 'b' + (window.serverSettings.settings.showClockLastTime ? 'y' : 'n') + '13-sg35-' + (window.serverSettings.settings.showClockDelta ? 'dt14-' : '') + 'nl-ar25-nl-ag6';
   } else if (face === 'config') {
     face = $inner.attr('data-face-config');
@@ -128,13 +126,13 @@ client.render = function render () {
     let blue = 'rgba(78,143,207,1)';
 
     // Threshold values
-    // @ts-expect-error TS(2339): Property 'settings' does not exist on type '{}'.
+    // @ts-expect-error TS(2339) FIXME: Property 'settings' does not exist on type '{}'.
     let bgHigh = client.settings.thresholds.bgHigh;
-    // @ts-expect-error TS(2339): Property 'settings' does not exist on type '{}'.
+    // @ts-expect-error TS(2339) FIXME: Property 'settings' does not exist on type '{}'.
     let bgLow = client.settings.thresholds.bgLow;
-    // @ts-expect-error TS(2339): Property 'settings' does not exist on type '{}'.
+    // @ts-expect-error TS(2339) FIXME: Property 'settings' does not exist on type '{}'.
     let bgTargetBottom = client.settings.thresholds.bgTargetBottom;
-    // @ts-expect-error TS(2339): Property 'settings' does not exist on type '{}'.
+    // @ts-expect-error TS(2339) FIXME: Property 'settings' does not exist on type '{}'.
     let bgTargetTop = client.settings.thresholds.bgTargetTop;
 
     let bgNum = parseFloat(rec.mgdl);
@@ -202,7 +200,7 @@ client.render = function render () {
 };
 
 function updateClock () {
-  // @ts-expect-error TS(2339): Property 'settings' does not exist on type '{}'.
+  // @ts-expect-error TS(2339) FIXME: Property 'settings' does not exist on type '{}'.
   let timeDivisor = parseInt(client.settings.timeFormat ? client.settings.timeFormat : 12, 10);
   let today = new Date()
     , h = today.getHours() % timeDivisor;
@@ -210,29 +208,29 @@ function updateClock () {
     h = (h === 0) ? 12 : h; // In the case of 00:xx, change to 12:xx for 12h time
   }
   if (timeDivisor === 24) {
-    // @ts-expect-error TS(2322): Type 'string | number' is not assignable to type '... Remove this comment to see the full error message
+    // @ts-expect-error TS(2322) FIXME: Type 'string | number' is not assignable to type '... Remove this comment to see the full error message
     h = (h < 10) ? ("0" + h) : h; // Pad the hours with a 0 in 24h time
   }
   let m = today.getMinutes();
-  // @ts-expect-error TS(2322): Type 'string' is not assignable to type 'number'.
+  // @ts-expect-error TS(2322) FIXME: Type 'string' is not assignable to type 'number'.
   if (m < 10) m = "0" + m;
   $('.tm').html(h + ":" + m);
 }
 
-// @ts-expect-error TS(2339): Property 'init' does not exist on type '{}'.
+// @ts-expect-error TS(2339) FIXME: Property 'init' does not exist on type '{}'.
 client.init = function init () {
 
   console.log('Initializing clock');
-  // @ts-expect-error TS(2339): Property 'settings' does not exist on type '{}'.
+  // @ts-expect-error TS(2339) FIXME: Property 'settings' does not exist on type '{}'.
   client.settings = browserSettings(client, window.serverSettings, $);
-  // @ts-expect-error TS(2339): Property 'query' does not exist on type '{}'.
+  // @ts-expect-error TS(2339) FIXME: Property 'query' does not exist on type '{}'.
   client.query();
-  // @ts-expect-error TS(2339): Property 'query' does not exist on type '{}'.
+  // @ts-expect-error TS(2339) FIXME: Property 'query' does not exist on type '{}'.
   setInterval(client.query, 20 * 1000); // update every 20 seconds
 
   // time update
   setInterval(updateClock, 1000);
 };
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = client;

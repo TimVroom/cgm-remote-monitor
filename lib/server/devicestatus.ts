@@ -1,8 +1,8 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'moment'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'moment'.
 var moment = require('moment');
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var find_options = require('./query');
 
 function storage (collection: any, ctx: any) {
@@ -125,7 +125,7 @@ function storage (collection: any, ctx: any) {
   api.query_for = query_for;
   api.last = last;
   api.remove = remove;
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   api.aggregate = require('./aggregate')({}, api);
   api.indexedFields = [
     'created_at'
@@ -142,5 +142,5 @@ storage.queryOpts = {
   dateField: 'created_at'
 };
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = storage;

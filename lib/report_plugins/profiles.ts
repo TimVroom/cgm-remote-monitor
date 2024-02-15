@@ -10,10 +10,10 @@ function init () {
   return profiles;
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;
 
-// @ts-expect-error TS(2339): Property 'html' does not exist on type '{ name: st... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'html' does not exist on type '{ name: st... Remove this comment to see the full error message
 profiles.html = function html (client: any) {
   var translate = client.translate;
   var ret =
@@ -26,16 +26,16 @@ profiles.html = function html (client: any) {
   return ret;
 };
 
-// @ts-expect-error TS(2339): Property 'css' does not exist on type '{ name: str... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'css' does not exist on type '{ name: str... Remove this comment to see the full error message
 profiles.css =
   '#profiles-chart {' +
   '  width: 100%;' +
   '  height: 100%;' +
   '}';
 
-// @ts-expect-error TS(2339): Property 'report' does not exist on type '{ name: ... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'report' does not exist on type '{ name: ... Remove this comment to see the full error message
 profiles.report = function report_profiles (datastorage: any) {
-  // @ts-expect-error TS(2339): Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
   var Nightscout = window.Nightscout;
   var client = Nightscout.client;
   var translate = client.translate;
@@ -49,7 +49,7 @@ profiles.report = function report_profiles (datastorage: any) {
   }
   databaseRecords.unbind().bind('change', recordChange);
 
-  // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
+  // @ts-expect-error TS(2554) FIXME: Expected 1 arguments, but got 0.
   recordChange();
 
   function recordChange (event: any) {
@@ -85,11 +85,11 @@ profiles.report = function report_profiles (datastorage: any) {
     table.append($('<tr>').append($('<td>').append('<b>' + translate('DIA') + '</b>:&nbsp' + record.dia)));
     table.append($('<tr>').append($('<td>').append('<b>' + translate('Timezone') + '</b>:&nbsp' + record.timezone)));
     table.append($('<tr>').append($('<td>').append('<b>' + translate('Carbs activity / absorption rate') + '</b>:&nbsp' + record.carbs_hr)));
-    // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
+    // @ts-expect-error TS(2554) FIXME: Expected 2 arguments, but got 1.
     table.append($('<tr>').append($('<td>').append('<b>' + translate('Insulin to carb ratio (I:C)') + '</b>:&nbsp' + '<br>' + displayRanges(record.carbratio))));
-    // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
+    // @ts-expect-error TS(2554) FIXME: Expected 2 arguments, but got 1.
     table.append($('<tr>').append($('<td>').append('<b>' + translate('Insulin Sensitivity Factor (ISF)') + '</b>:&nbsp' + '<br>' + displayRanges(record.sens))));
-    // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
+    // @ts-expect-error TS(2554) FIXME: Expected 2 arguments, but got 1.
     table.append($('<tr>').append($('<td>').append('<b>' + translate('Basal rates [unit/hour]') + '</b>:&nbsp' + '<br>' + displayRanges(record.basal))));
     table.append($('<tr>').append($('<td>').append('<b>' + translate('Target BG range [mg/dL,mmol/L]') + '</b>:&nbsp' + '<br>' + displayRanges(record.target_low, record.target_high))));
 

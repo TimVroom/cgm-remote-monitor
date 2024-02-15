@@ -9,11 +9,11 @@
 function MongoCollection(this: any, ctx: any, env: any, colName: any) {
 
   const self = this
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , utils = require('./utils')
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , find = require('./find')
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , modify = require('./modify')
     ;
 
@@ -81,7 +81,7 @@ function MongoCollection(this: any, ctx: any, env: any, colName: any) {
 
         .project({ [fieldName]: 1 })
 
-        // @ts-expect-error TS(7031): Binding element 'result' implicitly has an 'any' t... Remove this comment to see the full error message
+        // @ts-expect-error TS(7031) FIXME: Binding element 'result' implicitly has an 'any' t... Remove this comment to see the full error message
         .toArray(function mongoDone (err: any, [ result ]) {
           err
             ? reject(err)
@@ -91,5 +91,5 @@ function MongoCollection(this: any, ctx: any, env: any, colName: any) {
   }
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = MongoCollection;

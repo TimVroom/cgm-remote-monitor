@@ -7,7 +7,6 @@
 
 var d3locales = { };
 
-// @ts-expect-error TS(2339): Property 'cs_CZ' does not exist on type '{}'.
 d3locales.cs_CZ = {
   decimal: ',',
   thousands: '.',
@@ -23,7 +22,6 @@ d3locales.cs_CZ = {
   shortMonths: ['Led', 'Úno', 'Bře', 'Dub', 'Kvě', 'Čvn', 'Čvc', 'Srp', 'Zář', 'Říj', 'Lis', 'Pro']
 };
 
-// @ts-expect-error TS(2339): Property 'de_DE' does not exist on type '{}'.
 d3locales.de_DE = {
   decimal: ',',
   thousands: '.',
@@ -39,7 +37,6 @@ d3locales.de_DE = {
   shortMonths: ['Jan', 'Feb', 'Mrz', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Dez']
 };
 
-// @ts-expect-error TS(2339): Property 'en_US' does not exist on type '{}'.
 d3locales.en_US = {
   decimal: '.',
   thousands: ',',
@@ -55,7 +52,6 @@ d3locales.en_US = {
   shortMonths: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 };
 
-// @ts-expect-error TS(2339): Property 'nb_NO' does not exist on type '{}'.
 d3locales.nb_NO = {
   decimal: '.',
   thousands: ',',
@@ -71,7 +67,6 @@ d3locales.nb_NO = {
   shortMonths: ['Jan', 'Feb', 'Mar', 'Apr', 'Mai', 'Jun', 'Jul', 'Aug', 'Sep', 'Okt', 'Nov', 'Des']
 };
 
-// @ts-expect-error TS(2339): Property 'es_ES' does not exist on type '{}'.
 d3locales.es_ES = {
   decimal: ',',
   thousands: '.',
@@ -87,7 +82,6 @@ d3locales.es_ES = {
   shortMonths: ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic']
 };
 
-// @ts-expect-error TS(2339): Property 'fi_FI' does not exist on type '{}'.
 d3locales.fi_FI = {
   decimal: ',',
   thousands: '\xa0',
@@ -103,7 +97,6 @@ d3locales.fi_FI = {
   shortMonths: ['Tammi', 'Helmi', 'Maalis', 'Huhti', 'Touko', 'Kesä', 'Heinä', 'Elo', 'Syys', 'Loka', 'Marras', 'Joulu']
 };
 
-// @ts-expect-error TS(2339): Property 'fr_FR' does not exist on type '{}'.
 d3locales.fr_FR = {
   decimal: ',',
   thousands: '.',
@@ -119,7 +112,6 @@ d3locales.fr_FR = {
   shortMonths: ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.']
 };
 
-// @ts-expect-error TS(2339): Property 'he_IL' does not exist on type '{}'.
 d3locales.he_IL = {
   decimal: '.',
   thousands: ',',
@@ -135,7 +127,6 @@ d3locales.he_IL = {
   shortMonths: ['ינו׳', 'פבר׳', 'מרץ', 'אפר׳', 'מאי', 'יוני', 'יולי', 'אוג׳', 'ספט׳', 'אוק׳', 'נוב׳', 'דצמ׳']
 };
 
-// @ts-expect-error TS(2339): Property 'it_IT' does not exist on type '{}'.
 d3locales.it_IT = {
   decimal: ',',
   thousands: '.',
@@ -151,7 +142,6 @@ d3locales.it_IT = {
   shortMonths: ['Gen', 'Feb', 'Mar', 'Apr', 'Mag', 'Giu', 'Lug', 'Ago', 'Set', 'Ott', 'Nov', 'Dic']
 };
 
-// @ts-expect-error TS(2339): Property 'pl_PL' does not exist on type '{}'.
 d3locales.pl_PL = {
   decimal: '.',
   thousands: ',',
@@ -167,7 +157,6 @@ d3locales.pl_PL = {
   shortMonths: ['Sty', 'Lu', 'Mar', 'Kw', 'Maj', 'Cze', 'Lip', 'Sie', 'Wrz', 'Pa', 'Lis', 'Gru']
 };
 
-// @ts-expect-error TS(2339): Property 'pt_BR' does not exist on type '{}'.
 d3locales.pt_BR = {
   decimal: ',',
   thousands: '.',
@@ -183,7 +172,6 @@ d3locales.pt_BR = {
   shortMonths: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez']
 };
 
-// @ts-expect-error TS(2339): Property 'ro_RO' does not exist on type '{}'.
 d3locales.ro_RO = {
   decimal: '.',
   thousands: ',',
@@ -199,7 +187,6 @@ d3locales.ro_RO = {
   shortMonths: ['Ian', 'Feb', 'Mar', 'Apr', 'Mai', 'Iun', 'Iul', 'Aug', 'Sep', 'Oct', 'Noi', 'Dec']
 };
 
-// @ts-expect-error TS(2339): Property 'ru_RU' does not exist on type '{}'.
 d3locales.ru_RU = {
   decimal: ',',
   thousands: '\xa0',
@@ -214,7 +201,6 @@ d3locales.ru_RU = {
   months: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
   shortMonths: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 };
-// @ts-expect-error TS(2339): Property 'bg_BG' does not exist on type '{}'.
 d3locales.bg_BG = {
   decimal: '.',
   thousands: ',',
@@ -230,7 +216,6 @@ d3locales.bg_BG = {
   shortMonths: ['Ян', 'Февр', 'Март', 'Апр', 'Май', 'Юни', 'Юли', 'Авг', 'Септ', 'Окт', 'Ноем', 'Дек']
 };
 
-// @ts-expect-error TS(2339): Property 'locale' does not exist on type '{}'.
 d3locales.locale = function locale (language: any) {
   // map locale until we switch to full en_US
   var mapper = {
@@ -253,14 +238,13 @@ d3locales.locale = function locale (language: any) {
   // validate the eventType input before getting the reasons list
   if (Object.prototype.hasOwnProperty.call(mapper, language)) {
     /* eslint-disable-next-line security/detect-object-injection */ // verified false positive
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     loc = mapper[language];
   }
 
   /* eslint-disable-next-line security/detect-object-injection */ // verified false positive
-  // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
   return d3locales[loc];
 };
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = d3locales;

@@ -1,8 +1,8 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'times'.
 var times = require('../times');
 
 // var ALL_STATUS_FIELDS = ['status-symbol', 'status-label', 'iob', 'freq', 'rssi']; Unused variable
@@ -10,7 +10,7 @@ var times = require('../times');
 function init (ctx: any) {
   var moment = ctx.moment;
 
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var utils = require('../utils')(ctx);
   var translate = ctx.language.translate;
   var levels = ctx.levels;
@@ -23,7 +23,7 @@ function init (ctx: any) {
 
   var firstPrefs = true;
 
-  // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
   loop.getPrefs = function getPrefs (sbx: any) {
 
     var prefs = {
@@ -40,15 +40,15 @@ function init (ctx: any) {
     return prefs;
   };
 
-  // @ts-expect-error TS(2339): Property 'setProperties' does not exist on type '{... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'setProperties' does not exist on type '{... Remove this comment to see the full error message
   loop.setProperties = function setProperties (sbx: any) {
     sbx.offerProperty('loop', function setLoop () {
-      // @ts-expect-error TS(2339): Property 'analyzeData' does not exist on type '{ n... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'analyzeData' does not exist on type '{ n... Remove this comment to see the full error message
       return loop.analyzeData(sbx);
     });
   };
 
-  // @ts-expect-error TS(2339): Property 'analyzeData' does not exist on type '{ n... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'analyzeData' does not exist on type '{ n... Remove this comment to see the full error message
   loop.analyzeData = function analyzeData (sbx: any) {
     var recentHours = 6;
     var recentMills = sbx.time - times.hours(recentHours).msecs;
@@ -58,7 +58,7 @@ function init (ctx: any) {
         return ('loop' in status) && sbx.entryMills(status) <= sbx.time && sbx.entryMills(status) >= recentMills;
       }).value();
 
-    // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
     var prefs = loop.getPrefs(sbx);
     var recent = moment(sbx.time).subtract(prefs.warn / 2, 'minutes');
 
@@ -105,7 +105,7 @@ function init (ctx: any) {
       var enacted = loopStatus.enacted;
       if (enacted && enacted.timestamp) {
         enacted.moment = moment(enacted.timestamp);
-        // @ts-expect-error TS(2339): Property 'moment' does not exist on type 'never'.
+        // @ts-expect-error TS(2339) FIXME: Property 'moment' does not exist on type 'never'.
         if (!result.lastEnacted || enacted.moment.isAfter(result.lastEnacted.moment)) {
           result.lastEnacted = enacted;
         }
@@ -119,7 +119,7 @@ function init (ctx: any) {
     }
 
     function assignLastLoop (loopStatus: any) {
-      // @ts-expect-error TS(2339): Property 'moment' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'moment' does not exist on type 'never'.
       if (!result.lastLoop || loopStatus.moment.isAfter(result.lastLoop.moment)) {
         result.lastLoop = loopStatus;
       }
@@ -129,9 +129,9 @@ function init (ctx: any) {
       var override = status.override;
       if (override && override.timestamp) {
         override.moment = moment(override.timestamp);
-        // @ts-expect-error TS(2339): Property 'lastOverride' does not exist on type '{ ... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'lastOverride' does not exist on type '{ ... Remove this comment to see the full error message
         if (!result.lastOverride || override.moment.isAfter(result.lastOverride.moment)) {
-          // @ts-expect-error TS(2339): Property 'lastOverride' does not exist on type '{ ... Remove this comment to see the full error message
+          // @ts-expect-error TS(2339) FIXME: Property 'lastOverride' does not exist on type '{ ... Remove this comment to see the full error message
           result.lastOverride = override;
         }
       }
@@ -155,15 +155,15 @@ function init (ctx: any) {
       }
     });
 
-    // @ts-expect-error TS(2339): Property 'display' does not exist on type '{ lastL... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'display' does not exist on type '{ lastL... Remove this comment to see the full error message
     result.display = getDisplayForStatus(result.lastLoop);
 
     return result;
   };
 
-  // @ts-expect-error TS(2339): Property 'checkNotifications' does not exist on ty... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'checkNotifications' does not exist on ty... Remove this comment to see the full error message
   loop.checkNotifications = function checkNotifications (sbx: any) {
-    // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
     var prefs = loop.getPrefs(sbx);
 
     if (!prefs.enableAlerts) { return; }
@@ -190,7 +190,7 @@ function init (ctx: any) {
     }
   };
 
-  // @ts-expect-error TS(2339): Property 'getEventTypes' does not exist on type '{... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'getEventTypes' does not exist on type '{... Remove this comment to see the full error message
   loop.getEventTypes = function getEventTypes (sbx: any) {
 
     var units = sbx.settings.units;
@@ -286,11 +286,11 @@ function init (ctx: any) {
   // TODO: Add event listener to customize labels
 
 
-  // @ts-expect-error TS(2339): Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
   loop.updateVisualisation = function updateVisualisation (sbx: any) {
     var prop = sbx.properties.loop;
 
-    // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
     var prefs = loop.getPrefs(sbx);
 
     function valueString (prefix: any, value: any) {
@@ -614,7 +614,7 @@ function init (ctx: any) {
     }
   }
 
-  // @ts-expect-error TS(2339): Property 'virtAsst' does not exist on type '{ name... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'virtAsst' does not exist on type '{ name... Remove this comment to see the full error message
   loop.virtAsst = {
     intentHandlers: [{
       intent: 'MetricNow'
@@ -661,5 +661,5 @@ function init (ctx: any) {
 
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

@@ -1,41 +1,41 @@
 'use strict';
 
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 require('should');
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var benv = require('benv');
-// @ts-expect-error TS(2300): Duplicate identifier 'read'.
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var read = require('fs').readFileSync;
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var serverSettings = require('./fixtures/default-server-settings');
 
-// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+// @ts-expect-error TS(2593) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('hashauth', function(this: any) {
   this.timeout(50000); // TODO: see why this test takes longer on Travis to complete
 
   var self = this;
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var headless = require('./fixtures/headless')(benv, this);
 
-  // @ts-expect-error TS(2304): Cannot find name 'before'.
+  // @ts-expect-error TS(2304) FIXME: Cannot find name 'before'.
   before(function (done: any) {
     done( );
   });
 
-  // @ts-expect-error TS(2304): Cannot find name 'after'.
+  // @ts-expect-error TS(2304) FIXME: Cannot find name 'after'.
   after(function (done: any) {
     // cleanup js-storage as it evaluates if the test is running in the window or not when first required
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     delete require.cache[require.resolve('js-storage')];
     done( );
   });
 
-  // @ts-expect-error TS(2304): Cannot find name 'beforeEach'.
+  // @ts-expect-error TS(2304) FIXME: Cannot find name 'beforeEach'.
   beforeEach(function (done: any) {
     headless.setup({mockAjax: true}, done);
   });
 
-  // @ts-expect-error TS(2304): Cannot find name 'afterEach'.
+  // @ts-expect-error TS(2304) FIXME: Cannot find name 'afterEach'.
   afterEach(function (done: any) {
     headless.teardown( );
     done( );
@@ -77,11 +77,11 @@ describe('hashauth', function(this: any) {
   });
   */
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it ('should make module unauthorized', function () {
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var client = require('../lib/client');
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var hashauth = require('../lib/client/hashauth');
     
     hashauth.init(client,$);
@@ -95,15 +95,15 @@ describe('hashauth', function(this: any) {
     hashauth.inlineCode().indexOf('Unauthorized').should.be.greaterThan(0);
     hashauth.isAuthenticated().should.equal(false);
     var testnull = (hashauth.hash()===null);
-    // @ts-expect-error TS(2339): Property 'should' does not exist on type 'boolean'... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'should' does not exist on type 'boolean'... Remove this comment to see the full error message
     testnull.should.equal(true);
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it ('should make module authorized', function () {
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var client = require('../lib/client');
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var hashauth = require('../lib/client/hashauth');
     
     hashauth.init(client,$);
@@ -118,13 +118,13 @@ describe('hashauth', function(this: any) {
     hashauth.isAuthenticated().should.equal(true);
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it ('should store hash and the remove authentication', function () {
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var client = require('../lib/client');
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var hashauth = require('../lib/client/hashauth');
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var localStorage = require('./fixtures/localstorage');   
     
     localStorage.remove('apisecrethash');
@@ -148,13 +148,13 @@ describe('hashauth', function(this: any) {
     hashauth.isAuthenticated().should.equal(false);
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it ('should not store hash', function () {
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var client = require('../lib/client');
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var hashauth = require('../lib/client/hashauth');
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var localStorage = require('./fixtures/localstorage');   
     
     localStorage.remove('apisecrethash');
@@ -171,18 +171,18 @@ describe('hashauth', function(this: any) {
     
     hashauth.hash().should.equal('b723e97aa97846eb92d5264f084b2823f57c4aa1');
     var testnull = (localStorage.get('apisecrethash')===null);
-    // @ts-expect-error TS(2339): Property 'should' does not exist on type 'boolean'... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'should' does not exist on type 'boolean'... Remove this comment to see the full error message
     testnull.should.equal(true);
     hashauth.isAuthenticated().should.equal(true);
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it ('should report secret too short', function () {
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var client = require('../lib/client');
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var hashauth = require('../lib/client/hashauth');
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var localStorage = require('./fixtures/localstorage');   
     
     localStorage.remove('apisecrethash');

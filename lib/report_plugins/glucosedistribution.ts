@@ -1,6 +1,6 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'consts'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'consts'.
 var consts = require('../constants');
 
 var glucosedistribution = {
@@ -13,10 +13,10 @@ function init () {
   return glucosedistribution;
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;
 
-// @ts-expect-error TS(2339): Property 'html' does not exist on type '{ name: st... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'html' does not exist on type '{ name: st... Remove this comment to see the full error message
 glucosedistribution.html = function html (client: any) {
   var translate = client.translate;
   var ret =
@@ -74,7 +74,7 @@ glucosedistribution.html = function html (client: any) {
   return ret;
 };
 
-// @ts-expect-error TS(2339): Property 'css' does not exist on type '{ name: str... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'css' does not exist on type '{ name: str... Remove this comment to see the full error message
 glucosedistribution.css =
   '#glucosedistribution-overviewchart {' +
   '  width: 2.4in;' +
@@ -88,15 +88,15 @@ glucosedistribution.css =
   '    text-align:center;' +
   '}';
 
-// @ts-expect-error TS(2339): Property 'report' does not exist on type '{ name: ... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'report' does not exist on type '{ name: ... Remove this comment to see the full error message
 glucosedistribution.report = function report_glucosedistribution (datastorage: any, sorteddaystoshow: any, options: any) {
-  // @ts-expect-error TS(2339): Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
   var Nightscout = window.Nightscout;
   var client = Nightscout.client;
   var translate = client.translate;
   var displayUnits = Nightscout.client.settings.units;
 
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var ss = require('simple-statistics');
 
   var colors = ['#f88', '#8f8', '#ff8'];
@@ -266,9 +266,9 @@ glucosedistribution.report = function report_glucosedistribution (datastorage: a
   var daysTotal = timeTotal / (1000 * 60 * 60 * 24);
 
   ['Low', 'Normal', 'High'].forEach(function(range) {
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     result[range] = {};
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     var r = result[range];
     r.rangeRecords = glucose_data.filter(function(r) {
       if (range === 'Low') {
@@ -298,12 +298,12 @@ glucosedistribution.report = function report_glucosedistribution (datastorage: a
   });
 
   // make sure we have total 100%
-  // @ts-expect-error TS(2339): Property 'Normal' does not exist on type '{}'.
+  // @ts-expect-error TS(2339) FIXME: Property 'Normal' does not exist on type '{}'.
   result.Normal.readingspct = (100 - result.Low.readingspct - result.High.readingspct).toFixed(1);
 
   ['Low', 'Normal', 'High'].forEach(function(range) {
     var tr = $('<tr>');
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     var r = result[range];
 
     var rangeExp = '';
@@ -317,7 +317,7 @@ glucosedistribution.report = function report_glucosedistribution (datastorage: a
     var rangeLabel = range;
     if (rangeLabel == 'Normal') rangeLabel = 'In Range';
 
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     $('<td class="tdborder" style="background-color:' + tablecolors[range] + '"><strong>' + translate(rangeLabel) + rangeExp + ': </strong></td>').appendTo(tr);
     $('<td class="tdborder">' + r.readingspct + '%</td>').appendTo(tr);
     $('<td class="tdborder">' + r.rangeRecords.length + '</td>').appendTo(tr);
@@ -435,7 +435,7 @@ glucosedistribution.report = function report_glucosedistribution (datastorage: a
   console.log('GVI', GVI, 'GVIIdeal', GVIIdeal, 'GVITotal', GVITotal, 'GVIIdeal_Time', GVIIdeal_Time);
 
   var glucoseMean = Math.floor(glucoseTotal / usedRecords);
-  // @ts-expect-error TS(2339): Property 'Normal' does not exist on type '{}'.
+  // @ts-expect-error TS(2339) FIXME: Property 'Normal' does not exist on type '{}'.
   var tirMultiplier = result.Normal.readingspct / 100.0;
   var PGS = Math.round(GVI * glucoseMean * (1 - tirMultiplier) * 100) / 100;
   console.log('glucoseMean', glucoseMean, 'tirMultiplier', tirMultiplier, 'PGS', PGS);

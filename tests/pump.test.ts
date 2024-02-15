@@ -1,34 +1,34 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'should'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'should'.
 var should = require('should');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'helper'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'helper'.
 const helper = require('./inithelper')();
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'moment'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'moment'.
 const moment = helper.ctx.moment;
 
 var top_ctx = helper.getctx();
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 top_ctx.settings = require('../lib/settings')();
 top_ctx.language.set('en');
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'env'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'env'.
 var env = require('../lib/server/env')();
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'levels'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'levels'.
 const levels = top_ctx.levels;
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'language'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'language'.
 const language = top_ctx.language;
 
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var profile = require('../lib/profilefunctions')(null, top_ctx);
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var pump = require('../lib/plugins/pump')(top_ctx);
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var sandbox = require('../lib/sandbox')(top_ctx);
 
-// @ts-expect-error TS(2403): Subsequent variable declarations must have the sam... Remove this comment to see the full error message
+// @ts-expect-error TS(2403) FIXME: Subsequent variable declarations must have the sam... Remove this comment to see the full error message
 var statuses = [{
   created_at: '2015-12-05T17:35:00.000Z'
   , device: 'openaps://farawaypi'
@@ -114,10 +114,10 @@ _.forEach(statuses2, function updateMills (status: any) {
   status.mills = moment(status.created_at).valueOf();
 });
 
-// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+// @ts-expect-error TS(2593) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('pump', function ( ) {
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('set the property and update the pill', function (done: any) {
     var ctx = {
       settings: {
@@ -155,7 +155,7 @@ describe('pump', function ( ) {
 
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('use reservoir_display_override when available', function (done: any) {
     var ctx = {
       settings: {
@@ -186,13 +186,13 @@ describe('pump', function ( ) {
 
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('not generate an alert when pump is ok', function (done: any) {
     var ctx = {
       settings: {
         units: 'mg/dl'
       }
-      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+      // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , notifications: require('../lib/notifications')(env, top_ctx)
       , language: language
       , levels: levels
@@ -213,13 +213,13 @@ describe('pump', function ( ) {
     done();
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('generate an alert when reservoir is low', function (done: any) {
     var ctx = {
       settings: {
         units: 'mg/dl'
       }
-      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+      // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , notifications: require('../lib/notifications')(env, top_ctx)
       , language: language
       , levels: levels
@@ -244,13 +244,13 @@ describe('pump', function ( ) {
     done();
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('generate an alert when reservoir is 0', function (done: any) {
     var ctx = {
       settings: {
         units: 'mg/dl'
       }
-      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+      // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , notifications: require('../lib/notifications')(env, top_ctx)
       , language: language
       , levels: levels
@@ -276,13 +276,13 @@ describe('pump', function ( ) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('generate an alert when battery is low', function (done: any) {
     var ctx = {
       settings: {
         units: 'mg/dl'
       }
-      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+      // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , notifications: require('../lib/notifications')(env, top_ctx)
       , language: language
       , levels: levels
@@ -307,13 +307,13 @@ describe('pump', function ( ) {
     done();
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('generate an urgent alarm when battery is really low', function (done: any) {
     var ctx = {
       settings: {
         units: 'mg/dl'
       }
-      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+      // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , notifications: require('../lib/notifications')(env, top_ctx)
       , language: language
       , levels: levels
@@ -338,7 +338,7 @@ describe('pump', function ( ) {
     done();
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('not generate a battery alarm during night when PUMP_WARN_BATT_QUIET_NIGHT is true', function (done: any) {
     var ctx = {
       settings: {
@@ -353,9 +353,9 @@ describe('pump', function ( ) {
           done();
         }
       }
-      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+      // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , notifications: require('../lib/notifications')(env, top_ctx)
-      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+      // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , language: require('../lib/language')()
       , levels: levels
     };
@@ -385,13 +385,13 @@ describe('pump', function ( ) {
     done();
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('not generate an alert for a stale pump data, when there is an offline marker', function (done: any) {
     var ctx = {
       settings: {
         units: 'mg/dl'
       }
-      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+      // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , notifications: require('../lib/notifications')(env, top_ctx)
       , language: language
       , levels: levels
@@ -412,13 +412,13 @@ describe('pump', function ( ) {
     done();
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should handle virtAsst requests', function (done: any) {
     var ctx = {
       settings: {
         units: 'mg/dl'
       }
-      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+      // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , notifications: require('../lib/notifications')(env, top_ctx)
       , language: language
       , levels: levels

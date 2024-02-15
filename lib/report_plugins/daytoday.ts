@@ -1,12 +1,12 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'moment'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'moment'.
 var moment = window.moment;
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'times'.
 var times = require('../times');
-// @ts-expect-error TS(2304): Cannot find name 'global'.
+// @ts-expect-error TS(2304) FIXME: Cannot find name 'global'.
 var d3 = (global && global.d3) || require('d3');
 
 var daytoday = {
@@ -19,12 +19,12 @@ function init () {
   return daytoday;
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;
 
-// @ts-expect-error TS(2339): Property 'html' does not exist on type '{ name: st... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'html' does not exist on type '{ name: st... Remove this comment to see the full error message
 daytoday.html = function html (client: any) {
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   const reportStorage = require('../report/reportstorage');
   var translate = client.translate;
   var ret =
@@ -77,7 +77,7 @@ daytoday.html = function html (client: any) {
   return ret;
 };
 
-// @ts-expect-error TS(2339): Property 'prepareHtml' does not exist on type '{ n... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'prepareHtml' does not exist on type '{ n... Remove this comment to see the full error message
 daytoday.prepareHtml = function daytodayPrepareHtml (sorteddaystoshow: any) {
   $('#daytodaycharts').html('');
   sorteddaystoshow.forEach(function eachDay (d: any) {
@@ -85,9 +85,9 @@ daytoday.prepareHtml = function daytodayPrepareHtml (sorteddaystoshow: any) {
   });
 };
 
-// @ts-expect-error TS(2339): Property 'report' does not exist on type '{ name: ... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'report' does not exist on type '{ name: ... Remove this comment to see the full error message
 daytoday.report = function report_daytoday (datastorage: any, sorteddaystoshow: any, options: any) {
-  // @ts-expect-error TS(2339): Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
   var Nightscout = window.Nightscout;
   var client = Nightscout.client;
   var translate = client.translate;
@@ -105,7 +105,7 @@ daytoday.report = function report_daytoday (datastorage: any, sorteddaystoshow: 
   var proteinSum = 0;
   var fatSum = 0;
 
-  // @ts-expect-error TS(2339): Property 'prepareHtml' does not exist on type '{ n... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'prepareHtml' does not exist on type '{ n... Remove this comment to see the full error message
   daytoday.prepareHtml(sorteddaystoshow);
   console.log('DAY2DAY', 'sorteddaystoshow', sorteddaystoshow);
   sorteddaystoshow.forEach(function eachDay (day: any) {
@@ -354,22 +354,22 @@ daytoday.report = function report_daytoday (datastorage: any, sorteddaystoshow: 
 
       var predictions = [];
       if (data && data.devicestatus) {
-        // @ts-expect-error TS(2322): Type 'number' is not assignable to type 'string'.
+        // @ts-expect-error TS(2322) FIXME: Type 'number' is not assignable to type 'string'.
         for (i = data.devicestatus.length - 1; i >= 0; i--) {
           if (data.devicestatus[i].loop && data.devicestatus[i].loop.predicted) {
             predictions.push(data.devicestatus[i].loop.predicted);
           } else if (data.devicestatus[i].openaps && data.devicestatus[i].openaps.suggested && data.devicestatus[i].openaps.suggested.predBGs) {
             var entry = {};
-            // @ts-expect-error TS(2339): Property 'startDate' does not exist on type '{}'.
+            // @ts-expect-error TS(2339) FIXME: Property 'startDate' does not exist on type '{}'.
             entry.startDate = data.devicestatus[i].openaps.suggested.timestamp;
             // For OpenAPS/AndroidAPS we fall back from COB if present, to UAM, then IOB
             if (data.devicestatus[i].openaps.suggested.predBGs.COB) {
-              // @ts-expect-error TS(2339): Property 'values' does not exist on type '{}'.
+              // @ts-expect-error TS(2339) FIXME: Property 'values' does not exist on type '{}'.
               entry.values = data.devicestatus[i].openaps.suggested.predBGs.COB;
             } else if (data.devicestatus[i].openaps.suggested.predBGs.UAM) {
-              // @ts-expect-error TS(2339): Property 'values' does not exist on type '{}'.
+              // @ts-expect-error TS(2339) FIXME: Property 'values' does not exist on type '{}'.
               entry.values = data.devicestatus[i].openaps.suggested.predBGs.UAM;
-            // @ts-expect-error TS(2339): Property 'values' does not exist on type '{}'.
+            // @ts-expect-error TS(2339) FIXME: Property 'values' does not exist on type '{}'.
             } else entry.values = data.devicestatus[i].openaps.suggested.predBGs.IOB;
             predictions.push(entry);
           }
@@ -387,7 +387,7 @@ daytoday.report = function report_daytoday (datastorage: any, sorteddaystoshow: 
 
           if (predictedIndex != null) {
             entry = predictions[predictedIndex]; // Start entry
-            // @ts-expect-error TS(2339): Property 'startDate' does not exist on type '{}'.
+            // @ts-expect-error TS(2339) FIXME: Property 'startDate' does not exist on type '{}'.
             var d = moment(entry.startDate);
             var end = moment().endOf('day');
             if (options.predictedTruncate) {
@@ -401,15 +401,15 @@ daytoday.report = function report_daytoday (datastorage: any, sorteddaystoshow: 
                 end = moment(treatmentsTimestamps[treatmentsIndex]);
               }
             }
-            // @ts-expect-error TS(2339): Property 'values' does not exist on type '{}'.
+            // @ts-expect-error TS(2339) FIXME: Property 'values' does not exist on type '{}'.
             for (var entryIndex in entry.values) {
               if (!d.isAfter(end)) {
                 var value = {};
-                // @ts-expect-error TS(2339): Property 'sgv' does not exist on type '{}'.
+                // @ts-expect-error TS(2339) FIXME: Property 'sgv' does not exist on type '{}'.
                 value.sgv = client.utils.scaleMgdl(entry.values[entryIndex]);
-                // @ts-expect-error TS(2339): Property 'date' does not exist on type '{}'.
+                // @ts-expect-error TS(2339) FIXME: Property 'date' does not exist on type '{}'.
                 value.date = d.toDate();
-                // @ts-expect-error TS(2339): Property 'color' does not exist on type '{}'.
+                // @ts-expect-error TS(2339) FIXME: Property 'color' does not exist on type '{}'.
                 value.color = 'purple';
                 p.push(value);
                 d.add(5, 'minutes');
@@ -1089,9 +1089,9 @@ daytoday.report = function report_daytoday (datastorage: any, sorteddaystoshow: 
         });
     }
 
-    // @ts-expect-error TS(2454): Variable 'totalDailyInsulin' is used before being ... Remove this comment to see the full error message
+    // @ts-expect-error TS(2454) FIXME: Variable 'totalDailyInsulin' is used before being ... Remove this comment to see the full error message
     tddSum += totalDailyInsulin;
-    // @ts-expect-error TS(2454): Variable 'totalBasalInsulin' is used before being ... Remove this comment to see the full error message
+    // @ts-expect-error TS(2454) FIXME: Variable 'totalBasalInsulin' is used before being ... Remove this comment to see the full error message
     basalSum += totalBasalInsulin;
     baseBasalSum += baseBasalInsulin;
     bolusSum += bolusInsulin;

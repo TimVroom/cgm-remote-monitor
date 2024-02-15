@@ -1,11 +1,11 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
 
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var sandbox = require('../sandbox')();
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var units = require('../units')();
 
 var DIRECTIONS = {
@@ -24,7 +24,7 @@ var DIRECTIONS = {
 function directionToTrend (direction: any) {
   var trend = 8;
   if (direction in DIRECTIONS) {
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     trend = DIRECTIONS[direction];
   }
   return trend;
@@ -54,11 +54,11 @@ function mapSGVs(req: any, sbx: any) {
     };
 
     if (req.rawbg && cal) {
-      // @ts-expect-error TS(2339): Property 'filtered' does not exist on type '{ sgv:... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'filtered' does not exist on type '{ sgv:... Remove this comment to see the full error message
       transformed.filtered = sgv.filtered;
-      // @ts-expect-error TS(2339): Property 'unfiltered' does not exist on type '{ sg... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'unfiltered' does not exist on type '{ sg... Remove this comment to see the full error message
       transformed.unfiltered = sgv.unfiltered;
-      // @ts-expect-error TS(2339): Property 'noise' does not exist on type '{ sgv: an... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'noise' does not exist on type '{ sgv: an... Remove this comment to see the full error message
       transformed.noise = sgv.noise;
     }
 
@@ -176,7 +176,7 @@ function pebble (req: any, res: any) {
 }
 
 function configure (env: any, ctx: any) {
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var wares = require('../middleware/')(env);
   function middle (req: any, res: any, next: any) {
     req.env = env;
@@ -194,5 +194,5 @@ function configure (env: any, ctx: any) {
 
 configure.pebble = pebble;
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = configure;

@@ -1,24 +1,25 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'consts'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'consts'.
 var consts = require('../constants');
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'moment'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'moment'.
 var moment = window.moment;
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'utils'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'utils'.
 var utils = { };
 
 function init( ) {
   return utils;
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;
 
+// @ts-expect-error TS(2339) FIXME: Property 'localeDate' does not exist on type '{}'.
 utils.localeDate = function localeDate(day: any) {
-  // @ts-expect-error TS(2339): Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
   var translate = window.Nightscout.client.translate;
-  // @ts-expect-error TS(2339): Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
   var zone = window.Nightscout.client.sbx.data.profile.getTimezone();
   var date;
   if (typeof day === 'string') {
@@ -33,8 +34,9 @@ utils.localeDate = function localeDate(day: any) {
   return ret;
 };
 
+// @ts-expect-error TS(2339) FIXME: Property 'localeDateTime' does not exist on type '... Remove this comment to see the full error message
 utils.localeDateTime = function localeDateTime(day: any) {
-  // @ts-expect-error TS(2339): Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
   var zone = window.Nightscout.client.sbx.data.profile.getTimezone();
   var date;
   if (typeof day === 'string') {
@@ -46,8 +48,9 @@ utils.localeDateTime = function localeDateTime(day: any) {
   return ret;
 };
 
+// @ts-expect-error TS(2339) FIXME: Property 'scaledTreatmentBG' does not exist on typ... Remove this comment to see the full error message
 utils.scaledTreatmentBG = function scaledTreatmentBG(treatment: any,data: any) {
-  // @ts-expect-error TS(2339): Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
   var client = window.Nightscout.client;
 
   var SIX_MINS_IN_MS =  360000;

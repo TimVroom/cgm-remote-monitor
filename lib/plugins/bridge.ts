@@ -1,6 +1,6 @@
 'use strict';
 
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var engine = require('share2nightscout-bridge');
 
 // Track the most recently seen record
@@ -66,6 +66,7 @@ function options (env: any) {
   };
 }
 
+// @ts-expect-error TS(2393) FIXME: Duplicate function implementation.
 function create (env: any, bus: any) {
 
   var bridge = { };
@@ -75,11 +76,11 @@ function create (env: any, bus: any) {
 
   mostRecentRecord = new Date().getTime() - opts.fetch.minutes * 60000;
 
-  // @ts-expect-error TS(2339): Property 'startEngine' does not exist on type '{}'... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'startEngine' does not exist on type '{}'... Remove this comment to see the full error message
   bridge.startEngine = function startEngine (entries: any) {
 
 
-    // @ts-expect-error TS(2339): Property 'callback' does not exist on type '{ logi... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'callback' does not exist on type '{ logi... Remove this comment to see the full error message
     opts.callback = bridged(entries);
 
     let last_run = new Date(0).getTime();
@@ -120,9 +121,9 @@ function create (env: any, bus: any) {
       if  (!should_run()) return;
 
 
-      // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
+      // @ts-expect-error TS(2345) FIXME: Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
       opts.fetch.minutes = parseInt((new Date() - mostRecentRecord) / 60000);
-      // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
+      // @ts-expect-error TS(2345) FIXME: Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
       opts.fetch.maxCount = parseInt((opts.fetch.minutes / 5) + 1);
       opts.firstFetchCount = opts.fetch.maxCount;
       console.log("Fetching Share Data: ", 'minutes', opts.fetch.minutes, 'maxCount', opts.fetch.maxCount);
@@ -142,5 +143,5 @@ function create (env: any, bus: any) {
 init.create = create;
 init.bridged = bridged;
 init.options = options;
-// @ts-expect-error TS(2304): Cannot find name 'exports'.
+// @ts-expect-error TS(2304) FIXME: Cannot find name 'exports'.
 exports = module.exports = init;

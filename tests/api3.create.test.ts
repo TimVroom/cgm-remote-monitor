@@ -2,21 +2,21 @@
 /* global should */
 'use strict';
 
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 require('should');
 
-// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+// @ts-expect-error TS(2593) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('API3 CREATE', function(this: any) {
   const self = this
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , testConst = require('./fixtures/api3/const.json')
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , instance = require('./fixtures/api3/instance')
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , authSubject = require('./fixtures/api3/authSubject')
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , opTools = require('../lib/api3/shared/operationTools')
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , utils = require('./fixtures/api3/utils')
     ;
 
@@ -67,7 +67,7 @@ describe('API3 CREATE', function(this: any) {
   };
 
 
-  // @ts-expect-error TS(2304): Cannot find name 'before'.
+  // @ts-expect-error TS(2304) FIXME: Cannot find name 'before'.
   before(async () => {
     self.instance = await instance.create({});
 
@@ -90,25 +90,25 @@ describe('API3 CREATE', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2304): Cannot find name 'after'.
+  // @ts-expect-error TS(2304) FIXME: Cannot find name 'after'.
   after(() => {
     self.instance.ctx.bus.teardown();
   });
 
 
-  // @ts-expect-error TS(2304): Cannot find name 'beforeEach'.
+  // @ts-expect-error TS(2304) FIXME: Cannot find name 'beforeEach'.
   beforeEach(() => {
     self.cache.clear();
   });
 
 
-  // @ts-expect-error TS(2304): Cannot find name 'afterEach'.
+  // @ts-expect-error TS(2304) FIXME: Cannot find name 'afterEach'.
   afterEach(() => {
     self.cache.shouldBeEmpty();
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should require authentication', async () => {
     let res = await self.instance.post(`${self.url}`)
       .send(self.validDoc)
@@ -119,7 +119,7 @@ describe('API3 CREATE', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should not found not existing collection', async () => {
     let res = await self.instance.post(`/api/v3/NOT_EXIST`, self.jwt.create)
       .send(self.validDoc)
@@ -130,7 +130,7 @@ describe('API3 CREATE', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should require create permission', async () => {
     let res = await self.instance.post(`${self.url}`, self.jwt.read)
       .send(self.validDoc)
@@ -141,7 +141,7 @@ describe('API3 CREATE', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should reject empty body', async () => {
     let res = await self.instance.post(self.url, self.jwt.create)
       .send({ })
@@ -151,7 +151,7 @@ describe('API3 CREATE', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should accept valid document', async () => {
     let res = await self.instance.post(self.url, self.jwt.create)
       .send(self.validDoc)
@@ -169,9 +169,9 @@ describe('API3 CREATE', function(this: any) {
     self.cache.nextShouldEql(self.col, self.validDoc)
 
     const ms = body.srvModified % 1000;
-    // @ts-expect-error TS(2339): Property 'should' does not exist on type 'number'.
+    // @ts-expect-error TS(2339) FIXME: Property 'should' does not exist on type 'number'.
     (body.srvModified - ms).should.equal(lastModified);
-    // @ts-expect-error TS(2339): Property 'should' does not exist on type 'number'.
+    // @ts-expect-error TS(2339) FIXME: Property 'should' does not exist on type 'number'.
     (body.srvCreated - ms).should.equal(lastModified);
     body.subject.should.equal(self.subject.apiCreate.name);
 
@@ -180,7 +180,7 @@ describe('API3 CREATE', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should reject missing date', async () => {
     let doc = Object.assign({}, self.validDoc);
     delete doc.date;
@@ -194,7 +194,7 @@ describe('API3 CREATE', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should reject invalid date null', async () => {
     let res = await self.instance.post(self.url, self.jwt.create)
       .send(Object.assign({}, self.validDoc, { date: null }))
@@ -205,7 +205,7 @@ describe('API3 CREATE', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should reject invalid date ABC', async () => {
     let res = await self.instance.post(self.url, self.jwt.create)
       .send(Object.assign({}, self.validDoc, { date: 'ABC' }))
@@ -216,7 +216,7 @@ describe('API3 CREATE', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should reject invalid date -1', async () => {
     let res = await self.instance.post(self.url, self.jwt.create)
       .send(Object.assign({}, self.validDoc, { date: -1 }))
@@ -228,7 +228,7 @@ describe('API3 CREATE', function(this: any) {
 
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should reject invalid date 1 (too old)', async () => {
     let res = await self.instance.post(self.url, self.jwt.create)
       .send(Object.assign({}, self.validDoc, { date: 1 }))
@@ -239,7 +239,7 @@ describe('API3 CREATE', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should reject invalid date - illegal format', async () => {
     let res = await self.instance.post(self.url, self.jwt.create)
       .send(Object.assign({}, self.validDoc, { date: '2019-20-60T50:90:90' }))
@@ -250,7 +250,7 @@ describe('API3 CREATE', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should reject invalid utcOffset -5000', async () => {
     let res = await self.instance.post(self.url, self.jwt.create)
       .send(Object.assign({}, self.validDoc, { utcOffset: -5000 }))
@@ -261,7 +261,7 @@ describe('API3 CREATE', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should reject invalid utcOffset ABC', async () => {
     let res = await self.instance.post(self.url, self.jwt.create)
       .send(Object.assign({}, self.validDoc, { utcOffset: 'ABC' }))
@@ -272,7 +272,7 @@ describe('API3 CREATE', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should accept valid utcOffset', async () => {
     const doc = Object.assign({}, self.validDoc, { utcOffset: 120 });
 
@@ -289,7 +289,7 @@ describe('API3 CREATE', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should reject invalid utcOffset null', async () => {
     let res = await self.instance.post(self.url, self.jwt.create)
       .send(Object.assign({}, self.validDoc, { utcOffset: null }))
@@ -300,7 +300,7 @@ describe('API3 CREATE', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should reject missing app', async () => {
     let doc = Object.assign({}, self.validDoc);
     delete doc.app;
@@ -314,7 +314,7 @@ describe('API3 CREATE', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should reject invalid app null', async () => {
     let res = await self.instance.post(self.url, self.jwt.create)
       .send(Object.assign({}, self.validDoc, { app: null }))
@@ -325,7 +325,7 @@ describe('API3 CREATE', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should reject empty app', async () => {
     let res = await self.instance.post(self.url, self.jwt.create)
       .send(Object.assign({}, self.validDoc, { app: '' }))
@@ -336,7 +336,7 @@ describe('API3 CREATE', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should normalize date and store utcOffset', async () => {
     await self.instance.post(self.url, self.jwt.create)
       .send(Object.assign({}, self.validDoc, { date: '2019-06-10T08:07:08,576+02:00' }))
@@ -352,7 +352,7 @@ describe('API3 CREATE', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should require update permission for deduplication', async () => {
     self.validDoc.date = (new Date()).getTime();
     self.validDoc.identifier = utils.randomString('32', 'aA#');
@@ -379,7 +379,7 @@ describe('API3 CREATE', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should upsert document (matched by identifier)', async () => {
     self.validDoc.date = (new Date()).getTime();
     self.validDoc.identifier = utils.randomString('32', 'aA#');
@@ -413,7 +413,7 @@ describe('API3 CREATE', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should deduplicate document by created_at+eventType', async () => {
     self.validDoc.date = (new Date()).getTime();
     self.validDoc.identifier = utils.randomString('32', 'aA#');
@@ -458,7 +458,7 @@ describe('API3 CREATE', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should not deduplicate treatment only by created_at', async () => {
     self.validDoc.date = (new Date()).getTime();
     self.validDoc.identifier = utils.randomString('32', 'aA#');
@@ -507,7 +507,7 @@ describe('API3 CREATE', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should overwrite deleted document', async () => {
     const date1 = new Date()
       , identifier = utils.randomString('32', 'aA#')
@@ -550,7 +550,7 @@ describe('API3 CREATE', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should calculate the identifier', async () => {
     self.validDoc.date = (new Date()).getTime();
     delete self.validDoc.identifier;
@@ -574,7 +574,7 @@ describe('API3 CREATE', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should deduplicate by identifier calculation', async () => {
     self.validDoc.date = (new Date()).getTime();
     delete self.validDoc.identifier;

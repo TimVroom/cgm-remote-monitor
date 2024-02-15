@@ -1,8 +1,8 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'times'.
 var times = require('../times');
 
 var ALL_STATUS_FIELDS = ['reservoir', 'battery', 'clock', 'status', 'device'];
@@ -10,9 +10,9 @@ var ALL_STATUS_FIELDS = ['reservoir', 'battery', 'clock', 'status', 'device'];
 function init (ctx: any) {
   var moment = ctx.moment;
   var translate = ctx.language.translate;
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var timeago = require('./timeago')(ctx);
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var openaps = require('./openaps')(ctx);
   var levels = ctx.levels;
 
@@ -22,7 +22,7 @@ function init (ctx: any) {
     , pluginType: 'pill-status'
   };
 
-  // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
   pump.getPrefs = function getPrefs (sbx: any) {
 
     function cleanList (value: any) {
@@ -66,11 +66,11 @@ function init (ctx: any) {
     };
   };
 
-  // @ts-expect-error TS(2339): Property 'setProperties' does not exist on type '{... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'setProperties' does not exist on type '{... Remove this comment to see the full error message
   pump.setProperties = function setProperties (sbx: any) {
     sbx.offerProperty('pump', function setPump ( ) {
 
-      // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
       var prefs = pump.getPrefs(sbx);
       var recentMills = sbx.time - times.mins(prefs.urgentClock * 2).msecs;
 
@@ -94,14 +94,14 @@ function init (ctx: any) {
     });
   };
 
-  // @ts-expect-error TS(2339): Property 'checkNotifications' does not exist on ty... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'checkNotifications' does not exist on ty... Remove this comment to see the full error message
   pump.checkNotifications = function checkNotifications (sbx: any) {
-    // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
     var prefs = pump.getPrefs(sbx);
 
     if (!prefs.enableAlerts) { return; }
 
-    // @ts-expect-error TS(2339): Property 'warnOnSuspend' does not exist on type '{... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'warnOnSuspend' does not exist on type '{... Remove this comment to see the full error message
     pump.warnOnSuspend = prefs.warnOnSuspend;
 
     var data = prepareData(sbx.properties.pump, prefs, sbx);
@@ -109,9 +109,9 @@ function init (ctx: any) {
     if (data.level >= levels.WARN) {
       sbx.notifications.requestNotify({
         level: data.level
-        // @ts-expect-error TS(2339): Property 'title' does not exist on type '{ level: ... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'title' does not exist on type '{ level: ... Remove this comment to see the full error message
         , title: data.title
-        // @ts-expect-error TS(2339): Property 'message' does not exist on type '{ level... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'message' does not exist on type '{ level... Remove this comment to see the full error message
         , message: data.message
         , pushoverSound: 'echo'
         , group: 'Pump'
@@ -120,11 +120,11 @@ function init (ctx: any) {
     }
   };
 
-  // @ts-expect-error TS(2339): Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
   pump.updateVisualisation = function updateVisualisation (sbx: any) {
     var prop = sbx.properties.pump;
 
-    // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
     var prefs = pump.getPrefs(sbx);
     var result = prepareData(prop, prefs, sbx);
 
@@ -134,7 +134,7 @@ function init (ctx: any) {
     var selectedFields = sbx.data.inRetroMode ? prefs.retroFields : prefs.fields;
 
     _.forEach(ALL_STATUS_FIELDS, function eachField (fieldName: any) {
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       var field = result[fieldName];
       if (field) {
         var selected = _.indexOf(selectedFields, fieldName) > -1;
@@ -190,7 +190,7 @@ function init (ctx: any) {
     }
   }
 
-  // @ts-expect-error TS(2339): Property 'virtAsst' does not exist on type '{ name... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'virtAsst' does not exist on type '{ name... Remove this comment to see the full error message
   pump.virtAsst = {
     intentHandlers:[
       {
@@ -348,19 +348,19 @@ function init (ctx: any) {
     updateStatus(pump, result);
 
     if (pump.battery && pump.battery.percent) {
-      // @ts-expect-error TS(2339): Property 'battery' does not exist on type '{ level... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'battery' does not exist on type '{ level... Remove this comment to see the full error message
       result.battery = { value: pump.battery.percent, unit: 'percent' };
       updateBattery('%', prefs, result, batteryWarn);
     } else if (pump.battery && pump.battery.voltage) {
-      // @ts-expect-error TS(2339): Property 'battery' does not exist on type '{ level... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'battery' does not exist on type '{ level... Remove this comment to see the full error message
       result.battery = { value: pump.battery.voltage, unit: 'volts'};
       updateBattery('v', prefs, result, batteryWarn);
     }
 
-    // @ts-expect-error TS(2339): Property 'device' does not exist on type '{ level:... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'device' does not exist on type '{ level:... Remove this comment to see the full error message
     result.device = { label: translate('Device'), display: prop.device };
 
-    // @ts-expect-error TS(2339): Property 'title' does not exist on type '{ level: ... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'title' does not exist on type '{ level: ... Remove this comment to see the full error message
     result.title = 'Pump Status';
     result.level = levels.NONE;
 
@@ -369,11 +369,11 @@ function init (ctx: any) {
       console.info('OpenAPS known offline, not checking for alerts');
     } else {
       _.forEach(ALL_STATUS_FIELDS, function eachField(fieldName: any) {
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         var field = result[fieldName];
         if (field && field.level > result.level) {
           result.level = field.level;
-          // @ts-expect-error TS(2339): Property 'title' does not exist on type '{ level: ... Remove this comment to see the full error message
+          // @ts-expect-error TS(2339) FIXME: Property 'title' does not exist on type '{ level: ... Remove this comment to see the full error message
           result.title = field.message;
         }
       });
@@ -406,5 +406,5 @@ function init (ctx: any) {
   return pump;
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

@@ -6,15 +6,14 @@ var futureitems = {
   , pluginType: 'admin'
 };
 
-// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init () {
   return futureitems;
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;
 
-// @ts-expect-error TS(2339): Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
 futureitems.actions = [
   {
     name: 'Find and remove treatments in the future'
@@ -29,7 +28,7 @@ futureitems.actions = [
     }
   ];
 
-// @ts-expect-error TS(2339): Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
 futureitems.actions[0].init = function init (client: any, callback: any) {
   var translate = client.translate;
   var $status = $('#admin_' + futureitems.name + '_0_status');
@@ -70,24 +69,24 @@ futureitems.actions[0].init = function init (client: any, callback: any) {
   $.ajax('/api/v1/treatments.json?&find[created_at][$gte]=' + nowiso, {
     headers: client.headers()
     , success: function(records: any) {
-      // @ts-expect-error TS(2339): Property 'treatmentrecords' does not exist on type... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'treatmentrecords' does not exist on type... Remove this comment to see the full error message
       futureitems.treatmentrecords = records;
       $status.hide().text(translate('Database contains %1 future records', { params: [records.length] })).fadeIn('slow');
       var table = $('<table>').css('margin-top', '10px');
       $('#admin_' + futureitems.name + '_0_html').append(table);
       showTreatments(records, table);
-      // @ts-expect-error TS(2339): Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
       futureitems.actions[0].confirmText = translate('Remove %1 selected records?', { params: [records.length] });
     }
     , error: function() {
       $status.hide().text(translate('Error loading database')).fadeIn('slow');
-      // @ts-expect-error TS(2339): Property 'treatmentrecords' does not exist on type... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'treatmentrecords' does not exist on type... Remove this comment to see the full error message
       futureitems.treatmentrecords = [];
     }
   }).done(function() { if (callback) { callback(); } });
 };
 
-// @ts-expect-error TS(2339): Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
 futureitems.actions[0].code = function deleteRecords (client: any, callback: any) {
   var translate = client.translate;
   var $status = $('#admin_' + futureitems.name + '_0_status');
@@ -113,9 +112,9 @@ futureitems.actions[0].code = function deleteRecords (client: any, callback: any
   }
 
   $status.hide().text(translate('Deleting records ...')).fadeIn('slow');
-  // @ts-expect-error TS(2339): Property 'treatmentrecords' does not exist on type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'treatmentrecords' does not exist on type... Remove this comment to see the full error message
   for (var i = 0; i < futureitems.treatmentrecords.length; i++) {
-    // @ts-expect-error TS(2339): Property 'treatmentrecords' does not exist on type... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'treatmentrecords' does not exist on type... Remove this comment to see the full error message
     deleteRecordById(futureitems.treatmentrecords[i]._id);
   }
   $('#admin_' + futureitems.name + '_0_html').html('');
@@ -125,7 +124,7 @@ futureitems.actions[0].code = function deleteRecords (client: any, callback: any
   }
 };
 
-// @ts-expect-error TS(2339): Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
 futureitems.actions[1].init = function init (client: any, callback: any) {
   var translate = client.translate;
   var $status = $('#admin_' + futureitems.name + '_1_status');
@@ -135,21 +134,21 @@ futureitems.actions[1].init = function init (client: any, callback: any) {
   $.ajax('/api/v1/entries.json?&find[date][$gte]=' + now + '&count=288', {
     headers: client.headers()
     , success: function(records: any) {
-      // @ts-expect-error TS(2339): Property 'entriesrecords' does not exist on type '... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'entriesrecords' does not exist on type '... Remove this comment to see the full error message
       futureitems.entriesrecords = records;
       $status.hide().text(translate('Database contains %1 future records', { params: [records.length] })).fadeIn('slow');
-      // @ts-expect-error TS(2339): Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
       futureitems.actions[1].confirmText = translate('Remove %1 selected records?', { params: [records.length] });
     }
     , error: function() {
       $status.hide().text(translate('Error loading database')).fadeIn('slow');
-      // @ts-expect-error TS(2339): Property 'entriesrecords' does not exist on type '... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'entriesrecords' does not exist on type '... Remove this comment to see the full error message
       futureitems.entriesrecords = [];
     }
   }).done(function() { if (callback) { callback(); } });
 };
 
-// @ts-expect-error TS(2339): Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
 futureitems.actions[1].code = function deleteRecords (client: any, callback: any) {
   var translate = client.translate;
   var $status = $('#admin_' + futureitems.name + '_1_status');
@@ -175,9 +174,9 @@ futureitems.actions[1].code = function deleteRecords (client: any, callback: any
   }
 
   $status.hide().text(translate('Deleting records ...')).fadeIn('slow');
-  // @ts-expect-error TS(2339): Property 'entriesrecords' does not exist on type '... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'entriesrecords' does not exist on type '... Remove this comment to see the full error message
   for (var i = 0; i < futureitems.entriesrecords.length; i++) {
-    // @ts-expect-error TS(2339): Property 'entriesrecords' does not exist on type '... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'entriesrecords' does not exist on type '... Remove this comment to see the full error message
     deteleteRecordById(futureitems.entriesrecords[i]._id);
   }
 

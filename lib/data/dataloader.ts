@@ -1,18 +1,18 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 const _ = require('lodash');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'async'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'async'.
 const async = require('async');
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'fitTreatme... Remove this comment to see the full error message
 const fitTreatmentsToBGCurve = require('./treatmenttocurve');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'constants'... Remove this comment to see the full error message
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'constants'... Remove this comment to see the full error message
 const constants = require('../constants');
 
 function uniqBasedOnMills(a: any) {
     var seen = {};
     return a.filter(function(item: any) {
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         return Object.prototype.hasOwnProperty.call(seen, item.mills) ? false : (seen[item.mills] = true);
     });
 }
@@ -76,12 +76,11 @@ function mergeProcessSort(oldData: any, newData: any, ageLimit: any) {
 
 }
 
-// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init(env: any, ctx: any) {
 
     var dataloader = {};
 
-    // @ts-expect-error TS(2339): Property 'update' does not exist on type '{}'.
+    // @ts-expect-error TS(2339) FIXME: Property 'update' does not exist on type '{}'.
     dataloader.update = function update(ddata: any, opts: any, done: any) {
 
         if (opts && done == null && opts.call) {
@@ -185,7 +184,7 @@ function loadEntries(ddata: any, ctx: any, callback: any) {
         $gte: ddata.lastUpdated - loadTime
     };
     if (withFrame) {
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         dateRange['$lte'] = ddata.lastUpdated;
     }
     var q = {
@@ -264,7 +263,7 @@ function loadActivity(ddata: any, ctx: any, callback: any) {
         $gte: new Date(ddata.lastUpdated - (constants.ONE_DAY * 2)).toISOString()
     };
     if (ddata.page && ddata.page.frame) {
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         dateRange['$lte'] = new Date(ddata.lastUpdated).toISOString();
     }
 
@@ -319,7 +318,7 @@ function loadTreatments(ddata: any, ctx: any, callback: any) {
         $gte: new Date(ddata.lastUpdated - loadTime).toISOString()
     };
     if (withFrame) {
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         dateRange['$lte'] = new Date(ddata.lastUpdated).toISOString();
     }
     var tq = {
@@ -350,7 +349,7 @@ function loadProfileSwitchTreatments(ddata: any, ctx: any, callback: any) {
     };
 
     if (ddata.page && ddata.page.frame) {
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         dateRange['$lte'] = new Date(ddata.lastUpdated).toISOString();
     }
 
@@ -369,7 +368,7 @@ function loadProfileSwitchTreatments(ddata: any, ctx: any, callback: any) {
 
     ctx.treatments.list(tq, function(err: any, results: any) {
         if (!err && results) {
-            // @ts-expect-error TS(2554): Expected 3 arguments, but got 2.
+            // @ts-expect-error TS(2554) FIXME: Expected 3 arguments, but got 2.
             ddata.treatments = mergeProcessSort(ddata.treatments, results);
         }
 
@@ -408,7 +407,7 @@ function loadLatestSingle(ddata: any, ctx: any, dataType: any, callback: any) {
     };
 
     if (ddata.page && ddata.page.frame) {
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         dateRange['$lte'] = new Date(ddata.lastUpdated).toISOString();
     }
 
@@ -427,7 +426,7 @@ function loadLatestSingle(ddata: any, ctx: any, dataType: any, callback: any) {
 
     ctx.treatments.list(tq, function(err: any, results: any) {
         if (!err && results) {
-            // @ts-expect-error TS(2554): Expected 3 arguments, but got 2.
+            // @ts-expect-error TS(2554) FIXME: Expected 3 arguments, but got 2.
             ddata.treatments = mergeProcessSort(ddata.treatments, results);
         }
         callback();
@@ -469,7 +468,7 @@ function loadDeviceStatus(ddata: any, env: any, ctx: any, callback: any) {
     };
 
     if (withFrame) {
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         dateRange['$lte'] = new Date(ddata.lastUpdated).toISOString();
     }
 
@@ -499,7 +498,7 @@ function loadDeviceStatus(ddata: any, env: any, ctx: any, callback: any) {
                 return result;
             });
 
-            // @ts-expect-error TS(2554): Expected 3 arguments, but got 2.
+            // @ts-expect-error TS(2554) FIXME: Expected 3 arguments, but got 2.
             ddata.devicestatus = mergeProcessSort(ddata.devicestatus, res2);
         } else {
             ddata.devicestatus = [];
@@ -523,6 +522,6 @@ function loadDatabaseStats(ddata: any, ctx: any, callback: any) {
     });
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;
 

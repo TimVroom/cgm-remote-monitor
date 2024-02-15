@@ -1,8 +1,8 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'times'.
 var times = require('../times');
 
 function init(ctx: any) {
@@ -16,7 +16,7 @@ function init(ctx: any) {
     , pluginType: 'pill-minor'
   };
 
-  // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
   sage.getPrefs = function getPrefs(sbx: any) {
     return {
       info: sbx.extendedSettings.info || times.days(6).hours
@@ -26,15 +26,15 @@ function init(ctx: any) {
     };
   };
 
-  // @ts-expect-error TS(2339): Property 'setProperties' does not exist on type '{... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'setProperties' does not exist on type '{... Remove this comment to see the full error message
   sage.setProperties = function setProperties (sbx: any) {
     sbx.offerProperty('sage', function setProp ( ) {
-      // @ts-expect-error TS(2339): Property 'findLatestTimeChange' does not exist on ... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'findLatestTimeChange' does not exist on ... Remove this comment to see the full error message
       return sage.findLatestTimeChange(sbx);
     });
   };
 
-  // @ts-expect-error TS(2339): Property 'checkNotifications' does not exist on ty... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'checkNotifications' does not exist on ty... Remove this comment to see the full error message
   sage.checkNotifications = function checkNotifications(sbx: any) {
 
     var info = sbx.properties.sage;
@@ -73,7 +73,7 @@ function init(ctx: any) {
     return (mostRecent && mostRecent.eventType) || 'Sensor Start';
   }
 
-  // @ts-expect-error TS(2339): Property 'findLatestTimeChange' does not exist on ... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'findLatestTimeChange' does not exist on ... Remove this comment to see the full error message
   sage.findLatestTimeChange = function findLatestTimeChange(sbx: any) {
 
     var returnValue = {
@@ -93,10 +93,10 @@ function init(ctx: any) {
     _.each(sbx.data.sensorTreatments, function eachTreatment (treatment: any) {
       ['Sensor Start', 'Sensor Change'].forEach( function eachEvent(event) {
         var treatmentDate = treatment.mills;
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         if (treatment.eventType === event && treatmentDate > prevDate[event] && treatmentDate <= sbx.time) {
 
-          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+          // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           prevDate[event] = treatmentDate;
 
           var a = moment(sbx.time);
@@ -105,7 +105,7 @@ function init(ctx: any) {
           var hours = a.diff(b,'hours') - days * 24;
           var age = a.diff(b,'hours');
 
-          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+          // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           var eventValue = returnValue[event];
           if (!eventValue.found || (age >= 0 && age < eventValue.age)) {
             eventValue.found = true;
@@ -136,17 +136,17 @@ function init(ctx: any) {
     });
 
     if (returnValue['Sensor Change'].found && returnValue['Sensor Start'].found &&
-        // @ts-expect-error TS(2339): Property 'treatmentDate' does not exist on type '{... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'treatmentDate' does not exist on type '{... Remove this comment to see the full error message
         returnValue['Sensor Change'].treatmentDate >= returnValue['Sensor Start'].treatmentDate) {
       returnValue['Sensor Start'].found = false;
     }
 
-    // @ts-expect-error TS(2339): Property 'min' does not exist on type '{ 'Sensor S... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'min' does not exist on type '{ 'Sensor S... Remove this comment to see the full error message
     returnValue.min = minButValid(returnValue);
 
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     var sensorInfo = returnValue[returnValue.min];
-    // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
     var prefs = sage.getPrefs(sbx);
 
     var sendNotification = false;
@@ -184,7 +184,7 @@ function init(ctx: any) {
     return returnValue;
   };
 
-  // @ts-expect-error TS(2339): Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
   sage.updateVisualisation = function updateVisualisation (sbx: any) {
 
     var latest = sbx.properties.sage;
@@ -226,6 +226,6 @@ function init(ctx: any) {
   return sage;
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;
 

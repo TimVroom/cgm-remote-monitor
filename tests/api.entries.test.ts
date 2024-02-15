@@ -1,54 +1,54 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'request'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'request'.
 var request = require('supertest');
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var load = require('./fixtures/load');
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var bootevent = require('../lib/server/bootevent');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'language'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'language'.
 var language = require('../lib/language')();
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 const _ = require('lodash');
 
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 require('should');
 
 const FIVE_MINUTES=1000*60*5;
  
-// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+// @ts-expect-error TS(2593) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('Entries REST api', function(this: any) {
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var entries = require('../lib/api/entries/');
   var self = this;
   var known = 'b723e97aa97846eb92d5264f084b2823f57c4aa1';
 
   this.timeout(10000);
-  // @ts-expect-error TS(2304): Cannot find name 'before'.
+  // @ts-expect-error TS(2304) FIXME: Cannot find name 'before'.
   before(function (done: any) {
-    // @ts-expect-error TS(2591): Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
     delete process.env.API_SECRET;
-    // @ts-expect-error TS(2591): Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
     process.env.API_SECRET = 'this is my long pass phrase';
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     self.env = require('../lib/server/env')( );
     self.env.settings.authDefaultRoles = 'readable';
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     self.wares = require('../lib/middleware/')(self.env);
     self.archive = null;
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     self.app = require('express')( );
     self.app.enable('api');
     bootevent(self.env, language).boot(function booted (ctx: any) {
       self.app.use('/', entries(self.app, self.wares, ctx, self.env));
-      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+      // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       self.archive = require('../lib/server/entries')(self.env, ctx);
       self.ctx = ctx;
       done();
     });
   });
 
-  // @ts-expect-error TS(2304): Cannot find name 'beforeEach'.
+  // @ts-expect-error TS(2304) FIXME: Cannot find name 'beforeEach'.
   beforeEach(function (done: any) {
     var creating = load('json');
 
@@ -78,12 +78,12 @@ describe('Entries REST api', function(this: any) {
 
   });
 
-  // @ts-expect-error TS(2304): Cannot find name 'afterEach'.
+  // @ts-expect-error TS(2304) FIXME: Cannot find name 'afterEach'.
   afterEach(function (done: any) {
     self.archive( ).remove({ }, done);
   });
 
-  // @ts-expect-error TS(2304): Cannot find name 'after'.
+  // @ts-expect-error TS(2304) FIXME: Cannot find name 'after'.
   after(function (done: any) {
     self.archive( ).remove({ }, done);
   });
@@ -92,7 +92,7 @@ describe('Entries REST api', function(this: any) {
   // entries successfully uploaded. if res.body.length is short of the
   // expected value, it may indicate a regression in the create
   // function callback logic in entries.js.
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('gets requested number of entries', function (done: any) {
     var count = 30;
     request(self.app)
@@ -104,7 +104,7 @@ describe('Entries REST api', function(this: any) {
       });
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('gets default number of entries', function (done: any) {
     var defaultCount = 10;
     request(self.app)
@@ -116,7 +116,7 @@ describe('Entries REST api', function(this: any) {
       });
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('gets entries in right order', function (done: any) {
     var defaultCount = 10;
     request(self.app)
@@ -135,7 +135,7 @@ describe('Entries REST api', function(this: any) {
       });
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('gets entries in right order without type specifier', function (done: any) {
     var defaultCount = 10;
     request(self.app)
@@ -154,7 +154,7 @@ describe('Entries REST api', function(this: any) {
       });
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('/echo/ api shows query', function (done: any) {
     request(self.app)
       .get('/echo/entries/sgv.json?find[dateString][$gte]=2014-07-19&find[dateString][$lte]=2014-07-20')
@@ -169,7 +169,7 @@ describe('Entries REST api', function(this: any) {
       });
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('/slice/ can slice time', function (done: any) {
     var app = self.app;
     request(app)
@@ -182,7 +182,7 @@ describe('Entries REST api', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('/times/echo can describe query', function (done: any) {
     var app = self.app;
     request(app)
@@ -196,7 +196,7 @@ describe('Entries REST api', function(this: any) {
       });
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('/slice/ can slice with multiple prefix', function (done: any) {
     var app = self.app;
     request(app)
@@ -208,7 +208,7 @@ describe('Entries REST api', function(this: any) {
       });
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('/slice/ can slice time with prefix and no results', function (done: any) {
     var app = self.app;
     request(app)
@@ -220,7 +220,7 @@ describe('Entries REST api', function(this: any) {
       });
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('/times/ can get modal times', function (done: any) {
     var app = self.app;
     request(app)
@@ -232,7 +232,7 @@ describe('Entries REST api', function(this: any) {
       });
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('/times/ can get modal minutes and times', function (done: any) {
     var app = self.app;
     request(app)
@@ -243,7 +243,7 @@ describe('Entries REST api', function(this: any) {
         done( );
       });
   });
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('/times/ can get multiple prefixen and modal minutes and times', function (done: any) {
     var app = self.app;
     request(app)
@@ -255,7 +255,7 @@ describe('Entries REST api', function(this: any) {
       });
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('/entries/current.json', function (done: any) {
     request(self.app)
       .get('/entries/current.json')
@@ -267,7 +267,7 @@ describe('Entries REST api', function(this: any) {
       });
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('/entries/:id', function (done: any) {
     var app = self.app;
     self.archive.list({count: 1}, function(err: any, records: any) {
@@ -283,7 +283,7 @@ describe('Entries REST api', function(this: any) {
       });
     });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('/entries/:model', function (done: any) {
     var app = self.app;
     request(app)
@@ -295,7 +295,7 @@ describe('Entries REST api', function(this: any) {
       });
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('disallow POST by readable /entries/preview', function (done: any) {
     request(self.app)
       .post('/entries/preview.json')
@@ -307,7 +307,7 @@ describe('Entries REST api', function(this: any) {
       });
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('disallow deletes unauthorized', function (done: any) {
     var app = self.app;
 
@@ -329,7 +329,7 @@ describe('Entries REST api', function(this: any) {
       });
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('post an entry, query, delete, verify gone', function (done: any) {
     // insert a glucose entry - needs to be unique from example data
     console.log('Inserting glucose entry')
@@ -388,7 +388,7 @@ describe('Entries REST api', function(this: any) {
       });
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('post multiple entries, query, delete, verify gone', function (done: any) {
     // insert a glucose entry - needs to be unique from example data
     console.log('Inserting glucose entry')

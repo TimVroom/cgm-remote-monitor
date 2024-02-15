@@ -1,14 +1,14 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var times = require('../times');
 
 function init(ctx: any) {
   var moment = ctx.moment;
   var levels = ctx.levels;
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var utils = require('../utils')(ctx);
   var firstPrefs = true;
   var lastStateNotification: any = null;
@@ -20,7 +20,7 @@ function init(ctx: any) {
     , pluginType: 'pill-status'
   };
 
-  // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
   sensorState.getPrefs = function getPrefs(sbx: any) {
     var prefs = {
       enableAlerts: sbx.extendedSettings.enableAlerts || false
@@ -36,15 +36,15 @@ function init(ctx: any) {
     return prefs;
   };
 
-  // @ts-expect-error TS(2339): Property 'setProperties' does not exist on type '{... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'setProperties' does not exist on type '{... Remove this comment to see the full error message
   sensorState.setProperties = function setProperties (sbx: any) {
     sbx.offerProperty('sensorState', function setProp ( ) {
-      // @ts-expect-error TS(2339): Property 'getStateString' does not exist on type '... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'getStateString' does not exist on type '... Remove this comment to see the full error message
       return sensorState.getStateString(sbx);
     });
   };
 
-  // @ts-expect-error TS(2339): Property 'checkNotifications' does not exist on ty... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'checkNotifications' does not exist on ty... Remove this comment to see the full error message
   sensorState.checkNotifications = function checkNotifications(sbx: any) {
 
     var info = sbx.properties.sensorState;
@@ -62,9 +62,9 @@ function init(ctx: any) {
 
   };
 
-  // @ts-expect-error TS(2339): Property 'getStateString' does not exist on type '... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'getStateString' does not exist on type '... Remove this comment to see the full error message
   sensorState.getStateString = function findLatestState(sbx: any) {
-    // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
     var prefs = sensorState.getPrefs(sbx);
 
     var recentHours = 24; 
@@ -110,7 +110,7 @@ function init(ctx: any) {
 
     function getDevice(status: any) {
       var uri = status.device || 'device';
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       var device = result.seenDevices[uri];
 
       if (!device) {
@@ -119,7 +119,7 @@ function init(ctx: any) {
           , uri: uri
         };
 
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         result.seenDevices[uri] = device;
       }
       return device;
@@ -151,128 +151,128 @@ function init(ctx: any) {
 
     var sensorInfo = result.latest;
 
-    // @ts-expect-error TS(2339): Property 'level' does not exist on type '{ seenDev... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'level' does not exist on type '{ seenDev... Remove this comment to see the full error message
     result.level = levels.NONE;
 
-    // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
+    // @ts-expect-error TS(2339) FIXME: Property 'xdripjs' does not exist on type 'never'.
     if (sensorInfo && sensorInfo.xdripjs) {
 
-      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'xdripjs' does not exist on type 'never'.
       if (sensorInfo.xdripjs.state != 0x6) {
         // Send warning notification for all states that are not 'OK'
         // but only send state notifications at interval preference
-        // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
+        // @ts-expect-error TS(2339) FIXME: Property 'xdripjs' does not exist on type 'never'.
         if (!lastStateNotification || (lastStateNotification.state != sensorInfo.xdripjs.state) || !prefs.stateNotifyIntrvl || (moment().diff(lastStateNotification.timestamp, 'minutes') > (prefs.stateNotifyIntrvl*60))) {
           sendNotification = true;
           lastStateNotification = {
             timestamp: moment()
-            // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
+            // @ts-expect-error TS(2339) FIXME: Property 'xdripjs' does not exist on type 'never'.
             , state: sensorInfo.xdripjs.state
           };
         }
 
-        // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
+        // @ts-expect-error TS(2339) FIXME: Property 'xdripjs' does not exist on type 'never'.
         message = 'CGM Transmitter state: ' + sensorInfo.xdripjs.stateString;
-        // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
+        // @ts-expect-error TS(2339) FIXME: Property 'xdripjs' does not exist on type 'never'.
         title = 'CGM Transmitter state: ' + sensorInfo.xdripjs.stateString;
 
-        // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
+        // @ts-expect-error TS(2339) FIXME: Property 'xdripjs' does not exist on type 'never'.
         if (sensorInfo.xdripjs.state == 0x7) {
           // If it is a calibration request, only use INFO
-          // @ts-expect-error TS(2339): Property 'level' does not exist on type '{ seenDev... Remove this comment to see the full error message
+          // @ts-expect-error TS(2339) FIXME: Property 'level' does not exist on type '{ seenDev... Remove this comment to see the full error message
           result.level = levels.INFO;
         } else {
-          // @ts-expect-error TS(2339): Property 'level' does not exist on type '{ seenDev... Remove this comment to see the full error message
+          // @ts-expect-error TS(2339) FIXME: Property 'level' does not exist on type '{ seenDev... Remove this comment to see the full error message
           result.level = levels.WARN;
         }
       }
 
-      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'xdripjs' does not exist on type 'never'.
       if (sensorInfo.xdripjs.voltagea && (sensorInfo.xdripjs.voltagea < prefs.warnBatV)) {
         sendNotification = true;
-        // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
+        // @ts-expect-error TS(2339) FIXME: Property 'xdripjs' does not exist on type 'never'.
         message = 'CGM Transmitter Battery A Low Voltage: ' + sensorInfo.xdripjs.voltagea;
         title = 'CGM Transmitter Battery Low';
-        // @ts-expect-error TS(2339): Property 'level' does not exist on type '{ seenDev... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'level' does not exist on type '{ seenDev... Remove this comment to see the full error message
         result.level = levels.WARN;
       }
 
-      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'xdripjs' does not exist on type 'never'.
       if (sensorInfo.xdripjs.voltageb && (sensorInfo.xdripjs.voltageb < (prefs.warnBatV - 10))) {
         sendNotification = true;
-        // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
+        // @ts-expect-error TS(2339) FIXME: Property 'xdripjs' does not exist on type 'never'.
         message = 'CGM Transmitter Battery B Low Voltage: ' + sensorInfo.xdripjs.voltageb;
         title = 'CGM Transmitter Battery Low';
-        // @ts-expect-error TS(2339): Property 'level' does not exist on type '{ seenDev... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'level' does not exist on type '{ seenDev... Remove this comment to see the full error message
         result.level = levels.WARN;
       }
 
       if (prefs.enableAlerts && sendNotification) {
-        // @ts-expect-error TS(2339): Property 'notification' does not exist on type '{ ... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'notification' does not exist on type '{ ... Remove this comment to see the full error message
         result.notification = {
           title: title
           , message: message
           , pushoverSound: sound
-          // @ts-expect-error TS(2339): Property 'level' does not exist on type '{ seenDev... Remove this comment to see the full error message
+          // @ts-expect-error TS(2339) FIXME: Property 'level' does not exist on type '{ seenDev... Remove this comment to see the full error message
           , level: result.level
           , group: 'xDrip-js'
         };
       }
 
-      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'xdripjs' does not exist on type 'never'.
       result.lastState = sensorInfo.xdripjs.state;
-      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'xdripjs' does not exist on type 'never'.
       result.lastStateString = sensorInfo.xdripjs.stateString;
-      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'xdripjs' does not exist on type 'never'.
       result.lastStateStringShort = sensorInfo.xdripjs.stateStringShort;
-      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'xdripjs' does not exist on type 'never'.
       result.lastSessionStart = sensorInfo.xdripjs.sessionStart;
-      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'xdripjs' does not exist on type 'never'.
       result.lastTxId = sensorInfo.xdripjs.txId;
-      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'xdripjs' does not exist on type 'never'.
       result.lastTxStatus = sensorInfo.xdripjs.txStatus;
-      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'xdripjs' does not exist on type 'never'.
       result.lastTxStatusString = sensorInfo.xdripjs.txStatusString;
-      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'xdripjs' does not exist on type 'never'.
       result.lastTxStatusStringShort = sensorInfo.xdripjs.txStatusStringShort;
-      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'xdripjs' does not exist on type 'never'.
       result.lastTxActivation = sensorInfo.xdripjs.txActivation;
-      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'xdripjs' does not exist on type 'never'.
       result.lastMode = sensorInfo.xdripjs.mode;
-      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'xdripjs' does not exist on type 'never'.
       result.lastRssi = sensorInfo.xdripjs.rssi;
-      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'xdripjs' does not exist on type 'never'.
       result.lastUnfiltered = sensorInfo.xdripjs.unfiltered;
-      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'xdripjs' does not exist on type 'never'.
       result.lastFiltered = sensorInfo.xdripjs.filtered;
-      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'xdripjs' does not exist on type 'never'.
       result.lastNoise = sensorInfo.xdripjs.noise;
-      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'xdripjs' does not exist on type 'never'.
       result.lastNoiseString = sensorInfo.xdripjs.noiseString;
-      // @ts-expect-error TS(2322): Type 'number' is not assignable to type 'null'.
+      // @ts-expect-error TS(2322) FIXME: Type 'number' is not assignable to type 'null'.
       result.lastSlope = Math.round(sensorInfo.xdripjs.slope * 100) / 100.0;
-      // @ts-expect-error TS(2322): Type 'number' is not assignable to type 'null'.
+      // @ts-expect-error TS(2322) FIXME: Type 'number' is not assignable to type 'null'.
       result.lastIntercept = Math.round(sensorInfo.xdripjs.intercept * 100) / 100.0;
-      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'xdripjs' does not exist on type 'never'.
       result.lastCalType = sensorInfo.xdripjs.calType;
-      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'xdripjs' does not exist on type 'never'.
       result.lastCalibrationDate = sensorInfo.xdripjs.lastCalibrationDate;
-      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'xdripjs' does not exist on type 'never'.
       result.lastBatteryTimestamp = sensorInfo.xdripjs.batteryTimestamp;
-      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'xdripjs' does not exist on type 'never'.
       result.lastVoltageA = sensorInfo.xdripjs.voltagea;
-      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'xdripjs' does not exist on type 'never'.
       result.lastVoltageB = sensorInfo.xdripjs.voltageb;
-      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'xdripjs' does not exist on type 'never'.
       result.lastTemperature = sensorInfo.xdripjs.temperature;
-      // @ts-expect-error TS(2339): Property 'xdripjs' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'xdripjs' does not exist on type 'never'.
       result.lastResistance = sensorInfo.xdripjs.resistance;
     }
 
     return result;
   };
 
-  // @ts-expect-error TS(2339): Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
   sensorState.updateVisualisation = function updateVisualisation (sbx: any) {
 
     var sensor = sbx.properties.sensorState;
@@ -393,7 +393,7 @@ function init(ctx: any) {
     next(translate('virtAsstTitleCGM'+translateItem), response);
   }
 
-  // @ts-expect-error TS(2339): Property 'virtAsst' does not exist on type '{ name... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'virtAsst' does not exist on type '{ name... Remove this comment to see the full error message
   sensorState.virtAsst = {
     intentHandlers: [
       {
@@ -494,6 +494,6 @@ function init(ctx: any) {
   return sensorState;
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;
 

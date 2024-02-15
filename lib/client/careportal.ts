@@ -1,17 +1,16 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var parse_duration = require('parse-duration'); // https://www.npmjs.com/package/parse-duration
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'times'.
 var times = require('../times');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'consts'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'consts'.
 var consts = require('../constants');
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var Storages = require('js-storage');
 
-// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init (client: any, $: any) {
   var careportal = {};
 
@@ -47,10 +46,10 @@ function init (client: any, $: any) {
   var submitHooks = {};
 
   function refreshEventTypes() {
-    // @ts-expect-error TS(2339): Property 'allEventTypes' does not exist on type '{... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'allEventTypes' does not exist on type '{... Remove this comment to see the full error message
     careportal.allEventTypes = client.plugins.getAllEventTypes(client.sbx);
 
-    // @ts-expect-error TS(2339): Property 'events' does not exist on type '{}'.
+    // @ts-expect-error TS(2339) FIXME: Property 'events' does not exist on type '{}'.
     careportal.events = _.map(careportal.allEventTypes, function each (event: any) {
       return _.pick(event, ['val', 'name']);
     });
@@ -58,18 +57,18 @@ function init (client: any, $: any) {
     inputMatrix = {};
     submitHooks = {};
 
-    // @ts-expect-error TS(2339): Property 'allEventTypes' does not exist on type '{... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'allEventTypes' does not exist on type '{... Remove this comment to see the full error message
     _.forEach(careportal.allEventTypes, function each (event: any) {
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       inputMatrix[event.val] = _.pick(event, ['otp','remoteCarbs', 'remoteAbsorption', 'remoteBolus', 'bg', 'insulin', 'carbs', 'protein', 'fat', 'prebolus', 'duration', 'percent', 'absolute', 'profile', 'split', 'sensor', 'reasons', 'targets']);
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       submitHooks[event.val] = event.submitHook;
     });
   }
 
   refreshEventTypes();
 
-  // @ts-expect-error TS(2339): Property 'filterInputs' does not exist on type '{}... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'filterInputs' does not exist on type '{}... Remove this comment to see the full error message
   careportal.filterInputs = function filterInputs (event: any) {
     var eventType = $('#eventType').val();
 
@@ -94,47 +93,47 @@ function init (client: any, $: any) {
     }
 
     /* eslint-disable security/detect-object-injection */ // verified false positive by check above
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     var reasons = inputMatrix[eventType]['reasons'];
     $('#reasonLabel').css('display', displayType(reasons && reasons.length > 0));
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     $('#targets').css('display', displayType(inputMatrix[eventType]['targets']));
 
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     $('#otpLabel').css('display', displayType(inputMatrix[eventType]['otp']));
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     $('#remoteCarbsLabel').css('display', displayType(inputMatrix[eventType]['remoteCarbs']));
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     $('#remoteAbsorptionLabel').css('display', displayType(inputMatrix[eventType]['remoteAbsorption']));
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     $('#remoteBolusLabel').css('display', displayType(inputMatrix[eventType]['remoteBolus']));
 
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     $('#bg').css('display', displayType(inputMatrix[eventType]['bg']));
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     $('#insulinGivenLabel').css('display', displayType(inputMatrix[eventType]['insulin']));
 
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     $('#carbsGivenLabel').css('display', displayType(inputMatrix[eventType]['carbs']));
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     $('#proteinGivenLabel').css('display', displayType(inputMatrix[eventType]['protein']));
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     $('#fatGivenLabel').css('display', displayType(inputMatrix[eventType]['fat']));
 
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     $('#sensorInfo').css('display', displayType(inputMatrix[eventType]['sensor']));
 
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     $('#durationLabel').css('display', displayType(inputMatrix[eventType]['duration']));
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     $('#percentLabel').css('display', displayType(inputMatrix[eventType]['percent'] && $('#absolute').val() === ''));
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     $('#absoluteLabel').css('display', displayType(inputMatrix[eventType]['absolute'] && $('#percent').val() === ''));
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     $('#profileLabel').css('display', displayType(inputMatrix[eventType]['profile']));
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     $('#preBolusLabel').css('display', displayType(inputMatrix[eventType]['prebolus']));
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     $('#insulinSplitLabel').css('display', displayType(inputMatrix[eventType]['split']));
 
     $('#reason').empty();
@@ -142,48 +141,48 @@ function init (client: any, $: any) {
       $('#reason').append('<option value="' + reason.name + '">' + translate(reason.displayName || reason.name) + '</option>');
     });
 
-    // @ts-expect-error TS(2339): Property 'reasonable' does not exist on type '{}'.
+    // @ts-expect-error TS(2339) FIXME: Property 'reasonable' does not exist on type '{}'.
     careportal.reasonable();
 
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     resetIfHidden(inputMatrix[eventType]['otp'], '#otp');
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     resetIfHidden(inputMatrix[eventType]['remoteCarbs'], '#remoteCarbs');
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     resetIfHidden(inputMatrix[eventType]['remoteAbsorption'], '#remoteAbsorption');
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     resetIfHidden(inputMatrix[eventType]['remoteBolus'], '#remoteBolus');
 
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     resetIfHidden(inputMatrix[eventType]['insulin'], '#insulinGiven');
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     resetIfHidden(inputMatrix[eventType]['carbs'], '#carbsGiven');
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     resetIfHidden(inputMatrix[eventType]['protein'], '#proteinGiven');
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     resetIfHidden(inputMatrix[eventType]['fat'], '#fatGiven');
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     resetIfHidden(inputMatrix[eventType]['sensor'], '#sensorCode');
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     resetIfHidden(inputMatrix[eventType]['sensor'], '#transmitterId');
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     resetIfHidden(inputMatrix[eventType]['duration'], '#duration');
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     resetIfHidden(inputMatrix[eventType]['absolute'], '#absolute');
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     resetIfHidden(inputMatrix[eventType]['percent'], '#percent');
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     resetIfHidden(inputMatrix[eventType]['prebolus'], '#preBolus');
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     resetIfHidden(inputMatrix[eventType]['split'], '#insulinSplitNow');
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     resetIfHidden(inputMatrix[eventType]['split'], '#insulinSplitExt');
     /* eslint-enable security/detect-object-injection */ // verified false positive
 
     maybePrevent(event);
   };
 
-  // @ts-expect-error TS(2339): Property 'reasonable' does not exist on type '{}'.
+  // @ts-expect-error TS(2339) FIXME: Property 'reasonable' does not exist on type '{}'.
   careportal.reasonable = function reasonable () {
     var eventType = $('#eventType').val();
     var reasons = [];
@@ -191,7 +190,7 @@ function init (client: any, $: any) {
     // validate the eventType input before getting the reasons list
     if (Object.prototype.hasOwnProperty.call(inputMatrix, eventType)) {
       /* eslint-disable-next-line security/detect-object-injection */ // verified false positive
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       reasons = inputMatrix[eventType]['reasons'];
     }
     var selected = $('#reason').val();
@@ -221,32 +220,32 @@ function init (client: any, $: any) {
     }
   };
 
-  // @ts-expect-error TS(2339): Property 'prepareEvents' does not exist on type '{... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'prepareEvents' does not exist on type '{... Remove this comment to see the full error message
   careportal.prepareEvents = function prepareEvents () {
     $('#eventType').empty();
-    // @ts-expect-error TS(2339): Property 'events' does not exist on type '{}'.
+    // @ts-expect-error TS(2339) FIXME: Property 'events' does not exist on type '{}'.
     _.each(careportal.events, function eachEvent (event: any) {
       $('#eventType').append('<option value="' + event.val + '">' + translate(event.name) + '</option>');
     });
-    // @ts-expect-error TS(2339): Property 'filterInputs' does not exist on type '{}... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'filterInputs' does not exist on type '{}... Remove this comment to see the full error message
     $('#eventType').change(careportal.filterInputs);
-    // @ts-expect-error TS(2339): Property 'reasonable' does not exist on type '{}'.
+    // @ts-expect-error TS(2339) FIXME: Property 'reasonable' does not exist on type '{}'.
     $('#reason').change(careportal.reasonable);
-    // @ts-expect-error TS(2339): Property 'filterInputs' does not exist on type '{}... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'filterInputs' does not exist on type '{}... Remove this comment to see the full error message
     $('#percent').on('input', careportal.filterInputs);
-    // @ts-expect-error TS(2339): Property 'filterInputs' does not exist on type '{}... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'filterInputs' does not exist on type '{}... Remove this comment to see the full error message
     $('#absolute').on('input', careportal.filterInputs);
-    // @ts-expect-error TS(2339): Property 'adjustSplit' does not exist on type '{}'... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'adjustSplit' does not exist on type '{}'... Remove this comment to see the full error message
     $('#insulinSplitNow').on('input', careportal.adjustSplit);
-    // @ts-expect-error TS(2339): Property 'adjustSplit' does not exist on type '{}'... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'adjustSplit' does not exist on type '{}'... Remove this comment to see the full error message
     $('#insulinSplitExt').on('input', careportal.adjustSplit);
-    // @ts-expect-error TS(2339): Property 'filterInputs' does not exist on type '{}... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'filterInputs' does not exist on type '{}... Remove this comment to see the full error message
     careportal.filterInputs();
-    // @ts-expect-error TS(2339): Property 'adjustSplit' does not exist on type '{}'... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'adjustSplit' does not exist on type '{}'... Remove this comment to see the full error message
     careportal.adjustSplit();
   };
 
-  // @ts-expect-error TS(2339): Property 'adjustSplit' does not exist on type '{}'... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'adjustSplit' does not exist on type '{}'... Remove this comment to see the full error message
   careportal.adjustSplit = function adjustSplit (event: any) {
     if ($(this).attr('id') === 'insulinSplitNow') {
       var nowval = parseInt($('#insulinSplitNow').val()) || 0;
@@ -261,9 +260,9 @@ function init (client: any, $: any) {
     maybePrevent(event);
   };
 
-  // @ts-expect-error TS(2339): Property 'resolveEventName' does not exist on type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'resolveEventName' does not exist on type... Remove this comment to see the full error message
   careportal.resolveEventName = function resolveEventName (value: any) {
-    // @ts-expect-error TS(2339): Property 'events' does not exist on type '{}'.
+    // @ts-expect-error TS(2339) FIXME: Property 'events' does not exist on type '{}'.
     _.each(careportal.events, function eachEvent (e: any) {
       if (e.val === value) {
         value = e.name;
@@ -272,7 +271,7 @@ function init (client: any, $: any) {
     return value;
   };
 
-  // @ts-expect-error TS(2339): Property 'prepare' does not exist on type '{}'.
+  // @ts-expect-error TS(2339) FIXME: Property 'prepare' does not exist on type '{}'.
   careportal.prepare = function prepare () {
     refreshEventTypes();
 
@@ -280,7 +279,7 @@ function init (client: any, $: any) {
     client.profilefunctions.listBasalProfiles().forEach(function(p: any) {
       $('#profile').append('<option val="' + p + '">' + p + '</option>');
     });
-    // @ts-expect-error TS(2339): Property 'prepareEvents' does not exist on type '{... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'prepareEvents' does not exist on type '{... Remove this comment to see the full error message
     careportal.prepareEvents();
     $('#eventType').val('<none>');
     $('#glucoseValue').val('').attr('placeholder', translate('Value in') + ' ' + client.settings.units);
@@ -305,7 +304,7 @@ function init (client: any, $: any) {
     $('#notes').val('');
     $('#enteredBy').val(client.authorized ? client.authorized.sub : storage.get('enteredBy') || '');
     $('#nowtime').prop('checked', true);
-    // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
+    // @ts-expect-error TS(2554) FIXME: Expected 1 arguments, but got 0.
     setDateAndTime();
   };
 
@@ -350,7 +349,7 @@ function init (client: any, $: any) {
     // validate the eventType input before getting the reasons list
     if (Object.prototype.hasOwnProperty.call(inputMatrix, eventType)) {
       /* eslint-disable-next-line security/detect-object-injection */ // verified false positive
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       reasons = inputMatrix[eventType]['reasons'];
     }
     var reason = _.find(reasons, function matches (r: any) {
@@ -358,7 +357,7 @@ function init (client: any, $: any) {
     });
 
     if (reason) {
-      // @ts-expect-error TS(2339): Property 'reasonDisplay' does not exist on type '{... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'reasonDisplay' does not exist on type '{... Remove this comment to see the full error message
       data.reasonDisplay = reason.displayName;
     }
 
@@ -370,19 +369,19 @@ function init (client: any, $: any) {
     //special handling for absolute to support temp to 0
     var absolute = $('#absolute').val();
     if ('' !== absolute && !isNaN(absolute)) {
-      // @ts-expect-error TS(2339): Property 'absolute' does not exist on type '{ ente... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'absolute' does not exist on type '{ ente... Remove this comment to see the full error message
       data.absolute = Number(absolute);
     }
 
     if ($('#othertime').is(':checked')) {
-      // @ts-expect-error TS(2339): Property 'eventTime' does not exist on type '{ ent... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'eventTime' does not exist on type '{ ent... Remove this comment to see the full error message
       data.eventTime = mergeDateAndTime().toDate();
     }
 
-    // @ts-expect-error TS(2339): Property 'created_at' does not exist on type '{ en... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'created_at' does not exist on type '{ en... Remove this comment to see the full error message
     data.created_at = data.eventTime ? data.eventTime.toISOString() : new Date().toISOString();
 
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     if (!inputMatrix[data.eventType].profile) {
       delete data.profile;
     }
@@ -399,18 +398,18 @@ function init (client: any, $: any) {
     }
 
     if (data.eventType.indexOf('Combo Bolus') > -1) {
-      // @ts-expect-error TS(2339): Property 'splitNow' does not exist on type '{ ente... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'splitNow' does not exist on type '{ ente... Remove this comment to see the full error message
       data.splitNow = parseInt($('#insulinSplitNow').val()) || 0;
-      // @ts-expect-error TS(2339): Property 'splitExt' does not exist on type '{ ente... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'splitExt' does not exist on type '{ ente... Remove this comment to see the full error message
       data.splitExt = parseInt($('#insulinSplitExt').val()) || 0;
     }
 
     let d = {};
     Object.keys(data).forEach(function(key) {
       /* eslint-disable security/detect-object-injection */ // verified false positive
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       if (data[key] !== "" && data[key] !== null) {
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         d[key] = data[key]
       }
       /* eslint-enable security/detect-object-injection */ // verified false positive
@@ -419,7 +418,7 @@ function init (client: any, $: any) {
     return d;
   }
 
-  // @ts-expect-error TS(2339): Property 'save' does not exist on type '{}'.
+  // @ts-expect-error TS(2339) FIXME: Property 'save' does not exist on type '{}'.
   careportal.save = function save (event: any) {
     var data = gatherData();
     confirmPost(data);
@@ -483,7 +482,7 @@ function init (client: any, $: any) {
   function buildConfirmText (data: any) {
     var text = [
       translate('Please verify that the data entered is correct') + ': '
-      // @ts-expect-error TS(2339): Property 'resolveEventName' does not exist on type... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'resolveEventName' does not exist on type... Remove this comment to see the full error message
       , translate('Event Type') + ': ' + translate(careportal.resolveEventName(data.eventType))
     ];
 
@@ -552,7 +551,7 @@ function init (client: any, $: any) {
       window.alert(messages);
     } else {
       if (window.confirm(buildConfirmText(data))) {
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         var submitHook = submitHooks[data.eventType];
         if (submitHook) {
           submitHook(client, data, function (error: any) {
@@ -594,14 +593,14 @@ function init (client: any, $: any) {
     client.browserUtils.closeDrawer('#treatmentDrawer');
   }
 
-  // @ts-expect-error TS(2339): Property 'dateTimeFocus' does not exist on type '{... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'dateTimeFocus' does not exist on type '{... Remove this comment to see the full error message
   careportal.dateTimeFocus = function dateTimeFocus (event: any) {
     $('#othertime').prop('checked', true);
     updateTime($(this), mergeDateAndTime());
     maybePrevent(event);
   };
 
-  // @ts-expect-error TS(2339): Property 'dateTimeChange' does not exist on type '... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'dateTimeChange' does not exist on type '... Remove this comment to see the full error message
   careportal.dateTimeChange = function dateTimeChange (event: any) {
     $('#othertime').prop('checked', true);
     
@@ -626,36 +625,36 @@ function init (client: any, $: any) {
     maybePrevent(event);
   };
 
-  // @ts-expect-error TS(2339): Property 'eventTimeTypeChange' does not exist on t... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'eventTimeTypeChange' does not exist on t... Remove this comment to see the full error message
   careportal.eventTimeTypeChange = function eventTimeTypeChange (event: any) {
     if ($('#othertime').is(':checked')) {
       eventTime.focus();
     } else {
-      // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
+      // @ts-expect-error TS(2554) FIXME: Expected 1 arguments, but got 0.
       setDateAndTime();
     }
     maybePrevent(event);
   };
 
-  // @ts-expect-error TS(2339): Property 'toggleDrawer' does not exist on type '{}... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'toggleDrawer' does not exist on type '{}... Remove this comment to see the full error message
   careportal.toggleDrawer = function toggleDrawer (event: any) {
-    // @ts-expect-error TS(2339): Property 'prepare' does not exist on type '{}'.
+    // @ts-expect-error TS(2339) FIXME: Property 'prepare' does not exist on type '{}'.
     client.browserUtils.toggleDrawer('#treatmentDrawer', careportal.prepare);
     maybePrevent(event);
   };
 
-  // @ts-expect-error TS(2339): Property 'toggleDrawer' does not exist on type '{}... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'toggleDrawer' does not exist on type '{}... Remove this comment to see the full error message
   $('#treatmentDrawerToggle').click(careportal.toggleDrawer);
-  // @ts-expect-error TS(2339): Property 'save' does not exist on type '{}'.
+  // @ts-expect-error TS(2339) FIXME: Property 'save' does not exist on type '{}'.
   $('#treatmentDrawer').find('button').click(careportal.save);
-  // @ts-expect-error TS(2339): Property 'eventTimeTypeChange' does not exist on t... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'eventTimeTypeChange' does not exist on t... Remove this comment to see the full error message
   $('#eventTime').find('input:radio').change(careportal.eventTimeTypeChange);
 
-  // @ts-expect-error TS(2339): Property 'dateTimeFocus' does not exist on type '{... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'dateTimeFocus' does not exist on type '{... Remove this comment to see the full error message
   $('.eventinput').focus(careportal.dateTimeFocus).change(careportal.dateTimeChange);
 
   return careportal;
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

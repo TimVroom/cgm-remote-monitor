@@ -1,12 +1,12 @@
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'should'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'should'.
 var should = require('should');
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var Stream = require('stream');
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'levels'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'levels'.
 var levels = require('../lib/levels');
 
-// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+// @ts-expect-error TS(2593) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('notifications', function ( ) {
 
   var env = {testMode: true};
@@ -19,7 +19,7 @@ describe('notifications', function ( ) {
     , levels: levels
   };
 
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var notifications = require('../lib/notifications')(env, ctx);
 
   function examplePlugin () {}
@@ -90,7 +90,7 @@ describe('notifications', function ( ) {
     }, done);
   }
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('initAndReInit', function (done: any) {
     notifications.initRequests();
     notifications.requestNotify(exampleWarn);
@@ -101,7 +101,7 @@ describe('notifications', function ( ) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('emitAWarning', function (done: any) {
     //start fresh to we don't pick up other notifications
     ctx.bus = new Stream;
@@ -117,7 +117,7 @@ describe('notifications', function ( ) {
     notifications.process();
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('emitAnInfo', function (done: any) {
     notifyToDone(done);
 
@@ -129,7 +129,7 @@ describe('notifications', function ( ) {
     notifications.process();
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('emitAllClear 1 time after alarm is auto acked', function (done: any) {
     clearToDone(done);
 
@@ -160,7 +160,7 @@ describe('notifications', function ( ) {
     notifications.process();
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('Can be snoozed', function (done: any) {
     notifyToDone(done); //shouldn't get called
 
@@ -174,7 +174,7 @@ describe('notifications', function ( ) {
     done();
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('Can be snoozed by last snooze', function (done: any) {
     notifyToDone(done); //shouldn't get called
 
@@ -189,7 +189,7 @@ describe('notifications', function ( ) {
     done();
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('Urgent alarms can\'t be snoozed by warn', function (done: any) {
     clearToDone(done); //shouldn't get called
 
@@ -203,7 +203,7 @@ describe('notifications', function ( ) {
     done();
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('Warnings can be snoozed by urgent', function (done: any) {
     notifyToDone(done); //shouldn't get called
 

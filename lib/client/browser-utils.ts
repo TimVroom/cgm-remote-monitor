@@ -2,7 +2,6 @@
 
 var SMALL_SCREEN = 500;
 
-// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init ($: any) {
   var lastOpenedDrawer: any = null;
 
@@ -20,7 +19,7 @@ function init ($: any) {
   };
 
   $('#drawerToggle').click(function(event: any) {
-    // @ts-expect-error TS(2554): Expected 3 arguments, but got 1.
+    // @ts-expect-error TS(2554) FIXME: Expected 3 arguments, but got 1.
     toggleDrawer('#drawer');
     event.preventDefault();
   });
@@ -31,7 +30,7 @@ function init ($: any) {
   });
 
   $('.navigation a').click(function navigationClick () {
-    // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
+    // @ts-expect-error TS(2554) FIXME: Expected 2 arguments, but got 1.
     closeDrawer('#drawer');
   });
 
@@ -46,7 +45,7 @@ function init ($: any) {
     var params = {};
     if ((typeof location !== 'undefined') && location.search) {
       location.search.substr(1).split('&').forEach(function(item) {
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         // eslint-disable-next-line no-useless-escape
         params[item.split('=')[0]] = item.split('=')[1].replace(/[_\+]/g, ' ');
       });
@@ -93,11 +92,11 @@ function init ($: any) {
       //var chartTop = $('#chartContainer').offset().top - 45;
       //var chartHeight = windowHeight - chartTop - 45;
       if (windowWidth < SMALL_SCREEN || (windowHeight < SMALL_SCREEN) && windowWidth < 800) {
-        // @ts-expect-error TS(2339): Property 'top' does not exist on type '{ display: ... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'top' does not exist on type '{ display: ... Remove this comment to see the full error message
         style.top = '0px';
-        // @ts-expect-error TS(2339): Property 'height' does not exist on type '{ displa... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'height' does not exist on type '{ displa... Remove this comment to see the full error message
         style.height = windowHeight + 'px';
-        // @ts-expect-error TS(2339): Property 'width' does not exist on type '{ display... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'width' does not exist on type '{ display... Remove this comment to see the full error message
         style.width = windowWidth + 'px';
         //TODO: maybe detect iOS and do this, doesn't work good with android
         //if (chartHeight > windowHeight * 0.4) {
@@ -105,11 +104,11 @@ function init ($: any) {
         //  style.height = chartHeight + 'px';
         //}
       } else {
-        // @ts-expect-error TS(2339): Property 'top' does not exist on type '{ display: ... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'top' does not exist on type '{ display: ... Remove this comment to see the full error message
         style.top = '0px';
-        // @ts-expect-error TS(2339): Property 'height' does not exist on type '{ displa... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'height' does not exist on type '{ displa... Remove this comment to see the full error message
         style.height = (windowHeight - 45) + 'px';
-        // @ts-expect-error TS(2339): Property 'width' does not exist on type '{ display... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'width' does not exist on type '{ display... Remove this comment to see the full error message
         style.width = '350px';
       }
 
@@ -164,5 +163,5 @@ function init ($: any) {
   };
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

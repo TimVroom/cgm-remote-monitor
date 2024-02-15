@@ -1,9 +1,9 @@
 'use strict';
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'times'.
 var times = require('../times');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'consts'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'consts'.
 var consts = require('../constants');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
 
 function init (ctx: any) {
@@ -17,7 +17,7 @@ function init (ctx: any) {
     , pluginType: 'pill-minor'
   };
 
-  // @ts-expect-error TS(2339): Property 'setProperties' does not exist on type '{... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'setProperties' does not exist on type '{... Remove this comment to see the full error message
   basal.setProperties = function setProperties (sbx: any) {
     if (hasRequiredInfo(sbx)) {
       var profile = sbx.data.profile;
@@ -55,7 +55,7 @@ function init (ctx: any) {
     return true;
  }
 
-  // @ts-expect-error TS(2339): Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
   basal.updateVisualisation = function updateVisualisation (sbx: any) {
   
     if (!hasRequiredInfo(sbx)) {
@@ -90,7 +90,7 @@ function init (ctx: any) {
     if (basalValue.treatment) {
       tempText = basalValue.treatment.percent ? (basalValue.treatment.percent > 0 ? '+' : '') + basalValue.treatment.percent + '%' :
         !isNaN(basalValue.treatment.absolute) ? basalValue.treatment.absolute + 'U/h' : '';
-      // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
+      // @ts-expect-error TS(2345) FIXME: Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
       remaining = parseInt(basalValue.treatment.duration - times.msecs(sbx.time - basalValue.treatment.mills).mins);
       info.push({label: '------------', value: ''});
       info.push({label: translate('Active temp basal'), value: tempText});
@@ -102,7 +102,7 @@ function init (ctx: any) {
       
     if (basalValue.combobolustreatment) {
       tempText = (basalValue.combobolustreatment.relative ? '+' + basalValue.combobolustreatment.relative + 'U/h' : '');
-      // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
+      // @ts-expect-error TS(2345) FIXME: Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
       remaining = parseInt(basalValue.combobolustreatment.duration - times.msecs(sbx.time - basalValue.combobolustreatment.mills).mins);
       info.push({label: '------------', value: ''});
       info.push({label: translate('Active combo bolus'), value: tempText});
@@ -156,7 +156,7 @@ function init (ctx: any) {
     next(translate('virtAsstTitleCurrentBasal'), basalMessage(slots, sbx));
   }
 
-  // @ts-expect-error TS(2339): Property 'virtAsst' does not exist on type '{ name... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'virtAsst' does not exist on type '{ name... Remove this comment to see the full error message
   basal.virtAsst = {
     rollupHandlers: [{
       rollupGroup: 'Status'
@@ -173,5 +173,5 @@ function init (ctx: any) {
   return basal;
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

@@ -1,10 +1,10 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'apiConst'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'apiConst'.
 const  apiConst = require('../../const.json')
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'stringTool... Remove this comment to see the full error message
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'stringTool... Remove this comment to see the full error message
   , stringTools = require('../../shared/stringTools')
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'opTools'.
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'opTools'.
   , opTools = require('../../shared/operationTools')
   ;
 
@@ -15,7 +15,7 @@ const  apiConst = require('../../const.json')
  * @param {Object} doc
  * @returns string with error message if validation fails, true in case of success
  */
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'validate'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'validate'.
 function validate (opCtx: any, doc: any) {
 
   const { res } = opCtx;
@@ -27,5 +27,5 @@ function validate (opCtx: any, doc: any) {
   return opTools.validateCommon(doc, res);
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = validate;

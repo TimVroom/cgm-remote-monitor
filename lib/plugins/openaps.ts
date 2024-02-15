@@ -1,17 +1,17 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'times'.
 var times = require('../times');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'consts'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'consts'.
 var consts = require('../constants');
 
 // var ALL_STATUS_FIELDS = ['status-symbol', 'status-label', 'iob', 'meal-assist', 'freq', 'rssi']; Unused variable
 
 function init (ctx: any) {
   var moment = ctx.moment;
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var utils = require('../utils')(ctx);
   var openaps = {
     name: 'openaps'
@@ -22,7 +22,7 @@ function init (ctx: any) {
   var firstPrefs = true;
   var levels = ctx.levels;
 
-  // @ts-expect-error TS(2339): Property 'getClientPrefs' does not exist on type '... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'getClientPrefs' does not exist on type '... Remove this comment to see the full error message
   openaps.getClientPrefs = function getClientPrefs() {
     return ([{
       label: "Color prediction lines",
@@ -31,7 +31,7 @@ function init (ctx: any) {
     }]);
   }
 
-  // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
   openaps.getPrefs = function getPrefs (sbx: any) {
 
     function cleanList (value: any) {
@@ -75,15 +75,15 @@ function init (ctx: any) {
     return prefs;
   };
 
-  // @ts-expect-error TS(2339): Property 'setProperties' does not exist on type '{... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'setProperties' does not exist on type '{... Remove this comment to see the full error message
   openaps.setProperties = function setProperties (sbx: any) {
     sbx.offerProperty('openaps', function setOpenAPS () {
-      // @ts-expect-error TS(2339): Property 'analyzeData' does not exist on type '{ n... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'analyzeData' does not exist on type '{ n... Remove this comment to see the full error message
       return openaps.analyzeData(sbx);
     });
   };
 
-  // @ts-expect-error TS(2339): Property 'analyzeData' does not exist on type '{ n... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'analyzeData' does not exist on type '{ n... Remove this comment to see the full error message
   openaps.analyzeData = function analyzeData (sbx: any) {
     var recentHours = 6; //TODO dia*2
     var recentMills = sbx.time - times.hours(recentHours).msecs;
@@ -103,7 +103,7 @@ function init (ctx: any) {
       })
       .value();
 
-    // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
     var prefs = openaps.getPrefs(sbx);
     var recent = moment(sbx.time).subtract(prefs.warn / 2, 'minutes');
 
@@ -119,7 +119,7 @@ function init (ctx: any) {
 
     function getDevice (status: any) {
       var uri = status.device || 'device';
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       var device = result.seenDevices[uri];
 
       if (!device) {
@@ -128,7 +128,7 @@ function init (ctx: any) {
           , uri: uri
         };
 
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         result.seenDevices[uri] = device;
       }
       return device;
@@ -216,7 +216,7 @@ function init (ctx: any) {
       }
 
       var enacted = status.openaps && status.openaps.enacted;
-      // @ts-expect-error TS(2339): Property 'isAfter' does not exist on type 'true'.
+      // @ts-expect-error TS(2339) FIXME: Property 'isAfter' does not exist on type 'true'.
       if (enacted && moments.enacted && (!result.lastEnacted || moments.enacted.isAfter(result.lastEnacted.moment))) {
         if (enacted.mills) {
           enacted.moment = moment(enacted.mills);
@@ -224,15 +224,15 @@ function init (ctx: any) {
           enacted.moment = moment(enacted.timestamp);
         }
         result.lastEnacted = enacted;
-        // @ts-expect-error TS(2339): Property 'moment' does not exist on type 'never'.
+        // @ts-expect-error TS(2339) FIXME: Property 'moment' does not exist on type 'never'.
         if (enacted.predBGs && (!result.lastPredBGs || enacted.moment.isAfter(result.lastPredBGs.moment))) {
           result.lastPredBGs = _.isArray(enacted.predBGs) ? { values: enacted.predBGs } : enacted.predBGs;
-          // @ts-expect-error TS(2531): Object is possibly 'null'.
+          // @ts-expect-error TS(2531) FIXME: Object is possibly 'null'.
           result.lastPredBGs.moment = enacted.moment;
         }
       }
 
-      // @ts-expect-error TS(2339): Property 'isAfter' does not exist on type 'true'.
+      // @ts-expect-error TS(2339) FIXME: Property 'isAfter' does not exist on type 'true'.
       if (enacted && moments.notEnacted && (!result.lastNotEnacted || moments.notEnacted.isAfter(result.lastNotEnacted.moment))) {
         if (enacted.mills) {
           enacted.moment = moment(enacted.mills);
@@ -243,7 +243,7 @@ function init (ctx: any) {
       }
 
       var suggested = status.openaps && status.openaps.suggested;
-      // @ts-expect-error TS(2339): Property 'isAfter' does not exist on type 'true'.
+      // @ts-expect-error TS(2339) FIXME: Property 'isAfter' does not exist on type 'true'.
       if (suggested && moments.suggested && (!result.lastSuggested || moments.suggested.isAfter(result.lastSuggested.moment))) {
         if (suggested.mills) {
           suggested.moment = moment(suggested.mills);
@@ -251,16 +251,16 @@ function init (ctx: any) {
           suggested.moment = moment(suggested.timestamp);
         }
         result.lastSuggested = suggested;
-        // @ts-expect-error TS(2339): Property 'moment' does not exist on type 'never'.
+        // @ts-expect-error TS(2339) FIXME: Property 'moment' does not exist on type 'never'.
         if (suggested.predBGs && (!result.lastPredBGs || suggested.moment.isAfter(result.lastPredBGs.moment))) {
           result.lastPredBGs = _.isArray(suggested.predBGs) ? { values: suggested.predBGs } : suggested.predBGs;
-          // @ts-expect-error TS(2531): Object is possibly 'null'.
+          // @ts-expect-error TS(2531) FIXME: Object is possibly 'null'.
           result.lastPredBGs.moment = suggested.moment;
         }
       }
 
       var iob = status.openaps && status.openaps.iob;
-      // @ts-expect-error TS(2339): Property 'moment' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'moment' does not exist on type 'never'.
       if (moments.iob && (!result.lastIOB || moment(iob.timestamp).isAfter(result.lastIOB.moment))) {
         iob.moment = moments.iob;
         result.lastIOB = iob;
@@ -275,47 +275,47 @@ function init (ctx: any) {
     });
 
     if (result.lastEnacted && result.lastSuggested) {
-      // @ts-expect-error TS(2339): Property 'moment' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'moment' does not exist on type 'never'.
       if (result.lastEnacted.moment.isAfter(result.lastSuggested.moment)) {
-        // @ts-expect-error TS(2339): Property 'lastLoopMoment' does not exist on type '... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'lastLoopMoment' does not exist on type '... Remove this comment to see the full error message
         result.lastLoopMoment = result.lastEnacted.moment;
-        // @ts-expect-error TS(2339): Property 'lastEventualBG' does not exist on type '... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'lastEventualBG' does not exist on type '... Remove this comment to see the full error message
         result.lastEventualBG = result.lastEnacted.eventualBG;
       } else {
-        // @ts-expect-error TS(2339): Property 'lastLoopMoment' does not exist on type '... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'lastLoopMoment' does not exist on type '... Remove this comment to see the full error message
         result.lastLoopMoment = result.lastSuggested.moment;
-        // @ts-expect-error TS(2339): Property 'lastEventualBG' does not exist on type '... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'lastEventualBG' does not exist on type '... Remove this comment to see the full error message
         result.lastEventualBG = result.lastSuggested.eventualBG;
       }
-    // @ts-expect-error TS(2339): Property 'moment' does not exist on type 'never'.
+    // @ts-expect-error TS(2339) FIXME: Property 'moment' does not exist on type 'never'.
     } else if (result.lastEnacted && result.lastEnacted.moment) {
-      // @ts-expect-error TS(2339): Property 'lastLoopMoment' does not exist on type '... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'lastLoopMoment' does not exist on type '... Remove this comment to see the full error message
       result.lastLoopMoment = result.lastEnacted.moment;
-      // @ts-expect-error TS(2339): Property 'lastEventualBG' does not exist on type '... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'lastEventualBG' does not exist on type '... Remove this comment to see the full error message
       result.lastEventualBG = result.lastEnacted.eventualBG;
-    // @ts-expect-error TS(2339): Property 'moment' does not exist on type 'never'.
+    // @ts-expect-error TS(2339) FIXME: Property 'moment' does not exist on type 'never'.
     } else if (result.lastSuggested && result.lastSuggested.moment) {
-      // @ts-expect-error TS(2339): Property 'lastLoopMoment' does not exist on type '... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'lastLoopMoment' does not exist on type '... Remove this comment to see the full error message
       result.lastLoopMoment = result.lastSuggested.moment;
-      // @ts-expect-error TS(2339): Property 'lastEventualBG' does not exist on type '... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'lastEventualBG' does not exist on type '... Remove this comment to see the full error message
       result.lastEventualBG = result.lastSuggested.eventualBG;
     }
 
-    // @ts-expect-error TS(2339): Property 'status' does not exist on type '{ seenDe... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'status' does not exist on type '{ seenDe... Remove this comment to see the full error message
     result.status = momentsToLoopStatus({
-      // @ts-expect-error TS(2339): Property 'moment' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'moment' does not exist on type 'never'.
       enacted: result.lastEnacted && result.lastEnacted.moment
-      // @ts-expect-error TS(2339): Property 'moment' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'moment' does not exist on type 'never'.
       , notEnacted: result.lastNotEnacted && result.lastNotEnacted.moment
-      // @ts-expect-error TS(2339): Property 'moment' does not exist on type 'never'.
+      // @ts-expect-error TS(2339) FIXME: Property 'moment' does not exist on type 'never'.
       , suggested: result.lastSuggested && result.lastSuggested.moment
-    // @ts-expect-error TS(2554): Expected 2 arguments, but got 3.
+    // @ts-expect-error TS(2554) FIXME: Expected 2 arguments, but got 3.
     }, false, recent);
 
     return result;
   };
 
-  // @ts-expect-error TS(2339): Property 'getEventTypes' does not exist on type '{... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'getEventTypes' does not exist on type '{... Remove this comment to see the full error message
   openaps.getEventTypes = function getEventTypes (sbx: any) {
 
     var units = sbx.settings.units;
@@ -378,9 +378,9 @@ function init (ctx: any) {
     ];
   };
 
-  // @ts-expect-error TS(2339): Property 'checkNotifications' does not exist on ty... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'checkNotifications' does not exist on ty... Remove this comment to see the full error message
   openaps.checkNotifications = function checkNotifications (sbx: any) {
-    // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
     var prefs = openaps.getPrefs(sbx);
 
     if (!prefs.enableAlerts) { return; }
@@ -407,7 +407,7 @@ function init (ctx: any) {
     }
   };
 
-  // @ts-expect-error TS(2339): Property 'findOfflineMarker' does not exist on typ... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'findOfflineMarker' does not exist on typ... Remove this comment to see the full error message
   openaps.findOfflineMarker = function findOfflineMarker (sbx: any) {
     return _.findLast(sbx.data.treatments, function match (treatment: any) {
       var eventTime = sbx.entryMills(treatment);
@@ -416,11 +416,11 @@ function init (ctx: any) {
     });
   };
 
-  // @ts-expect-error TS(2339): Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
   openaps.updateVisualisation = function updateVisualisation (sbx: any) {
     var prop = sbx.properties.openaps;
 
-    // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
     var prefs = openaps.getPrefs(sbx);
 
     var selectedFields = sbx.data.inRetroMode ? prefs.retroFields : prefs.fields;
@@ -486,7 +486,7 @@ function init (ctx: any) {
           
           return {
             mgdl: value
-            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+            // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
             , color: prefs.colorPredictionLines ? colors[forecastType] : '#ff00ff'
             , mills: prop.lastPredBGs.moment.valueOf() + times.mins(5 * index).msecs + offset
             , noFade: true
@@ -630,7 +630,7 @@ function init (ctx: any) {
     }
   }
 
-  // @ts-expect-error TS(2339): Property 'virtAsst' does not exist on type '{ name... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'virtAsst' does not exist on type '{ name... Remove this comment to see the full error message
   openaps.virtAsst = {
     intentHandlers: [{
       intent: 'MetricNow'
@@ -651,7 +651,7 @@ function init (ctx: any) {
     var level = levels.NONE;
     var now = moment(sbx.time);
 
-    // @ts-expect-error TS(2339): Property 'findOfflineMarker' does not exist on typ... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'findOfflineMarker' does not exist on typ... Remove this comment to see the full error message
     if (openaps.findOfflineMarker(sbx)) {
       console.info('OpenAPS known offline, not checking for alerts');
     } else if (prop.lastLoopMoment) {
@@ -672,5 +672,5 @@ function init (ctx: any) {
 
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

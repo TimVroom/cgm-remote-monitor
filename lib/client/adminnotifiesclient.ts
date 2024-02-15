@@ -1,20 +1,19 @@
 'use strict';
 
-// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init (client: any, $: any) {
 
   var notifies = {};
 
   client.notifies = notifies;
 
-  // @ts-expect-error TS(2339): Property 'notifies' does not exist on type '{}'.
+  // @ts-expect-error TS(2339) FIXME: Property 'notifies' does not exist on type '{}'.
   notifies.notifies = [];
-  // @ts-expect-error TS(2339): Property 'drawer' does not exist on type '{}'.
+  // @ts-expect-error TS(2339) FIXME: Property 'drawer' does not exist on type '{}'.
   notifies.drawer = $('#adminNotifiesDrawer');
-  // @ts-expect-error TS(2339): Property 'button' does not exist on type '{}'.
+  // @ts-expect-error TS(2339) FIXME: Property 'button' does not exist on type '{}'.
   notifies.button = $('#adminnotifies');
 
-  // @ts-expect-error TS(2339): Property 'updateAdminNotifies' does not exist on t... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'updateAdminNotifies' does not exist on t... Remove this comment to see the full error message
   notifies.updateAdminNotifies = function updateAdminNotifies() {
 
     var src = '/api/v1/adminnotifies?t=' + new Date().getTime();
@@ -29,20 +28,20 @@ function init (client: any, $: any) {
         client.notifies.notifies = m.notifies;
         client.notifies.notifyCount = m.notifyCount;
         if (m.notifyCount > 0) {
-          // @ts-expect-error TS(2339): Property 'button' does not exist on type '{}'.
+          // @ts-expect-error TS(2339) FIXME: Property 'button' does not exist on type '{}'.
           notifies.button.show();
         }
       }
-      // @ts-expect-error TS(2339): Property 'updateAdminNotifies' does not exist on t... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'updateAdminNotifies' does not exist on t... Remove this comment to see the full error message
       window.setTimeout(notifies.updateAdminNotifies, 1000*60);
     }).fail(function fail () {
       console.error('Failed to load notifies');
-      // @ts-expect-error TS(2339): Property 'updateAdminNotifies' does not exist on t... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'updateAdminNotifies' does not exist on t... Remove this comment to see the full error message
       window.setTimeout(notifies.updateAdminNotifies, 1000*60);
     });
   }
 
-  // @ts-expect-error TS(2339): Property 'updateAdminNotifies' does not exist on t... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'updateAdminNotifies' does not exist on t... Remove this comment to see the full error message
   notifies.updateAdminNotifies();
 
   function wrapmessage(title: any, message: any, count: any, ago: any, persistent: any) {
@@ -64,7 +63,7 @@ function init (client: any, $: any) {
     return html;
   }
 
-  // @ts-expect-error TS(2339): Property 'prepare' does not exist on type '{}'.
+  // @ts-expect-error TS(2339) FIXME: Property 'prepare' does not exist on type '{}'.
   notifies.prepare = function prepare() {
 
     var translate = client.translate;
@@ -83,15 +82,15 @@ function init (client: any, $: any) {
       }
     } else {
       if (messageCount > 0) {
-        // @ts-expect-error TS(2554): Expected 5 arguments, but got 2.
+        // @ts-expect-error TS(2554) FIXME: Expected 5 arguments, but got 2.
         html = wrapmessage(translate('Admin messages in queue'), translate('Please sign in using the API_SECRET to see your administration messages'));
       } else {
-        // @ts-expect-error TS(2554): Expected 5 arguments, but got 2.
+        // @ts-expect-error TS(2554) FIXME: Expected 5 arguments, but got 2.
         html = wrapmessage(translate('Queue empty'), translate('There are no admin messages in queue'));
       }
     }
     html += '<hr></div>';
-    // @ts-expect-error TS(2339): Property 'drawer' does not exist on type '{}'.
+    // @ts-expect-error TS(2339) FIXME: Property 'drawer' does not exist on type '{}'.
     notifies.drawer.html(html);
   }
 
@@ -101,21 +100,21 @@ function init (client: any, $: any) {
     }
   }
 
-  // @ts-expect-error TS(2339): Property 'toggleDrawer' does not exist on type '{}... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'toggleDrawer' does not exist on type '{}... Remove this comment to see the full error message
   notifies.toggleDrawer = function toggleDrawer (event: any) {
-    // @ts-expect-error TS(2339): Property 'prepare' does not exist on type '{}'.
+    // @ts-expect-error TS(2339) FIXME: Property 'prepare' does not exist on type '{}'.
     client.browserUtils.toggleDrawer('#adminNotifiesDrawer', notifies.prepare);
     maybePrevent(event);
   };
 
-  // @ts-expect-error TS(2339): Property 'button' does not exist on type '{}'.
+  // @ts-expect-error TS(2339) FIXME: Property 'button' does not exist on type '{}'.
   notifies.button.click(notifies.toggleDrawer);
-  // @ts-expect-error TS(2339): Property 'button' does not exist on type '{}'.
+  // @ts-expect-error TS(2339) FIXME: Property 'button' does not exist on type '{}'.
   notifies.button.css('color','red');
 
   return notifies;
 
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

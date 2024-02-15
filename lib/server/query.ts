@@ -1,13 +1,13 @@
 'use strict';
 
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 const traverse = require('traverse');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'ObjectID'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'ObjectID'.
 const ObjectID = require('mongodb').ObjectID;
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'moment'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'moment'.
 const moment = require('moment');
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'TWO_DAYS'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'TWO_DAYS'.
 const TWO_DAYS = 172800000;
 /**
  * @module query utilities
@@ -30,18 +30,18 @@ const TWO_DAYS = 172800000;
 function default_options (opts: any) {
   opts = opts || { };
   if (opts) {
-    // @ts-expect-error TS(2769): No overload matches this call.
+    // @ts-expect-error TS(2769) FIXME: No overload matches this call.
     var keys = [null].concat(Object.keys(opts));
 
     // default at least TWO_DAYS of data
     // TODO: discuss/consensus on right value/ENV?
-    // @ts-expect-error TS(2345): Argument of type '"deltaAgo"' is not assignable to... Remove this comment to see the full error message
+    // @ts-expect-error TS(2345) FIXME: Argument of type '"deltaAgo"' is not assignable to... Remove this comment to see the full error message
     if (keys.indexOf('deltaAgo') < 1) {
       opts.deltaAgo = ( TWO_DAYS * 2 );
     }
 
     // default at `date` and `sgv` properties are both int-types.
-    // @ts-expect-error TS(2345): Argument of type '"walker"' is not assignable to p... Remove this comment to see the full error message
+    // @ts-expect-error TS(2345) FIXME: Argument of type '"walker"' is not assignable to p... Remove this comment to see the full error message
     if (keys.indexOf('walker') < 1) {
       opts.walker = { date: parseInt, sgv: parseInt };
     }
@@ -222,6 +222,6 @@ create.parseRegEx = parseRegEx;
 create.default_options = default_options;
 
 // expose module as single high level function
-// @ts-expect-error TS(2304): Cannot find name 'exports'.
+// @ts-expect-error TS(2304) FIXME: Cannot find name 'exports'.
 exports = module.exports = create;
 

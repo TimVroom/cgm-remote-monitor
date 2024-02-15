@@ -1,16 +1,16 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'apiConst'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'apiConst'.
 const apiConst = require('../const.json')
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'mime'.
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'mime'.
   , mime = require('mime')
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'url'.
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'url'.
   , url = require('url')
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'opTools'.
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'opTools'.
   , opTools = require('./operationTools')
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   , EasyXml = require('easyxml')
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   , csvStringify = require('csv-stringify')
   ;
 
@@ -112,7 +112,7 @@ function renderXml (res: any, data: any) {
 }
 
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = {
   extension2accept,
   render

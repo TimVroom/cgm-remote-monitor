@@ -9,7 +9,7 @@ function sendJSONStatus(res: any, status: any, title: any, description: any, war
   };
 
   // Add optional warning message.
-  // @ts-expect-error TS(2339): Property 'warning' does not exist on type '{ statu... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'warning' does not exist on type '{ statu... Remove this comment to see the full error message
   if (warning) { json.warning = warning; }
 
   res.status(status).json(json);
@@ -23,5 +23,5 @@ function configure ( ) {
   return middleware;
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = configure;

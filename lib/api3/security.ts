@@ -1,14 +1,14 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'apiConst'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'apiConst'.
 const apiConst = require('./const.json')
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
   , _ = require('lodash')
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'shiroTrie'... Remove this comment to see the full error message
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'shiroTrie'... Remove this comment to see the full error message
   , shiroTrie = require('shiro-trie')
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'opTools'.
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'opTools'.
   , opTools = require('./shared/operationTools')
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'forwarded'... Remove this comment to see the full error message
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'forwarded'... Remove this comment to see the full error message
   , forwarded = require('forwarded-for')
   ;
 
@@ -90,7 +90,7 @@ function demandPermission (opCtx: any, permission: any) {
 }
 
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = {
   authenticate,
   checkPermission,

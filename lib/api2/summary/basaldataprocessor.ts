@@ -1,4 +1,4 @@
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 const { data } = require("jquery");
 
 const dataProcessor = {};
@@ -6,14 +6,14 @@ const dataProcessor = {};
 function _hhmmAfter (hhmm: any, mills: any) {
   var date = new Date(mills);
   var withSameDate = new Date(
-    // @ts-expect-error TS(2339): Property 'getYear' does not exist on type 'Date'.
+    // @ts-expect-error TS(2339) FIXME: Property 'getYear' does not exist on type 'Date'.
     1900 + date.getYear()
     , date.getMonth()
     , date.getDate()
     , parseInt(hhmm.substr(0, 2), 10)
     , parseInt(hhmm.substr(3, 5), 10)
   ).getTime();
-  // @ts-expect-error TS(2365): Operator '>' cannot be applied to types 'number' a... Remove this comment to see the full error message
+  // @ts-expect-error TS(2365) FIXME: Operator '>' cannot be applied to types 'number' a... Remove this comment to see the full error message
   return withSameDate > date ? withSameDate : withSameDate + 24 * 60 * 60 * 1000;
 }
 
@@ -55,7 +55,7 @@ function _profileBasalsInWindow (basals: any, start: any, end: any) {
   return out;
 }
 
-// @ts-expect-error TS(2339): Property 'filterSameAbsTemps' does not exist on ty... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'filterSameAbsTemps' does not exist on ty... Remove this comment to see the full error message
 dataProcessor.filterSameAbsTemps = function filterSameAbsTemps (tempdata: any) {
 
   var out = [];
@@ -90,7 +90,7 @@ dataProcessor.filterSameAbsTemps = function filterSameAbsTemps (tempdata: any) {
   return out;
 }
 
-// @ts-expect-error TS(2339): Property 'processTempBasals' does not exist on typ... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'processTempBasals' does not exist on typ... Remove this comment to see the full error message
 dataProcessor.processTempBasals = function processTempBasals (profile: any, tempBasals: any, dataCap: any) {
   var profileBasals = profile.basal;
   var temps = tempBasals.map(function(temp: any) {
@@ -121,7 +121,7 @@ dataProcessor.processTempBasals = function processTempBasals (profile: any, temp
 
   while (prevLength != newLength) {
     prevLength = o2.length;
-    // @ts-expect-error TS(2339): Property 'filterSameAbsTemps' does not exist on ty... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'filterSameAbsTemps' does not exist on ty... Remove this comment to see the full error message
     o2 = dataProcessor.filterSameAbsTemps(o2);
     newLength = o2.length;
   }
@@ -142,5 +142,5 @@ dataProcessor.processTempBasals = function processTempBasals (profile: any, temp
   return o3;
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = dataProcessor;

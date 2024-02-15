@@ -1,6 +1,6 @@
 'use strict';
 
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 const MongoClient = require('mongodb').MongoClient;
 
 const mongo = {
@@ -34,17 +34,17 @@ function init(env: any, cb: any, forceNewConnection: any) {
 
         mongo.client = new MongoClient(env.storageURI, options);
         try {
-          // @ts-expect-error TS(2531): Object is possibly 'null'.
+          // @ts-expect-error TS(2531) FIXME: Object is possibly 'null'.
           await mongo.client.connect();
 
           console.log('Successfully established connection to MongoDB');
 
-          // @ts-expect-error TS(2531): Object is possibly 'null'.
+          // @ts-expect-error TS(2531) FIXME: Object is possibly 'null'.
           const dbName = mongo.client.s.options.dbName;
-          // @ts-expect-error TS(2531): Object is possibly 'null'.
+          // @ts-expect-error TS(2531) FIXME: Object is possibly 'null'.
           mongo.db = mongo.client.db(dbName);
 
-          // @ts-expect-error TS(2531): Object is possibly 'null'.
+          // @ts-expect-error TS(2531) FIXME: Object is possibly 'null'.
           const result = await mongo.db.command({ connectionStatus: 1 });
           const roles = result.authInfo.authenticatedUserRoles;
           if (roles.length > 0 && roles[0].role == 'readAnyDatabase') {
@@ -59,21 +59,21 @@ function init(env: any, cb: any, forceNewConnection: any) {
             cb(null, mongo);
           }
         } catch (err) {
-          // @ts-expect-error TS(2571): Object is of type 'unknown'.
+          // @ts-expect-error TS(2571) FIXME: Object is of type 'unknown'.
           if (err.message && err.message.includes('AuthenticationFailed')) {
             console.log('Authentication to Mongo failed');
             cb(new Error('MongoDB authentication failed! Double check the URL has the right username and password in MONGODB_URI.'), null);
             return;
           }
 
-          // @ts-expect-error TS(2571): Object is of type 'unknown'.
+          // @ts-expect-error TS(2571) FIXME: Object is of type 'unknown'.
           if (err.name && err.name === "MongoServerSelectionError") {
             const timeout = (i > 15) ? 60000 : i * 3000;
             console.log('Error connecting to MongoDB: %j - retrying in ' + timeout / 1000 + ' sec', err);
             setTimeout(connect_with_retry, timeout, i + 1);
             if (i == 1) cb(new Error('MongoDB connection failed! Double check the MONGODB_URI setting in Heroku.'), null);
           } else {
-            // @ts-expect-error TS(2571): Object is of type 'unknown'.
+            // @ts-expect-error TS(2571) FIXME: Object is of type 'unknown'.
             cb(new Error('MONGODB_URI seems invalid: ' + err.message));
           }
         }
@@ -84,13 +84,13 @@ function init(env: any, cb: any, forceNewConnection: any) {
     }
   }
 
-  // @ts-expect-error TS(2339): Property 'collection' does not exist on type '{ cl... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'collection' does not exist on type '{ cl... Remove this comment to see the full error message
   mongo.collection = function get_collection(name: any) {
-    // @ts-expect-error TS(2531): Object is possibly 'null'.
+    // @ts-expect-error TS(2531) FIXME: Object is possibly 'null'.
     return mongo.db.collection(name);
   };
 
-  // @ts-expect-error TS(2339): Property 'ensureIndexes' does not exist on type '{... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'ensureIndexes' does not exist on type '{... Remove this comment to see the full error message
   mongo.ensureIndexes = function ensureIndexes(collection: any, fields: any) {
     fields.forEach(function (field: any) {
       console.info('ensuring index for: ' + field);
@@ -105,5 +105,5 @@ function init(env: any, cb: any, forceNewConnection: any) {
   return maybe_connect(cb);
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

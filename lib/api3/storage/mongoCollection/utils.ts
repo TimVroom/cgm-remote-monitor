@@ -1,9 +1,9 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 const _ = require('lodash')
   , checkForHexRegExp = new RegExp("^[0-9a-fA-F]{24}$")
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'ObjectID'.
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'ObjectID'.
   , ObjectID = require('mongodb').ObjectID
 ;
 
@@ -84,12 +84,12 @@ function parseFilter (filterDef: any, logicalOperator: any, onlyValid: any) {
 
     if (logicalOperator === 'or') {
       let clause = { };
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       clause[itemDef.field] = item;
       clauses.push(clause);
     }
     else {
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       filter[itemDef.field] = item;
     }
   }
@@ -99,7 +99,7 @@ function parseFilter (filterDef: any, logicalOperator: any, onlyValid: any) {
   }
 
   if (onlyValid) {
-    // @ts-expect-error TS(2339): Property 'isValid' does not exist on type '{}'.
+    // @ts-expect-error TS(2339) FIXME: Property 'isValid' does not exist on type '{}'.
     filter.isValid = { $ne: false };
   }
 
@@ -117,7 +117,7 @@ function filterForOne (identifier: any) {
 
   // fallback to "identifier = _id"
   if (checkForHexRegExp.test(identifier)) {
-    // @ts-expect-error TS(2345): Argument of type '{ _id: any; }' is not assignable... Remove this comment to see the full error message
+    // @ts-expect-error TS(2345) FIXME: Argument of type '{ _id: any; }' is not assignable... Remove this comment to see the full error message
     filterOpts.push({ _id: ObjectID(identifier) });
   }
 
@@ -156,7 +156,7 @@ function identifyingFilter (identifier: any, doc: any, dedupFallbackFields: any)
       if (doc[field] !== undefined) {
 
         let dedupFilterItem = { };
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         dedupFilterItem[field] = doc[field];
         dedupFilterItems.push(dedupFilterItem);
       }
@@ -176,7 +176,7 @@ function identifyingFilter (identifier: any, doc: any, dedupFallbackFields: any)
 }
 
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = {
   normalizeDoc,
   parseFilter,

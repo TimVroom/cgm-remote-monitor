@@ -8,7 +8,7 @@ function init() {
     , pluginType: 'drawer'
   };
 
-  // @ts-expect-error TS(2339): Property 'getEventTypes' does not exist on type '{... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'getEventTypes' does not exist on type '{... Remove this comment to see the full error message
   careportal.getEventTypes = function getEventTypes () {
 
     //TODO: use sbx and new CAREPORTAL_EVENTTYPE_GROUPS="core temps combo dad sensor site etc"
@@ -105,5 +105,5 @@ function init() {
   return careportal;
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

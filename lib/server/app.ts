@@ -1,34 +1,34 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_get'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_get'.
 const _get = require('lodash/get');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'express'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'express'.
 const express = require('express');
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 const compression = require('compression');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'bodyParser... Remove this comment to see the full error message
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'bodyParser... Remove this comment to see the full error message
 const bodyParser = require('body-parser');
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 const randomToken = require('random-token');
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'path'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'path'.
 const path = require('path');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'fs'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'fs'.
 const fs = require('fs');
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 const ejs = require('ejs');
 
 function resolvePath(filePath: any) {
 
   if (fs.existsSync(filePath)) return filePath;
-  // @ts-expect-error TS(2304): Cannot find name '__dirname'.
+  // @ts-expect-error TS(2304) FIXME: Cannot find name '__dirname'.
   let p = path.join(__dirname, filePath);
   if (fs.existsSync(p)) return p;
-  // @ts-expect-error TS(2591): Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
   p = path.join(process.cwd(), filePath);
   if (fs.existsSync(p)) return p;
 
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   return require.resolve(filePath);
 }
 
@@ -71,7 +71,7 @@ function create (env: any, ctx: any) {
           }
         }
 
-        // @ts-expect-error TS(2322): Type '{ directives: { defaultSrc: string[]; styleS... Remove this comment to see the full error message
+        // @ts-expect-error TS(2322) FIXME: Type '{ directives: { defaultSrc: string[]; styleS... Remove this comment to see the full error message
         cspPolicy = { //TODO make NS work without 'unsafe-inline'
           directives: {
             defaultSrc: ["'self'"]
@@ -93,7 +93,7 @@ function create (env: any, ctx: any) {
 
 
       console.info('Enabled SECURE_HSTS_HEADER (HTTP Strict Transport Security)');
-      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+      // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       const helmet = require('helmet');
       var includeSubDomainsValue = env.secureHstsHeaderIncludeSubdomains;
       var preloadValue = env.secureHstsHeaderPreload;
@@ -126,11 +126,11 @@ function create (env: any, ctx: any) {
   }
 
   app.set('view engine', 'ejs');
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   app.engine('html', require('ejs').renderFile);
   app.set("views", resolvePath('/views'));
 
-  // @ts-expect-error TS(2591): Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
   let cacheBuster = process.env.NODE_ENV == 'development' ? 'developmentMode': randomToken(16);
   app.locals.cachebuster = cacheBuster;
 
@@ -145,7 +145,7 @@ function create (env: any, ctx: any) {
 
   app.get("/sw.js", (req: any, res: any) => {
     res.setHeader('Content-Type', 'application/javascript');
-    // @ts-expect-error TS(2591): Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
     if (process.env.NODE_ENV !== 'development') {
       res.setHeader('Last-Modified', lastModified.toUTCString());
     }
@@ -155,7 +155,7 @@ function create (env: any, ctx: any) {
   // Allow static resources to be cached for week
   var maxAge = 7 * 24 * 60 * 60 * 1000;
 
-  // @ts-expect-error TS(2591): Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
   if (process.env.NODE_ENV === 'development') {
     maxAge = 1;
     console.log('Development environment detected, setting static file cache age to 1 second');
@@ -173,7 +173,7 @@ function create (env: any, ctx: any) {
   }));
 
   if (ctx.bootErrors && ctx.bootErrors.length > 0) {
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     const bootErrorView = require('./booterror')(env, ctx);
     bootErrorView.setLocals(app.locals);
     app.get('*', bootErrorView);
@@ -200,13 +200,13 @@ function create (env: any, ctx: any) {
   ///////////////////////////////////////////////////
   // api and json object variables
   ///////////////////////////////////////////////////
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   const apiRoot = require('../api/root')(env, ctx);
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var api = require('../api/')(env, ctx);
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var api2 = require('../api2/')(env,ctx, api);
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var api3 = require('../api3/')(env, ctx);
 
   app.use(compression({
@@ -251,19 +251,19 @@ function create (env: any, ctx: any) {
 
   Object.keys(appPages).forEach(function(page) {
     app.get(page, (req: any, res: any) => {
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       res.render(appPages[page].file, {
         locals: app.locals,
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         title: appPages[page].title ? appPages[page].title : '',
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         type: appPages[page].type ? appPages[page].type : '',
         settings: env.settings
       });
     });
   });
 
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   const clockviews = require('./clocks.js')(env, ctx);
   clockviews.setLocals(app.locals);
 
@@ -277,9 +277,9 @@ function create (env: any, ctx: any) {
   // pebble data
   app.get('/pebble', ctx.pebble);
 
-  // @ts-expect-error TS(2304): Cannot find name '__dirname'.
+  // @ts-expect-error TS(2304) FIXME: Cannot find name '__dirname'.
   const swaggerjson = fs.readFileSync(resolvePath(__dirname + '/swagger.json'), { encoding: 'utf-8' });
-  // @ts-expect-error TS(2304): Cannot find name '__dirname'.
+  // @ts-expect-error TS(2304) FIXME: Cannot find name '__dirname'.
   const swaggeryaml = fs.readFileSync(resolvePath(__dirname + '/swagger.yaml'), { encoding: 'utf-8' });
 
   // expose swagger.json
@@ -296,12 +296,12 @@ function create (env: any, ctx: any) {
 
   // API docs
 
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   const swaggerUi = require('swagger-ui-express');
   const swaggerUseSchema = (schema: any) => (...args: any[]) => swaggerUi.setup(schema)(...args);
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   const swaggerDocument = require('./swagger.json');
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   const swaggerDocumentApiV3 = require('../api3/swagger.json');
 
   app.use('/api-docs', swaggerUi.serve, swaggerUseSchema(swaggerDocument));
@@ -317,7 +317,7 @@ function create (env: any, ctx: any) {
   app.locals.bundle = '/bundle';
   app.locals.mode = 'production';
 
-  // @ts-expect-error TS(2591): Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
   if (process.env.NODE_ENV === 'development') {
 
     console.log('Development mode');
@@ -325,11 +325,11 @@ function create (env: any, ctx: any) {
     app.locals.mode = 'development';
     app.locals.bundle = '/devbundle';
 
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     const webpack = require('webpack');
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     const webpack_conf = require('../../webpack/webpack.config');
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     const middleware = require('webpack-dev-middleware');
     const compiler = webpack(webpack_conf);
 
@@ -340,7 +340,7 @@ function create (env: any, ctx: any) {
       })
     );
 
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     app.use(require("webpack-hot-middleware")(compiler, {
       heartbeat: 1000
     }));
@@ -354,14 +354,14 @@ function create (env: any, ctx: any) {
   // serve the static content
   app.use('/bundle', tmpFiles);
 
-  // @ts-expect-error TS(2591): Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
   if (process.env.NODE_ENV !== 'development') {
 
     console.log('Production environment detected, enabling Minify');
 
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var minify = require('express-minify');
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var myCssmin = require('cssmin');
 
     app.use(minify({
@@ -380,12 +380,12 @@ function create (env: any, ctx: any) {
   }
 
   // Handle errors with express's errorhandler, to display more readable error messages.
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var errorhandler = require('errorhandler');
   //if (process.env.NODE_ENV === 'development') {
   app.use(errorhandler());
   //}
   return app;
 }
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = create;

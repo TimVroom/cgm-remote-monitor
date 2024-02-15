@@ -1,11 +1,10 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'constants'... Remove this comment to see the full error message
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'constants'... Remove this comment to see the full error message
 var constants = require('./constants.json');
 
-// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init () {
 
   var settings = {
@@ -164,10 +163,10 @@ function init () {
       return value;
     }
 
-    // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
+    // @ts-expect-error TS(2345) FIXME: Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
     if (typeof value === 'string' && isNaN(value)) {
       const decommaed = value.replace(',','.');
-      // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
+      // @ts-expect-error TS(2345) FIXME: Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
       if (!isNaN(decommaed)) { value = decommaed; }
     }
 
@@ -185,7 +184,7 @@ function init () {
   }
 
   //TODO: getting sent in status.json, shouldn't be
-  // @ts-expect-error TS(2339): Property 'DEFAULT_FEATURES' does not exist on type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'DEFAULT_FEATURES' does not exist on type... Remove this comment to see the full error message
   settings.DEFAULT_FEATURES = ['bgnow', 'delta', 'direction', 'timeago', 'devicestatus', 'upbat', 'errorcodes', 'profile', 'bolus', 'dbsize', 'runtimestate', 'basal', 'careportal'];
 
   var wasSet: any = [];
@@ -205,7 +204,7 @@ function init () {
         if (isSimple(value)) {
           var newValue = accessor(nameFromKey(key, nameType));
           if (newValue !== undefined) {
-            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+            // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
             var mapper = valueMappers[key];
             wasSet.push(key);
             keys[key] = mapper ? mapper(newValue) : newValue;
@@ -226,7 +225,7 @@ function init () {
     function getAndPrepare (key: any) {
       var raw = accessor(nameFromKey(key, nameType)) || '';
       var cleaned = decodeURIComponent(raw).toLowerCase();
-      // @ts-expect-error TS(2322): Type 'string[]' is not assignable to type 'string'... Remove this comment to see the full error message
+      // @ts-expect-error TS(2322) FIXME: Type 'string[]' is not assignable to type 'string'... Remove this comment to see the full error message
       cleaned = cleaned ? cleaned.split(' ') : [];
       cleaned = _.filter(cleaned, function(e: any) { return e !== ""; } );
       return cleaned;
@@ -234,7 +233,7 @@ function init () {
 
     function enableIf (feature: any, condition: any) {
       if (condition) {
-        // @ts-expect-error TS(2339): Property 'push' does not exist on type 'string'.
+        // @ts-expect-error TS(2339) FIXME: Property 'push' does not exist on type 'string'.
         enable.push(feature);
       }
     }
@@ -264,7 +263,7 @@ function init () {
     var disable = getAndPrepare('disable');
     var obscured = getAndPrepare('obscured');
 
-    // @ts-expect-error TS(2339): Property 'alarmTypes' does not exist on type '{ un... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'alarmTypes' does not exist on type '{ un... Remove this comment to see the full error message
     settings.alarmTypes = prepareAlarmTypes();
 
     //don't require pushover to be enabled to preserve backwards compatibility if there are extendedSettings for it
@@ -272,15 +271,15 @@ function init () {
 
     enableIf('treatmentnotify', anyEnabled(['careportal', 'pushover', 'maker']));
 
-    // @ts-expect-error TS(2339): Property 'DEFAULT_FEATURES' does not exist on type... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'DEFAULT_FEATURES' does not exist on type... Remove this comment to see the full error message
     _.each(settings.DEFAULT_FEATURES, function eachDefault (feature: any) {
       enableIf(feature, enable.indexOf(feature) < 0);
     });
 
     //TODO: maybe get rid of ALARM_TYPES and only use enable?
-    // @ts-expect-error TS(2339): Property 'alarmTypes' does not exist on type '{ un... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'alarmTypes' does not exist on type '{ un... Remove this comment to see the full error message
     enableIf('simplealarms', settings.alarmTypes.indexOf('simple') > -1);
-    // @ts-expect-error TS(2339): Property 'alarmTypes' does not exist on type '{ un... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'alarmTypes' does not exist on type '{ un... Remove this comment to see the full error message
     enableIf('ar2', settings.alarmTypes.indexOf('predict') > -1);
 
     if (disable.length > 0) {
@@ -288,7 +287,7 @@ function init () {
     }
 
     //all enabled feature, without any that have been disabled
-    // @ts-expect-error TS(2339): Property 'enable' does not exist on type '{ units:... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'enable' does not exist on type '{ units:... Remove this comment to see the full error message
     settings.enable = _.difference(enable, disable);
     settings.obscured = obscured;
 
@@ -347,7 +346,7 @@ function init () {
     if (showPluginsUnset) {
       //assume all enabled features are plugins and they should be shown for now
       //it would be better to use the registered plugins, but it's not loaded yet...
-      // @ts-expect-error TS(2339): Property 'enable' does not exist on type '{ units:... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'enable' does not exist on type '{ units:... Remove this comment to see the full error message
       _.forEach(settings.enable, function showFeature (feature: any) {
         if (isEnabled(feature)) {
           settings.showPlugins += ' ' + feature;
@@ -359,14 +358,14 @@ function init () {
   function isEnabled (feature: any) {
     var enabled = false;
 
-    // @ts-expect-error TS(2339): Property 'enable' does not exist on type '{ units:... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'enable' does not exist on type '{ units:... Remove this comment to see the full error message
     if (settings.enable && typeof feature === 'object' && feature.length !== undefined) {
       enabled = _.find(feature, function eachFeature (f: any) {
-        // @ts-expect-error TS(2339): Property 'enable' does not exist on type '{ units:... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'enable' does not exist on type '{ units:... Remove this comment to see the full error message
         return settings.enable.indexOf(f) > -1;
       }) !== undefined;
     } else {
-      // @ts-expect-error TS(2339): Property 'enable' does not exist on type '{ units:... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'enable' does not exist on type '{ units:... Remove this comment to see the full error message
       enabled = settings.enable && settings.enable.indexOf(feature) > -1;
     }
 
@@ -421,24 +420,24 @@ function init () {
     return _.first(snoozeMinsForAlarmEvent(notify));
   }
 
-  // @ts-expect-error TS(2339): Property 'eachSetting' does not exist on type '{ u... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'eachSetting' does not exist on type '{ u... Remove this comment to see the full error message
   settings.eachSetting = eachSettingAs();
-  // @ts-expect-error TS(2339): Property 'eachSettingAsEnv' does not exist on type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'eachSettingAsEnv' does not exist on type... Remove this comment to see the full error message
   settings.eachSettingAsEnv = eachSettingAs('env');
-  // @ts-expect-error TS(2339): Property 'isEnabled' does not exist on type '{ uni... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'isEnabled' does not exist on type '{ uni... Remove this comment to see the full error message
   settings.isEnabled = isEnabled;
-  // @ts-expect-error TS(2339): Property 'isAlarmEventEnabled' does not exist on t... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'isAlarmEventEnabled' does not exist on t... Remove this comment to see the full error message
   settings.isAlarmEventEnabled = isAlarmEventEnabled;
-  // @ts-expect-error TS(2339): Property 'snoozeMinsForAlarmEvent' does not exist ... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'snoozeMinsForAlarmEvent' does not exist ... Remove this comment to see the full error message
   settings.snoozeMinsForAlarmEvent = snoozeMinsForAlarmEvent;
-  // @ts-expect-error TS(2339): Property 'snoozeFirstMinsForAlarmEvent' does not e... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'snoozeFirstMinsForAlarmEvent' does not e... Remove this comment to see the full error message
   settings.snoozeFirstMinsForAlarmEvent = snoozeFirstMinsForAlarmEvent;
-  // @ts-expect-error TS(2339): Property 'filteredSettings' does not exist on type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'filteredSettings' does not exist on type... Remove this comment to see the full error message
   settings.filteredSettings = filteredSettings;
 
   return settings;
 
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

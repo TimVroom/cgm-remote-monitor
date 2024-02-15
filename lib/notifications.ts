@@ -1,6 +1,6 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
 var THIRTY_MINUTES = 30 * 60 * 1000;
 var DEFAULT_GROUPS = ['default'];
@@ -16,7 +16,6 @@ var Alarm = function(this: any, level: any, group: any, label: any) {
 // list of alarms with their thresholds
 var alarms = {};
 
-// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init (env: any, ctx: any) {
 
   function notifications () {
@@ -25,13 +24,13 @@ function init (env: any, ctx: any) {
 
   function getAlarm (level: any, group: any) {
     var key = level + '-' + group;
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     var alarm = alarms[key];
     if (!alarm) {
       var display = group === 'default' ? ctx.levels.toDisplay(level) : group + ':' + level;
-      // @ts-expect-error TS(7009): 'new' expression, whose target lacks a construct s... Remove this comment to see the full error message
+      // @ts-expect-error TS(7009) FIXME: 'new' expression, whose target lacks a construct s... Remove this comment to see the full error message
       alarm = new Alarm(level, group, display);
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       alarms[key] = alarm;
     }
 
@@ -49,7 +48,7 @@ function init (env: any, ctx: any) {
       var alarm = getAlarm(level, group);
       if (alarm.lastEmitTime) {
         console.info('auto acking ' + alarm.level, ' - ', group);
-        // @ts-expect-error TS(2554): Expected 4 arguments, but got 3.
+        // @ts-expect-error TS(2554) FIXME: Expected 4 arguments, but got 3.
         notifications.ack(alarm.level, group, 1);
         sendClear = true;
       }
@@ -87,13 +86,13 @@ function init (env: any, ctx: any) {
    */
   notifications.findHighestAlarm = function findHighestAlarm (group: any) {
     group = group || 'default';
-    // @ts-expect-error TS(2339): Property 'notifies' does not exist on type '{}'.
+    // @ts-expect-error TS(2339) FIXME: Property 'notifies' does not exist on type '{}'.
     var filtered = _.filter(requests.notifies, { group: group });
     return _.find(filtered, { level: ctx.levels.URGENT }) || _.find(filtered, { level: ctx.levels.WARN });
   };
 
   notifications.findUnSnoozeable = function findUnSnoozeable () {
-    // @ts-expect-error TS(2339): Property 'notifies' does not exist on type '{}'.
+    // @ts-expect-error TS(2339) FIXME: Property 'notifies' does not exist on type '{}'.
     return _.filter(requests.notifies, function(notify: any) {
       return notify.level <= ctx.levels.INFO || notify.isAnnouncement;
     });
@@ -102,7 +101,7 @@ function init (env: any, ctx: any) {
   notifications.snoozedBy = function snoozedBy (notify: any) {
     if (notify.isAnnouncement) { return false; }
 
-    // @ts-expect-error TS(2339): Property 'snoozes' does not exist on type '{}'.
+    // @ts-expect-error TS(2339) FIXME: Property 'snoozes' does not exist on type '{}'.
     var filtered = _.filter(requests.snoozes, { group: notify.group });
 
     if (_.isEmpty(filtered)) { return false; }
@@ -123,7 +122,7 @@ function init (env: any, ctx: any) {
 
     notify.group = notify.group || 'default';
 
-    // @ts-expect-error TS(2339): Property 'notifies' does not exist on type '{}'.
+    // @ts-expect-error TS(2339) FIXME: Property 'notifies' does not exist on type '{}'.
     requests.notifies.push(notify);
   };
 
@@ -135,13 +134,13 @@ function init (env: any, ctx: any) {
 
     snooze.group = snooze.group || 'default';
 
-    // @ts-expect-error TS(2339): Property 'snoozes' does not exist on type '{}'.
+    // @ts-expect-error TS(2339) FIXME: Property 'snoozes' does not exist on type '{}'.
     requests.snoozes.push(snooze);
   };
 
   notifications.process = function process () {
 
-    // @ts-expect-error TS(2339): Property 'notifies' does not exist on type '{}'.
+    // @ts-expect-error TS(2339) FIXME: Property 'notifies' does not exist on type '{}'.
     var notifyGroups = _.map(requests.notifies, function eachNotify (notify: any) {
       return notify.group;
     });
@@ -160,7 +159,7 @@ function init (env: any, ctx: any) {
       var highestAlarm = notifications.findHighestAlarm(group);
 
       if (highestAlarm) {
-        // @ts-expect-error TS(2554): Expected 1 arguments, but got 2.
+        // @ts-expect-error TS(2554) FIXME: Expected 1 arguments, but got 2.
         var snoozedBy = notifications.snoozedBy(highestAlarm, group);
         if (snoozedBy) {
           logSnoozingEvent(highestAlarm, snoozedBy);
@@ -195,7 +194,7 @@ function init (env: any, ctx: any) {
     delete alarm.lastEmitTime;
 
     if (level === 2) {
-      // @ts-expect-error TS(2554): Expected 4 arguments, but got 3.
+      // @ts-expect-error TS(2554) FIXME: Expected 4 arguments, but got 3.
       notifications.ack(1, group, time);
     }
 
@@ -287,5 +286,5 @@ function init (env: any, ctx: any) {
   return notifications();
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

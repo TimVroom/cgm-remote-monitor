@@ -1,28 +1,28 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 const _ = require('lodash');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'should'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'should'.
 const should = require('should');
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'helper'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'helper'.
 const helper = require('./inithelper')();
 
 var top_ctx = helper.getctx();
 top_ctx.language.set('en');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'language'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'language'.
 const language = top_ctx.language;
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'levels'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'levels'.
 const levels = top_ctx.levels;
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'env'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'env'.
 var env = require('../lib/server/env')();
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var openaps = require('../lib/plugins/openaps')(top_ctx);
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var sandbox = require('../lib/sandbox')(top_ctx);
 
-// @ts-expect-error TS(2403): Subsequent variable declarations must have the sam... Remove this comment to see the full error message
+// @ts-expect-error TS(2403) FIXME: Subsequent variable declarations must have the sam... Remove this comment to see the full error message
 var statuses = [{
   created_at: '2015-12-05T19:05:00.000Z',
   device: 'openaps://abusypi'
@@ -258,10 +258,10 @@ _.forEach(statuses, function updateMills (status: any) {
   status.mills = top_ctx.moment(status.created_at).valueOf();
 });
 
-// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+// @ts-expect-error TS(2593) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('openaps', function ( ) {
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('set the property and update the pill and add forecast points', function (done: any) {
     var ctx = {
       settings: {
@@ -308,13 +308,13 @@ describe('openaps', function ( ) {
 
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('check the recieved flag to see if it was received', function (done: any) {
     var ctx = {
       settings: {
         units: 'mg/dl'
       }
-      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+      // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , notifications: require('../lib/notifications')(env, top_ctx)
       , language: language
       , levels: levels
@@ -324,7 +324,7 @@ describe('openaps', function ( ) {
 
     var notStatuses = _.cloneDeep(statuses);
     notStatuses[0].openaps.enacted.recieved = false;
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var sbx = require('../lib/sandbox')().clientInit(ctx, now, {devicestatus: notStatuses});
 
     sbx.offerProperty = function mockedOfferProperty (name: any, setter: any) {
@@ -340,13 +340,13 @@ describe('openaps', function ( ) {
 
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('generate an alert for a stuck loop', function (done: any) {
     var ctx = {
       settings: {
         units: 'mg/dl'
       }
-      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+      // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , notifications: require('../lib/notifications')(env, top_ctx)
       , language: language
     };
@@ -364,13 +364,13 @@ describe('openaps', function ( ) {
     done();
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('not generate an alert for a stuck loop, when there is an offline marker', function (done: any) {
     var ctx = {
       settings: {
         units: 'mg/dl'
       }
-      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+      // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , notifications: require('../lib/notifications')(env, top_ctx)
       , language: language
    };
@@ -390,13 +390,13 @@ describe('openaps', function ( ) {
     done();
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should handle virtAsst requests', function (done: any) {
     var ctx = {
       settings: {
         units: 'mg/dl'
       }
-      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+      // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , notifications: require('../lib/notifications')(env, top_ctx)
       , language: language
     };

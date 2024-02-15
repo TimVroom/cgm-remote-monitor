@@ -1,6 +1,6 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 const _ = require('lodash');
 const UPDATE_THROTTLE = 5000;
 
@@ -11,13 +11,13 @@ function boot (env: any, language: any) {
     console.log('Executing startBoot');
 
     ctx.bootErrors = [ ];
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     ctx.moment = require('moment-timezone');
     ctx.runtimeState = 'booting';
     ctx.settings = env.settings;
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     ctx.bus = require('../bus')(env.settings, ctx);
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     ctx.adminnotifies = require('../adminnotifies')(ctx);
     if (env.notifies) {
       for (var i = 0; i < env.notifies.length; i++) {
@@ -37,12 +37,12 @@ function boot (env: any, language: any) {
 
     console.log('Executing checkNodeVersion');
 
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var semver = require('semver');
-    // @ts-expect-error TS(2591): Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
     var nodeVersion = process.version;
 
-    // @ts-expect-error TS(2591): Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
     const isLTS = process.release.lts ? true : false;
 
     if (isLTS && (semver.satisfies(nodeVersion, '^20.0.0') || semver.satisfies(nodeVersion, '^18.0.0') || semver.satisfies(nodeVersion, '^16.0.0') || semver.satisfies(nodeVersion, '^14.0.0'))) {
@@ -54,7 +54,7 @@ function boot (env: any, language: any) {
     }
 
     console.log( 'ERROR: Node version ' + nodeVersion + ' is not supported. Please use a secure LTS version or upgrade your Node');
-    // @ts-expect-error TS(2591): Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
     process.exit(1);
 
   }
@@ -80,7 +80,7 @@ function boot (env: any, language: any) {
     console.log('Executing augmentSettings');
 
     var configURL = env.IMPORT_CONFIG || null;
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var url = require('url');
     var href: any = null;
 
@@ -94,7 +94,7 @@ function boot (env: any, language: any) {
 
     if(configURL && href) {
       var axios_default = { headers: { 'Accept': 'application/json' } };
-      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+      // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       var axios = require('axios').create(axios_default);
       console.log('Getting settings from', href);
       return axios.get(href).then(function (resp: any) {
@@ -159,7 +159,7 @@ function boot (env: any, language: any) {
 
     try {
       if (_.startsWith(env.storageURI, 'openaps://')) {
-        // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+        // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
         require('../storage/openaps-storage')(env, function ready (err: any, store: any) {
           if (err) {
             throw err;
@@ -170,7 +170,7 @@ function boot (env: any, language: any) {
         });
       } else {
         //TODO assume mongo for now, when there are more storage options add a lookup
-        // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+        // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
         require('../storage/mongo-storage')(env, function ready(err: any, store: any) {
           // FIXME, error is always null, if there is an error, the index.js will throw an exception
           if (err) {
@@ -186,7 +186,7 @@ function boot (env: any, language: any) {
     } catch (err) {
       console.info('ERROR CONNECTING TO MONGO', err);
       ctx.bootErrors = ctx.bootErrors || [ ];
-      // @ts-expect-error TS(2571): Object is of type 'unknown'.
+      // @ts-expect-error TS(2571) FIXME: Object is of type 'unknown'.
       ctx.bootErrors.push({'desc': 'Unable to connect to Mongo', err: err.message});
       next();
     }
@@ -200,7 +200,7 @@ function boot (env: any, language: any) {
       return next();
     }
 
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     ctx.authorization = require('../authorization')(env, ctx);
     ctx.authorization.storage.ensureIndexes();
     ctx.authorization.storage.reload(function loaded (err: any) {
@@ -220,14 +220,14 @@ function boot (env: any, language: any) {
       return next();
     }
 
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     ctx.levels = require('../levels');
     ctx.levels.translate = ctx.language.translate;
 
     ///////////////////////////////////////////////////
     // api and json object variables
     ///////////////////////////////////////////////////
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     ctx.plugins = require('../plugins')({
       settings: env.settings
       , language: ctx.language
@@ -235,57 +235,57 @@ function boot (env: any, language: any) {
       , moment: ctx.moment
     }).registerServerDefaults();
 
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     ctx.wares = require('../middleware/')(env);
 
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     ctx.pushover = require('../plugins/pushover')(env, ctx);
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     ctx.maker = require('../plugins/maker')(env);
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     ctx.pushnotify = require('./pushnotify')(env, ctx);
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     ctx.loop = require('./loop')(env, ctx);
 
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     ctx.activity = require('./activity')(env, ctx);
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     ctx.entries = require('./entries')(env, ctx);
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     ctx.treatments = require('./treatments')(env, ctx);
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     ctx.devicestatus = require('./devicestatus')(env.devicestatus_collection, ctx);
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     ctx.profile = require('./profile')(env.profile_collection, ctx);
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     ctx.food = require('./food')(env, ctx);
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     ctx.pebble = require('./pebble')(env, ctx);
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     ctx.properties = require('../api2/properties')(env, ctx);
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     ctx.ddata = require('../data/ddata')();
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     ctx.cache = require('./cache')(env,ctx);
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     ctx.dataloader = require('../data/dataloader')(env, ctx);
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     ctx.notifications = require('../notifications')(env, ctx);
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     ctx.purifier = require('./purifier')(env,ctx);
 
     if (env.settings.isEnabled('alexa') || env.settings.isEnabled('googlehome')) {
-      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+      // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       ctx.virtAsstBase = require('../plugins/virtAsstBase')(env, ctx);
     }
 
     if (env.settings.isEnabled('alexa')) {
-      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+      // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       ctx.alexa = require('../plugins/alexa')(env, ctx);
     }
 
     if (env.settings.isEnabled('googlehome')) {
-      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+      // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       ctx.googleHome = require('../plugins/googlehome')(env, ctx);
     }
 
@@ -337,7 +337,7 @@ function boot (env: any, language: any) {
 
     ctx.bus.on('data-loaded', function updatePlugins ( ) {
       console.info('data loaded: reloading sandbox data and updating plugins');
-      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+      // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       var sbx = require('../sandbox')().serverInit(env, ctx);
       ctx.plugins.setProperties(sbx);
       ctx.notifications.initRequests();
@@ -358,7 +358,7 @@ function boot (env: any, language: any) {
 
   function setupConnect (ctx: any, next: any) {
     console.log('Executing setupConnect');
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     ctx.nightscoutConnect = require('nightscout-connect')(env, ctx)
     // ctx.nightscoutConnect.
     return next( );
@@ -372,7 +372,7 @@ function boot (env: any, language: any) {
       return next();
     }
 
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     ctx.bridge = require('../plugins/bridge')(env, ctx.bus);
     if (ctx.bridge) {
       ctx.bridge.startEngine(ctx.entries);
@@ -389,7 +389,7 @@ function boot (env: any, language: any) {
       return next();
     }
 
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     ctx.mmconnect = require('../plugins/mmconnect').init(env, ctx.entries, ctx.devicestatus, ctx.bus);
     if (ctx.mmconnect) {
       ctx.mmconnect.run();
@@ -413,7 +413,7 @@ function boot (env: any, language: any) {
     next( );
   }
 
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   return require('bootevent')( )
     .acquire(startBoot)
     .acquire(checkNodeVersion)
@@ -431,5 +431,5 @@ function boot (env: any, language: any) {
     .acquire(finishBoot);
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = boot;

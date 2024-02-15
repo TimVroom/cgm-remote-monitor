@@ -1,6 +1,6 @@
 //'use strict';
 
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 const apn = require('@parse/node-apn');
 
 function init (env: any, ctx: any) {
@@ -64,39 +64,39 @@ function init (env: any, ctx: any) {
     };
     var alert;
     if (data.eventType === 'Temporary Override Cancel') {
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       payload["cancel-temporary-override"] = "true";
       alert = "Cancel Temporary Override";
     } else if (data.eventType === 'Temporary Override') {
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       payload["override-name"] = data.reason;
       if (data.duration !== undefined && parseInt(data.duration) > 0) {
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         payload["override-duration-minutes"] = parseInt(data.duration);
       }
       alert = data.reasonDisplay + " Temporary Override";
     } else if (data.eventType === 'Remote Carbs Entry') {
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       payload["carbs-entry"] = parseFloat(data.remoteCarbs);
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       if(payload["carbs-entry"] > 0.0 ) {
-         // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+         // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
          payload["absorption-time"] = 3.0;
          if (data.remoteAbsorption !== undefined && parseFloat(data.remoteAbsorption) > 0.0) {
-           // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+           // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
            payload["absorption-time"] = parseFloat(data.remoteAbsorption);
          }
          if (data.otp !== undefined && data.otp.length > 0) {
-            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+            // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
             payload["otp"] = ""+data.otp
          }
         if (data.created_at !== undefined) {
-          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+          // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           payload['start-time'] = data.created_at;
         }
-         // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+         // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
          alert  = "Remote Carbs Entry: "+payload["carbs-entry"]+" grams\n";
-         // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+         // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
          alert += "Absorption Time: "+payload["absorption-time"]+" hours";
       } else {
          completion("Loop remote carbs failed. Incorrect carbs entry: ", data.remoteCarbs);
@@ -104,14 +104,14 @@ function init (env: any, ctx: any) {
       }
 
    } else if (data.eventType === 'Remote Bolus Entry') {
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       payload["bolus-entry"] = parseFloat(data.remoteBolus);
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       if(payload["bolus-entry"] > 0.0 ) {
-         // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+         // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
          alert  = "Remote Bolus Entry: "+payload["bolus-entry"]+" U\n";
          if (data.otp !== undefined && data.otp.length > 0) {
-            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+            // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
             payload["otp"] = ""+data.otp
          }
       } else {
@@ -133,12 +133,12 @@ function init (env: any, ctx: any) {
 
     // Track time notification was sent
     let now = new Date()
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     payload['sent-at'] = now.toISOString();
 
     // Expire after 5 minutes.
     let expiration = new Date(now.getTime() + 5 * 60 * 1000)
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     payload['expiration'] = expiration.toISOString();
 
     let notification = new apn.Notification();
@@ -161,5 +161,5 @@ function init (env: any, ctx: any) {
   return loop();
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

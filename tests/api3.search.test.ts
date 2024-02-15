@@ -2,19 +2,19 @@
 /* global should */
 'use strict';
 
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 require('should');
 
-// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+// @ts-expect-error TS(2593) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('API3 SEARCH', function(this: any) {
   const self = this
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , testConst = require('./fixtures/api3/const.json')
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , instance = require('./fixtures/api3/instance')
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , authSubject = require('./fixtures/api3/authSubject')
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , opTools = require('../lib/api3/shared/operationTools')
     ;
 
@@ -50,7 +50,7 @@ describe('API3 SEARCH', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2304): Cannot find name 'before'.
+  // @ts-expect-error TS(2304) FIXME: Cannot find name 'before'.
   before(async () => {
     self.testStarted = new Date();
     self.instance = await instance.create({});
@@ -73,13 +73,13 @@ describe('API3 SEARCH', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2304): Cannot find name 'after'.
+  // @ts-expect-error TS(2304) FIXME: Cannot find name 'after'.
   after(() => {
     self.instance.ctx.bus.teardown();
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should require authentication', async () => {
     let res = await self.instance.get(self.url)
       .expect(401);
@@ -90,7 +90,7 @@ describe('API3 SEARCH', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should not found not existing collection', async () => {
     let res = await self.instance.get(`/api/v3/NOT_EXIST`, self.jwt.read)
       .send(self.validDoc)
@@ -101,7 +101,7 @@ describe('API3 SEARCH', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should found at least 10 documents', async () => {
     let res = await self.instance.get(self.url, self.jwt.read)
       .expect(200);
@@ -111,7 +111,7 @@ describe('API3 SEARCH', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should found at least 10 documents from test start', async () => {
     let res = await self.instance.get(self.urlTest, self.jwt.read)
       .expect(200);
@@ -121,7 +121,7 @@ describe('API3 SEARCH', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should reject invalid limit - not a number', async () => {
     let res = await self.instance.get(`${self.url}?limit=INVALID`, self.jwt.read)
       .expect(400);
@@ -132,7 +132,7 @@ describe('API3 SEARCH', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should reject invalid limit - negative number', async () => {
     let res = await self.instance.get(`${self.url}?limit=-1`, self.jwt.read)
       .expect(400);
@@ -143,7 +143,7 @@ describe('API3 SEARCH', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should reject invalid limit - zero', async () => {
     let res = await self.instance.get(`${self.url}?limit=0`, self.jwt.read)
       .expect(400);
@@ -154,7 +154,7 @@ describe('API3 SEARCH', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should accept valid limit', async () => {
     let res = await self.instance.get(`${self.url}?limit=3`, self.jwt.read)
       .expect(200);
@@ -164,7 +164,7 @@ describe('API3 SEARCH', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should reject invalid skip - not a number', async () => {
     let res = await self.instance.get(`${self.url}?skip=INVALID`, self.jwt.read)
       .expect(400);
@@ -175,7 +175,7 @@ describe('API3 SEARCH', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should reject invalid skip - negative number', async () => {
     let res = await self.instance.get(`${self.url}?skip=-5`, self.jwt.read)
       .expect(400);
@@ -186,7 +186,7 @@ describe('API3 SEARCH', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should reject both sort and sort$desc', async () => {
     let res = await self.instance.get(`${self.url}?sort=date&sort$desc=created_at`, self.jwt.read)
       .expect(400);
@@ -197,7 +197,7 @@ describe('API3 SEARCH', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should sort well by date field', async () => {
     let res = await self.instance.get(`${self.urlTest}&sort=date`, self.jwt.read)
       .expect(200);
@@ -215,19 +215,19 @@ describe('API3 SEARCH', function(this: any) {
     descending.length.should.equal(length);
 
     for (let i in ascending) {
-      // @ts-expect-error TS(2363): The right-hand side of an arithmetic operation mus... Remove this comment to see the full error message
+      // @ts-expect-error TS(2363) FIXME: The right-hand side of an arithmetic operation mus... Remove this comment to see the full error message
       ascending[i].should.eql(descending[length - i - 1]);
 
-      // @ts-expect-error TS(2365): Operator '>' cannot be applied to types 'string' a... Remove this comment to see the full error message
+      // @ts-expect-error TS(2365) FIXME: Operator '>' cannot be applied to types 'string' a... Remove this comment to see the full error message
       if (i > 0) {
-        // @ts-expect-error TS(2362): The left-hand side of an arithmetic operation must... Remove this comment to see the full error message
+        // @ts-expect-error TS(2362) FIXME: The left-hand side of an arithmetic operation must... Remove this comment to see the full error message
         ascending[i - 1].date.should.be.lessThanOrEqual(ascending[i].date);
       }
     }
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should skip documents', async () => {
     let res = await self.instance.get(`${self.url}?sort=date&limit=8`, self.jwt.read)
       .expect(200);
@@ -249,7 +249,7 @@ describe('API3 SEARCH', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should project selected fields', async () => {
     let res = await self.instance.get(`${self.url}?fields=date,app,subject`, self.jwt.read)
       .expect(200);
@@ -257,34 +257,34 @@ describe('API3 SEARCH', function(this: any) {
     res.body.status.should.equal(200);
     res.body.result.forEach((doc: any) => {
       const docFields = Object.getOwnPropertyNames(doc);
-      // @ts-expect-error TS(2339): Property 'should' does not exist on type 'string[]... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'should' does not exist on type 'string[]... Remove this comment to see the full error message
       docFields.sort().should.be.eql(['app', 'date', 'subject']);
     });
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should project all fields', async () => {
     let res = await self.instance.get(`${self.url}?fields=_all`, self.jwt.read)
       .expect(200);
 
     res.body.status.should.equal(200);
     res.body.result.forEach((doc: any) => {
-      // @ts-expect-error TS(2339): Property 'should' does not exist on type 'number'.
+      // @ts-expect-error TS(2339) FIXME: Property 'should' does not exist on type 'number'.
       Object.getOwnPropertyNames(doc).length.should.be.aboveOrEqual(10);
-      // @ts-expect-error TS(2339): Property 'should' does not exist on type 'boolean'... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'should' does not exist on type 'boolean'... Remove this comment to see the full error message
       Object.prototype.hasOwnProperty.call(doc, '_id').should.not.be.true();
-      // @ts-expect-error TS(2339): Property 'should' does not exist on type 'boolean'... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'should' does not exist on type 'boolean'... Remove this comment to see the full error message
       Object.prototype.hasOwnProperty.call(doc, 'identifier').should.be.true();
-      // @ts-expect-error TS(2339): Property 'should' does not exist on type 'boolean'... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'should' does not exist on type 'boolean'... Remove this comment to see the full error message
       Object.prototype.hasOwnProperty.call(doc, 'srvModified').should.be.true();
-      // @ts-expect-error TS(2339): Property 'should' does not exist on type 'boolean'... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'should' does not exist on type 'boolean'... Remove this comment to see the full error message
       Object.prototype.hasOwnProperty.call(doc, 'srvCreated').should.be.true();
     });
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should not exceed the limit of docs count', async () => {
     const apiApp = self.instance.ctx.apiApp
       , limitBackup = apiApp.get('API3_MAX_LIMIT');
@@ -298,7 +298,7 @@ describe('API3 SEARCH', function(this: any) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should respect the ceiling (hard) limit of docs', async () => {
     const apiApp = self.instance.ctx.apiApp
       , limitBackup = apiApp.get('API3_MAX_LIMIT');

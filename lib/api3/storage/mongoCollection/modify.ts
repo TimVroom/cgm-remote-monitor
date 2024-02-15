@@ -1,6 +1,6 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'utils'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'utils'.
 const utils = require('./utils')
   ;
 
@@ -41,6 +41,7 @@ function replaceOne (col: any, identifier: any, doc: any) {
 
   return new Promise(function (resolve, reject) {
 
+    // @ts-expect-error TS(2339) FIXME: Property 'filterForOne' does not exist on type '{}... Remove this comment to see the full error message
     const filter = utils.filterForOne(identifier);
 
     col.replaceOne(filter, doc, { upsert: true }, function mongoDone(err: any, result: any) {
@@ -64,6 +65,7 @@ function updateOne (col: any, identifier: any, setFields: any) {
 
   return new Promise(function (resolve, reject) {
 
+    // @ts-expect-error TS(2339) FIXME: Property 'filterForOne' does not exist on type '{}... Remove this comment to see the full error message
     const filter = utils.filterForOne(identifier);
 
     col.updateOne(filter, { $set: setFields }, function mongoDone(err: any, result: any) {
@@ -86,6 +88,7 @@ function deleteOne (col: any, identifier: any) {
 
   return new Promise(function (resolve, reject) {
 
+    // @ts-expect-error TS(2339) FIXME: Property 'filterForOne' does not exist on type '{}... Remove this comment to see the full error message
     const filter = utils.filterForOne(identifier);
 
     col.deleteOne(filter, function mongoDone(err: any, result: any) {
@@ -106,6 +109,7 @@ function deleteManyOr (col: any, filterDef: any) {
 
   return new Promise(function (resolve, reject) {
 
+    // @ts-expect-error TS(2339) FIXME: Property 'parseFilter' does not exist on type '{}'... Remove this comment to see the full error message
     const filter = utils.parseFilter(filterDef, 'or');
 
     col.deleteMany(filter, function mongoDone(err: any, result: any) {
@@ -119,7 +123,7 @@ function deleteManyOr (col: any, filterDef: any) {
 }
 
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = {
   insertOne,
   replaceOne,

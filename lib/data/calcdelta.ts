@@ -1,9 +1,9 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = function calcDelta (oldData: any, newData: any) {
 
   var delta = {'delta': true};
@@ -79,7 +79,7 @@ module.exports = function calcDelta (oldData: any, newData: any) {
     var seen = {};
     var l = oldArray.length;
     for (var i = 0; i < l; i++) {
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       seen[genKey(oldArray[i])] = true;
     }
     var result = [];
@@ -149,7 +149,7 @@ module.exports = function calcDelta (oldData: any, newData: any) {
     return {'delta': delta, 'changesFound': changesFound};
   }
 
-  // @ts-expect-error TS(2339): Property 'lastUpdated' does not exist on type '{ d... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'lastUpdated' does not exist on type '{ d... Remove this comment to see the full error message
   delta.lastUpdated = newData.lastUpdated;
 
   var compressedDelta = compressArrays(delta, newData);

@@ -1,13 +1,11 @@
 'use strict';
 
-// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 var init = function init () {
 
 //for the tests window isn't the global object
 var $ = window.$;
-// @ts-expect-error TS(2339): Property '_' does not exist on type 'Window & type... Remove this comment to see the full error message
 var _ = window._;
-// @ts-expect-error TS(2339): Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
+// @ts-expect-error TS(2339) FIXME: Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
 var Nightscout = window.Nightscout;
 var client = Nightscout.client;
 
@@ -79,13 +77,13 @@ client.init(function loaded () {
         restoreBoolValue(r,'hideafteruse');
         if (r.type === 'food') {
           foodlist.push(r);
-          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+          // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           if (r.category && !categories[r.category]) {
-            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+            // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
             categories[r.category] = {};
           }
           if (r.category && r.subcategory) {
-            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+            // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
             categories[r.category][r.subcategory] = true;
           }
         } else if (r.type === 'quickpick') {
@@ -128,10 +126,10 @@ client.init(function loaded () {
     }
   
     // Set values from profile to html
-    // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
+    // @ts-expect-error TS(2554) FIXME: Expected 1 arguments, but got 0.
     fillForm();
     // show proper submit button
-    // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
+    // @ts-expect-error TS(2554) FIXME: Expected 1 arguments, but got 0.
     updateSaveButton();
 
     console.log('Done initeditor()');
@@ -143,7 +141,7 @@ client.init(function loaded () {
     } else {
       $('#fe_editcreate').text(translate('Save record'));
     }
-     // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
+     // @ts-expect-error TS(2554) FIXME: Expected 2 arguments, but got 1.
      maybePreventDefault(event);
   }
   
@@ -154,15 +152,15 @@ client.init(function loaded () {
     filter.subcategory = '';
     $('#fe_filter_subcategory').empty().append(new Option(translate('(none)'),''));
     if (filter.category !== '') {
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       for (s in categories[filter.category]) {
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         if (Object.prototype.hasOwnProperty.call(categories[filter.category],s)) {
           $('#fe_filter_subcategory').append(new Option(s,s));
         }
       }
     }
-    // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
+    // @ts-expect-error TS(2554) FIXME: Expected 1 arguments, but got 0.
     doFilter();
   }
   
@@ -173,9 +171,9 @@ client.init(function loaded () {
     foodrec.subcategory = '';
     $('#fe_subcategory_list').empty().append(new Option(translate('(none)'),''));
     if (foodrec.category !== '') {
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       for (s in categories[foodrec.category]) {
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         if (Object.prototype.hasOwnProperty.call(categories[foodrec.category],s)) {
           $('#fe_subcategory_list').append(new Option(s,s));
         }
@@ -188,9 +186,9 @@ client.init(function loaded () {
     var index = $(this).attr('index');
     foodrec = _.cloneDeep(foodlist[index]);
     objectToGUI();
-    // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
+    // @ts-expect-error TS(2554) FIXME: Expected 1 arguments, but got 0.
     updateSaveButton();
-    // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
+    // @ts-expect-error TS(2554) FIXME: Expected 2 arguments, but got 1.
     maybePreventDefault(event);
     return false;
   }
@@ -199,13 +197,13 @@ client.init(function loaded () {
     for (var i=0; i<foodlist.length; i++) {
       if (foodlist[i]._id === newrec._id) {
         foodlist[i] = _.cloneDeep(newrec);
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         if (newrec.category && !categories[newrec.category]) {
-          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+          // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           categories[newrec.category] = {};
         }
         if (newrec.category && newrec.subcategory) {
-          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+          // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           categories[newrec.category][newrec.subcategory] = true;
         }
         return;
@@ -222,12 +220,12 @@ client.init(function loaded () {
         $('#fe_category_list').append(new Option(s,s));
       }
     }
-    // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
+    // @ts-expect-error TS(2554) FIXME: Expected 1 arguments, but got 0.
     fillFilterSubcategories();
     drawQuickpick();
     
     objectToGUI();
-    // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
+    // @ts-expect-error TS(2554) FIXME: Expected 2 arguments, but got 1.
     maybePreventDefault(event);
     return false;
   }
@@ -287,7 +285,7 @@ client.init(function loaded () {
       scope: 'foodlist',
       revert: 'invalid'
     });
-    // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
+    // @ts-expect-error TS(2554) FIXME: Expected 2 arguments, but got 1.
     maybePreventDefault(event);
   }
   
@@ -296,7 +294,7 @@ client.init(function loaded () {
     foodquickpicktodelete.push(foodquickpick[index]._id);
     foodquickpick.splice(index,1);
     drawQuickpick();
-    // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
+    // @ts-expect-error TS(2554) FIXME: Expected 2 arguments, but got 1.
     maybePreventDefault(event);
     return false;
   }
@@ -305,9 +303,9 @@ client.init(function loaded () {
     var index = $(this).attr('index');
     deleteRecord(foodlist[index]._id);
     foodlist.splice(index,1);
-    // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
+    // @ts-expect-error TS(2554) FIXME: Expected 1 arguments, but got 0.
     fillForm();
-    // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
+    // @ts-expect-error TS(2554) FIXME: Expected 2 arguments, but got 1.
     maybePreventDefault(event);
     return false;
   }
@@ -315,7 +313,7 @@ client.init(function loaded () {
   function showHidden(event: any) {
     GUIToObject();
     drawQuickpick();
-    // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
+    // @ts-expect-error TS(2554) FIXME: Expected 2 arguments, but got 1.
     maybePreventDefault(event);
     return false;
   }
@@ -484,7 +482,7 @@ client.init(function loaded () {
     var index = $(this).attr('index');
     foodquickpick.splice(0, 0, foodquickpick.splice(index, 1)[0]);
     drawQuickpick();
-    // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
+    // @ts-expect-error TS(2554) FIXME: Expected 2 arguments, but got 1.
     maybePreventDefault(event);
     return false;
   }
@@ -541,9 +539,9 @@ client.init(function loaded () {
   function clearRec(event: any) {
     foodrec = _.cloneDeep(foodrec_template);
     objectToGUI();
-    // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
+    // @ts-expect-error TS(2554) FIXME: Expected 1 arguments, but got 0.
     updateSaveButton();
-    // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
+    // @ts-expect-error TS(2554) FIXME: Expected 2 arguments, but got 1.
     maybePreventDefault(event);
     return false;
   }
@@ -553,7 +551,7 @@ client.init(function loaded () {
 
     if (!client.hashauth.isAuthenticated()) {
       alert(translate('Your device is not authenticated yet'));
-      // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
+      // @ts-expect-error TS(2554) FIXME: Expected 2 arguments, but got 1.
       maybePreventDefault(event);
       return false;
     }
@@ -572,18 +570,18 @@ client.init(function loaded () {
         $('#fe_status').hide().text('OK').fadeIn('slow');
         foodrec._id = response[0]._id;
         foodlist.push(foodrec);
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         if (foodrec.category && !categories[foodrec.category]) {
-          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+          // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           categories[foodrec.category] = {};
         }
         if (foodrec.category && foodrec.subcategory) {
-          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+          // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           categories[foodrec.category][foodrec.subcategory] = true;
         }
-        // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
+        // @ts-expect-error TS(2554) FIXME: Expected 1 arguments, but got 0.
         clearRec();
-        // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
+        // @ts-expect-error TS(2554) FIXME: Expected 1 arguments, but got 0.
         fillForm();
        }).fail(function fail() {
         $('#fe_status').hide().text(translate('Error')).fadeIn('slow');
@@ -598,15 +596,15 @@ client.init(function loaded () {
       }).done(function success () {
         $('#fe_status').hide().text('OK').fadeIn('slow');
         updateFoodArray(foodrec);
-        // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
+        // @ts-expect-error TS(2554) FIXME: Expected 1 arguments, but got 0.
         clearRec();
-        // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
+        // @ts-expect-error TS(2554) FIXME: Expected 1 arguments, but got 0.
         fillForm();
        }).fail(function fail() {
         $('#fe_status').hide().text(translate('Error')).fadeIn('slow');
       });
     }
-    // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
+    // @ts-expect-error TS(2554) FIXME: Expected 2 arguments, but got 1.
     maybePreventDefault(event);
     return false;
   }
@@ -614,7 +612,7 @@ client.init(function loaded () {
   function deleteRecord(_id: any) {
     if (!client.hashauth.isAuthenticated()) {
       alert(translate('Your device is not authenticated yet'));
-      // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
+      // @ts-expect-error TS(2554) FIXME: Expected 2 arguments, but got 1.
       maybePreventDefault(event);
       return false;
     }
@@ -636,7 +634,7 @@ client.init(function loaded () {
   function updateRecord(foodrec: any) {
     if (!client.hashauth.isAuthenticated()) {
       alert(translate('Your device is not authenticated yet'));
-      // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
+      // @ts-expect-error TS(2554) FIXME: Expected 2 arguments, but got 1.
       maybePreventDefault(event);
       return false;
     }
@@ -656,7 +654,7 @@ client.init(function loaded () {
     
     if (!client.hashauth.isAuthenticated()) {
       alert(translate('Your device is not authenticated yet'));
-      // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
+      // @ts-expect-error TS(2554) FIXME: Expected 2 arguments, but got 1.
       maybePreventDefault(event);
       return false;
     }
@@ -678,7 +676,7 @@ client.init(function loaded () {
       $('#fe_status').hide().text(translate('Error')).fadeIn('slow');
     });
 
-    // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
+    // @ts-expect-error TS(2554) FIXME: Expected 2 arguments, but got 1.
     maybePreventDefault(event);
     return false;
   }
@@ -702,7 +700,7 @@ client.init(function loaded () {
       }
       updateRecord(fqp);
     }
-    // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
+    // @ts-expect-error TS(2554) FIXME: Expected 2 arguments, but got 1.
     maybePreventDefault(event);
     return false;
   }
@@ -722,5 +720,5 @@ client.init(function loaded () {
 });
 };
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

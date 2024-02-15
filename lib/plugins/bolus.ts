@@ -8,7 +8,7 @@ function init () {
     , pluginType: 'fake'
   };
 
-  // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
   bolus.getPrefs = function getPrefs(sbx: any) {
     return {
       renderFormat: sbx.extendedSettings.renderFormat ? sbx.extendedSettings.renderFormat : 'default'
@@ -20,5 +20,5 @@ function init () {
   return bolus;
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

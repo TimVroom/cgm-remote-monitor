@@ -9,7 +9,7 @@ function getStorageVersion (app: any) {
       let storageVersion = app.get('storageVersion');
 
       if (storageVersion) {
-        // @ts-expect-error TS(2591): Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
+        // @ts-expect-error TS(2591) FIXME: Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
         process.nextTick(() => {
           resolve(storageVersion);
         });
@@ -45,7 +45,7 @@ function getVersionInfo(app: any) {
           if (!storageVersion)
             throw new Error('empty storageVersion');
 
-          // @ts-expect-error TS(2339): Property 'storage' does not exist on type '{ versi... Remove this comment to see the full error message
+          // @ts-expect-error TS(2339) FIXME: Property 'storage' does not exist on type '{ versi... Remove this comment to see the full error message
           info.storage = storageVersion;
 
           resolve(info);
@@ -59,7 +59,7 @@ function getVersionInfo(app: any) {
 }
 
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = {
   getStorageVersion,
   getVersionInfo

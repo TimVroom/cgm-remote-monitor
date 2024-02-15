@@ -1,6 +1,6 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
 
 function init (ctx: any) {
@@ -14,14 +14,14 @@ function init (ctx: any) {
     , pillFlip: true
   };
 
-  // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
   rawbg.getPrefs = function getPrefs (sbx: any) {
     return {
       display: (sbx && sbx.extendedSettings.display) ? sbx.extendedSettings.display  : 'unsmoothed'
     };
   };
 
-  // @ts-expect-error TS(2339): Property 'setProperties' does not exist on type '{... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'setProperties' does not exist on type '{... Remove this comment to see the full error message
   rawbg.setProperties = function setProperties (sbx: any) {
     sbx.offerProperty('rawbg', function setRawBG ( ) {
       var result = { };
@@ -33,15 +33,15 @@ function init (ctx: any) {
       var staleAndInRetroMode = sbx.data.inRetroMode && !sbx.isCurrent(currentSGV);
 
       if (!staleAndInRetroMode && currentSGV && currentCal) {
-        // @ts-expect-error TS(2339): Property 'mgdl' does not exist on type '{}'.
+        // @ts-expect-error TS(2339) FIXME: Property 'mgdl' does not exist on type '{}'.
         result.mgdl = rawbg.calc(currentSGV, currentCal, sbx);
-        // @ts-expect-error TS(2339): Property 'noiseLabel' does not exist on type '{}'.
+        // @ts-expect-error TS(2339) FIXME: Property 'noiseLabel' does not exist on type '{}'.
         result.noiseLabel = rawbg.noiseCodeToDisplay(currentSGV.mgdl, currentSGV.noise);
-        // @ts-expect-error TS(2339): Property 'sgv' does not exist on type '{}'.
+        // @ts-expect-error TS(2339) FIXME: Property 'sgv' does not exist on type '{}'.
         result.sgv = currentSGV;
-        // @ts-expect-error TS(2339): Property 'cal' does not exist on type '{}'.
+        // @ts-expect-error TS(2339) FIXME: Property 'cal' does not exist on type '{}'.
         result.cal = currentCal;
-        // @ts-expect-error TS(2339): Property 'displayLine' does not exist on type '{}'... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'displayLine' does not exist on type '{}'... Remove this comment to see the full error message
         result.displayLine = ['Raw BG:', sbx.scaleMgdl(result.mgdl), sbx.unitsLabel, result.noiseLabel].join(' ');
       }
 
@@ -49,11 +49,11 @@ function init (ctx: any) {
     });
   };
 
-  // @ts-expect-error TS(2339): Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
   rawbg.updateVisualisation = function updateVisualisation (sbx: any) {
     var prop = sbx.properties.rawbg;
 
-    // @ts-expect-error TS(2339): Property 'showRawBGs' does not exist on type '{ na... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'showRawBGs' does not exist on type '{ na... Remove this comment to see the full error message
     var options = prop && prop.sgv && rawbg.showRawBGs(prop.sgv.mgdl, prop.sgv.noise, prop.cal, sbx) ? {
       hide: !prop || !prop.mgdl
       , value: sbx.scaleMgdl(prop.mgdl)
@@ -65,12 +65,12 @@ function init (ctx: any) {
     sbx.pluginBase.updatePillText(rawbg, options);
   };
 
-  // @ts-expect-error TS(2339): Property 'calc' does not exist on type '{ name: st... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'calc' does not exist on type '{ name: st... Remove this comment to see the full error message
   rawbg.calc = function calc(sgv: any, cal: any, sbx: any) {
     var raw = 0;
     var cleaned = cleanValues(sgv, cal);
 
-    // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
     var prefs = rawbg.getPrefs(sbx);
 
     if (cleaned.slope === 0 || cleaned.unfiltered === 0 || cleaned.scale === 0) {
@@ -87,22 +87,22 @@ function init (ctx: any) {
     return Math.round(raw);
   };
 
-  // @ts-expect-error TS(2339): Property 'isEnabled' does not exist on type '{ nam... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'isEnabled' does not exist on type '{ nam... Remove this comment to see the full error message
   rawbg.isEnabled = function isEnabled(sbx: any) {
     return sbx.settings.isEnabled('rawbg');
   };
 
-  // @ts-expect-error TS(2339): Property 'showRawBGs' does not exist on type '{ na... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'showRawBGs' does not exist on type '{ na... Remove this comment to see the full error message
   rawbg.showRawBGs = function showRawBGs(mgdl: any, noise: any, cal: any, sbx: any) {
     return cal
-      // @ts-expect-error TS(2339): Property 'isEnabled' does not exist on type '{ nam... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'isEnabled' does not exist on type '{ nam... Remove this comment to see the full error message
       && rawbg.isEnabled(sbx)
       && (sbx.settings.showRawbg === 'always'
            || (sbx.settings.showRawbg === 'noise' && (noise >= 2 || mgdl < 40))
          );
   };
 
-  // @ts-expect-error TS(2339): Property 'noiseCodeToDisplay' does not exist on ty... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'noiseCodeToDisplay' does not exist on ty... Remove this comment to see the full error message
   rawbg.noiseCodeToDisplay = function noiseCodeToDisplay(mgdl: any, noise: any) {
     var display;
     switch (parseInt(noise)) {
@@ -136,7 +136,7 @@ function init (ctx: any) {
     }
   }
 
-  // @ts-expect-error TS(2339): Property 'virtAsst' does not exist on type '{ name... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'virtAsst' does not exist on type '{ name... Remove this comment to see the full error message
   rawbg.virtAsst = {
     intentHandlers: [{
       intent: 'MetricNow'
@@ -159,5 +159,5 @@ function cleanValues (sgv: any, cal: any) {
   };
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

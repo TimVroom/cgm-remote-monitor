@@ -1,6 +1,6 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
 
 function init (ctx: any) {
@@ -13,7 +13,7 @@ function init (ctx: any) {
     , pillFlip: true
   };
 
-  // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
   dbsize.getPrefs = function getPrefs (sbx: any) {
     return {
       warnPercentage: sbx.extendedSettings.warnPercentage ? sbx.extendedSettings.warnPercentage : 60
@@ -24,18 +24,18 @@ function init (ctx: any) {
     };
   };
 
-  // @ts-expect-error TS(2339): Property 'setProperties' does not exist on type '{... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'setProperties' does not exist on type '{... Remove this comment to see the full error message
   dbsize.setProperties = function setProperties (sbx: any) {
     sbx.offerProperty('dbsize', function setDbsize () {
-      // @ts-expect-error TS(2339): Property 'analyzeData' does not exist on type '{ n... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'analyzeData' does not exist on type '{ n... Remove this comment to see the full error message
       return dbsize.analyzeData(sbx);
     });
   };
 
-  // @ts-expect-error TS(2339): Property 'analyzeData' does not exist on type '{ n... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'analyzeData' does not exist on type '{ n... Remove this comment to see the full error message
   dbsize.analyzeData = function analyzeData (sbx: any) {
 
-    // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
     var prefs = dbsize.getPrefs(sbx);
 
     var recentData = sbx.data.dbstats;
@@ -53,13 +53,13 @@ function init (ctx: any) {
 
     var dataPercentage = Math.floor((totalDataSize * 100.0) / maxSize);
 
-    // @ts-expect-error TS(2339): Property 'totalDataSize' does not exist on type '{... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'totalDataSize' does not exist on type '{... Remove this comment to see the full error message
     result.totalDataSize = totalDataSize;
-    // @ts-expect-error TS(2339): Property 'dataPercentage' does not exist on type '... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'dataPercentage' does not exist on type '... Remove this comment to see the full error message
     result.dataPercentage = dataPercentage;
-    // @ts-expect-error TS(2339): Property 'notificationLevel' does not exist on typ... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'notificationLevel' does not exist on typ... Remove this comment to see the full error message
     result.notificationLevel = ctx.levels.INFO;
-    // @ts-expect-error TS(2339): Property 'details' does not exist on type '{ level... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'details' does not exist on type '{ level... Remove this comment to see the full error message
     result.details = {
         maxSize: parseFloat(maxSize.toFixed(2))
       , dataSize: parseFloat(totalDataSize.toFixed(2))
@@ -73,23 +73,23 @@ function init (ctx: any) {
     var urgentSize = Math.floor((boundUrgentPercentage/100) * maxSize);
 
     if ((totalDataSize >= urgentSize)&&(boundUrgentPercentage > 0)) {
-      // @ts-expect-error TS(2339): Property 'notificationLevel' does not exist on typ... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'notificationLevel' does not exist on typ... Remove this comment to see the full error message
       result.notificationLevel = ctx.levels.URGENT;
     } else if ((totalDataSize >= warnSize)&&(boundWarnPercentage > 0)) {
-      // @ts-expect-error TS(2339): Property 'notificationLevel' does not exist on typ... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'notificationLevel' does not exist on typ... Remove this comment to see the full error message
       result.notificationLevel = ctx.levels.WARN;
     }
 
     result.display = prefs.inMib ? parseFloat(totalDataSize.toFixed(0)) + 'MiB' : dataPercentage + '%';
-    // @ts-expect-error TS(2339): Property 'notificationLevel' does not exist on typ... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'notificationLevel' does not exist on typ... Remove this comment to see the full error message
     result.status = ctx.levels.toStatusClass(result.notificationLevel);
 
     return result;
   };
 
-  // @ts-expect-error TS(2339): Property 'checkNotifications' does not exist on ty... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'checkNotifications' does not exist on ty... Remove this comment to see the full error message
   dbsize.checkNotifications = function checkNotifications (sbx: any) {
-    // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
     var prefs = dbsize.getPrefs(sbx);
 
     if (!prefs.enableAlerts) { return; }
@@ -111,7 +111,7 @@ function init (ctx: any) {
     }
   };
 
-  // @ts-expect-error TS(2339): Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
   dbsize.updateVisualisation = function updateVisualisation (sbx: any) {
     var prop = sbx.properties.dbsize;
 
@@ -149,7 +149,7 @@ function init (ctx: any) {
     }
   }
 
-  // @ts-expect-error TS(2339): Property 'virtAsst' does not exist on type '{ name... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'virtAsst' does not exist on type '{ name... Remove this comment to see the full error message
   dbsize.virtAsst = {
     intentHandlers: [
       {
@@ -164,5 +164,5 @@ function init (ctx: any) {
 
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

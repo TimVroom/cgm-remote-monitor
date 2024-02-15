@@ -1,8 +1,8 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var times = require('../times');
 
 function init(ctx: any) {
@@ -15,7 +15,7 @@ function init(ctx: any) {
     , pillFlip: true
   };
 
-  // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
   upbat.getPrefs = function getPrefs(sbx: any) {
     return {
       warn: sbx.extendedSettings.warn ? sbx.extendedSettings.warn : 30
@@ -24,10 +24,10 @@ function init(ctx: any) {
     };
   };
 
-  // @ts-expect-error TS(2339): Property 'setProperties' does not exist on type '{... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'setProperties' does not exist on type '{... Remove this comment to see the full error message
   upbat.setProperties = function setProperties (sbx: any) {
     sbx.offerProperty('upbat', function setUpbat2 ( ) {
-      // @ts-expect-error TS(2339): Property 'analyzeData' does not exist on type '{ n... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'analyzeData' does not exist on type '{ n... Remove this comment to see the full error message
       return upbat.analyzeData(sbx);
     });
   };
@@ -36,10 +36,10 @@ function init(ctx: any) {
     return status.uploader.battery;
   }
 
-  // @ts-expect-error TS(2339): Property 'analyzeData' does not exist on type '{ n... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'analyzeData' does not exist on type '{ n... Remove this comment to see the full error message
   upbat.analyzeData = function analyzeData (sbx: any) {
 
-    // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
     var prefs = upbat.getPrefs(sbx);
 
     var recentMins = 30;
@@ -58,7 +58,7 @@ function init(ctx: any) {
 
     function getDevice (status: any) {
       var uri = status.device || 'uploader';
-      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       var device = result.devices[uri];
 
       if (!device) {
@@ -69,7 +69,7 @@ function init(ctx: any) {
           , statuses: [ ]
         };
 
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         result.devices[uri] = device;
       }
       return device;
@@ -154,16 +154,16 @@ function init(ctx: any) {
       result.level = min.uploader.level;
       result.display = min.uploader.display;
       result.status = ctx.levels.toStatusClass(min.uploader.notification);
-      // @ts-expect-error TS(2339): Property 'min' does not exist on type '{ level: un... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'min' does not exist on type '{ level: un... Remove this comment to see the full error message
       result.min = min.uploader;
     }
 
     return result;
   };
 
-  // @ts-expect-error TS(2339): Property 'checkNotifications' does not exist on ty... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'checkNotifications' does not exist on ty... Remove this comment to see the full error message
   upbat.checkNotifications = function checkNotifications(sbx: any) {
-    // @ts-expect-error TS(2339): Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'getPrefs' does not exist on type '{ name... Remove this comment to see the full error message
     var prefs = upbat.getPrefs(sbx);
 
     var prop = sbx.properties.upbat;
@@ -195,7 +195,7 @@ function init(ctx: any) {
     }
   };
 
-  // @ts-expect-error TS(2339): Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
   upbat.updateVisualisation = function updateVisualisation (sbx: any) {
     var prop = sbx.properties.upbat;
 
@@ -222,7 +222,7 @@ function init(ctx: any) {
         infos = [{label: 'Voltage', value: prop.min.voltageDisplay}];
       }
       if (prop.min && prop.min.temperature) {
-        // @ts-expect-error TS(2531): Object is possibly 'null'.
+        // @ts-expect-error TS(2531) FIXME: Object is possibly 'null'.
         infos.push({label: 'Temp', value : prop.min.temperature});
       }
     }
@@ -250,7 +250,7 @@ function init(ctx: any) {
     }
   }
 
-  // @ts-expect-error TS(2339): Property 'virtAsst' does not exist on type '{ name... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'virtAsst' does not exist on type '{ name... Remove this comment to see the full error message
   upbat.virtAsst = {
     intentHandlers: [
       {
@@ -270,5 +270,5 @@ function init(ctx: any) {
 
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

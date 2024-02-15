@@ -1,13 +1,13 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'async'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'async'.
 var async = require('async');
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'request'.
 var request = require('request');
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'times'.
 var times = require('../times');
 
 function init (env: any) {
@@ -22,7 +22,7 @@ function init (env: any) {
 
   var lastAllClear = 0;
 
-  // @ts-expect-error TS(2339): Property 'sendAllClear' does not exist on type '{}... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'sendAllClear' does not exist on type '{}... Remove this comment to see the full error message
   maker.sendAllClear = function sendAllClear (notify: any, callback: any) {
     if (Date.now() - lastAllClear > times.mins(30).msecs) {
       lastAllClear = Date.now();
@@ -30,7 +30,7 @@ function init (env: any) {
       //can be used to prevent maker/twitter deduping (add to IFTTT tweet text)
       var shortTimestamp = Math.round(Date.now() / 1000 / 60);
 
-      // @ts-expect-error TS(2339): Property 'makeKeyRequests' does not exist on type ... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'makeKeyRequests' does not exist on type ... Remove this comment to see the full error message
       maker.makeKeyRequests({
         value1: (notify && notify.title) || 'All Clear'
         , value2: notify && notify.message && '\n' + notify.message
@@ -48,14 +48,14 @@ function init (env: any) {
     }
   };
 
-  // @ts-expect-error TS(2339): Property 'sendEvent' does not exist on type '{}'.
+  // @ts-expect-error TS(2339) FIXME: Property 'sendEvent' does not exist on type '{}'.
   maker.sendEvent = function sendEvent (event: any, callback: any) {
     if (!event || !event.name) {
       callback('No event name found');
     } else if (!event.level) {
       callback('No event level found');
     } else {
-      // @ts-expect-error TS(2339): Property 'makeRequests' does not exist on type '{}... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'makeRequests' does not exist on type '{}... Remove this comment to see the full error message
       maker.makeRequests(event, function sendCallback (err: any, response: any) {
         if (err) {
           callback(err);
@@ -68,7 +68,7 @@ function init (env: any) {
   };
 
   //exposed for testing
-  // @ts-expect-error TS(2339): Property 'valuesToQuery' does not exist on type '{... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'valuesToQuery' does not exist on type '{... Remove this comment to see the full error message
   maker.valuesToQuery = function valuesToQuery (event: any) {
     var query = '';
 
@@ -89,20 +89,20 @@ function init (env: any) {
     return query;
   };
 
-  // @ts-expect-error TS(2339): Property 'makeRequests' does not exist on type '{}... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'makeRequests' does not exist on type '{}... Remove this comment to see the full error message
   maker.makeRequests = function makeRequests(event: any, callback: any) {
     function sendGeneric (callback: any) {
-      // @ts-expect-error TS(2339): Property 'makeKeyRequests' does not exist on type ... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'makeKeyRequests' does not exist on type ... Remove this comment to see the full error message
       maker.makeKeyRequests(event, 'ns-event', callback);
     }
 
     function sendByLevel (callback: any) {
-      // @ts-expect-error TS(2339): Property 'makeKeyRequests' does not exist on type ... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'makeKeyRequests' does not exist on type ... Remove this comment to see the full error message
       maker.makeKeyRequests (event, 'ns-' + event.level, callback);
     }
 
     function sendByLevelAndName (callback: any) {
-      // @ts-expect-error TS(2339): Property 'makeKeyRequests' does not exist on type ... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'makeKeyRequests' does not exist on type ... Remove this comment to see the full error message
       maker.makeKeyRequests(event, 'ns' + ((event.level && '-' + event.level) || '') + '-' + event.name, callback);
     }
 
@@ -110,19 +110,19 @@ function init (env: any) {
     async.series([sendGeneric, sendByLevel, sendByLevelAndName], callback);
   };
 
-  // @ts-expect-error TS(2339): Property 'makeKeyRequests' does not exist on type ... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'makeKeyRequests' does not exist on type ... Remove this comment to see the full error message
   maker.makeKeyRequests = function makeKeyRequests(event: any, eventName: any, callback: any) {
     var selectedKeys = event.isAnnouncement ? announcementKeys : keys;
 
     _.each(selectedKeys, function eachKey(key: any) {
-      // @ts-expect-error TS(2339): Property 'makeKeyRequest' does not exist on type '... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'makeKeyRequest' does not exist on type '... Remove this comment to see the full error message
       maker.makeKeyRequest(key, event, eventName, callback);
     });
   };
 
-  // @ts-expect-error TS(2339): Property 'makeKeyRequest' does not exist on type '... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'makeKeyRequest' does not exist on type '... Remove this comment to see the full error message
   maker.makeKeyRequest = function makeKeyRequest(key: any, event: any, eventName: any, callback: any) {
-    // @ts-expect-error TS(2339): Property 'valuesToQuery' does not exist on type '{... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'valuesToQuery' does not exist on type '{... Remove this comment to see the full error message
     var url = 'https://maker.ifttt.com/trigger/' + eventName + '/with/key/' + key + maker.valuesToQuery(event);
     request
       .get(url)
@@ -143,5 +143,5 @@ function init (env: any) {
 
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

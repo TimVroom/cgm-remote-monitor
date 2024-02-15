@@ -1,22 +1,22 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 const _ = require('lodash');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'should'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'should'.
 const should = require('should');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'helper'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'helper'.
 const helper = require('./inithelper')();
 
 var ctx_top = helper.getctx();
 ctx_top.language.set('en');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'language'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'language'.
 const language = ctx_top.language;
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'env'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'env'.
 var env = require('../lib/server/env')();
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var loop = require('../lib/plugins/loop')(ctx_top);
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var sandbox = require('../lib/sandbox')(ctx_top);
 
 var statuses = [
@@ -115,10 +115,10 @@ _.forEach(statuses, function updateMills (status: any) {
   status.mills = ctx_top.moment(status.created_at).valueOf();
 });
 
-// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+// @ts-expect-error TS(2593) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('loop', function ( ) {
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should set the property and update the pill and add forecast points', function (done: any) {
     var ctx = {
       settings: {
@@ -159,7 +159,7 @@ describe('loop', function ( ) {
     loop.updateVisualisation(sbx);
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should show errors', function (done: any) {
     var ctx = {
       settings: {
@@ -203,13 +203,13 @@ describe('loop', function ( ) {
   });
 
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should check the recieved flag to see if it was received', function (done: any) {
     var ctx = {
       settings: {
         units: 'mg/dl'
       }
-      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+      // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , notifications: require('../lib/notifications')(env, ctx_top)
       , language: language
     };
@@ -218,7 +218,7 @@ describe('loop', function ( ) {
 
     var notStatuses = _.cloneDeep(statuses);
     notStatuses[0].loop.enacted.received = false;
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var sbx = require('../lib/sandbox')().clientInit(ctx, now, {devicestatus: notStatuses});
 
     sbx.offerProperty = function mockedOfferProperty (name: any, setter: any) {
@@ -233,13 +233,13 @@ describe('loop', function ( ) {
     loop.setProperties(sbx);
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should generate an alert for a stuck loop', function (done: any) {
     var ctx = {
       settings: {
         units: 'mg/dl'
       }
-      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+      // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , notifications: require('../lib/notifications')(env, ctx_top)
       , language: language
     };
@@ -257,13 +257,13 @@ describe('loop', function ( ) {
     done();
   });
 
-  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  // @ts-expect-error TS(2593) FIXME: Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should handle virtAsst requests', function (done: any) {
     var ctx = {
       settings: {
         units: 'mg/dl'
       }
-      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+      // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , notifications: require('../lib/notifications')(env, ctx_top)
       , language: language
     };

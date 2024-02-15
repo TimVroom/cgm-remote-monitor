@@ -1,12 +1,12 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'apiConst'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'apiConst'.
 const apiConst = require('../const.json')
-  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'stringTool... Remove this comment to see the full error message
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'stringTool... Remove this comment to see the full error message
   , stringTools = require('./stringTools')
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   , uuid = require('uuid')
-  // @ts-expect-error TS(2591): Cannot find name 'Buffer'. Do you need to install ... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'Buffer'. Do you need to install ... Remove this comment to see the full error message
   , uuidNamespace = [...Buffer.from("NightscoutRocks!", "ascii")] // official namespace for NS :-)
   ;
 
@@ -35,21 +35,21 @@ function sendJSON ({
 }
 
 
-// @ts-expect-error TS(2393): Duplicate function implementation.
+// @ts-expect-error TS(2393) FIXME: Duplicate function implementation.
 function sendJSONStatus (res: any, status: any, title: any, description: any, warning: any) {
 
   const json = {
     status: status
   };
 
-  // @ts-expect-error TS(2339): Property 'message' does not exist on type '{ statu... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'message' does not exist on type '{ statu... Remove this comment to see the full error message
   if (title) { json.message = title }
 
-  // @ts-expect-error TS(2339): Property 'description' does not exist on type '{ s... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'description' does not exist on type '{ s... Remove this comment to see the full error message
   if (description) { json.description = description }
 
   // Add optional warning message.
-  // @ts-expect-error TS(2339): Property 'warning' does not exist on type '{ statu... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'warning' does not exist on type '{ statu... Remove this comment to see the full error message
   if (warning) { json.warning = warning; }
 
   res.status(status)
@@ -76,7 +76,7 @@ function validateCommon (doc: any, res: any, options: any) {
     && (typeof(doc.date) !== 'number'
       || doc.date <= apiConst.MIN_TIMESTAMP)
   ) {
-    // @ts-expect-error TS(2554): Expected 5 arguments, but got 3.
+    // @ts-expect-error TS(2554) FIXME: Expected 5 arguments, but got 3.
     return sendJSONStatus(res, apiConst.HTTP.BAD_REQUEST, apiConst.MSG.HTTP_400_BAD_FIELD_DATE);
   }
 
@@ -87,7 +87,7 @@ function validateCommon (doc: any, res: any, options: any) {
       || doc.utcOffset < apiConst.MIN_UTC_OFFSET
       || doc.utcOffset > apiConst.MAX_UTC_OFFSET)
   ) {
-    // @ts-expect-error TS(2554): Expected 5 arguments, but got 3.
+    // @ts-expect-error TS(2554) FIXME: Expected 5 arguments, but got 3.
     return sendJSONStatus(res, apiConst.HTTP.BAD_REQUEST, apiConst.MSG.HTTP_400_BAD_FIELD_UTC);
   }
 
@@ -97,7 +97,7 @@ function validateCommon (doc: any, res: any, options: any) {
     && (typeof(doc.app) !== 'string'
         || stringTools.isNullOrWhitespace(doc.app))
   ) {
-    // @ts-expect-error TS(2554): Expected 5 arguments, but got 3.
+    // @ts-expect-error TS(2554) FIXME: Expected 5 arguments, but got 3.
     return sendJSONStatus(res, apiConst.HTTP.BAD_REQUEST, apiConst.MSG.HTTP_400_BAD_FIELD_APP);
   }
 
@@ -142,7 +142,7 @@ function resolveIdentifier (doc: any) {
 }
 
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = {
   sendJSON,
   sendJSONStatus,

@@ -1,5 +1,6 @@
 'use strict';
 
+// @ts-expect-error TS(2393) FIXME: Duplicate function implementation.
 function init() {
 
   var direction = {
@@ -8,19 +9,19 @@ function init() {
     , pluginType: 'bg-status'
   };
 
-  // @ts-expect-error TS(2339): Property 'setProperties' does not exist on type '{... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'setProperties' does not exist on type '{... Remove this comment to see the full error message
   direction.setProperties = function setProperties (sbx: any) {
     sbx.offerProperty('direction', function setDirection ( ) {
       if (!sbx.isCurrent(sbx.lastSGVEntry())) {
         return undefined;
       } else {
-        // @ts-expect-error TS(2339): Property 'info' does not exist on type '{ name: st... Remove this comment to see the full error message
+        // @ts-expect-error TS(2339) FIXME: Property 'info' does not exist on type '{ name: st... Remove this comment to see the full error message
         return direction.info(sbx.lastSGVEntry());
       }
     });
   };
 
-  // @ts-expect-error TS(2339): Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'updateVisualisation' does not exist on t... Remove this comment to see the full error message
   direction.updateVisualisation = function updateVisualisation (sbx: any) {
     var prop = sbx.properties.direction;
 
@@ -41,17 +42,17 @@ function init() {
     }
   };
 
-  // @ts-expect-error TS(2339): Property 'info' does not exist on type '{ name: st... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'info' does not exist on type '{ name: st... Remove this comment to see the full error message
   direction.info = function info(sgv: any) {
     var result = { display: null };
 
     if (!sgv) { return result; }
 
-    // @ts-expect-error TS(2339): Property 'value' does not exist on type '{ display... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'value' does not exist on type '{ display... Remove this comment to see the full error message
     result.value = sgv.direction;
-    // @ts-expect-error TS(2339): Property 'label' does not exist on type '{ display... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'label' does not exist on type '{ display... Remove this comment to see the full error message
     result.label = directionToChar(result.value);
-    // @ts-expect-error TS(2339): Property 'entity' does not exist on type '{ displa... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'entity' does not exist on type '{ displa... Remove this comment to see the full error message
     result.entity = charToEntity(result.label);
 
     return result;
@@ -77,7 +78,7 @@ function init() {
   }
 
   function directionToChar(direction: any) {
-    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+    // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     return dir2Char[direction] || '-';
   }
 
@@ -85,5 +86,5 @@ function init() {
 
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

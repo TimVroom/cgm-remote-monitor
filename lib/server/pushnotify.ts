@@ -1,13 +1,13 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 const _ = require('lodash');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'crypto'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'crypto'.
 const crypto = require('crypto');
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 const NodeCache = require('node-cache');
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'times'.
 const times = require('../times');
 
 function init (env: any, ctx: any) {
@@ -149,7 +149,7 @@ function init (env: any, ctx: any) {
   }
 
   function notifyToHash (notify: any) {
-    // @ts-expect-error TS(2339): Property 'createHash' does not exist on type 'Cryp... Remove this comment to see the full error message
+    // @ts-expect-error TS(2339) FIXME: Property 'createHash' does not exist on type 'Cryp... Remove this comment to see the full error message
     var hash = crypto.createHash('sha1');
     var info = JSON.stringify(_.pick(notify, ['title', 'message']));
     hash.update(info);
@@ -159,5 +159,5 @@ function init (env: any, ctx: any) {
   return pushnotify();
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

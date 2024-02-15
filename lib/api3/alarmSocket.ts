@@ -1,11 +1,11 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'apiConst'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'apiConst'.
 const apiConst = require('./const');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'forwarded'... Remove this comment to see the full error message
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'forwarded'... Remove this comment to see the full error message
 const forwarded = require('forwarded-for');
 
-// @ts-expect-error TS(2393): Duplicate function implementation.
+// @ts-expect-error TS(2393) FIXME: Duplicate function implementation.
 function getRemoteIP (req: any) {
   const address = forwarded(req, req.headers);
   return address.ip;
@@ -198,5 +198,5 @@ function AlarmSocket(this: any, app: any, env: any, ctx: any) {
   };
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = AlarmSocket;

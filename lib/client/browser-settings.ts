@@ -1,20 +1,19 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
 
 // VERSION 1 - 0.9.0 - 2015-Nov-07 - initial version
 var STORAGE_VERSION = 1;
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var Storages = require('js-storage');
 
-// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init (client: any, serverSettings: any, $: any) {
 
   serverSettings = serverSettings || { settings: {} };
 
   var storage = Storages.localStorage;
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var settings = require('../settings')();
 
   function updateBolusRender () {
@@ -328,13 +327,13 @@ function init (client: any, serverSettings: any, $: any) {
     showLocalstorageError();
   }
 
-  // @ts-expect-error TS(2339): Property 'loadAndWireForm' does not exist on type ... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'loadAndWireForm' does not exist on type ... Remove this comment to see the full error message
   init.loadAndWireForm = function loadAndWireForm () {
     loadForm();
     wireForm();
   };
 
-  // @ts-expect-error TS(2339): Property 'loadPluginSettings' does not exist on ty... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'loadPluginSettings' does not exist on ty... Remove this comment to see the full error message
   init.loadPluginSettings = function loadPluginSettings (client: any) {
 
     client.plugins.eachEnabledPlugin(function each (plugin: any) {
@@ -362,5 +361,5 @@ function init (client: any, serverSettings: any, $: any) {
   return settings;
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

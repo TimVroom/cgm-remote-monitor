@@ -1,10 +1,10 @@
 'use strict';
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 const _ = require('lodash');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'times'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'times'.
 const times = require('../times');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'crypto'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'crypto'.
 const crypto = require('crypto');
 
 const MANUAL_TREATMENTS = ['BG Check', 'Meal Bolus', 'Carb Correction', 'Correction Bolus'];
@@ -17,7 +17,7 @@ function init(ctx: any) {
     , pluginType: 'notification'
   };
 
-  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   const simplealarms = require('./simplealarms')(ctx);
 
   //automated treatments from OpenAPS or Loop shouldn't trigger notifications or snooze alarms
@@ -41,7 +41,7 @@ function init(ctx: any) {
     return treatments;
   }
 
-  // @ts-expect-error TS(2339): Property 'checkNotifications' does not exist on ty... Remove this comment to see the full error message
+  // @ts-expect-error TS(2339) FIXME: Property 'checkNotifications' does not exist on ty... Remove this comment to see the full error message
   treatmentnotify.checkNotifications = function checkNotifications (sbx: any) {
 
     var treatments = filterTreatments(sbx);
@@ -94,7 +94,7 @@ function init(ctx: any) {
     });
   }
 
-  // @ts-expect-error TS(7006): Parameter 'lastTreatment' implicitly has an 'any' ... Remove this comment to see the full error message
+  // @ts-expect-error TS(7006) FIXME: Parameter 'lastTreatment' implicitly has an 'any' ... Remove this comment to see the full error message
   function requestAnnouncementNotify (lastTreatment, sbx) {
     var result = simplealarms.compareBGToTresholds(sbx.scaleMgdl(lastTreatment.mgdl), sbx);
 
@@ -109,7 +109,7 @@ function init(ctx: any) {
     });
   }
 
-  // @ts-expect-error TS(7006): Parameter 'lastTreatment' implicitly has an 'any' ... Remove this comment to see the full error message
+  // @ts-expect-error TS(7006) FIXME: Parameter 'lastTreatment' implicitly has an 'any' ... Remove this comment to see the full error message
   function requestTreatmentNotify (lastTreatment, sbx) {
     var translate = sbx.language.translate;
 
@@ -135,7 +135,7 @@ function init(ctx: any) {
       if (!eventType && lastTreatment.insulin) eventType = "Correcton Bolus";
       if (!eventType) eventType = "Note";      
 
-      // @ts-expect-error TS(2339): Property 'createHash' does not exist on type 'Cryp... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339) FIXME: Property 'createHash' does not exist on type 'Cryp... Remove this comment to see the full error message
       const hash = crypto.createHash('sha1');
       const info = JSON.stringify({ eventType, timestamp});
       hash.update(info);
@@ -152,7 +152,7 @@ function init(ctx: any) {
     }
   }
 
-  // @ts-expect-error TS(7006): Parameter 'lastTreatment' implicitly has an 'any' ... Remove this comment to see the full error message
+  // @ts-expect-error TS(7006) FIXME: Parameter 'lastTreatment' implicitly has an 'any' ... Remove this comment to see the full error message
   function buildTreatmentMessage(lastTreatment, sbx) {
     var translate = sbx.language.translate;
 
@@ -174,7 +174,7 @@ function init(ctx: any) {
   return treatmentnotify;
 }
 
-// @ts-expect-error TS(7006): Parameter 'last' implicitly has an 'any' type.
+// @ts-expect-error TS(7006) FIXME: Parameter 'last' implicitly has an 'any' type.
 function isCurrent(last) {
   if (!last) {
     return false;
@@ -186,5 +186,5 @@ function isCurrent(last) {
   return ago !== -1 && ago < times.mins(10).msecs;
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;

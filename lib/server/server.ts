@@ -26,43 +26,38 @@
 // DB Connection setup and utils
 ///////////////////////////////////////////////////
 
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'fs'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'fs'.
 const fs = require('fs');
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'env'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'env'.
 const env = require('./env')( );
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'language'.
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'language'.
 const language = require('../language')();
-// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'translate'... Remove this comment to see the full error message
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'translate'... Remove this comment to see the full error message
 const translate = language.set(env.settings.language).translate;
 language.loadLocalization(fs);
 
 ///////////////////////////////////////////////////
 // setup http server
 ///////////////////////////////////////////////////
-// @ts-expect-error TS(2339): Property 'PORT' does not exist on type '{ settings... Remove this comment to see the full error message
 var PORT = env.PORT;
-// @ts-expect-error TS(2339): Property 'HOSTNAME' does not exist on type '{ sett... Remove this comment to see the full error message
 var HOSTNAME = env.HOSTNAME;
 
 function create (app: any) {
-  // @ts-expect-error TS(2339): Property 'ssl' does not exist on type '{ settings:... Remove this comment to see the full error message
   var transport = (env.ssl
-                // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+                // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
                 ? require('https') : require('http'));
-  // @ts-expect-error TS(2339): Property 'ssl' does not exist on type '{ settings:... Remove this comment to see the full error message
   if (env.ssl) {
-    // @ts-expect-error TS(2339): Property 'ssl' does not exist on type '{ settings:... Remove this comment to see the full error message
     return transport.createServer(env.ssl, app);
   }
   return transport.createServer(app);
 }
 
-// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 require('./bootevent')(env, language).boot(function booted (ctx: any) {
 
     console.log('Boot event processing completed');
     
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var app = require('./app')(env, ctx);
     var server = create(app).listen(PORT, HOSTNAME);
     console.log(translate('Listening on port'), PORT, HOSTNAME);
@@ -80,7 +75,7 @@ require('./bootevent')(env, language).boot(function booted (ctx: any) {
     ///////////////////////////////////////////////////
     // setup socket io for data and message transmission
     ///////////////////////////////////////////////////
-    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+    // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var websocket = require('./websocket')(env, ctx, server);
 
     //after startup if there are no alarms send all clear
