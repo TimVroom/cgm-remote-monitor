@@ -1,5 +1,7 @@
 
+// @ts-expect-error TS(2304): Cannot find name '__dirname'.
 var dir = __dirname;
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'fs'.
 var fs = require('fs');
 
 function text ( ) {
@@ -10,14 +12,17 @@ function json ( ) {
   return JSON.parse(sync(dir + '/example.json'));
 }
 
-function source (src) {
+function source (src: any) {
+  // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
   return source[src]( );
 }
 source.text = text;
 source.json = json;
 
-function sync (src) {
+function sync (src: any) {
   return fs.readFileSync(src);
 }
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = source;
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports.sync = sync;

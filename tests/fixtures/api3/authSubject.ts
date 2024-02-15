@@ -1,11 +1,14 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 const _ = require('lodash')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'request'.
   , request = require('supertest')
   ;
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 require('should');
 
-function createRole (authStorage, name, permissions) {
+function createRole (authStorage: any, name: any, permissions: any) {
 
   return new Promise((resolve, reject) => {
 
@@ -19,7 +22,7 @@ function createRole (authStorage, name, permissions) {
         "name": name,
         "permissions": permissions,
         "notes": ""
-      }, function afterCreate (err) {
+      }, function afterCreate (err: any) {
 
         if (err)
           reject(err);
@@ -32,7 +35,7 @@ function createRole (authStorage, name, permissions) {
 }
 
 
-function createTestSubject (authStorage, subjectName, roles) {
+function createTestSubject (authStorage: any, subjectName: any, roles: any) {
 
   return new Promise((resolve, reject) => {
 
@@ -47,7 +50,7 @@ function createTestSubject (authStorage, subjectName, roles) {
         "name": subjectDbName,
         "roles": roles,
         "notes": ""
-      }, function afterCreate (err) {
+      }, function afterCreate (err: any) {
 
         if (err)
           reject(err);
@@ -60,12 +63,13 @@ function createTestSubject (authStorage, subjectName, roles) {
 }
 
 
-async function initJwts (accessToken, tokensNeeded, app) {
+async function initJwts (accessToken: any, tokensNeeded: any, app: any) {
   const jwt = {}
   if (!_.isArray(tokensNeeded) || !app)
     return jwt;
 
   for (const tokenNeeded of tokensNeeded) {
+    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     jwt[tokenNeeded] = await new Promise((resolve, reject) => {
       try {
         const authToken = accessToken[tokenNeeded];
@@ -73,7 +77,7 @@ async function initJwts (accessToken, tokensNeeded, app) {
         request(app)
           .get(`/api/v2/authorization/request/${authToken}`)
           .expect(200)
-          .end(function(err, res) {
+          .end(function(err: any, res: any) {
             if (err)
               reject(err);
 
@@ -90,7 +94,7 @@ async function initJwts (accessToken, tokensNeeded, app) {
 }
 
 
-async function authSubject (authStorage, tokensNeeded, app) {
+async function authSubject (authStorage: any, tokensNeeded: any, app: any) {
 
   await createRole(authStorage, 'admin', '*');
   await createRole(authStorage, 'readable', '*:*:read');
@@ -117,16 +121,27 @@ async function authSubject (authStorage, tokensNeeded, app) {
   };
 
   const accessToken = {
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     all: subject.apiAll.accessToken,
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     admin: subject.apiAdmin.accessToken,
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     create: subject.apiCreate.accessToken,
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     read: subject.apiRead.accessToken,
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     update: subject.apiUpdate.accessToken,
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     delete: subject.apiDelete.accessToken,
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     denied: subject.denied.accessToken,
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     adminAll: subject.admin.accessToken,
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     readable: subject.readable.accessToken,
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     noneSubject: subject.noneSubject.accessToken,
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     noneRole: subject.noneRole.accessToken
   };
 
@@ -135,4 +150,5 @@ async function authSubject (authStorage, tokensNeeded, app) {
   return {subject, accessToken, jwt};
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = authSubject;

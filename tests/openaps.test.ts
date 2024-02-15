@@ -1,19 +1,28 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 const _ = require('lodash');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'should'.
 const should = require('should');
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'helper'.
 const helper = require('./inithelper')();
 
 var top_ctx = helper.getctx();
 top_ctx.language.set('en');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'language'.
 const language = top_ctx.language;
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'levels'.
 const levels = top_ctx.levels;
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'env'.
 var env = require('../lib/server/env')();
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var openaps = require('../lib/plugins/openaps')(top_ctx);
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var sandbox = require('../lib/sandbox')(top_ctx);
 
+// @ts-expect-error TS(2403): Subsequent variable declarations must have the sam... Remove this comment to see the full error message
 var statuses = [{
   created_at: '2015-12-05T19:05:00.000Z',
   device: 'openaps://abusypi'
@@ -245,19 +254,21 @@ var statuses = [{
 
 var now = top_ctx.moment(statuses[0].created_at);
 
-_.forEach(statuses, function updateMills (status) {
+_.forEach(statuses, function updateMills (status: any) {
   status.mills = top_ctx.moment(status.created_at).valueOf();
 });
 
+// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('openaps', function ( ) {
 
-  it('set the property and update the pill and add forecast points', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('set the property and update the pill and add forecast points', function (done: any) {
     var ctx = {
       settings: {
         units: 'mg/dl'
       }
       , pluginBase: {
-        updatePillText: function mockedUpdatePillText (plugin, options) {
+        updatePillText: function mockedUpdatePillText (plugin: any, options: any) {
           options.label.should.equal('OpenAPS ⌁');
           options.value.should.equal('2m ago');
           var first = _.first(options.info);
@@ -267,7 +278,7 @@ describe('openaps', function ( ) {
           last.label.should.equal('1h ago');
           last.value.should.equal('awaitingpi ◉ Waiting');
         }
-        , addForecastPoints: function mockAddForecastPoints (points) {
+        , addForecastPoints: function mockAddForecastPoints (points: any) {
           points.length.should.equal(12);
           done();
         }
@@ -278,7 +289,7 @@ describe('openaps', function ( ) {
     var sbx = sandbox.clientInit(ctx, now.valueOf(), {devicestatus: statuses});
 
     var unmockedOfferProperty = sbx.offerProperty;
-    sbx.offerProperty = function mockedOfferProperty (name, setter) {
+    sbx.offerProperty = function mockedOfferProperty (name: any, setter: any) {
       name.should.equal('openaps');
       var result = setter();
       should.exist(result);
@@ -297,11 +308,13 @@ describe('openaps', function ( ) {
 
   });
 
-  it('check the recieved flag to see if it was received', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('check the recieved flag to see if it was received', function (done: any) {
     var ctx = {
       settings: {
         units: 'mg/dl'
       }
+      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , notifications: require('../lib/notifications')(env, top_ctx)
       , language: language
       , levels: levels
@@ -311,9 +324,10 @@ describe('openaps', function ( ) {
 
     var notStatuses = _.cloneDeep(statuses);
     notStatuses[0].openaps.enacted.recieved = false;
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var sbx = require('../lib/sandbox')().clientInit(ctx, now, {devicestatus: notStatuses});
 
-    sbx.offerProperty = function mockedOfferProperty (name, setter) {
+    sbx.offerProperty = function mockedOfferProperty (name: any, setter: any) {
       name.should.equal('openaps');
       var result = setter();
       should.exist(result);
@@ -326,11 +340,13 @@ describe('openaps', function ( ) {
 
   });
 
-  it('generate an alert for a stuck loop', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('generate an alert for a stuck loop', function (done: any) {
     var ctx = {
       settings: {
         units: 'mg/dl'
       }
+      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , notifications: require('../lib/notifications')(env, top_ctx)
       , language: language
     };
@@ -348,11 +364,13 @@ describe('openaps', function ( ) {
     done();
   });
 
-  it('not generate an alert for a stuck loop, when there is an offline marker', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('not generate an alert for a stuck loop, when there is an offline marker', function (done: any) {
     var ctx = {
       settings: {
         units: 'mg/dl'
       }
+      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , notifications: require('../lib/notifications')(env, top_ctx)
       , language: language
    };
@@ -372,11 +390,13 @@ describe('openaps', function ( ) {
     done();
   });
 
-  it('should handle virtAsst requests', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('should handle virtAsst requests', function (done: any) {
     var ctx = {
       settings: {
         units: 'mg/dl'
       }
+      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , notifications: require('../lib/notifications')(env, top_ctx)
       , language: language
     };
@@ -386,11 +406,11 @@ describe('openaps', function ( ) {
 
     openaps.virtAsst.intentHandlers.length.should.equal(2);
 
-    openaps.virtAsst.intentHandlers[0].intentHandler(function next(title, response) {
+    openaps.virtAsst.intentHandlers[0].intentHandler(function next(title: any, response: any) {
       title.should.equal('OpenAPS Forecast');
       response.should.equal('The OpenAPS Eventual BG is 125');
 
-      openaps.virtAsst.intentHandlers[1].intentHandler(function next(title, response) {
+      openaps.virtAsst.intentHandlers[1].intentHandler(function next(title: any, response: any) {
         title.should.equal('Last Loop');
         response.should.equal('The last successful loop was 2 minutes ago');
         done();

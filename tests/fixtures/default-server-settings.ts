@@ -1,5 +1,6 @@
 'use strict';
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = {
   name: 'Nightscout'
   , version: '0.8.0'

@@ -1,11 +1,15 @@
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'should'.
 var should = require('should');
 
+// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('sandbox', function ( ) {
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var sandbox = require('../lib/sandbox')();
 
   var now = Date.now();
 
-  it('init on client', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('init on client', function (done: any) {
     var ctx = {
       settings: {
         units: 'mg/dl'
@@ -19,6 +23,7 @@ describe('sandbox', function ( ) {
       , pluginBase: {}
     };
     
+    // @ts-expect-error TS(2339): Property 'language' does not exist on type '{ sett... Remove this comment to see the full error message
     ctx.language = require('../lib/language')();
 
     var data = {sgvs: [{mgdl: 100, mills: now}]};
@@ -33,16 +38,21 @@ describe('sandbox', function ( ) {
   });
 
   function createServerSandbox() {
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var env = require('../lib/server/env')();
     var ctx = {};
+    // @ts-expect-error TS(2339): Property 'ddata' does not exist on type '{}'.
     ctx.ddata = require('../lib/data/ddata')();
+    // @ts-expect-error TS(2339): Property 'notifications' does not exist on type '{... Remove this comment to see the full error message
     ctx.notifications = require('../lib/notifications')(env, ctx);
+    // @ts-expect-error TS(2339): Property 'language' does not exist on type '{}'.
     ctx.language = require('../lib/language')();
 
     return sandbox.serverInit(env, ctx);
   }
 
-  it('init on server', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('init on server', function (done: any) {
     var sbx = createServerSandbox();
     sbx.data.sgvs = [{mgdl: 100, mills: now}];
 
@@ -54,6 +64,7 @@ describe('sandbox', function ( ) {
     done();
   });
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('display 39 as LOW and 401 as HIGH', function () {
     var sbx = createServerSandbox();
 
@@ -63,6 +74,7 @@ describe('sandbox', function ( ) {
     sbx.displayBg({mgdl: '401'}).should.equal('HIGH');
   });
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('build BG Now line using properties', function ( ) {
     var sbx = createServerSandbox();
     sbx.data.sgvs = [{mgdl: 99, mills: now}];
@@ -72,6 +84,7 @@ describe('sandbox', function ( ) {
 
   });
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('build default message using properties', function ( ) {
     var sbx = createServerSandbox();
     sbx.data.sgvs = [{mgdl: 99, mills: now}];

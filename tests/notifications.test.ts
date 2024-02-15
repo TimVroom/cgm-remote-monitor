@@ -1,8 +1,12 @@
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'should'.
 var should = require('should');
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var Stream = require('stream');
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'levels'.
 var levels = require('../lib/levels');
 
+// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('notifications', function ( ) {
 
   var env = {testMode: true};
@@ -15,6 +19,7 @@ describe('notifications', function ( ) {
     , levels: levels
   };
 
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var notifications = require('../lib/notifications')(env, ctx);
 
   function examplePlugin () {}
@@ -62,30 +67,31 @@ describe('notifications', function ( ) {
   };
 
 
-  function expectNotification (check, done) {
+  function expectNotification (check: any, done: any) {
     //start fresh to we don't pick up other notifications
     ctx.bus = new Stream;
     //if notification doesn't get called test will time out
-    ctx.bus.on('notification', function callback (notify) {
+    ctx.bus.on('notification', function callback (notify: any) {
       if (check(notify)) {
         done();
       }
     });
   }
 
-  function clearToDone (done) {
-    expectNotification(function expectClear (notify) {
+  function clearToDone (done: any) {
+    expectNotification(function expectClear (notify: any) {
       return notify.clear;
     }, done);
   }
 
-  function notifyToDone (done) {
-    expectNotification(function expectNotClear (notify) {
+  function notifyToDone (done: any) {
+    expectNotification(function expectNotClear (notify: any) {
       return ! notify.clear;
     }, done);
   }
 
-  it('initAndReInit', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('initAndReInit', function (done: any) {
     notifications.initRequests();
     notifications.requestNotify(exampleWarn);
     notifications.findHighestAlarm().should.equal(exampleWarn);
@@ -95,7 +101,8 @@ describe('notifications', function ( ) {
   });
 
 
-  it('emitAWarning', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('emitAWarning', function (done: any) {
     //start fresh to we don't pick up other notifications
     ctx.bus = new Stream;
     //if notification doesn't get called test will time out
@@ -110,7 +117,8 @@ describe('notifications', function ( ) {
     notifications.process();
   });
 
-  it('emitAnInfo', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('emitAnInfo', function (done: any) {
     notifyToDone(done);
 
     notifications.resetStateForTests();
@@ -121,7 +129,8 @@ describe('notifications', function ( ) {
     notifications.process();
   });
 
-  it('emitAllClear 1 time after alarm is auto acked', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('emitAllClear 1 time after alarm is auto acked', function (done: any) {
     clearToDone(done);
 
     notifications.resetStateForTests();
@@ -151,7 +160,8 @@ describe('notifications', function ( ) {
     notifications.process();
   });
 
-  it('Can be snoozed', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('Can be snoozed', function (done: any) {
     notifyToDone(done); //shouldn't get called
 
     notifications.resetStateForTests();
@@ -164,7 +174,8 @@ describe('notifications', function ( ) {
     done();
   });
 
-  it('Can be snoozed by last snooze', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('Can be snoozed by last snooze', function (done: any) {
     notifyToDone(done); //shouldn't get called
 
     notifications.resetStateForTests();
@@ -178,7 +189,8 @@ describe('notifications', function ( ) {
     done();
   });
 
-  it('Urgent alarms can\'t be snoozed by warn', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('Urgent alarms can\'t be snoozed by warn', function (done: any) {
     clearToDone(done); //shouldn't get called
 
     notifications.resetStateForTests();
@@ -191,7 +203,8 @@ describe('notifications', function ( ) {
     done();
   });
 
-  it('Warnings can be snoozed by urgent', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('Warnings can be snoozed by urgent', function (done: any) {
     notifyToDone(done); //shouldn't get called
 
     notifications.resetStateForTests();

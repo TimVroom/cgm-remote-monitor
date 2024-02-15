@@ -1,22 +1,34 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'should'.
 var should = require('should');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'helper'.
 const helper = require('./inithelper')();
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'moment'.
 const moment = helper.ctx.moment;
 
 var top_ctx = helper.getctx();
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 top_ctx.settings = require('../lib/settings')();
 top_ctx.language.set('en');
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'env'.
 var env = require('../lib/server/env')();
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'levels'.
 const levels = top_ctx.levels;
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'language'.
 const language = top_ctx.language;
 
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var profile = require('../lib/profilefunctions')(null, top_ctx);
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var pump = require('../lib/plugins/pump')(top_ctx);
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var sandbox = require('../lib/sandbox')(top_ctx);
 
+// @ts-expect-error TS(2403): Subsequent variable declarations must have the sam... Remove this comment to see the full error message
 var statuses = [{
   created_at: '2015-12-05T17:35:00.000Z'
   , device: 'openaps://farawaypi'
@@ -94,23 +106,25 @@ var statuses2 = [{
 
 var now = moment(statuses[1].created_at);
 
-_.forEach(statuses, function updateMills (status) {
+_.forEach(statuses, function updateMills (status: any) {
   status.mills = moment(status.created_at).valueOf();
 });
 
-_.forEach(statuses2, function updateMills (status) {
+_.forEach(statuses2, function updateMills (status: any) {
   status.mills = moment(status.created_at).valueOf();
 });
 
+// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('pump', function ( ) {
 
-  it('set the property and update the pill', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('set the property and update the pill', function (done: any) {
     var ctx = {
       settings: {
         units: 'mg/dl'
       }
       , pluginBase: {
-        updatePillText: function mockedUpdatePillText(plugin, options) {
+        updatePillText: function mockedUpdatePillText(plugin: any, options: any) {
           options.label.should.equal('Pump');
           options.value.should.equal('86.4U');
           done();
@@ -123,7 +137,7 @@ describe('pump', function ( ) {
     var sbx = sandbox.clientInit(ctx, now.valueOf(), {devicestatus: statuses});
 
     var unmockedOfferProperty = sbx.offerProperty;
-    sbx.offerProperty = function mockedOfferProperty (name, setter) {
+    sbx.offerProperty = function mockedOfferProperty (name: any, setter: any) {
       name.should.equal('pump');
       var result = setter();
       should.exist(result);
@@ -141,13 +155,14 @@ describe('pump', function ( ) {
 
   });
 
-  it('use reservoir_display_override when available', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('use reservoir_display_override when available', function (done: any) {
     var ctx = {
       settings: {
         units: 'mmol'
       }
       , pluginBase: {
-        updatePillText: function mockedUpdatePillText(plugin, options) {
+        updatePillText: function mockedUpdatePillText(plugin: any, options: any) {
           options.label.should.equal('Pump');
           options.value.should.equal('50+U');
           done();
@@ -160,7 +175,7 @@ describe('pump', function ( ) {
     var sbx = sandbox.clientInit(ctx, now.valueOf(), {devicestatus: statuses2});
 
     var unmockedOfferProperty = sbx.offerProperty;
-    sbx.offerProperty = function mockedOfferProperty (name, setter) {
+    sbx.offerProperty = function mockedOfferProperty (name: any, setter: any) {
       name.should.equal('pump');
       sbx.offerProperty = unmockedOfferProperty;
       unmockedOfferProperty(name, setter);
@@ -171,11 +186,13 @@ describe('pump', function ( ) {
 
   });
 
-  it('not generate an alert when pump is ok', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('not generate an alert when pump is ok', function (done: any) {
     var ctx = {
       settings: {
         units: 'mg/dl'
       }
+      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , notifications: require('../lib/notifications')(env, top_ctx)
       , language: language
       , levels: levels
@@ -196,11 +213,13 @@ describe('pump', function ( ) {
     done();
   });
 
-  it('generate an alert when reservoir is low', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('generate an alert when reservoir is low', function (done: any) {
     var ctx = {
       settings: {
         units: 'mg/dl'
       }
+      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , notifications: require('../lib/notifications')(env, top_ctx)
       , language: language
       , levels: levels
@@ -225,11 +244,13 @@ describe('pump', function ( ) {
     done();
   });
 
-  it('generate an alert when reservoir is 0', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('generate an alert when reservoir is 0', function (done: any) {
     var ctx = {
       settings: {
         units: 'mg/dl'
       }
+      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , notifications: require('../lib/notifications')(env, top_ctx)
       , language: language
       , levels: levels
@@ -255,11 +276,13 @@ describe('pump', function ( ) {
   });
 
 
-  it('generate an alert when battery is low', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('generate an alert when battery is low', function (done: any) {
     var ctx = {
       settings: {
         units: 'mg/dl'
       }
+      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , notifications: require('../lib/notifications')(env, top_ctx)
       , language: language
       , levels: levels
@@ -284,11 +307,13 @@ describe('pump', function ( ) {
     done();
   });
 
-  it('generate an urgent alarm when battery is really low', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('generate an urgent alarm when battery is really low', function (done: any) {
     var ctx = {
       settings: {
         units: 'mg/dl'
       }
+      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , notifications: require('../lib/notifications')(env, top_ctx)
       , language: language
       , levels: levels
@@ -313,7 +338,8 @@ describe('pump', function ( ) {
     done();
   });
 
-  it('not generate a battery alarm during night when PUMP_WARN_BATT_QUIET_NIGHT is true', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('not generate a battery alarm during night when PUMP_WARN_BATT_QUIET_NIGHT is true', function (done: any) {
     var ctx = {
       settings: {
         units: 'mg/dl'
@@ -321,13 +347,15 @@ describe('pump', function ( ) {
         , dayEnd: 21.0
       }
       , pluginBase: {
-        updatePillText: function mockedUpdatePillText(plugin, options) {
+        updatePillText: function mockedUpdatePillText(plugin: any, options: any) {
           options.label.should.equal('Pump');
           options.value.should.equal('86.4U');
           done();
         }
       }
+      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , notifications: require('../lib/notifications')(env, top_ctx)
+      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , language: require('../lib/language')()
       , levels: levels
     };
@@ -357,11 +385,13 @@ describe('pump', function ( ) {
     done();
   });
 
-  it('not generate an alert for a stale pump data, when there is an offline marker', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('not generate an alert for a stale pump data, when there is an offline marker', function (done: any) {
     var ctx = {
       settings: {
         units: 'mg/dl'
       }
+      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , notifications: require('../lib/notifications')(env, top_ctx)
       , language: language
       , levels: levels
@@ -382,11 +412,13 @@ describe('pump', function ( ) {
     done();
   });
 
-  it('should handle virtAsst requests', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('should handle virtAsst requests', function (done: any) {
     var ctx = {
       settings: {
         units: 'mg/dl'
       }
+      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , notifications: require('../lib/notifications')(env, top_ctx)
       , language: language
       , levels: levels
@@ -398,19 +430,19 @@ describe('pump', function ( ) {
 
     pump.virtAsst.intentHandlers.length.should.equal(4);
 
-    pump.virtAsst.intentHandlers[0].intentHandler(function next(title, response) {
+    pump.virtAsst.intentHandlers[0].intentHandler(function next(title: any, response: any) {
       title.should.equal('Insulin Remaining');
       response.should.equal('You have 86.4 units remaining');
 
-      pump.virtAsst.intentHandlers[1].intentHandler(function next(title, response) {
+      pump.virtAsst.intentHandlers[1].intentHandler(function next(title: any, response: any) {
         title.should.equal('Pump Battery');
         response.should.equal('Your pump battery is at 1.52 volts');
         
-        pump.virtAsst.intentHandlers[2].intentHandler(function next(title, response) {
+        pump.virtAsst.intentHandlers[2].intentHandler(function next(title: any, response: any) {
           title.should.equal('Insulin Remaining');
           response.should.equal('You have 86.4 units remaining');
     
-          pump.virtAsst.intentHandlers[3].intentHandler(function next(title, response) {
+          pump.virtAsst.intentHandlers[3].intentHandler(function next(title: any, response: any) {
             title.should.equal('Pump Battery');
             response.should.equal('Your pump battery is at 1.52 volts');
             done();

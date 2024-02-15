@@ -1,15 +1,22 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 const _ = require('lodash');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'should'.
 const should = require('should');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'helper'.
 const helper = require('./inithelper')();
 
 var ctx_top = helper.getctx();
 ctx_top.language.set('en');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'language'.
 const language = ctx_top.language;
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'env'.
 var env = require('../lib/server/env')();
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var loop = require('../lib/plugins/loop')(ctx_top);
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var sandbox = require('../lib/sandbox')(ctx_top);
 
 var statuses = [
@@ -104,26 +111,28 @@ var statuses = [
 
 var now = ctx_top.moment(statuses[0].created_at);
 
-_.forEach(statuses, function updateMills (status) {
+_.forEach(statuses, function updateMills (status: any) {
   status.mills = ctx_top.moment(status.created_at).valueOf();
 });
 
+// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('loop', function ( ) {
 
-  it('should set the property and update the pill and add forecast points', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('should set the property and update the pill and add forecast points', function (done: any) {
     var ctx = {
       settings: {
         units: 'mg/dl'
       }
       , pluginBase: {
-        updatePillText: function mockedUpdatePillText (plugin, options) {
+        updatePillText: function mockedUpdatePillText (plugin: any, options: any) {
           options.label.should.equal('Loop ⌁');
           options.value.should.equal('1m ago ↝ 147');
           var first = _.first(options.info);
           first.label.should.equal('1m ago');
           first.value.should.equal('<b>Temp Basal Started</b> 0.88U/hour for 30m, IOB: 0.17U, Predicted Min-Max BG: 147-149, Eventual BG: 147');
         }
-        , addForecastPoints: function mockAddForecastPoints (points) {
+        , addForecastPoints: function mockAddForecastPoints (points: any) {
           points.length.should.equal(6);
           done();
         }
@@ -134,7 +143,7 @@ describe('loop', function ( ) {
     var sbx = sandbox.clientInit(ctx, now.valueOf(), {devicestatus: statuses});
 
     var unmockedOfferProperty = sbx.offerProperty;
-    sbx.offerProperty = function mockedOfferProperty (name, setter) {
+    sbx.offerProperty = function mockedOfferProperty (name: any, setter: any) {
       name.should.equal('loop');
       var result = setter();
       should.exist(result);
@@ -150,13 +159,14 @@ describe('loop', function ( ) {
     loop.updateVisualisation(sbx);
   });
 
-  it('should show errors', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('should show errors', function (done: any) {
     var ctx = {
       settings: {
         units: 'mg/dl'
       }
       , pluginBase: {
-        updatePillText: function mockedUpdatePillText (plugin, options) {
+        updatePillText: function mockedUpdatePillText (plugin: any, options: any) {
           options.label.should.equal('Loop x');
           options.value.should.equal('1m ago');
           var first = _.first(options.info);
@@ -174,7 +184,7 @@ describe('loop', function ( ) {
     var sbx = sandbox.clientInit(ctx, errorTime.valueOf(), {devicestatus: statuses});
 
     var unmockedOfferProperty = sbx.offerProperty;
-    sbx.offerProperty = function mockedOfferProperty (name, setter) {
+    sbx.offerProperty = function mockedOfferProperty (name: any, setter: any) {
       name.should.equal('loop');
       var result = setter();
       should.exist(result);
@@ -193,11 +203,13 @@ describe('loop', function ( ) {
   });
 
 
-  it('should check the recieved flag to see if it was received', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('should check the recieved flag to see if it was received', function (done: any) {
     var ctx = {
       settings: {
         units: 'mg/dl'
       }
+      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , notifications: require('../lib/notifications')(env, ctx_top)
       , language: language
     };
@@ -206,9 +218,10 @@ describe('loop', function ( ) {
 
     var notStatuses = _.cloneDeep(statuses);
     notStatuses[0].loop.enacted.received = false;
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var sbx = require('../lib/sandbox')().clientInit(ctx, now, {devicestatus: notStatuses});
 
-    sbx.offerProperty = function mockedOfferProperty (name, setter) {
+    sbx.offerProperty = function mockedOfferProperty (name: any, setter: any) {
       name.should.equal('loop');
       var result = setter();
       should.exist(result);
@@ -220,11 +233,13 @@ describe('loop', function ( ) {
     loop.setProperties(sbx);
   });
 
-  it('should generate an alert for a stuck loop', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('should generate an alert for a stuck loop', function (done: any) {
     var ctx = {
       settings: {
         units: 'mg/dl'
       }
+      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , notifications: require('../lib/notifications')(env, ctx_top)
       , language: language
     };
@@ -242,11 +257,13 @@ describe('loop', function ( ) {
     done();
   });
 
-  it('should handle virtAsst requests', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('should handle virtAsst requests', function (done: any) {
     var ctx = {
       settings: {
         units: 'mg/dl'
       }
+      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , notifications: require('../lib/notifications')(env, ctx_top)
       , language: language
     };
@@ -256,11 +273,11 @@ describe('loop', function ( ) {
 
     loop.virtAsst.intentHandlers.length.should.equal(2);
 
-    loop.virtAsst.intentHandlers[0].intentHandler(function next(title, response) {
+    loop.virtAsst.intentHandlers[0].intentHandler(function next(title: any, response: any) {
       title.should.equal('Loop Forecast');
       response.should.equal('According to the loop forecast you are expected to be between 147 and 149 over the next in 25 minutes');
 
-      loop.virtAsst.intentHandlers[1].intentHandler(function next(title, response) {
+      loop.virtAsst.intentHandlers[1].intentHandler(function next(title: any, response: any) {
         title.should.equal('Last Loop');
         response.should.equal('The last successful loop was a few seconds ago');
         done();

@@ -1,27 +1,33 @@
 'use strict';
 
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 require('should');
 
+// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('BG direction', function ( ) {
 
   var now = Date.now();
 
-  function setupSandbox(data, pluginBase) {
+  function setupSandbox(data: any, pluginBase: any) {
     var ctx = {
       settings: {}
       , pluginBase: pluginBase || {}
     };
 
+    // @ts-expect-error TS(2339): Property 'language' does not exist on type '{ sett... Remove this comment to see the full error message
     ctx.language = require('../lib/language')();
 
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var sandbox = require('../lib/sandbox')();
     return sandbox.clientInit(ctx, Date.now(), data);
   }
 
-  it('set the direction property - Flat', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('set the direction property - Flat', function (done: any) {
+    // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
     var sbx = setupSandbox({sgvs: [{mills: now, direction: 'Flat'}]});
 
-    sbx.offerProperty = function mockedOfferProperty (name, setter) {
+    sbx.offerProperty = function mockedOfferProperty (name: any, setter: any) {
       name.should.equal('direction');
       var result = setter();
       result.value.should.equal('Flat');
@@ -30,15 +36,18 @@ describe('BG direction', function ( ) {
       done();
     };
 
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var direction = require('../lib/plugins/direction')();
     direction.setProperties(sbx);
 
   });
 
-  it('set the direction property Double Up', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('set the direction property Double Up', function (done: any) {
+    // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
     var sbx = setupSandbox({sgvs: [{mills: now, direction: 'DoubleUp'}]});
 
-    sbx.offerProperty = function mockedOfferProperty (name, setter) {
+    sbx.offerProperty = function mockedOfferProperty (name: any, setter: any) {
       name.should.equal('direction');
       var result = setter();
       result.value.should.equal('DoubleUp');
@@ -47,26 +56,31 @@ describe('BG direction', function ( ) {
       done();
     };
 
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var direction = require('../lib/plugins/direction')();
     direction.setProperties(sbx);
 
   });
 
-  it('set a pill to the direction', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('set a pill to the direction', function (done: any) {
     var pluginBase = {
-      updatePillText: function mockedUpdatePillText (plugin, options) {
+      updatePillText: function mockedUpdatePillText (plugin: any, options: any) {
         options.label.should.equal('→&#xfe0e;');
         done();
       }
     };
 
     var sbx = setupSandbox({sgvs: [{mills: now, direction: 'Flat'}]}, pluginBase);
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var direction = require('../lib/plugins/direction')();
     direction.setProperties(sbx);
     direction.updateVisualisation(sbx);
   });
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('get the info for a direction', function () {
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var direction = require('../lib/plugins/direction')();
 
     direction.info({mills: now, direction: 'NONE'}).label.should.equal('⇼');

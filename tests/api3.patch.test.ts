@@ -1,13 +1,19 @@
 /* eslint require-atomic-updates: 0 */
 'use strict';
 
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 require('should');
 
-describe('API3 PATCH', function() {
+// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+describe('API3 PATCH', function(this: any) {
   const self = this
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , testConst = require('./fixtures/api3/const.json')
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , instance = require('./fixtures/api3/instance')
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , authSubject = require('./fixtures/api3/authSubject')
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , opTools = require('../lib/api3/shared/operationTools')
     ;
 
@@ -27,7 +33,7 @@ describe('API3 PATCH', function() {
   /**
    * Get document detail for futher processing
    */
-  self.get = async function get (identifier) {
+  self.get = async function get (identifier: any) {
     let res = await self.instance.get(`${self.url}/${identifier}`, self.jwt.read)
       .expect(200);
 
@@ -36,6 +42,7 @@ describe('API3 PATCH', function() {
   };
 
 
+  // @ts-expect-error TS(2304): Cannot find name 'before'.
   before(async () => {
     self.instance = await instance.create({});
 
@@ -57,21 +64,25 @@ describe('API3 PATCH', function() {
   });
 
 
+  // @ts-expect-error TS(2304): Cannot find name 'after'.
   after(() => {
     self.instance.ctx.bus.teardown();
   });
 
 
+  // @ts-expect-error TS(2304): Cannot find name 'beforeEach'.
   beforeEach(() => {
     self.cache.clear();
   });
 
 
+  // @ts-expect-error TS(2304): Cannot find name 'afterEach'.
   afterEach(() => {
     self.cache.shouldBeEmpty();
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should require authentication', async () => {
     let res = await self.instance.patch(`${self.url}/FAKE_IDENTIFIER`)
       .expect(401);
@@ -81,6 +92,7 @@ describe('API3 PATCH', function() {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should not found not existing collection', async () => {
     let res = await self.instance.patch(`/api/v3/NOT_EXIST`, self.jwt.update)
       .send(self.validDoc)
@@ -90,6 +102,7 @@ describe('API3 PATCH', function() {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should not found not existing document', async () => {
     let res = await self.instance.patch(self.urlIdent, self.jwt.update)
       .send(self.validDoc)
@@ -107,6 +120,7 @@ describe('API3 PATCH', function() {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should reject identifier alteration', async () => {
     let res = await self.instance.patch(self.urlIdent, self.jwt.update)
       .send(Object.assign({}, self.validDoc, { identifier: 'MODIFIED'}))
@@ -117,6 +131,7 @@ describe('API3 PATCH', function() {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should reject date alteration', async () => {
     let res = await self.instance.patch(self.urlIdent, self.jwt.update)
       .send(Object.assign({}, self.validDoc, { date: self.validDoc.date + 10000 }))
@@ -127,6 +142,7 @@ describe('API3 PATCH', function() {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should reject utcOffset alteration', async () => {
     let res = await self.instance.patch(self.urlIdent, self.jwt.update)
       .send(Object.assign({}, self.validDoc, { utcOffset: self.utcOffset - 120 }))
@@ -137,6 +153,7 @@ describe('API3 PATCH', function() {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should reject eventType alteration', async () => {
     let res = await self.instance.patch(self.urlIdent, self.jwt.update)
       .send(Object.assign({}, self.validDoc, { eventType: 'MODIFIED' }))
@@ -147,6 +164,7 @@ describe('API3 PATCH', function() {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should reject device alteration', async () => {
     let res = await self.instance.patch(self.urlIdent, self.jwt.update)
       .send(Object.assign({}, self.validDoc, { device: 'MODIFIED' }))
@@ -157,6 +175,7 @@ describe('API3 PATCH', function() {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should reject app alteration', async () => {
     let res = await self.instance.patch(self.urlIdent, self.jwt.update)
       .send(Object.assign({}, self.validDoc, { app: 'MODIFIED' }))
@@ -167,6 +186,7 @@ describe('API3 PATCH', function() {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should reject srvCreated alteration', async () => {
     let res = await self.instance.patch(self.urlIdent, self.jwt.update)
       .send(Object.assign({}, self.validDoc, { srvCreated: self.validDoc.date - 10000 }))
@@ -177,6 +197,7 @@ describe('API3 PATCH', function() {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should reject subject alteration', async () => {
     let res = await self.instance.patch(self.urlIdent, self.jwt.update)
       .send(Object.assign({}, self.validDoc, { subject: 'MODIFIED' }))
@@ -187,6 +208,7 @@ describe('API3 PATCH', function() {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should reject srvModified alteration', async () => {
     let res = await self.instance.patch(self.urlIdent, self.jwt.update)
       .send(Object.assign({}, self.validDoc, { srvModified: self.validDoc.date - 100000 }))
@@ -197,6 +219,7 @@ describe('API3 PATCH', function() {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should reject modifiedBy alteration', async () => {
     let res = await self.instance.patch(self.urlIdent, self.jwt.update)
       .send(Object.assign({}, self.validDoc, { modifiedBy: 'MODIFIED' }))
@@ -207,6 +230,7 @@ describe('API3 PATCH', function() {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should reject isValid alteration', async () => {
     let res = await self.instance.patch(self.urlIdent, self.jwt.update)
       .send(Object.assign({}, self.validDoc, { isValid: false }))
@@ -217,6 +241,7 @@ describe('API3 PATCH', function() {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should patch document', async () => {
     self.validDoc.carbs = 10;
 

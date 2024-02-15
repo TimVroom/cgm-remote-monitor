@@ -1,12 +1,17 @@
 'use strict';
 
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 require('should');
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'moment'.
 var moment = require('moment');
 
+// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('query', function ( ) {
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var query = require('../lib/server/query');
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should provide default options', function ( ) {
     var opts = query();
 
@@ -17,6 +22,7 @@ describe('query', function ( ) {
     opts.date['$gte'].should.be.lessThan(high);
   });
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should not override non default options', function ( ) {
     var opts = query({}, {
       deltaAgo: 2 * 24 * 60 * 60000,
@@ -30,9 +36,11 @@ describe('query', function ( ) {
     opts.created_at['$gte'].should.lessThan(high);
   });
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should not enforce date filter if query includes id', function ( ) {
     var opts = query({ find: { _id: 1234 } });
 
+    // @ts-expect-error TS(2339): Property 'should' does not exist on type '"string"... Remove this comment to see the full error message
     (typeof opts.date).should.equal('undefined')
   });
 }); 

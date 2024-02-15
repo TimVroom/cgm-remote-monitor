@@ -1,34 +1,49 @@
 
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'should'.
 var should = require('should');
 
 
+// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('ddata', function ( ) {
   // var sandbox = require('../lib/sandbox')();
   // var env = require('../lib/server/env')();
   var ctx = {};
+  // @ts-expect-error TS(2339): Property 'ddata' does not exist on type '{}'.
   ctx.ddata = require('../lib/data/ddata')();
 
-  it('should be a module', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('should be a module', function (done: any) {
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var libddata = require('../lib/data/ddata');
     var ddata = libddata( );
     should.exist(ddata);
     should.exist(libddata);
     should.exist(libddata.call);
+    // @ts-expect-error TS(2339): Property 'ddata' does not exist on type '{}'.
     ddata = ctx.ddata.clone( );
     should.exist(ddata);
     done( );
   });
 
-  it('has #clone( )', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('has #clone( )', function (done: any) {
+    // @ts-expect-error TS(2339): Property 'ddata' does not exist on type '{}'.
     should.exist(ctx.ddata.treatments);
+    // @ts-expect-error TS(2339): Property 'ddata' does not exist on type '{}'.
     should.exist(ctx.ddata.sgvs);
+    // @ts-expect-error TS(2339): Property 'ddata' does not exist on type '{}'.
     should.exist(ctx.ddata.mbgs);
+    // @ts-expect-error TS(2339): Property 'ddata' does not exist on type '{}'.
     should.exist(ctx.ddata.cals);
+    // @ts-expect-error TS(2339): Property 'ddata' does not exist on type '{}'.
     should.exist(ctx.ddata.profiles);
+    // @ts-expect-error TS(2339): Property 'ddata' does not exist on type '{}'.
     should.exist(ctx.ddata.devicestatus);
+    // @ts-expect-error TS(2339): Property 'ddata' does not exist on type '{}'.
     should.exist(ctx.ddata.lastUpdated);
+    // @ts-expect-error TS(2339): Property 'ddata' does not exist on type '{}'.
     var ddata = ctx.ddata.clone( );
     should.exist(ddata);
     should.exist(ddata.treatments);

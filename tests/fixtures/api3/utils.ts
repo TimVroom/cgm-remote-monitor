@@ -1,6 +1,6 @@
 'use strict';
 
-function randomString (length, chars) {
+function randomString (length: any, chars: any) {
   let mask = '';
   if (chars.indexOf('a') > -1) mask += 'abcdefghijklmnopqrstuvwxyz';
   if (chars.indexOf('A') > -1) mask += 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -16,6 +16,7 @@ function randomString (length, chars) {
 }
 
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = {
   randomString
 };

@@ -1,9 +1,14 @@
 'use strict';
 
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 require('should');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var benv = require('benv');
+// @ts-expect-error TS(2300): Duplicate identifier 'read'.
 var read = require('fs').readFileSync;
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var serverSettings = require('./fixtures/default-server-settings');
 
 var nowData = {
@@ -64,21 +69,27 @@ var someData = {
 };
 
 
-describe('admintools', function ( ) {
+// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+describe('admintools', function(this: any) {
   var self = this;
   this.timeout(45000); // TODO: see why this test takes longer on CI to complete
-  before(function (done) {
+  // @ts-expect-error TS(2304): Cannot find name 'before'.
+  before(function (done: any) {
     benv.setup(function() {
 
+// @ts-expect-error TS(2304): Cannot find name '__dirname'.
 	  benv.require(__dirname + '/../node_modules/.cache/_ns_cache/public/js/bundle.app.js');
           
       self.$ = $;
       
+      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       self.localCookieStorage = self.localStorage = self.$.localStorage = require('./fixtures/localstorage');
 
       self.$.fn.tooltip = function mockTooltip ( ) { };
 
+      // @ts-expect-error TS(7006): Parameter 'opts' implicitly has an 'any' type.
       self.$.fn.dialog = function mockDialog (opts) {
+        // @ts-expect-error TS(7006): Parameter 'name' implicitly has an 'any' type.
         function maybeCall (name, obj) {
           if (obj[name] && obj[name].call) {
             obj[name]();
@@ -87,17 +98,20 @@ describe('admintools', function ( ) {
         }
         maybeCall('open', opts);
 
+        // @ts-expect-error TS(7006): Parameter 'button' implicitly has an 'any' type.
         _.forEach(opts.buttons, function (button) {
           maybeCall('click', button);
         });
       };
 
+      // @ts-expect-error TS(2304): Cannot find name '__dirname'.
       var indexHtml = read(__dirname + '/../views/adminindex.html', 'utf8');
       self.$('body').html(indexHtml);
 
       //var filesys = require('fs');
       //var logfile = filesys.createWriteStream('out.txt', { flags: 'a'} )
       
+      // @ts-expect-error TS(7006): Parameter 'url' implicitly has an 'any' type.
       self.$.ajax = function mockAjax (url, opts) {
         if (url && url.url) {
           url = url.url;
@@ -117,9 +131,12 @@ describe('admintools', function ( ) {
             url = '/api/v1/entries/?find[date][$lte]=';
           }
           return {
+            // @ts-expect-error TS(7006): Parameter 'fn' implicitly has an 'any' type.
             done: function mockDone (fn) {
+                // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
                 if (someData[url]) {
                   console.log('+++++Data for ' + url + ' sent');
+                  // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
                   opts.success(someData[url]);
                 } else {
                   console.log('-----Data for ' + url + ' missing');
@@ -134,6 +151,7 @@ describe('admintools', function ( ) {
           };
         }
         return {
+          // @ts-expect-error TS(7006): Parameter 'fn' implicitly has an 'any' type.
           done: function mockDone (fn) {
             if (url.indexOf('status.json') > -1) {
               fn(serverSettings);
@@ -151,6 +169,7 @@ describe('admintools', function ( ) {
       self.$.plot = function mockPlot () {
       };
 
+      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       var d3 = require('d3');
       //disable all d3 transitions so most of the other code can run with jsdom
       //d3.timer = function mockTimer() { };
@@ -170,11 +189,13 @@ describe('admintools', function ( ) {
         , io: {
           connect: function mockConnect ( ) {
             return {
+              // @ts-expect-error TS(7006): Parameter 'event' implicitly has an 'any' type.
               on: function mockOn (event, callback) {
                 if ('connect' === event && callback) {
                   callback();
                 }
               }
+              // @ts-expect-error TS(7006): Parameter 'event' implicitly has an 'any' type.
               , emit: function mockEmit (event, data, callback) {
                 if ('authorize' === event && callback) {
                   callback({
@@ -188,22 +209,28 @@ describe('admintools', function ( ) {
       });
 
       //benv.require(__dirname + '/../bundle/bundle.source.js');
+      // @ts-expect-error TS(2304): Cannot find name '__dirname'.
       benv.require(__dirname + '/../static/admin/js/admin.js');
 
       done();
     });
   });
 
+  // @ts-expect-error TS(2304): Cannot find name 'after'.
   after(function (done) {
     benv.teardown(true);
     done();
   });
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it ('should produce some html', function (done) {
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var client = require('../lib/client');
 
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var hashauth = require('../lib/client/hashauth');
     hashauth.init(client,$);
+    // @ts-expect-error TS(7006): Parameter 'next' implicitly has an 'any' type.
     hashauth.verifyAuthentication = function mockVerifyAuthentication(next) {
       hashauth.authenticated = true;
       next(true);

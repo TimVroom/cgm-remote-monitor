@@ -5,14 +5,15 @@
  * @param instance
  * @constructor
  */
-function CacheMonitor (instance) {
+// @ts-expect-error TS(2300): Duplicate identifier 'CacheMonitor'.
+function CacheMonitor(this: any, instance: any) {
 
   const self = this;
 
-  let operations = []
+  let operations: any = []
     , listening = false;
 
-  instance.ctx.bus.on('data-update', operation => {
+  instance.ctx.bus.on('data-update', (operation: any) => {
     if (listening) {
       operations.push(operation);
     }
@@ -37,7 +38,7 @@ function CacheMonitor (instance) {
     operations.length.should.equal(0)
   }
 
-  self.nextShouldEql = (col, doc) => {
+  self.nextShouldEql = (col: any, doc: any) => {
     operations.length.should.not.equal(0)
 
     const operation = operations.shift();
@@ -52,12 +53,12 @@ function CacheMonitor (instance) {
     }
   }
 
-  self.nextShouldEqlLast = (col, doc) => {
+  self.nextShouldEqlLast = (col: any, doc: any) => {
     self.nextShouldEql(col, doc);
     self.shouldBeEmpty();
   }
 
-  self.nextShouldDelete = (col, _id) => {
+  self.nextShouldDelete = (col: any, _id: any) => {
     operations.length.should.not.equal(0)
 
     const operation = operations.shift();
@@ -69,11 +70,12 @@ function CacheMonitor (instance) {
     }
   }
 
-  self.nextShouldDeleteLast = (col, _id) => {
+  self.nextShouldDeleteLast = (col: any, _id: any) => {
     self.nextShouldDelete(col, _id);
     self.shouldBeEmpty();
   }
 
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = CacheMonitor;

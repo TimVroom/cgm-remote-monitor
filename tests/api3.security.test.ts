@@ -1,20 +1,27 @@
 /* eslint require-atomic-updates: 0 */
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'request'.
 const request = require('supertest')
+  // @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'apiConst'.
   , apiConst = require('../lib/api3/const.json')
   ;
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 require('should');
 
-describe('Security of REST API3', function() {
+// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+describe('Security of REST API3', function(this: any) {
   const self = this
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , instance = require('./fixtures/api3/instance')
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , authSubject = require('./fixtures/api3/authSubject')
     ;
 
   this.timeout(30000);
 
 
+  // @ts-expect-error TS(2304): Cannot find name 'before'.
   before(async () => {
     self.http = await instance.create({ useHttps: false });
     self.https = await instance.create({ });
@@ -29,12 +36,14 @@ describe('Security of REST API3', function() {
   });
 
 
+  // @ts-expect-error TS(2304): Cannot find name 'after'.
   after(() => {
     self.http.ctx.bus.teardown();
     self.https.ctx.bus.teardown();
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should require token', async () => {
     let res = await request(self.https.baseUrl)
       .get('/api/v3/test')
@@ -45,6 +54,7 @@ describe('Security of REST API3', function() {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should require valid token', async () => {
     let res = await request(self.https.baseUrl)
       .get('/api/v3/test')
@@ -56,6 +66,7 @@ describe('Security of REST API3', function() {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should deny subject denied', async () => {
     let res = await request(self.https.baseUrl)
       .get('/api/v3/test')
@@ -67,6 +78,7 @@ describe('Security of REST API3', function() {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should allow subject with read permission', async () => {
     await request(self.https.baseUrl)
       .get('/api/v3/test', self.jwt.read)

@@ -1,23 +1,31 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'fs'.
 const fs = require('fs');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'language'.
 const language = require('../lib/language')(fs);
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'levels'.
 const levels = require('../lib/levels');
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 require('should');
 
 var topctx = {
   levels: levels
 }
 
+// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('Database Size', function() {
 
   var dataInRange = { dbstats: { dataSize: 1024 * 1024 * 137, indexSize: 1024 * 1024 * 48, fileSize: 1024 * 1024 * 256 } };
   var dataWarn = { dbstats: { dataSize: 1024 * 1024 * 250, indexSize: 1024 * 1024 * 100, fileSize: 1024 * 1024 * 360 } };
   var dataUrgent = { dbstats: { dataSize: 1024 * 1024 * 300, indexSize: 1024 * 1024 * 150, fileSize: 1024 * 1024 * 496 } };
 
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var env = require('../lib/server/env')();
 
-  it('display database size in range', function(done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('display database size in range', function(done: any) {
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var sandbox = require('../lib/sandbox')();
     var ctx = {
       settings: {}
@@ -27,7 +35,7 @@ describe('Database Size', function() {
 
     var sbx = sandbox.clientInit(ctx, Date.now(), dataInRange);
 
-    sbx.offerProperty = function mockedOfferProperty (name, setter) {
+    sbx.offerProperty = function mockedOfferProperty (name: any, setter: any) {
       name.should.equal('dbsize');
       var result = setter();
       result.display.should.equal('37%');
@@ -35,6 +43,7 @@ describe('Database Size', function() {
       done();
     };
 
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var dbsize = require('../lib/plugins/dbsize')(ctx);
     dbsize.setProperties(sbx);
 
@@ -42,7 +51,9 @@ describe('Database Size', function() {
 
   // ~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.
 
-  it('display database size warning', function(done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('display database size warning', function(done: any) {
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var sandbox = require('../lib/sandbox')();
     var ctx = {
       settings: {}
@@ -52,7 +63,7 @@ describe('Database Size', function() {
 
     var sbx = sandbox.clientInit(ctx, Date.now(), dataWarn);
 
-    sbx.offerProperty = function mockedOfferProperty (name, setter) {
+    sbx.offerProperty = function mockedOfferProperty (name: any, setter: any) {
       name.should.equal('dbsize');
       var result = setter();
       result.display.should.equal('70%');
@@ -60,6 +71,7 @@ describe('Database Size', function() {
       done();
     };
 
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var dbsize = require('../lib/plugins/dbsize')(ctx);
 
     dbsize.setProperties(sbx);
@@ -68,7 +80,9 @@ describe('Database Size', function() {
 
   // ~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.
 
-  it('display database size urgent', function(done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('display database size urgent', function(done: any) {
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var sandbox = require('../lib/sandbox')();
     var ctx = {
       settings: {}
@@ -78,7 +92,7 @@ describe('Database Size', function() {
 
     var sbx = sandbox.clientInit(ctx, Date.now(), dataUrgent);
 
-    sbx.offerProperty = function mockedOfferProperty (name, setter) {
+    sbx.offerProperty = function mockedOfferProperty (name: any, setter: any) {
       name.should.equal('dbsize');
       var result = setter();
       result.display.should.equal('90%');
@@ -86,6 +100,7 @@ describe('Database Size', function() {
       done();
     };
 
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var dbsize = require('../lib/plugins/dbsize')(ctx);
     dbsize.setProperties(sbx);
 
@@ -93,11 +108,14 @@ describe('Database Size', function() {
 
   // ~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.
 
-  it('display database size warning notiffication', function(done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('display database size warning notiffication', function(done: any) {
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var sandbox = require('../lib/sandbox')();
     var ctx = {
       settings: {}
       , language: language
+      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , notifications: require('../lib/notifications')(env, topctx)
       , levels: levels
     };
@@ -106,6 +124,7 @@ describe('Database Size', function() {
     var sbx = sandbox.clientInit(ctx, Date.now(), dataWarn);
     sbx.extendedSettings = { 'enableAlerts': 'TRUE' };
 
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var dbsize = require('../lib/plugins/dbsize')(ctx);
 
     dbsize.setProperties(sbx);
@@ -120,11 +139,14 @@ describe('Database Size', function() {
 
   // ~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.
 
-  it('display database size urgent notiffication', function(done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('display database size urgent notiffication', function(done: any) {
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var sandbox = require('../lib/sandbox')();
     var ctx = {
       settings: {}
       , language: language
+      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       , notifications: require('../lib/notifications')(env, topctx)
       , levels: levels
     };
@@ -133,6 +155,7 @@ describe('Database Size', function() {
     var sbx = sandbox.clientInit(ctx, Date.now(), dataUrgent);
     sbx.extendedSettings = { 'enableAlerts': 'TRUE' };
 
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var dbsize = require('../lib/plugins/dbsize')(ctx);
 
     dbsize.setProperties(sbx);
@@ -147,11 +170,12 @@ describe('Database Size', function() {
 
   // ~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.
 
-  it('set a pill to the database size in percent', function(done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('set a pill to the database size in percent', function(done: any) {
     var ctx = {
       settings: {}
       , pluginBase: {
-        updatePillText: function mockedUpdatePillText (plugin, options) {
+        updatePillText: function mockedUpdatePillText (plugin: any, options: any) {
           options.value.should.equal('90%');
           options.labelClass.should.equal('plugicon-database');
           options.pillClass.should.equal('urgent');
@@ -162,8 +186,10 @@ describe('Database Size', function() {
       , levels: levels
     };
 
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var sandbox = require('../lib/sandbox')();
     var sbx = sandbox.clientInit(ctx, Date.now(), dataUrgent);
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var dbsize = require('../lib/plugins/dbsize')(ctx);
     dbsize.setProperties(sbx);
     dbsize.updateVisualisation(sbx);
@@ -172,7 +198,8 @@ describe('Database Size', function() {
 
   // ~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.
 
-  it('set a pill to the database size in MiB', function(done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('set a pill to the database size in MiB', function(done: any) {
     var ctx = {
       settings: {
         extendedSettings: {
@@ -183,7 +210,7 @@ describe('Database Size', function() {
         }
       }
       , pluginBase: {
-        updatePillText: function mockedUpdatePillText (plugin, options) {
+        updatePillText: function mockedUpdatePillText (plugin: any, options: any) {
           options.value.should.equal('450MiB');
           options.labelClass.should.equal('plugicon-database');
           options.pillClass.should.equal('urgent');
@@ -194,8 +221,10 @@ describe('Database Size', function() {
       , levels: levels
     };
 
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var sandbox = require('../lib/sandbox')();
     var sbx = sandbox.clientInit(ctx, Date.now(), dataUrgent);
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var dbsize = require('../lib/plugins/dbsize')(ctx);
     dbsize.setProperties(sbx.withExtendedSettings(dbsize));
     dbsize.updateVisualisation(sbx);
@@ -204,7 +233,8 @@ describe('Database Size', function() {
 
   // ~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.
 
-  it('configure warn level percentage', function(done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('configure warn level percentage', function(done: any) {
 
     var ctx = {
       settings: {
@@ -216,7 +246,7 @@ describe('Database Size', function() {
         }
       }
       , pluginBase: {
-        updatePillText: function mockedUpdatePillText (plugin, options) {
+        updatePillText: function mockedUpdatePillText (plugin: any, options: any) {
           options.value.should.equal('37%');
           options.pillClass.should.equal('warn');
           done();
@@ -226,8 +256,10 @@ describe('Database Size', function() {
       , levels: levels
     };
 
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var sandbox = require('../lib/sandbox')();
     var sbx = sandbox.clientInit(ctx, Date.now(), dataInRange);
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var dbsize = require('../lib/plugins/dbsize')(ctx);
     dbsize.setProperties(sbx.withExtendedSettings(dbsize));
     dbsize.updateVisualisation(sbx);
@@ -235,7 +267,8 @@ describe('Database Size', function() {
 
   // ~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.
 
-  it('configure urgent level percentage', function(done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('configure urgent level percentage', function(done: any) {
 
     var ctx = {
       settings: {
@@ -248,7 +281,7 @@ describe('Database Size', function() {
         }
       }
       , pluginBase: {
-        updatePillText: function mockedUpdatePillText (plugin, options) {
+        updatePillText: function mockedUpdatePillText (plugin: any, options: any) {
           options.value.should.equal('37%');
           options.pillClass.should.equal('urgent');
           done();
@@ -258,8 +291,10 @@ describe('Database Size', function() {
       , levels: levels
     };
 
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var sandbox = require('../lib/sandbox')();
     var sbx = sandbox.clientInit(ctx, Date.now(), dataInRange);
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var dbsize = require('../lib/plugins/dbsize')(ctx);
     dbsize.setProperties(sbx.withExtendedSettings(dbsize));
     dbsize.updateVisualisation(sbx);
@@ -267,11 +302,12 @@ describe('Database Size', function() {
 
   // ~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.
 
-  it('hide the pill if there is no info regarding database size', function(done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('hide the pill if there is no info regarding database size', function(done: any) {
     var ctx = {
       settings: {}
       , pluginBase: {
-        updatePillText: function mockedUpdatePillText (plugin, options) {
+        updatePillText: function mockedUpdatePillText (plugin: any, options: any) {
           options.hide.should.equal(true);
           done();
         }
@@ -280,8 +316,10 @@ describe('Database Size', function() {
       , levels: levels
     };
 
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var sandbox = require('../lib/sandbox')();
     var sbx = sandbox.clientInit(ctx, Date.now(), {});
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var dbsize = require('../lib/plugins/dbsize')(ctx);
     dbsize.setProperties(sbx);
     dbsize.updateVisualisation(sbx);
@@ -289,7 +327,8 @@ describe('Database Size', function() {
 
   // ~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.~.
 
-  it('should handle virtAsst requests', function(done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('should handle virtAsst requests', function(done: any) {
 
     var ctx = {
       settings: {}
@@ -297,14 +336,16 @@ describe('Database Size', function() {
       , levels: levels
     };
 
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var sandbox = require('../lib/sandbox')();
     var sbx = sandbox.clientInit(ctx, Date.now(), dataUrgent);
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var dbsize = require('../lib/plugins/dbsize')(ctx);
     dbsize.setProperties(sbx);
 
     dbsize.virtAsst.intentHandlers.length.should.equal(1);
 
-    dbsize.virtAsst.intentHandlers[0].intentHandler(function next (title, response) {
+    dbsize.virtAsst.intentHandlers[0].intentHandler(function next (title: any, response: any) {
       title.should.equal('Database file size');
       response.should.equal('450 MiB. That is 90% of available database space.');
 

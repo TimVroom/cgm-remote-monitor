@@ -1,26 +1,36 @@
 
 'use strict';
 
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 require('should');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'language'.
 var language = require('../lib/language')();
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'ctx'.
 const ctx = {};
 
+// @ts-expect-error TS(2339): Property 'bus' does not exist on type '{}'.
 ctx.bus = {};
-ctx.bus.on = function mockOn(channel, f) { };
+// @ts-expect-error TS(2339): Property 'bus' does not exist on type '{}'.
+ctx.bus.on = function mockOn(channel: any, f: any) { };
+// @ts-expect-error TS(2339): Property 'settings' does not exist on type '{}'.
 ctx.settings = {};
+// @ts-expect-error TS(2339): Property 'settings' does not exist on type '{}'.
 ctx.settings.adminNotifiesEnabled = true;
 
 const mockJqueryResults = {};
 const mockButton = {};
 
+// @ts-expect-error TS(2339): Property 'click' does not exist on type '{}'.
 mockButton.click = function() {};
+// @ts-expect-error TS(2339): Property 'css' does not exist on type '{}'.
 mockButton.css = function() {};
+// @ts-expect-error TS(2339): Property 'show' does not exist on type '{}'.
 mockButton.show = function() {};
 
 const mockDrawer = {};
 
-const mockJQuery = function mockJquery(p) {
+const mockJQuery = function mockJquery(p: any) {
     if (p == '#adminnotifies') return mockButton;
     if (p == '#adminNotifiesDrawer') return mockDrawer;
     return mockJqueryResults;
@@ -28,23 +38,32 @@ const mockJQuery = function mockJquery(p) {
 
 const mockClient = {};
 
+// @ts-expect-error TS(2339): Property 'translate' does not exist on type '{}'.
 mockClient.translate = language.translate;
+// @ts-expect-error TS(2339): Property 'headers' does not exist on type '{}'.
 mockClient.headers = function () {return {};}
 
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 const adminnotifies = require('../lib/adminnotifies')(ctx);
 
+// @ts-expect-error TS(2403): Subsequent variable declarations must have the sam... Remove this comment to see the full error message
 var window = {};
 //global.window = window;
 
+// @ts-expect-error TS(2322): Type '() => void' is not assignable to type '((han... Remove this comment to see the full error message
 window.setTimeout = function () { return; }
 
+// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('adminnotifies', function ( ) {
 
-    after( function tearDown(done) {
+    // @ts-expect-error TS(2304): Cannot find name 'after'.
+    after( function tearDown(done: any) {
+        // @ts-expect-error TS(2304): Cannot find name 'global'.
         delete global.window;
         done();
     });
 
+    // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
     it('should aggregate a message', function () {
 
         const notify = {

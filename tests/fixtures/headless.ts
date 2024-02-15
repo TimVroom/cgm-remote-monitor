@@ -1,21 +1,25 @@
 
+// @ts-expect-error TS(2300): Duplicate identifier 'read'.
 var read = require('fs').readFileSync;
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
 
-function headless (benv, binding) {
+function headless (benv: any, binding: any) {
   var self = binding;
   function root ( ) {
     return benv;
   }
 
-  function init (opts, callback) {
+  function init (opts: any, callback: any) {
 
     var localStorage = opts.localStorage || './localstorage';
     const t = Date.now();
 
     console.log('Headless init');
 
+    // @ts-expect-error TS(2304): Cannot find name '__dirname'.
     var htmlFile = opts.htmlFile || __dirname + '/../../views/index.html';
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var serverSettings = opts.serverSettings || require('./default-server-settings');
     var someData = opts.mockAjax || { };
 
@@ -25,12 +29,14 @@ function headless (benv, binding) {
 
       console.log('Setting up benv', Date.now() - t);
 
+      // @ts-expect-error TS(2304): Cannot find name '__dirname'.
       benv.require(__dirname + '/../../node_modules/.cache/_ns_cache/public/js/bundle.app.js');
       
       console.log('Bundle loaded', Date.now() - t);
 
       self.$ = $;
       
+      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       self.localCookieStorage = self.localStorage = self.$.localStorage = require(localStorage);
 
       self.$.fn.tooltip = function mockTooltip ( ) { };
@@ -40,6 +46,7 @@ function headless (benv, binding) {
 
       console.log('HTML set', Date.now() - t);
 
+      // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
       var d3 = require('d3');
       //disable all d3 transitions so most of the other code can run with jsdom
       d3.timer = function mockTimer() { };
@@ -50,8 +57,8 @@ function headless (benv, binding) {
 
         self.$.fn.tooltip = function mockTooltip ( ) { };
 
-        self.$.fn.dialog = function mockDialog (opts) {
-          function maybeCall (name, obj) {
+        self.$.fn.dialog = function mockDialog (opts: any) {
+          function maybeCall (name: any, obj: any) {
             if (obj[name] && obj[name].call) {
               obj[name]();
             }
@@ -59,14 +66,14 @@ function headless (benv, binding) {
           }
           maybeCall('open', opts);
 
-          _.forEach(opts.buttons, function (button) {
+          _.forEach(opts.buttons, function (button: any) {
             maybeCall('click', button);
           });
         };
       }
       if (opts.mockSimpleAjax) {
         someData = opts.mockSimpleAjax;
-        self.$.ajax = function mockAjax (url, opts) {
+        self.$.ajax = function mockAjax (url: any, opts: any) {
           if (url && url.url) {
             url = url.url;
           }
@@ -77,7 +84,7 @@ function headless (benv, binding) {
             return self.$.Deferred().resolveWith(returnVal);
           } else {
             return {
-              done: function mockDone (fn) {
+              done: function mockDone (fn: any) {
                 if (url.indexOf('status.json') > -1) {
                   fn(serverSettings);
                 } else {
@@ -93,7 +100,7 @@ function headless (benv, binding) {
         };
       }
       if (opts.mockAjax) {
-        self.$.ajax = function mockAjax (url, opts) {
+        self.$.ajax = function mockAjax (url: any, opts: any) {
 
           if (url && url.url) {
             url = url.url;
@@ -103,7 +110,7 @@ function headless (benv, binding) {
           //console.log(url,opts);
           if (opts && opts.success && opts.success.call) {
             return {
-              done: function mockDone (fn) {
+              done: function mockDone (fn: any) {
                   if (someData[url]) {
                     console.log('+++++Data for ' + url + ' sent');
                     opts.success(someData[url]);
@@ -120,7 +127,7 @@ function headless (benv, binding) {
             };
           }
           return {
-            done: function mockDone (fn) {
+            done: function mockDone (fn: any) {
               if (url.indexOf('status.json') > -1) {
                 fn(serverSettings);
               } else {
@@ -148,11 +155,13 @@ function headless (benv, binding) {
         , io: {
           connect: function mockConnect ( ) {
             return {
+              // @ts-expect-error TS(7006): Parameter 'event' implicitly has an 'any' type.
               on: function mockOn (event, callback) {
                 if ('connect' === event && callback) {
                   callback();
                 }
               }
+              // @ts-expect-error TS(7006): Parameter 'event' implicitly has an 'any' type.
               , emit: function mockEmit (event, data, callback) {
                 if ('authorize' === event && callback) {
                   callback({
@@ -166,6 +175,7 @@ function headless (benv, binding) {
       });
 
       var extraRequires = opts.benvRequires || [ ];
+      // @ts-expect-error TS(7006): Parameter 'req' implicitly has an 'any' type.
       extraRequires.forEach(function (req) {
         benv.require(req);
       });
@@ -183,4 +193,5 @@ function headless (benv, binding) {
   return root;
 }
 
+// @ts-expect-error TS(2591): Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = headless;

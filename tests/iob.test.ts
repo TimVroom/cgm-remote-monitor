@@ -1,18 +1,25 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 const _ = require('lodash');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'should'.
 const should = require('should');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'helper'.
 const helper = require('./inithelper')();
 
+// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('IOB', function() {
 
   let ctx = helper.ctx;
 
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   ctx.settings = require('../lib/settings')();
 
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var iob = require('../lib/plugins/iob')(ctx);
 
-  it('should handle virtAsst requests', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('should handle virtAsst requests', function (done: any) {
 
     var sbx = {
       properties: {
@@ -25,11 +32,11 @@ describe('IOB', function() {
     iob.virtAsst.intentHandlers.length.should.equal(1);
     iob.virtAsst.rollupHandlers.length.should.equal(1);
 
-    iob.virtAsst.intentHandlers[0].intentHandler(function next(title, response) {
+    iob.virtAsst.intentHandlers[0].intentHandler(function next(title: any, response: any) {
       title.should.equal('Current IOB');
       response.should.equal('You have 1.50 units of insulin on board');
 
-      iob.virtAsst.rollupHandlers[0].rollupHandler([], sbx, function callback (err, response) {
+      iob.virtAsst.rollupHandlers[0].rollupHandler([], sbx, function callback (err: any, response: any) {
         should.not.exist(err);
         response.results.should.equal('and you have 1.50 units of insulin on board.');
         response.priority.should.equal(2);
@@ -40,8 +47,10 @@ describe('IOB', function() {
 
   });
 
+  // @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
   describe('from treatments', function ( ) {
 
+    // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
     it('should calculate IOB', function() {
 
       var time = Date.now()
@@ -56,6 +65,7 @@ describe('IOB', function() {
       dia: 3,
       sens: 0};
 
+     // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
      var profile = require('../lib/profilefunctions')([profileData], ctx);
 
       var rightAfterBolus = iob.calcTotal(treatments, [], profile, time);
@@ -73,6 +83,7 @@ describe('IOB', function() {
 
     });
 
+    // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
     it('should calculate IOB using defaults', function() {
 
       var treatments = [{
@@ -86,6 +97,7 @@ describe('IOB', function() {
 
     });
 
+    // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
     it('should not show a negative IOB when approaching 0', function() {
 
       var time = Date.now() - 1;
@@ -102,6 +114,7 @@ describe('IOB', function() {
 
     });
 
+    // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
     it('should calculate IOB using a 4 hour duration', function() {
 
       var time = Date.now()
@@ -114,6 +127,7 @@ describe('IOB', function() {
       dia: 4,
       sens: 0};
 
+     // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
      var profile = require('../lib/profilefunctions')([profileData], ctx);
 
       var rightAfterBolus = iob.calcTotal(treatments, [], profile, time);
@@ -138,8 +152,10 @@ describe('IOB', function() {
 
   });
 
+  // @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
   describe('from devicestatus', function () {
     var time = Date.now();
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var profile = require('../lib/profilefunctions')([{ dia: 3, sens: 0 }], ctx);
     var treatments = [{
       mills: time - 1,
@@ -158,6 +174,7 @@ describe('IOB', function() {
       }
     };
 
+    // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
     it('should fall back to treatment data if no devicestatus data', function() {
       iob.calcTotal(treatments, [], profile, time).should.containEql({
         source: 'Care Portal',
@@ -165,6 +182,7 @@ describe('IOB', function() {
       });
     });
 
+    // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
     it('should fall back to treatments if openaps devicestatus is present but empty', function() {
       var devicestatus = [{
         device: 'openaps://pi1',
@@ -174,6 +192,7 @@ describe('IOB', function() {
       iob.calcTotal(treatments, devicestatus, profile, time).iob.should.equal(treatmentIOB);
     });
 
+    // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
     it('should fall back to treatments if openaps devicestatus is present but too stale', function() {
       var devicestatus = [_.merge(OPENAPS_DEVICESTATUS, { mills: time - iob.RECENCY_THRESHOLD - 1, openaps: {iob: {timestamp: time - iob.RECENCY_THRESHOLD - 1} } })];
       iob.calcTotal(treatments, devicestatus, profile, time).should.containEql({
@@ -182,6 +201,7 @@ describe('IOB', function() {
       });
     });
 
+    // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
     it('should return IOB data from openaps', function () {
       var devicestatus = [_.merge(OPENAPS_DEVICESTATUS, { mills: time - 1, openaps: {iob: {timestamp: time - 1} } })];
       iob.calcTotal(treatments, devicestatus, profile, time).should.containEql({
@@ -193,6 +213,7 @@ describe('IOB', function() {
       });
     });
 
+    // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
     it('should not blow up with null IOB data from openaps', function () {
       var devicestatus = [_.merge(OPENAPS_DEVICESTATUS, { mills: time - 1, openaps: {iob: null } })];
       iob.calcTotal(treatments, devicestatus, profile, time).should.containEql({
@@ -201,6 +222,7 @@ describe('IOB', function() {
       });
     });
 
+    // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
     it('should return IOB data from openaps post AMA (an array)', function () {
       var devicestatus = [_.merge(OPENAPS_DEVICESTATUS, { mills: time - 1, openaps: {iob: [{
         iob: 0.047,
@@ -217,6 +239,7 @@ describe('IOB', function() {
       });
     });
 
+    // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
     it('should return IOB data from Loop', function () {
 
       var LOOP_DEVICESTATUS = {
@@ -236,6 +259,7 @@ describe('IOB', function() {
       });
     });
 
+    // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
     it('should return IOB data from openaps from multiple devices', function () {
       var devicestatus = [
         _.merge(OPENAPS_DEVICESTATUS, { mills: time - 1000, openaps: {iob: {timestamp: time - 1000} } })
@@ -251,6 +275,7 @@ describe('IOB', function() {
       });
     });
 
+    // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
     it('should return IOB data from MiniMed Connect', function () {
       var devicestatus = [{
         device: 'connect://paradigm',

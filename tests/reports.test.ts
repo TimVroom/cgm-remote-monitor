@@ -1,11 +1,17 @@
 'use strict';
 
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 require('should');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var benv = require('benv');
+// @ts-expect-error TS(2300): Duplicate identifier 'read'.
 var read = require('fs').readFileSync;
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var serverSettings = require('./fixtures/default-server-settings');
 
+// @ts-expect-error TS(2403): Subsequent variable declarations must have the sam... Remove this comment to see the full error message
 var nowData = {
   sgvs: [
     { mgdl: 100, mills: Date.now(), direction: 'Flat', type: 'sgv' }
@@ -13,6 +19,7 @@ var nowData = {
   , treatments: []
 };
 
+// @ts-expect-error TS(2403): Subsequent variable declarations must have the sam... Remove this comment to see the full error message
 var someData = {
   '/api/v1/entries.json?find[date][$gte]=1438992000000&find[date][$lt]=1439078400000&count=10000': [{'_id':'55c697f9459cf1fa5ed71cd8','unfiltered':213888,'filtered':218560,'direction':'Flat','device':'dexcom','rssi':172,'sgv':208,'dateString':'Sat Aug 08 16:58:44 PDT 2015','type':'sgv','date':1439078324000,'noise':1},{'_id':'55c696cc459cf1fa5ed71cd7','unfiltered':217952,'filtered':220864,'direction':'Flat','device':'dexcom','rssi':430,'sgv':212,'dateString':'Sat Aug 08 16:53:45 PDT 2015','type':'sgv','date':1439078025000,'noise':1},{'_id':'55c5d0c6459cf1fa5ed71a04','device':'dexcom','scale':1.1,'dateString':'Sat Aug 08 02:48:05 PDT 2015','date':1439027285000,'type':'cal','intercept':31102.323470336833,'slope':776.9097574914869},{'_id':'55c5d0c5459cf1fa5ed71a03','device':'dexcom','dateString':'Sat Aug 08 02:48:03 PDT 2015','mbg':120,'date':1439027283000,'type':'mbg'}],
   '/api/v1/treatments.json?find[created_at][$gte]=2015-08-08T00:00:00.000Z&find[created_at][$lt]=2015-08-09T00:00:00.000Z&count=1000': [{'enteredBy':'Dad','eventType':'Correction Bolus','glucose':201,'glucoseType':'Finger','insulin':0.65,'units':'mg/dl','created_at':'2015-08-08T23:22:00.000Z','_id':'55c695628a00a3c97a6611ed'},{'enteredBy':'Mom ','eventType':'Correction Bolus','glucose':163,'glucoseType':'Sensor','insulin':0.7,'units':'mg/dl','created_at':'2015-08-08T22:53:11.021Z','_id':'55c68857cd6dd2036036705f'}],
@@ -25,6 +32,7 @@ var someData = {
   '/api/v1/entries.json?find[date][$gte]=1439337600000&find[date][$lt]=1439424000000&count=10000': [{'_id':'55cbddee38a8d88ad1b48647','unfiltered':165760,'filtered':167488,'direction':'Flat','device':'dexcom','rssi':165,'sgv':157,'dateString':'Wed Aug 12 16:58:28 PDT 2015','type':'sgv','date':1439423908000,'noise':1},{'_id':'55cbdccc38a8d88ad1b48644','unfiltered':167456,'filtered':169312,'direction':'Flat','device':'dexcom','rssi':168,'sgv':159,'dateString':'Wed Aug 12 16:53:28 PDT 2015','type':'sgv','date':1439423608000,'noise':1}],
   '/api/v1/treatments.json?find[created_at][$gte]=2015-08-12T00:00:00.000Z&find[created_at][$lt]=2015-08-14T23:59:59.999Z&count=1000': [{'enteredBy':'Dad','eventType':'Correction Bolus','insulin':0.8,'created_at':'2015-08-12T23:21:08.907Z','_id':'55cbd4e47e726599048a3f91'},{'enteredBy':'Dad','eventType':'Note','notes':'Milk now','created_at':'2015-08-12T21:23:00.000Z','_id':'55cbba4e7e726599048a3f79'}],
   '/api/v1/treatments.json?find[created_at][$gte]=2015-08-12T00:00:00.000Z&find[created_at][$lt]=2015-08-13T00:00:00.000Z&count=1000': [{'enteredBy':'Dad','eventType':'Correction Bolus','insulin':0.8,'created_at':'2015-08-12T23:21:08.907Z','_id':'55cbd4e47e726599048a3f91'},{'enteredBy':'Dad','eventType':'Note','notes':'Milk now','created_at':'2015-08-12T21:23:00.000Z','_id':'55cbba4e7e726599048a3f79'}],
+  // @ts-expect-error TS(1117): An object literal cannot have multiple properties ... Remove this comment to see the full error message
   '/api/v1/treatments.json?find[created_at][$gte]=2015-08-12T00:00:00.000Z&find[created_at][$lt]=2015-08-13T00:00:00.000Z&count=1000': [{'enteredBy':'Dad','eventType':'Correction Bolus','insulin':0.8,'created_at':'2015-08-12T23:21:08.907Z','_id':'55cbd4e47e726599048a3f91'},{'enteredBy':'Dad','eventType':'Note','notes':'Milk now','created_at':'2015-08-12T21:23:00.000Z','_id':'55cbba4e7e726599048a3f79'}],
   '/api/v1/entries.json?find[date][$gte]=1439424000000&find[date][$lt]=1439510400000&count=10000': [{'_id':'55cd2f6738a8d88ad1b48ca1','unfiltered':209792,'filtered':229344,'direction':'SingleDown','device':'dexcom','rssi':436,'sgv':205,'dateString':'Thu Aug 13 16:58:24 PDT 2015','type':'sgv','date':1439510304000,'noise':1},{'_id':'55cd2e3b38a8d88ad1b48c95','unfiltered':220928,'filtered':237472,'direction':'FortyFiveDown','device':'dexcom','rssi':418,'sgv':219,'dateString':'Thu Aug 13 16:53:24 PDT 2015','type':'sgv','date':1439510004000,'noise':1}],
   '/api/v1/treatments.json?find[created_at][$gte]=2015-08-13T00:00:00.000Z&find[created_at][$lt]=2015-08-14T00:00:00.000Z&count=1000': [{'enteredBy':'Mom ','eventType':'Correction Bolus','glucose':250,'glucoseType':'Sensor','insulin':0.75,'units':'mg/dl','created_at':'2015-08-13T23:45:56.927Z','_id':'55cd2c3497fa97ac5d8bc53b'},{'enteredBy':'Mom ','eventType':'Correction Bolus','glucose':198,'glucoseType':'Sensor','insulin':1.1,'units':'mg/dl','created_at':'2015-08-13T23:11:00.293Z','_id':'55cd240497fa97ac5d8bc535'}],
@@ -268,6 +276,7 @@ var someData = {
 
   };
 
+// @ts-expect-error TS(2403): Subsequent variable declarations must have the sam... Remove this comment to see the full error message
 var exampleProfile = [
   {
   //General values
@@ -320,48 +329,61 @@ var exampleProfile = [
   }
 ];
 
+// @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
 exampleProfile[0].startDate.setSeconds(0);
+// @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
 exampleProfile[0].startDate.setMilliseconds(0);
 
 
-describe('reports', function ( ) {
+// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+describe('reports', function(this: any) {
   var self = this;
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var headless = require('./fixtures/headless')(benv, this);
   this.timeout(80000);
   
-  before(function (done) {
+  // @ts-expect-error TS(2304): Cannot find name 'before'.
+  before(function (done: any) {
     done( );
   });
 
-  after(function (done) {
+  // @ts-expect-error TS(2304): Cannot find name 'after'.
+  after(function (done: any) {
     done( );
   });
 
-  beforeEach(function (done) {
+  // @ts-expect-error TS(2304): Cannot find name 'beforeEach'.
+  beforeEach(function (done: any) {
     var opts = {
+      // @ts-expect-error TS(2304): Cannot find name '__dirname'.
       htmlFile: __dirname + '/../views/reportindex.html'
     , mockProfileEditor: true
     , serverSettings: serverSettings
     , mockSimpleAjax: someData
     , benvRequires: [
+       // @ts-expect-error TS(2304): Cannot find name '__dirname'.
        __dirname + '/../static/js/reportinit.js'
       ]
     };
     headless.setup(opts, done);
   });
 
-  afterEach(function (done) {
+  // @ts-expect-error TS(2304): Cannot find name 'afterEach'.
+  afterEach(function (done: any) {
     headless.teardown( );
     done( );
   });
 
 
-  it ('should produce some html', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it ('should produce some html', function (done: any) {
+    // @ts-expect-error TS(2339): Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
     var client = window.Nightscout.client;
 
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var hashauth = require('../lib/client/hashauth');
     hashauth.init(client,$);
-    hashauth.verifyAuthentication = function mockVerifyAuthentication(next) {
+    hashauth.verifyAuthentication = function mockVerifyAuthentication(next: any) {
       hashauth.authenticated = true;
       next(true);
     };
@@ -375,11 +397,14 @@ describe('reports', function ( ) {
      };
      
      
+     // @ts-expect-error TS(2322): Type '(call: TimerHandler, timer: number | undefin... Remove this comment to see the full error message
      window.setTimeout = function mockSetTimeout (call, timer) {
        if (timer == 60000) return;
+       // @ts-expect-error TS(2349): This expression is not callable.
        call();
      };
 
+     // @ts-expect-error TS(2339): Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
      window.Nightscout.reportclient();
 
     client.init(function afterInit ( ) {
@@ -437,11 +462,15 @@ describe('reports', function ( ) {
     });
   });
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it ('should produce week to week report', function (done) {
+    // @ts-expect-error TS(2339): Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
     var client = window.Nightscout.client;
 
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var hashauth = require('../lib/client/hashauth');
     hashauth.init(client,$);
+    // @ts-expect-error TS(7006): Parameter 'next' implicitly has an 'any' type.
     hashauth.verifyAuthentication = function mockVerifyAuthentication(next) {
       hashauth.authenticated = true;
       next(true);
@@ -455,8 +484,10 @@ describe('reports', function ( ) {
        return true;
      };
   
+     // @ts-expect-error TS(2322): Type '(call: TimerHandler, timer: number | undefin... Remove this comment to see the full error message
      window.setTimeout = function mockSetTimeout (call, timer) {
       if (timer == 60000) return;
+      // @ts-expect-error TS(2349): This expression is not callable.
       call();
      };
 

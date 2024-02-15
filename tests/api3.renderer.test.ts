@@ -1,16 +1,25 @@
 /* eslint require-atomic-updates: 0 */
 'use strict';
 
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 require('should');
 
-describe('API3 output renderers', function() {
+// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+describe('API3 output renderers', function(this: any) {
   const self = this
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , testConst = require('./fixtures/api3/const.json')
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , instance = require('./fixtures/api3/instance')
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , authSubject = require('./fixtures/api3/authSubject')
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , opTools = require('../lib/api3/shared/operationTools')
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , _ = require('lodash')
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , xml2js = require('xml2js')
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , csvParse = require('csv-parse/lib/sync')
     ;
 
@@ -36,6 +45,7 @@ describe('API3 output renderers', function() {
   self.timeout(15000);
 
 
+  // @ts-expect-error TS(2304): Cannot find name 'before'.
   before(async () => {
     self.instance = await instance.create({});
 
@@ -56,16 +66,19 @@ describe('API3 output renderers', function() {
   });
 
 
+  // @ts-expect-error TS(2304): Cannot find name 'after'.
   after(() => {
     self.instance.server.close();
   });
 
 
+  // @ts-expect-error TS(2304): Cannot find name 'beforeEach'.
   beforeEach(() => {
     self.cache.clear();
   });
 
 
+  // @ts-expect-error TS(2304): Cannot find name 'afterEach'.
   afterEach(() => {
     self.cache.shouldBeEmpty();
   });
@@ -77,7 +90,7 @@ describe('API3 output renderers', function() {
    * @param {Object} obj1
    * @param {Object} obj2
    */
-  self.checkProps = function checkProps (obj1, obj2) {
+  self.checkProps = function checkProps (obj1: any, obj2: any) {
     for (let propName in obj1) {
       obj1[propName].toString().should.eql(obj2[propName].toString());
     }
@@ -90,9 +103,9 @@ describe('API3 output renderers', function() {
    * @param arrModel
    * @param arr
    */
-  self.checkItems = function checkItems (arrModel, arr) {
+  self.checkItems = function checkItems (arrModel: any, arr: any) {
     for (let itemModel of arrModel) {
-      const item = _.find(arr, (doc) => doc.identifier === itemModel.identifier);
+      const item = _.find(arr, (doc: any) => doc.identifier === itemModel.identifier);
       item.should.not.be.empty();
       self.checkProps(itemModel, item);
     }
@@ -107,7 +120,7 @@ describe('API3 output renderers', function() {
    * @param xmlText
    * @returns {Promise}
    */
-  self.checkXmlItems = async function checkXmlItems (arrModel, xmlText) {
+  self.checkXmlItems = async function checkXmlItems (arrModel: any, xmlText: any) {
     xmlText.should.startWith('<?xml version=\'1.0\' encoding=\'utf-8\'?>');
 
     const xml = await self.xmlParser.parseStringPromise(xmlText);
@@ -128,7 +141,7 @@ describe('API3 output renderers', function() {
    * @param csvText
    * @returns {Promise}
    */
-  self.checkCsvItems = async function checkXmlItems (arrModel, csvText) {
+  self.checkCsvItems = async function checkXmlItems (arrModel: any, csvText: any) {
     csvText.should.not.be.empty();
 
     const items = csvParse(csvText, self.csvParserOptions);
@@ -139,9 +152,10 @@ describe('API3 output renderers', function() {
   };
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should create 2 mock documents', async () => {
 
-    async function createDoc (doc) {
+    async function createDoc (doc: any) {
 
       let res = await self.instance.post(`${self.url}`, self.jwt.create)
         .send(doc)
@@ -162,9 +176,10 @@ describe('API3 output renderers', function() {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('READ/SEARCH/HISTORY should not accept unsupported content type', async () => {
 
-    async function check406 (request) {
+    async function check406 (request: any) {
       const res = await request
         .expect(406);
       res.status.should.equal(406);
@@ -186,6 +201,7 @@ describe('API3 output renderers', function() {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('READ should accept xml content type', async () => {
     let res = await self.instance.get(`${self.url}/${self.doc1.identifier}.xml?fields=_all`, self.jwt.read)
       .expect(200);
@@ -204,6 +220,7 @@ describe('API3 output renderers', function() {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('READ should accept csv content type', async () => {
     let res = await self.instance.get(`${self.url}/${self.doc1.identifier}.csv?fields=_all`, self.jwt.read)
       .expect(200);
@@ -218,6 +235,7 @@ describe('API3 output renderers', function() {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('SEARCH should accept xml content type', async () => {
     let res = await self.instance.get(`${self.url}.xml?date$gte=${self.doc1.date}`, self.jwt.read)
       .expect(200);
@@ -232,6 +250,7 @@ describe('API3 output renderers', function() {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('SEARCH should accept csv content type', async () => {
     let res = await self.instance.get(`${self.url}.csv?date$gte=${self.doc1.date}`, self.jwt.read)
       .expect(200);
@@ -246,6 +265,7 @@ describe('API3 output renderers', function() {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('HISTORY should accept xml content type', async () => {
     let res = await self.instance.get(`${self.url}/history/${self.historyFrom}.xml`, self.jwt.read)
       .expect(200);
@@ -260,6 +280,7 @@ describe('API3 output renderers', function() {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('HISTORY should accept csv content type', async () => {
     let res = await self.instance.get(`${self.url}/history/${self.historyFrom}.csv`, self.jwt.read)
       .expect(200);
@@ -274,9 +295,10 @@ describe('API3 output renderers', function() {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should remove mock documents', async () => {
 
-    async function deleteDoc (identifier) {
+    async function deleteDoc (identifier: any) {
       let res = await self.instance.delete(`${self.url}/${identifier}`, self.jwt.delete)
         .query({ 'permanent': 'true' })
         .expect(200);

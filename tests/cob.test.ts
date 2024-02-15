@@ -1,13 +1,18 @@
 'use strict';
 
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 const _ = require('lodash');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable 'helper'.
 const helper = require('./inithelper')();
 
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 require('should');
 
+// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('COB', function ( ) {
   var ctx = helper.ctx;
 
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var cob = require('../lib/plugins/cob')(ctx);
   
   var profileData = {
@@ -17,8 +22,10 @@ describe('COB', function ( ) {
     , carbs_hr: 30
   };
 
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var profile = require('../lib/profilefunctions')([profileData], ctx);
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should calculate IOB, multiple treatments', function() {
 
     var treatments = [
@@ -32,17 +39,20 @@ describe('COB', function ( ) {
       }
     ];
 
-    var devicestatus = [];
+    var devicestatus: any = [];
 
     var after100 = cob.cobTotal(treatments, devicestatus, profile, new Date('2015-05-29T02:03:49.827Z').getTime());
     var before10 = cob.cobTotal(treatments, devicestatus, profile, new Date('2015-05-29T03:45:10.670Z').getTime());
     var after10 = cob.cobTotal(treatments, devicestatus, profile, new Date('2015-05-29T03:45:11.670Z').getTime());
 
     after100.cob.should.equal(100);
+    // @ts-expect-error TS(2339): Property 'should' does not exist on type 'number'.
     Math.round(before10.cob).should.equal(59);
+    // @ts-expect-error TS(2339): Property 'should' does not exist on type 'number'.
     Math.round(after10.cob).should.equal(69); //WTF == 128
   });
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should calculate IOB, single treatment', function() {
 
     var treatments = [
@@ -52,7 +62,7 @@ describe('COB', function ( ) {
       }
     ];
 
-    var devicestatus = [];
+    var devicestatus: any = [];
 
     var rightAfterCorrection = new Date('2015-05-29T04:41:40.174Z').getTime();
     var later1 = new Date('2015-05-29T05:04:40.174Z').getTime();
@@ -73,7 +83,8 @@ describe('COB', function ( ) {
     result5.cob.should.equal(0);
   });
 
-  it('set a pill to the current COB', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('set a pill to the current COB', function (done: any) {
     var data = {
       treatments: [{
         carbs: '8'
@@ -83,12 +94,13 @@ describe('COB', function ( ) {
     };
 
     ctx.pluginBase = {
-        updatePillText: function mockedUpdatePillText (plugin, options) {
+        updatePillText: function mockedUpdatePillText (plugin: any, options: any) {
           options.value.should.equal('8g');
           done();
         }
     };
 
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var sandbox = require('../lib/sandbox')();
     var sbx = sandbox.clientInit(ctx, Date.now(), data);
     cob.setProperties(sbx);
@@ -96,7 +108,8 @@ describe('COB', function ( ) {
 
   });
 
-  it('should handle virtAsst requests', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it('should handle virtAsst requests', function (done: any) {
     var data = {
       treatments: [{
         carbs: '8'
@@ -105,13 +118,14 @@ describe('COB', function ( ) {
       , profile: profile
     };
 
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var sandbox = require('../lib/sandbox')();
     var sbx = sandbox.clientInit(ctx, Date.now(), data);
     cob.setProperties(sbx);
 
     cob.virtAsst.intentHandlers.length.should.equal(1);
 
-    cob.virtAsst.intentHandlers[0].intentHandler(function next(title, response) {
+    cob.virtAsst.intentHandlers[0].intentHandler(function next(title: any, response: any) {
       title.should.equal('Current COB');
       response.should.equal('You have 8 carbohydrates on board');
       done();
@@ -119,6 +133,7 @@ describe('COB', function ( ) {
 
   });
 
+  // @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
   describe('from devicestatus', function () {
     var time = Date.now();
     var treatments = [{
@@ -137,6 +152,7 @@ describe('COB', function ( ) {
 
     var treatmentCOB = cob.fromTreatments(treatments, OPENAPS_DEVICESTATUS, profile, time).cob;
 
+    // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
     it('should fall back to treatment data if no devicestatus data', function() {
       cob.cobTotal(treatments, [], profile, time).should.containEql({
         source: 'Care Portal',
@@ -144,6 +160,7 @@ describe('COB', function ( ) {
       });
     });
 
+    // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
     it('should fall back to treatments if openaps devicestatus is present but empty', function() {
       var devicestatus = [{
         device: 'openaps://pi1',
@@ -153,6 +170,7 @@ describe('COB', function ( ) {
       cob.cobTotal(treatments, devicestatus, profile, time).cob.should.equal(treatmentCOB);
     });
 
+    // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
     it('should fall back to treatments if openaps devicestatus is present but too stale', function() {
       var devicestatus = [_.merge(OPENAPS_DEVICESTATUS, { mills: time - cob.RECENCY_THRESHOLD - 1, openaps: {enacted: {COB: 5, timestamp: time - cob.RECENCY_THRESHOLD - 1} } })];
       cob.cobTotal(treatments, devicestatus, profile, time).should.containEql({
@@ -161,6 +179,7 @@ describe('COB', function ( ) {
       });
     });
 
+    // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
     it('should return COB data from OpenAPS', function () {
       var devicestatus = [_.merge(OPENAPS_DEVICESTATUS, { mills: time - 1, openaps: {enacted: {COB: 5, timestamp: time - 1} } })];
       cob.cobTotal(treatments, devicestatus, profile, time).should.containEql({
@@ -170,6 +189,7 @@ describe('COB', function ( ) {
       });
     });
 
+    // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
     it('should return COB data from Loop', function () {
 
       var LOOP_DEVICESTATUS = {

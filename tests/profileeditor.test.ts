@@ -1,10 +1,15 @@
 'use strict';
 
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 require('should');
+// @ts-expect-error TS(2451): Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var benv = require('benv');
+// @ts-expect-error TS(2300): Duplicate identifier 'read'.
 var read = require('fs').readFileSync;
 
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var nowData = require('../lib/data/ddata')();
 nowData.sgvs.push({ mgdl: 100, mills: Date.now(), direction: 'Flat', type: 'sgv' });
 
@@ -64,46 +69,58 @@ var exampleProfile = {
 };
 
 
+// @ts-expect-error TS(2403): Subsequent variable declarations must have the sam... Remove this comment to see the full error message
 var someData = {
     '/api/v1/profile.json?count=20': [exampleProfile]
   };
 
 
-describe('Profile editor', function ( ) {
+// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+describe('Profile editor', function(this: any) {
   this.timeout(40000); //TODO: see why this test takes longer on Travis to complete
+  // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var headless = require('./fixtures/headless')(benv, this);
 
-  before(function (done) {
+  // @ts-expect-error TS(2304): Cannot find name 'before'.
+  before(function (done: any) {
     done( );
   });
 
-  after(function (done) {
+  // @ts-expect-error TS(2304): Cannot find name 'after'.
+  after(function (done: any) {
     done( );
   });
 
-  beforeEach(function (done) {
+  // @ts-expect-error TS(2304): Cannot find name 'beforeEach'.
+  beforeEach(function (done: any) {
     var opts = {
+      // @ts-expect-error TS(2304): Cannot find name '__dirname'.
       htmlFile: __dirname + '/../views/profileindex.html'
     , mockProfileEditor: true
     , mockAjax: someData
     , benvRequires: [
+        // @ts-expect-error TS(2304): Cannot find name '__dirname'.
         __dirname + '/../static/js/profileinit.js'
       ]
     };
     headless.setup(opts, done);
   });
 
-  afterEach(function (done) {
+  // @ts-expect-error TS(2304): Cannot find name 'afterEach'.
+  afterEach(function (done: any) {
     headless.teardown( );
     done( );
   });
 
-  it ('should produce some html', function (done) {
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
+  it ('should produce some html', function (done: any) {
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var client = require('../lib/client');
 
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var hashauth = require('../lib/client/hashauth');
     hashauth.init(client,$);
-    hashauth.verifyAuthentication = function mockVerifyAuthentication(next) {
+    hashauth.verifyAuthentication = function mockVerifyAuthentication(next: any) {
       hashauth.authenticated = true;
       next(true);
     };
@@ -117,6 +134,7 @@ describe('Profile editor', function ( ) {
        return true;
      };
 
+    // @ts-expect-error TS(2339): Property 'Nightscout' does not exist on type 'Wind... Remove this comment to see the full error message
     window.Nightscout.profileclient();
 
     client.init();

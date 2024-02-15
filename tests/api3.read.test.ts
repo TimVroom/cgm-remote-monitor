@@ -2,13 +2,19 @@
 /* global should */
 'use strict';
 
+// @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 require('should');
 
-describe('API3 READ', function () {
+// @ts-expect-error TS(2593): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
+describe('API3 READ', function(this: any) {
   const self = this
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , testConst = require('./fixtures/api3/const.json')
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , instance = require('./fixtures/api3/instance')
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , authSubject = require('./fixtures/api3/authSubject')
+    // @ts-expect-error TS(2591): Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     , opTools = require('../lib/api3/shared/operationTools')
   ;
 
@@ -23,6 +29,7 @@ describe('API3 READ', function () {
   self.timeout(15000);
 
 
+  // @ts-expect-error TS(2304): Cannot find name 'before'.
   before(async () => {
     self.instance = await instance.create({});
 
@@ -43,21 +50,25 @@ describe('API3 READ', function () {
   });
 
 
+  // @ts-expect-error TS(2304): Cannot find name 'after'.
   after(() => {
     self.instance.ctx.bus.teardown();
   });
 
 
+  // @ts-expect-error TS(2304): Cannot find name 'beforeEach'.
   beforeEach(() => {
     self.cache.clear();
   });
 
 
+  // @ts-expect-error TS(2304): Cannot find name 'afterEach'.
   afterEach(() => {
     self.cache.shouldBeEmpty();
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should require authentication', async () => {
     let res = await self.instance.get(`${self.url}/FAKE_IDENTIFIER`)
       .expect(401);
@@ -67,6 +78,7 @@ describe('API3 READ', function () {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should not found not existing collection', async () => {
     let res = await self.instance.get(`/api/v3/NOT_EXIST/NOT_EXIST`, self.jwt.read)
       .send(self.validDoc)
@@ -78,6 +90,7 @@ describe('API3 READ', function () {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should not found not existing document', async () => {
     let res = await self.instance.get(`${self.url}/${self.validDoc.identifier}`, self.jwt.read)
       .expect(404);
@@ -88,6 +101,7 @@ describe('API3 READ', function () {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should read just created document', async () => {
     let res = await self.instance.post(`${self.url}`, self.jwt.create)
       .send(self.validDoc)
@@ -110,6 +124,7 @@ describe('API3 READ', function () {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should contain only selected fields', async () => {
     let res = await self.instance.get(`${self.url}/${self.validDoc.identifier}?fields=date,device,subject`, self.jwt.read)
       .expect(200);
@@ -124,6 +139,7 @@ describe('API3 READ', function () {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should contain all fields', async () => {
     let res = await self.instance.get(`${self.url}/${self.validDoc.identifier}?fields=_all`, self.jwt.read)
       .expect(200);
@@ -135,6 +151,7 @@ describe('API3 READ', function () {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should not send unmodified document since', async () => {
     let res = await self.instance.get(`${self.url}/${self.validDoc.identifier}`, self.jwt.read)
       .set('If-Modified-Since', new Date(new Date().getTime() + 1000).toUTCString())
@@ -144,6 +161,7 @@ describe('API3 READ', function () {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should send modified document since', async () => {
     let res = await self.instance.get(`${self.url}/${self.validDoc.identifier}`, self.jwt.read)
       .set('If-Modified-Since', new Date(new Date(self.validDoc.date).getTime() - 1000).toUTCString())
@@ -154,6 +172,7 @@ describe('API3 READ', function () {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should recognize softly deleted document', async () => {
     let res = await self.instance.delete(`${self.url}/${self.validDoc.identifier}`, self.jwt.delete)
       .expect(200);
@@ -169,6 +188,7 @@ describe('API3 READ', function () {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should not find permanently deleted document', async () => {
     let res = await self.instance.delete(`${self.url}/${self.validDoc.identifier}?permanent=true`, self.jwt.delete)
       .expect(200);
@@ -184,6 +204,7 @@ describe('API3 READ', function () {
   });
 
 
+  // @ts-expect-error TS(2593): Cannot find name 'it'. Do you need to install type... Remove this comment to see the full error message
   it('should find document created by APIv1', async () => {
 
     const doc = Object.assign({}, self.validDoc, {
@@ -192,7 +213,7 @@ describe('API3 READ', function () {
     delete doc.identifier;
 
     await new Promise((resolve, reject) => {
-      self.instance.ctx.devicestatus.create([doc], async (err) => { // let's insert the document in APIv1's way
+      self.instance.ctx.devicestatus.create([doc], async (err: any) => { // let's insert the document in APIv1's way
 
         should.not.exist(err);
         doc._id = doc._id.toString();
