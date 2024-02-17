@@ -27,9 +27,9 @@
   },
   "scripts": {
     "start": "node lib/server/server.js",
-    "test": "env-cmd -f ./my.test.env mocha --timeout 5000 --require ./tests/hooks.js -exit ./tests/*.test.js",
-    "test-single": "env-cmd -f ./my.test.env mocha --timeout 5000 --require ./tests/hooks.js --exit ./tests/$TEST.test.js",
-    "test-ci": "env-cmd -f ./tests/ci.test.env nyc --reporter=lcov --reporter=text-summary mocha --timeout 5000 --require ./tests/hooks.js --exit ./tests/*.test.js",
+    "test": "env-cmd -f ./my.test.env mocha --timeout 5000 --require ./tests/hooks.ts -exit ./tests/*.test.ts",
+    "test-single": "env-cmd -f ./my.test.env mocha --timeout 5000 --require ./tests/hooks.ts --exit ./tests/$TEST.test.ts",
+    "test-ci": "tsc && env-cmd -f ./tests/ci.test.env nyc --reporter=lcov --reporter=text-summary mocha --timeout 5000 --require ./tests/hooks.ts --exit ./tests/*.test.ts",
     "env": "env",
     "postinstall": "webpack --mode production --config webpack/webpack.config.js && npm run-script post-generate-keys",
     "bundle": "webpack --mode production --config webpack/webpack.config.js && npm run-script post-generate-keys",
@@ -140,6 +140,7 @@
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.23.3",
+    "@istanbuljs/nyc-config-typescript": "^1.0.2",
     "@types/jquery": "^3.5.29",
     "@types/jsonwebtoken": "^9.0.5",
     "@types/lodash": "^4.14.202",
@@ -156,6 +157,7 @@
     "nodemon": "^2.0.19",
     "nyc": "^14.1.1",
     "should": "^13.2.3",
+    "source-map-support": "^0.5.21",
     "supertest": "^3.4.2",
     "ts-migrate": "^0.1.35",
     "ts-node": "^10.9.2",
