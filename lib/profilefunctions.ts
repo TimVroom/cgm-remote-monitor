@@ -10,6 +10,7 @@ var times = require('./times');
 var cacheTTL = 5000;
 var prevBasalTreatment: any = null;
 
+// @ts-expect-error TS(2300) FIXME: Duplicate identifier 'init'.
 function init (profileData: any, ctx: any) {
 
 var moment = ctx.moment;

@@ -4,6 +4,7 @@ var lastEntryValue: any;
 var lastMinutes: any;
 var lastEntryTime: any;
 
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init(ctx: any) {
     var translate = ctx.language.translate;
     var speechLangCode = ctx.language.speechCode;

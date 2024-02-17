@@ -16,6 +16,7 @@ function extensions (list: any) {
   return require('./express-extension-to-accept')(list);
 }
 
+// @ts-expect-error TS(2300): Duplicate identifier 'configure'.
 function configure (env: any) {
   return {
     sendJSONStatus: wares.sendJSONStatus( ),

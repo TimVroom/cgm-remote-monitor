@@ -8,6 +8,7 @@ var times = require('../times');
 var offset = times.mins(2.5).msecs;
 var bucketFields = ['index', 'fromMills', 'toMills'];
 
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init (ctx: any) {
 
   var moment = ctx.moment;

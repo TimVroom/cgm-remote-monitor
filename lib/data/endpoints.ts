@@ -48,6 +48,7 @@ function format_result (req: any, res: any, next: any) {
   * configured.
   */
 
+// @ts-expect-error TS(2300): Duplicate identifier 'configure'.
 function configure (app: any, ctx: any) {
   // default storage biased towards entries.
   // var entries = ctx.entries;

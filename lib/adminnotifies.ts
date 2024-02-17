@@ -3,6 +3,7 @@
 // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 const _ = require('lodash');
 
+// @ts-expect-error TS(2300) FIXME: Duplicate identifier 'init'.
 function init (ctx: any) {
 
   const adminnotifies = {};

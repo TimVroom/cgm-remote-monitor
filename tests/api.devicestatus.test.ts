@@ -17,7 +17,7 @@ describe('Devicestatus API', function(this: any) {
 
   // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var api = require('../lib/api/');
-  // @ts-expect-error TS(2552) FIXME: Cannot find name 'beforeEach'. Did you mean '_forE... Remove this comment to see the full error message
+  // @ts-expect-error TS(2304) FIXME: Cannot find name 'beforeEach'.
   beforeEach(function(this: any, done: any) {
     // @ts-expect-error TS(2591) FIXME: Cannot find name 'process'. Do you need to install... Remove this comment to see the full error message
     process.env.API_SECRET = 'this is my long pass phrase';

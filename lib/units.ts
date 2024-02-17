@@ -11,6 +11,7 @@ function mmolToMgdl(mgdl: any) {
   return Math.round(mgdl * consts.MMOL_TO_MGDL);
 }
 
+// @ts-expect-error TS(2393) FIXME: Duplicate function implementation.
 function configure() {
   return {
     mgdlToMMOL: mgdlToMMOL

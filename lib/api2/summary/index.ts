@@ -1,5 +1,6 @@
 'use strict';
 
+// @ts-expect-error TS(2300): Duplicate identifier 'configure'.
 function configure (env: any, ctx: any) {
   // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   const _ = require('lodash')
@@ -71,14 +72,11 @@ function configure (env: any, ctx: any) {
             continue;
         }
         if (t.eventType == 'Temporary Target') {
+          // @ts-expect-error TS(2345)
           rVal.targets.push({
-            // @ts-expect-error TS(2322) FIXME: Type 'number' is not assignable to type 'never'.
             targetTop: Math.round(t.targetTop),
-            // @ts-expect-error TS(2322) FIXME: Type 'number' is not assignable to type 'never'.
             targetBottom: Math.round(t.targetBottom),
-            // @ts-expect-error TS(2322) FIXME: Type 'number' is not assignable to type 'never'.
             duration: t.duration*60,
-            // @ts-expect-error TS(2322) FIXME: Type 'any' is not assignable to type 'never'.
             mills: t.mills
           });
           continue;

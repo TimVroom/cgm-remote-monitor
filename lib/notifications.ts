@@ -16,6 +16,7 @@ var Alarm = function(this: any, level: any, group: any, label: any) {
 // list of alarms with their thresholds
 var alarms = {};
 
+// @ts-expect-error TS(2300) FIXME: Duplicate identifier 'init'.
 function init (env: any, ctx: any) {
 
   function notifications () {

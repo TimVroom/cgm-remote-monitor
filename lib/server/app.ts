@@ -32,6 +32,7 @@ function resolvePath(filePath: any) {
   return require.resolve(filePath);
 }
 
+// @ts-expect-error TS(2300): Duplicate identifier 'create'.
 function create (env: any, ctx: any) {
   var app = express();
   var appInfo = env.name + ' ' + env.version;

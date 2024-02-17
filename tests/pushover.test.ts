@@ -1,8 +1,8 @@
 'use strict';
 
-// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'should'.
-var should = require('should');
 // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+var should = require('should');
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'levels'.
 var levels = require('../lib/levels');
 
 // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'ctx'.

@@ -1,6 +1,7 @@
 'use strict';
 
 // Craft a JSON friendly status (or error) message.
+// @ts-expect-error TS(2300): Duplicate identifier 'sendJSONStatus'.
 function sendJSONStatus(res: any, status: any, title: any, description: any, warning: any) {
   var json = {
     status: status,
@@ -15,6 +16,7 @@ function sendJSONStatus(res: any, status: any, title: any, description: any, war
   res.status(status).json(json);
 }
 
+// @ts-expect-error TS(2300): Duplicate identifier 'configure'.
 function configure ( ) {
   function middleware (req: any, res: any, next: any) {
     res.sendJSONStatus = sendJSONStatus;

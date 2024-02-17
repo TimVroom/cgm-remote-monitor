@@ -3,6 +3,7 @@
 // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'consts'.
 var consts = require('../../constants');
 
+// @ts-expect-error TS(2300): Duplicate identifier 'configure'.
 function configure (app: any, wares: any, ctx: any) {
     // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var express = require('express'),

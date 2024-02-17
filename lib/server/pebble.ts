@@ -175,6 +175,7 @@ function pebble (req: any, res: any) {
   res.end( );
 }
 
+// @ts-expect-error TS(2300): Duplicate identifier 'configure'.
 function configure (env: any, ctx: any) {
   // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   var wares = require('../middleware/')(env);

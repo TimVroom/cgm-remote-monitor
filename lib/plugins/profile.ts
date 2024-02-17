@@ -2,6 +2,7 @@
 
 // this is just a fake plugin to hold extended settings
 
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init() {
 
   var profile = {

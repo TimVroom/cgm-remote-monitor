@@ -39,14 +39,20 @@ language.loadLocalization(fs);
 ///////////////////////////////////////////////////
 // setup http server
 ///////////////////////////////////////////////////
+// @ts-expect-error TS(2339) FIXME: Property 'PORT' does not exist on type '{ settings... Remove this comment to see the full error message
 var PORT = env.PORT;
+// @ts-expect-error TS(2339) FIXME: Property 'HOSTNAME' does not exist on type '{ sett... Remove this comment to see the full error message
 var HOSTNAME = env.HOSTNAME;
 
+// @ts-expect-error TS(2300): Duplicate identifier 'create'.
 function create (app: any) {
+  // @ts-expect-error TS(2339) FIXME: Property 'ssl' does not exist on type '{ settings:... Remove this comment to see the full error message
   var transport = (env.ssl
                 // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
                 ? require('https') : require('http'));
+  // @ts-expect-error TS(2339) FIXME: Property 'ssl' does not exist on type '{ settings:... Remove this comment to see the full error message
   if (env.ssl) {
+    // @ts-expect-error TS(2339) FIXME: Property 'ssl' does not exist on type '{ settings:... Remove this comment to see the full error message
     return transport.createServer(env.ssl, app);
   }
   return transport.createServer(app);

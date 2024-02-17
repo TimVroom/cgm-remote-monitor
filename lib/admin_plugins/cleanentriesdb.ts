@@ -9,8 +9,8 @@ var cleanentriesdb = {
   , pluginType: 'admin'
 };
 
+// @ts-expect-error TS(2300) FIXME: Duplicate identifier 'init'.
 function init(ctx: any) {
-  // @ts-expect-error TS(2588) FIXME: Cannot assign to 'moment' because it is a constant... Remove this comment to see the full error message
   moment = ctx.moment;
   return cleanentriesdb;
 }

@@ -6,7 +6,7 @@ require('should');
 var _ = require('lodash');
 // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var benv = require('benv');
-// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2300) FIXME: Duplicate identifier 'read'.
 var read = require('fs').readFileSync;
 // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var serverSettings = require('./fixtures/default-server-settings');

@@ -41,7 +41,7 @@ function isId (value: any) {
  * @param Object ctx The global ctx with all modules, storage, and event buses
  * configured.
  */
-// @ts-expect-error TS(2393) FIXME: Duplicate function implementation.
+// @ts-expect-error TS(2300): Duplicate identifier 'configure'.
 function configure (app: any, wares: any, ctx: any, env: any) {
   // default storage biased towards entries.
   const entries = ctx.entries;

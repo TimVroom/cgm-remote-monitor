@@ -1,5 +1,6 @@
 'use strict';
 
+// @ts-expect-error TS(2300) FIXME: Duplicate identifier 'init'.
 var init = function init () {
 
 //for the tests window isn't the global object

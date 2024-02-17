@@ -1,19 +1,21 @@
 'use strict';
 
-// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'times'.
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var times = require('../times');
 // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var calcData = require('../data/calcdelta');
-// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'ObjectID'.
 var ObjectID = require('mongodb').ObjectID;
 // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'forwarded'... Remove this comment to see the full error message
 const forwarded = require('forwarded-for');
 
+// @ts-expect-error TS(2300): Duplicate identifier 'getRemoteIP'.
 function getRemoteIP (req: any) {
   const address = forwarded(req, req.headers);
   return address.ip;
 }
 
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init (env: any, ctx: any, server: any) {
 
   function websocket () {
@@ -182,13 +184,11 @@ function init (env: any, ctx: any, server: any) {
         }
 
         if (data.collection === 'treatments') {
-          // @ts-expect-error TS(7005) FIXME: Variable 'socketAuthorization' implicitly has an '... Remove this comment to see the full error message
           if (!socketAuthorization.write_treatment) {
             console.log('WS dbUpdate/dbAdd call: ', 'Not permitted', data);
             return { result: 'Not permitted' };
           }
         } else {
-          // @ts-expect-error TS(7005) FIXME: Variable 'socketAuthorization' implicitly has an '... Remove this comment to see the full error message
           if (!socketAuthorization.write) {
             console.log('WS dbUpdate call: ', 'Not permitted', data);
             return { result: 'Not permitted' };

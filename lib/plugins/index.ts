@@ -8,11 +8,12 @@ var _each = require('lodash/each');
 var _filter = require('lodash/filter');
 // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_get'.
 var _get = require('lodash/get');
-// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_isArray'.
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var _isArray = require('lodash/isArray');
 // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var _map = require('lodash/map');
 
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init (ctx: any) {
 
   var allPlugins: any = []

@@ -2,6 +2,7 @@
 
 var SMALL_SCREEN = 500;
 
+// @ts-expect-error TS(2300) FIXME: Duplicate identifier 'init'.
 function init ($: any) {
   var lastOpenedDrawer: any = null;
 

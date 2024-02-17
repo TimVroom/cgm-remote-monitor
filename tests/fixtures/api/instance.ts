@@ -14,6 +14,7 @@ const fs = require('fs')
   , https = require('https')
   ;
 
+// @ts-expect-error TS(2300): Duplicate identifier 'configure'.
 function configure () {
   const self = { };
 

@@ -1,4 +1,4 @@
-// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'storage'.
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 const storage = require('js-storage').localStorage;
 const COOKIE_KEY = 'reportProperties';
 // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'defaultVal... Remove this comment to see the full error message

@@ -14,11 +14,13 @@ const sleep = require('util').promisify(setTimeout);
 // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'forwarded'... Remove this comment to see the full error message
 const forwarded = require('forwarded-for');
 
+// @ts-expect-error TS(2300): Duplicate identifier 'getRemoteIP'.
 function getRemoteIP (req: any) {
   const address = forwarded(req, req.headers);
   return address.ip;
 }
 
+// @ts-expect-error TS(2300) FIXME: Duplicate identifier 'init'.
 function init (env: any, ctx: any) {
 
   // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message

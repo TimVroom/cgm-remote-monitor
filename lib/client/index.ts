@@ -556,10 +556,8 @@ client.load = function load (serverSettings: any, callback: any) {
 
     // @ts-expect-error TS(7005) FIXME: Variable 'alarmMessage' implicitly has an 'any' ty... Remove this comment to see the full error message
     if (alarmMessage && alarmInProgress) {
-      // @ts-expect-error TS(7005) FIXME: Variable 'alarmMessage' implicitly has an 'any' ty... Remove this comment to see the full error message
       $('.customTitle').text(alarmMessage);
       if (!isTimeAgoAlarmType()) {
-        // @ts-expect-error TS(7005) FIXME: Variable 'alarmMessage' implicitly has an 'any' ty... Remove this comment to see the full error message
         windowTitle = alarmMessage + ': ' + generateTitle();
       }
     // @ts-expect-error TS(2339) FIXME: Property 'message' does not exist on type '{ inPro... Remove this comment to see the full error message
@@ -1015,7 +1013,6 @@ client.load = function load (serverSettings: any, callback: any) {
       }
     // @ts-expect-error TS(7005) FIXME: Variable 'currentNotify' implicitly has an 'any' t... Remove this comment to see the full error message
     } else if (currentNotify) {
-      // @ts-expect-error TS(7005) FIXME: Variable 'currentNotify' implicitly has an 'any' t... Remove this comment to see the full error message
       alarm = getClientAlarm(currentNotify.level, currentNotify.group);
     }
 

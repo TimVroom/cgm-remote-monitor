@@ -9,6 +9,7 @@ var subjects = {
   , pluginType: 'admin'
 };
 
+// @ts-expect-error TS(2300) FIXME: Duplicate identifier 'init'.
 function init () {
   return subjects;
 }
@@ -16,7 +17,7 @@ function init () {
 // @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = init;
 
-var $status = null;
+var $status: any = null;
 
 // @ts-expect-error TS(2339) FIXME: Property 'actions' does not exist on type '{ name:... Remove this comment to see the full error message
 subjects.actions = [{
@@ -72,6 +73,7 @@ function deleteSubject (subject: any, client: any, callback: any) {
   });
 }
 
+// @ts-expect-error TS(2300): Duplicate identifier 'reload'.
 function reload (client: any, callback: any) {
   $.ajax({
     method: 'GET'
@@ -95,6 +97,7 @@ function reload (client: any, callback: any) {
   });
 }
 
+// @ts-expect-error TS(2300): Duplicate identifier 'genDialog'.
 function genDialog (client: any) {
   var ret =
     '<div id="editsubjectdialog" style="display:none" title="' + client.translate('Edit Subject') + '">' +
@@ -115,6 +118,7 @@ function genDialog (client: any) {
   return $(ret);
 }
 
+// @ts-expect-error TS(2300): Duplicate identifier 'openDialog'.
 function openDialog (subject: any, client: any) {
   $('#editsubjectdialog').dialog({
     width: 360

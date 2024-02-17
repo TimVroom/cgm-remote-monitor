@@ -113,6 +113,7 @@ function updateIdQuery (query: any) {
   *
   * @returns Object An object which can be passed to `mongodb.find( )`
   */
+// @ts-expect-error TS(2300): Duplicate identifier 'create'.
 function create (params: any, opts: any) {
   // setup default options for what/how to do things
   opts = default_options(opts);

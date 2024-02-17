@@ -16,6 +16,7 @@ var AR = [-0.723, 1.716];
 //TODO: move this to css
 var AR2_COLOR = 'cyan';
 
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init (ctx: any) {
   var translate = ctx.language.translate;
   var moment = ctx.moment;

@@ -9,6 +9,7 @@ const crypto = require('crypto');
 
 const MANUAL_TREATMENTS = ['BG Check', 'Meal Bolus', 'Carb Correction', 'Correction Bolus'];
 
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init(ctx: any) {
 
   const treatmentnotify = {

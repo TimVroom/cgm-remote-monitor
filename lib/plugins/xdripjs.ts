@@ -2,9 +2,10 @@
 
 // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
-// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'times'.
 var times = require('../times');
 
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init(ctx: any) {
   var moment = ctx.moment;
   var levels = ctx.levels;

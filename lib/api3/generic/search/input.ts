@@ -53,6 +53,7 @@ function parseValue(param: any, value: any) {
 /**
  * Parse filtering criteria from query string
  */
+// @ts-expect-error TS(2300): Duplicate identifier 'parseFilter'.
 function parseFilter (req: any, res: any) {
   const filter = []
     , reservedParams = ['token', 'sort', 'sort$desc', 'limit', 'skip', 'fields', 'now']

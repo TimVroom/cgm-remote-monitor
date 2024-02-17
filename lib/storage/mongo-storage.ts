@@ -8,6 +8,7 @@ const mongo = {
   db: null,
 };
 
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init(env: any, cb: any, forceNewConnection: any) {
 
   function maybe_connect(cb: any) {

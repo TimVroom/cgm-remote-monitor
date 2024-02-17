@@ -4,7 +4,7 @@
 var _ = require('lodash');
 // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'fs'.
 var fs = require('fs');
-// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'crypto'.
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var crypto = require('crypto');
 // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var MongoMock = require('mongomock');
@@ -14,6 +14,7 @@ var config = {
   collections: {}
 };
 
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init (env: any, callback: any) {
 
   if (!env.storageURI || !_.isString(env.storageURI)) {
@@ -138,6 +139,7 @@ function init (env: any, callback: any) {
     // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
     var customConfig = require(configPath);
 
+    // @ts-expect-error TS(2630) FIXME: Cannot assign to 'config' because it is a function... Remove this comment to see the full error message
     config = _.merge({}, customConfig, config);
 
     callback(null, {

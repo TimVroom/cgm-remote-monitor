@@ -20,6 +20,7 @@ var PADDING_BOTTOM = 30
 
 var loadTime = Date.now();
 
+// @ts-expect-error TS(2300) FIXME: Duplicate identifier 'init'.
 function init (client: any, d3: any, $: any) {
   var chart = {};
 

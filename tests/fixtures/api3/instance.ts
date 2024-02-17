@@ -2,7 +2,7 @@
 
 // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'fs'.
 var fs = require('fs')
-  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'language'.
   , language = require('../../../lib/language')()
   // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   , api = require('../../../lib/api3/')
@@ -10,7 +10,7 @@ var fs = require('fs')
   , http = require('http')
   // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'https'.
   , https = require('https')
-  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'request'.
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   , request = require('supertest')
   // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   , websocket = require('../../../lib/server/websocket')
@@ -20,6 +20,7 @@ var fs = require('fs')
   , CacheMonitor = require('./cacheMonitor')
   ;
 
+// @ts-expect-error TS(2300): Duplicate identifier 'configure'.
 function configure () {
   const self = { };
 

@@ -7,6 +7,7 @@ var times = require('../times');
 
 var ALL_STATUS_FIELDS = ['reservoir', 'battery', 'clock', 'status', 'device'];
 
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init (ctx: any) {
   var moment = ctx.moment;
   var translate = ctx.language.translate;

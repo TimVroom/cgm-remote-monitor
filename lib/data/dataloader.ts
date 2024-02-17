@@ -76,6 +76,7 @@ function mergeProcessSort(oldData: any, newData: any, ageLimit: any) {
 
 }
 
+// @ts-expect-error TS(2300) FIXME: Duplicate identifier 'init'.
 function init(env: any, ctx: any) {
 
     var dataloader = {};

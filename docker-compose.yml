@@ -28,10 +28,13 @@ services:
       - 'traefik.http.routers.nightscout.entrypoints=websecure'
       - 'traefik.http.routers.nightscout.tls.certresolver=le'
     logging: *default-logging
+    command: "npm run dev"
+    volumes:
+      - '.:/opt/app'
     environment:
       ### Variables for the container
-      NODE_ENV: production
-      TZ: Etc/UTC
+      NODE_ENV: development
+      TZ: UTC
 
       ### Overridden variables for Docker Compose setup
       # The `nightscout` service can use HTTP, because we use `traefik` to serve the HTTPS
@@ -48,7 +51,7 @@ services:
       MONGO_CONNECTION: mongodb://mongo:27017/nightscout
 
       # API_SECRET - A secret passphrase that must be at least 12 characters long.
-      API_SECRET: change_me
+      API_SECRET: change_me_to_something
 
       ### Features
       # ENABLE - Used to enable optional features, expects a space delimited list, such as: careportal rawbg iob

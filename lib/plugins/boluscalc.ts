@@ -2,6 +2,7 @@
 
 // this is just a fake plugin to enable hiding from settings drawer
 
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init() {
 
   var boluscalc = {

@@ -6,6 +6,7 @@ var _ = require('lodash'),
   // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
   connect = require('minimed-connect-to-nightscout');
 
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init (env: any, entries: any, devicestatus: any, bus: any) {
   if (env.extendedSettings.mmconnect && env.extendedSettings.mmconnect.userName && env.extendedSettings.mmconnect.password) {
     return {run: makeRunner(env, entries, devicestatus, bus)};

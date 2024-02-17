@@ -20,6 +20,7 @@ const express = require('express')
   , opTools = require('./shared/operationTools')
   ;
 
+// @ts-expect-error TS(2300): Duplicate identifier 'configure'.
 function configure (env: any, ctx: any) {
 
   const self = { }

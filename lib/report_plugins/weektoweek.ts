@@ -23,6 +23,7 @@ var weektoweek = {
   , pluginType: 'report'
 };
 
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init (ctx: any) {
 
   // @ts-expect-error TS(2339) FIXME: Property 'html' does not exist on type '{ name: st... Remove this comment to see the full error message

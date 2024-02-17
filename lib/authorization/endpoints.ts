@@ -8,6 +8,7 @@ var express = require('express');
 // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'consts'.
 var consts = require('./../constants');
 
+// @ts-expect-error TS(2300) FIXME: Duplicate identifier 'init'.
 function init (env: any, authorization: any) {
   var endpoints = express( );
 

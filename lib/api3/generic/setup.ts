@@ -41,6 +41,7 @@ function setupGenericCollections (ctx: any, env: any, app: any) {
     });
   }
 
+  // @ts-expect-error TS(7009) 'new' expression, whose target lacks a construct signature, implicitly has an 'any' type.
   const entriesCollection = new Collection({
     ctx, env, app,
     colName: 'entries',

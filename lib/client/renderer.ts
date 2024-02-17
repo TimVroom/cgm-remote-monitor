@@ -15,6 +15,7 @@ var DEFAULT_FOCUS = times.hours(3).msecs
 
 const zeroDate = new Date(0);
 
+// @ts-expect-error TS(2300) FIXME: Duplicate identifier 'init'.
 function init (client: any, d3: any) {
 
   var renderer = {};

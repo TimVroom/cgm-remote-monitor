@@ -6,6 +6,7 @@ var futureitems = {
   , pluginType: 'admin'
 };
 
+// @ts-expect-error TS(2300) FIXME: Duplicate identifier 'init'.
 function init () {
   return futureitems;
 }

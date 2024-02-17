@@ -11,6 +11,7 @@ var consts = require('../constants');
 // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var Storages = require('js-storage');
 
+// @ts-expect-error TS(2300) FIXME: Duplicate identifier 'init'.
 function init (client: any, $: any) {
   var careportal = {};
 

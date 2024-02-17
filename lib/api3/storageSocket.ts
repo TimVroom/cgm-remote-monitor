@@ -5,6 +5,7 @@ const apiConst = require('./const');
 // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'forwarded'... Remove this comment to see the full error message
 const forwarded = require('forwarded-for');
 
+// @ts-expect-error TS(2300): Duplicate identifier 'getRemoteIP'.
 function getRemoteIP (req: any) {
   const address = forwarded(req, req.headers);
   return address.ip;

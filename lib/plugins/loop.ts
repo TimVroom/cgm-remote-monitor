@@ -7,6 +7,7 @@ var times = require('../times');
 
 // var ALL_STATUS_FIELDS = ['status-symbol', 'status-label', 'iob', 'freq', 'rssi']; Unused variable
 
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init (ctx: any) {
   var moment = ctx.moment;
 

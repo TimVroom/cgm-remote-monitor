@@ -10,6 +10,7 @@ const NodeCache = require('node-cache');
 // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'times'.
 const times = require('../times');
 
+// @ts-expect-error TS(2300): Duplicate identifier 'create'.
 function init (env: any, ctx: any) {
 
   function pushnotify () {

@@ -9,6 +9,7 @@ var consts = require('../constants');
 
 var DEVICE_TYPE_FIELDS = ['uploader', 'pump', 'openaps', 'loop', 'xdripjs'];
 
+// @ts-expect-error TS(2300) FIXME: Duplicate identifier 'init'.
 function init () {
 
   var ddata = {

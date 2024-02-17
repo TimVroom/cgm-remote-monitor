@@ -3,6 +3,7 @@
 // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'times'.
 var times = require('../times');
 
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init(ctx: any) {
 
   var simplealarms = {

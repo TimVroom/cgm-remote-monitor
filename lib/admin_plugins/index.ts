@@ -5,6 +5,7 @@ var _find = require('lodash/find');
 // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_each'.
 var _each = require('lodash/each');
 
+// @ts-expect-error TS(2300) FIXME: Duplicate identifier 'init'.
 function init(ctx: any) {
     var allPlugins = [
         // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message

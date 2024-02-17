@@ -18,6 +18,7 @@ const _ = require('lodash')
 /**
  * CREATE: Inserts a new document into the collection
  */
+// @ts-expect-error TS(2300): Duplicate identifier 'create'.
 async function create (opCtx: any) {
 
   const { col, req, res } = opCtx;

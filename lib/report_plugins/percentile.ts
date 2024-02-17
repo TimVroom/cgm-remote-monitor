@@ -6,6 +6,7 @@ var percentile = {
   , pluginType: 'report'
 };
 
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init() {
   return percentile;
 }

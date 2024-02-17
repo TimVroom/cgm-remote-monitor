@@ -12,6 +12,7 @@ var ObjectID = require('mongodb').ObjectID;
 // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var find_options = require('../server/query');
 
+// @ts-expect-error TS(2300) FIXME: Duplicate identifier 'init'.
 function init (env: any, ctx: any) {
   var storage = { };
 

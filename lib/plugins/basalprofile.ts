@@ -6,6 +6,7 @@ var consts = require('../constants');
 // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
 
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init (ctx: any) {
   var moment = ctx.moment;
 

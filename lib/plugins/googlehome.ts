@@ -3,6 +3,7 @@ var _ = require('lodash');
 // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'async'.
 var async = require('async');
 
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init () {
   console.log('Configuring Google Home...');
   function googleHome() {

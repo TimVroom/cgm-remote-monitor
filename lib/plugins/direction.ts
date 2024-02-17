@@ -1,6 +1,6 @@
 'use strict';
 
-// @ts-expect-error TS(2393) FIXME: Duplicate function implementation.
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init() {
 
   var direction = {

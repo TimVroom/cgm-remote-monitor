@@ -8,6 +8,7 @@ const { JSDOM } = require('jsdom');
 const window = new JSDOM('').window;
 const DOMPurify = createDOMPurify(window);
 
+// @ts-expect-error TS(2300): Duplicate identifier 'create'.
 function init (env: any, ctx: any) {
 
   const purifier = {};

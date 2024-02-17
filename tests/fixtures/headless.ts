@@ -1,5 +1,5 @@
 
-// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2300) FIXME: Duplicate identifier 'read'.
 var read = require('fs').readFileSync;
 // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
@@ -41,6 +41,7 @@ function headless (benv: any, binding: any) {
 
       self.$.fn.tooltip = function mockTooltip ( ) { };
 
+      // @ts-expect-error TS(2554) FIXME: Expected 1 arguments, but got 2.
       var indexHtml = read(htmlFile, 'utf8');
       self.$('body').html(indexHtml);
 

@@ -6,6 +6,7 @@ var engine = require('share2nightscout-bridge');
 // Track the most recently seen record
 var mostRecentRecord: any;
 
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init (env: any, bus: any) {
   if (env.extendedSettings.bridge && env.extendedSettings.bridge.userName && env.extendedSettings.bridge.password) {
     return create(env, bus);
@@ -66,7 +67,7 @@ function options (env: any) {
   };
 }
 
-// @ts-expect-error TS(2393) FIXME: Duplicate function implementation.
+// @ts-expect-error TS(2300): Duplicate identifier 'create'.
 function create (env: any, bus: any) {
 
   var bridge = { };

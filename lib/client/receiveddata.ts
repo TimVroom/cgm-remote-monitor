@@ -174,9 +174,7 @@ function receiveDData (received: any, ddata: any, settings: any) {
 }
 
 //expose for tests
-// @ts-expect-error TS(2454) FIXME: Variable 'receiveDData' is used before being assig... Remove this comment to see the full error message
 receiveDData.mergeDataUpdate = mergeDataUpdate;
-// @ts-expect-error TS(2454) FIXME: Variable 'receiveDData' is used before being assig... Remove this comment to see the full error message
 receiveDData.mergeTreatmentUpdate = mergeTreatmentUpdate;
 
 // @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message

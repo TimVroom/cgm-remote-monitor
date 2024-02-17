@@ -7,6 +7,7 @@ var _each = require('lodash/each');
 
 var TOOLTIP_WIDTH = 275;  //min-width + padding
 
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init (majorPills: any, minorPills: any, statusPills: any, bgStatus: any, tooltip: any) {
 
   var pluginBase = { };

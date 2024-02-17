@@ -13,6 +13,7 @@ const apiConst = require('./const.json')
   ;
 
 
+// @ts-expect-error TS(2300): Duplicate identifier 'getRemoteIP'.
 function getRemoteIP (req: any) {
   const address = forwarded(req, req.headers);
   return address.ip;

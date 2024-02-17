@@ -4,7 +4,7 @@
 var es = require('event-stream');
 // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
 var find_options = require('./query');
-// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'ObjectID'.
 var ObjectID = require('mongodb').ObjectID;
 // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'moment'.
 var moment = require('moment');
@@ -14,6 +14,7 @@ var moment = require('moment');
  * Encapsulate persistent storage of sgv entries.
 \**********/
 
+// @ts-expect-error TS(2300): Duplicate identifier 'storage'.
 function storage (env: any, ctx: any) {
 
   // TODO: Code is a little redundant.

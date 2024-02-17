@@ -7,6 +7,7 @@ var units = require('./units')();
 // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'times'.
 var times = require('./times');
 
+// @ts-expect-error TS(2300) FIXME: Duplicate identifier 'init'.
 function init () {
   var sbx = {};
 

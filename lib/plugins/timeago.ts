@@ -5,6 +5,7 @@ var times = require('../times');
 var lastChecked = new Date();
 var lastRecoveryTimeFromSuspend = new Date("1900-01-01");
 
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init(ctx: any) {
   var translate = ctx.language.translate;
   var levels = ctx.levels;

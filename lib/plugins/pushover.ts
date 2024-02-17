@@ -9,6 +9,7 @@ var request = require('request');
 // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'times'.
 var times = require('../times');
 
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 function init (env: any, ctx: any) {
   var pushover = {
     PRIORITY_NORMAL: 0

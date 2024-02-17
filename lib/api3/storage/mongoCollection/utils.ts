@@ -27,6 +27,7 @@ function normalizeDoc (doc: any) {
  * @param {string} logicalOperator
  * @param {bool} onlyValid
  */
+// @ts-expect-error TS(2300): Duplicate identifier 'parseFilter'.
 function parseFilter (filterDef: any, logicalOperator: any, onlyValid: any) {
   let filter = { };
   if (!filterDef)
