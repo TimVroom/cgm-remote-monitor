@@ -6,7 +6,6 @@ require('should');
 // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'language'.
 var language = require('../lib/language')();
 
-// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'ctx'.
 const ctx = {};
 
 // @ts-expect-error TS(2339) FIXME: Property 'bus' does not exist on type '{}'.

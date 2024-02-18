@@ -92,7 +92,7 @@ function init (majorPills: any, minorPills: any, statusPills: any, bgStatus: any
       pill.mouseover(function pillMouseover (event: any) {
         tooltip.style('opacity', .9);
 
-        var windowWidth = $(tooltip.node()).parent().parent().width();
+        var windowWidth = $(tooltip.node()).parent().parent().width() ?? 0;
         var left = event.pageX + TOOLTIP_WIDTH < windowWidth ? event.pageX : windowWidth - TOOLTIP_WIDTH - 10;
         tooltip.html(html)
           .style('left', left + 'px')

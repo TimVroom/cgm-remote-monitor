@@ -37,6 +37,7 @@
     // "moduleSuffixes": [],                             /* List of file name suffixes to search when resolving a module. */
     // "resolveJsonModule": true,                        /* Enable importing .json files. */
     // "noResolve": true,                                /* Disallow 'import's, 'require's or '<reference>'s from expanding the number of files TypeScript should add to a project. */
+    "outDir": "bundle/",
 
     /* JavaScript Support */
     // "allowJs": true,                                  /* Allow JavaScript files to be a part of your program. Use the 'checkJS' option to get errors from these files. */
@@ -103,5 +104,8 @@
       "jquery",
       "lodash",
     ]
+  },
+  "ts-node": {
+    "ignoreDiagnostics": [2578],
   }
 }

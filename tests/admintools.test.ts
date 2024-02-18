@@ -1,7 +1,6 @@
 'use strict';
 
-// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
-require('should');
+import * as should from 'should';
 // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
 // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message

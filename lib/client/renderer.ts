@@ -52,7 +52,7 @@ function init (client: any, d3: any) {
   };
 
   function tooltipLeft () {
-    var windowWidth = $(client.tooltip.node()).parent().parent().width();
+    var windowWidth = $(client.tooltip.node()).parent().parent().width() ?? 0;
     var left = d3.event.pageX + TOOLTIP_WIDTH < windowWidth ? d3.event.pageX : windowWidth - TOOLTIP_WIDTH - 10;
     return left + 'px';
   }
@@ -681,7 +681,7 @@ function init (client: any, d3: any) {
     renderer.drag = d3.drag()
       .on('start', function() {
         //console.log(treatment);
-        var windowWidth = $(client.tooltip.node()).parent().parent().width();
+        var windowWidth = $(client.tooltip.node()).parent().parent().width() ?? 0;
         var left = d3.event.x + TOOLTIP_WIDTH < windowWidth ? d3.event.x : windowWidth - TOOLTIP_WIDTH - 10;
         client.tooltip.style('opacity', .9)
           .style('left', left + 'px')

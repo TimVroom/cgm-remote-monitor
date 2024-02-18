@@ -27,6 +27,7 @@ var receiveDData = require('./receiveddata');
 
 var brushing = false;
 
+// @ts-expect-error TS(7034) FIXME: Variable 'browserSettings' implicitly has type 'any' ...
 var browserSettings;
 // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'moment'.
 var moment = window.moment;
@@ -273,6 +274,7 @@ client.load = function load (serverSettings: any, callback: any) {
     , moment: moment
   }).registerClientDefaults();
 
+// @ts-expect-error TS(7005) FIXME: Variable 'browserSettings' implicitly has an 'any' type
   browserSettings.loadPluginSettings(client);
 
   // @ts-expect-error TS(2339) FIXME: Property 'utils' does not exist on type '{}'.
@@ -323,6 +325,7 @@ client.load = function load (serverSettings: any, callback: any) {
   client.renderer = require('./renderer')(client, d3, $);
 
   //After plugins are initialized with browser settings;
+// @ts-expect-error TS(7005) FIXME: Variable 'browserSettings' implicitly has an 'any' type
   browserSettings.loadAndWireForm();
 
   // @ts-expect-error TS(2339) FIXME: Property 'adminnotifies' does not exist on type '{... Remove this comment to see the full error message

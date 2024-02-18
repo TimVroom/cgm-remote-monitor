@@ -265,7 +265,7 @@ function create (env: any, ctx: any) {
   });
 
   // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
-  const clockviews = require('./clocks.js')(env, ctx);
+  const clockviews = require('./clocks')(env, ctx);
   clockviews.setLocals(app.locals);
 
   app.use("/clock", clockviews);

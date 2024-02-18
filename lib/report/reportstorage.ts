@@ -1,8 +1,10 @@
-// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
-const storage = require('js-storage').localStorage;
-const COOKIE_KEY = 'reportProperties';
-// @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'defaultVal... Remove this comment to see the full error message
-const defaultValues = {
+// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
+module.exports = (() => {
+  // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
+  const storage = require('js-storage').localStorage;
+  const COOKIE_KEY = 'reportProperties';
+  // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'defaultVal... Remove this comment to see the full error message
+  const defaultValues = {
     insulin: true,
     carbs: true,
     basal: true,
@@ -17,25 +19,26 @@ const defaultValues = {
     predictedTruncate: true,
     bgcheck: true,
     othertreatments: false
-};
-let cachedProps: any;
+  };
+  let cachedProps: any;
 
-const saveProps = function (props: any) {
+  const saveProps = function (props: any) {
     let propsToSave = {};
     for (const prop in props) {
-        if (!Object.prototype.hasOwnProperty.call(defaultValues, prop))
-            continue;
-        // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
-        propsToSave[prop] = props[prop];
+      if (!Object.prototype.hasOwnProperty.call(defaultValues, prop))
+        continue;
+      // @ts-expect-error TS(7053) FIXME: Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+      propsToSave[prop] = props[prop];
     }
     storage.set(COOKIE_KEY, propsToSave);
-};
+  };
 
-const getValue = function (p: any) {
+  const getValue = function (p: any) {
     if (!cachedProps)
-        cachedProps = storage.get(COOKIE_KEY) || defaultValues;
+      cachedProps = storage.get(COOKIE_KEY) || defaultValues;
     return cachedProps[p];
-};
+  };
 
-// @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
-module.exports = {saveProps: saveProps, getValue: getValue};
+  return { saveProps: saveProps, getValue: getValue };
+})();
+

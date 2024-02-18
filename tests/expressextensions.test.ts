@@ -4,7 +4,7 @@
 require('should');
 
 // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
-var extensionsMiddleware = require('../lib/middleware/express-extension-to-accept.js');
+var extensionsMiddleware = require('../lib/middleware/express-extension-to-accept');
 
 var acceptJsonRequests = extensionsMiddleware(['json']);
 

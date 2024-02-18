@@ -7,7 +7,7 @@ const _ = require('lodash')
   // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'security'.
   , security = require('../../security')
   // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'validate'.
-  , validate = require('./validate.js')
+  , validate = require('./validate')
   // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'opTools'.
   , opTools = require('../../shared/operationTools')
   // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'dateTools'... Remove this comment to see the full error message

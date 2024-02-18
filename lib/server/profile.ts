@@ -38,6 +38,7 @@ function storage (collection: any, ctx: any) {
   function list_query (opts: any, fn: any) {
 
     storage.queryOpts = {
+      // @ts-expect-error TS(2322): Type '{}' is not assignable to type ...
       walker: {}
       , dateField: 'startDate'
     };

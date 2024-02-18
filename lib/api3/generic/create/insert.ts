@@ -5,7 +5,7 @@ const apiConst = require('../../const.json')
   // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'security'.
   , security = require('../../security')
   // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'validate'.
-  , validate = require('./validate.js')
+  , validate = require('./validate')
   // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'path'.
   , path = require('path')
   // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'opTools'.

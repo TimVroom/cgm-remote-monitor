@@ -12,6 +12,7 @@ const fs = require('fs');
 // this is a class for holding potentially sensitive data in the app
 // the class also implement functions to use the data, so the data is not shared outside the class
 
+// @ts-expect-error TS(2300): Duplicate identifier 'init'.
 const init = function init () {
 
   const enclave = {};
