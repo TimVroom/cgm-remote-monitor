@@ -1,3 +1,4 @@
+import 'should';
 // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'should'.
 const should = require('should');
 // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'fs'.

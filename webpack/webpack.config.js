@@ -153,6 +153,7 @@ module.exports = {
     publicPath,
     filename: 'js/bundle.[name].js',
     sourceMapFilename: 'js/bundle.[name].js.map',
+    globalObject: "this",
   },
   devtool: sourceMapType,
   optimization,

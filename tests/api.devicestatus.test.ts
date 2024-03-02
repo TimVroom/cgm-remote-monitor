@@ -1,5 +1,6 @@
 'use strict';
 
+import 'should';
 // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable '_'.
 var _ = require('lodash');
 // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'request'.

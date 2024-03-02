@@ -1,0 +1,3 @@
+{
+    "extends": "@instanbuljs/nyc-config-babel"
+}

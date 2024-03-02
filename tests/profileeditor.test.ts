@@ -176,20 +176,20 @@ describe('Profile editor', function(this: any) {
 
 
     // I:C range
-    $('#pe_ic_val_0').val().should.be.equal('30');
+    $('#pe_ic_val_0').val()!.should.be.equal('30');
     $('#pe_ic_placeholder').find('img.addsingle').click();
-    $('#pe_ic_val_0').val().should.be.equal('0');
-    $('#pe_ic_val_1').val().should.be.equal('30');
+    $('#pe_ic_val_0').val()!.should.be.equal('0');
+    $('#pe_ic_val_1').val()!.should.be.equal('30');
     $('#pe_ic_placeholder').find('img.delsingle').click();
-    $('#pe_ic_val_0').val().should.be.equal('30');
+    $('#pe_ic_val_0').val()!.should.be.equal('30');
 
     // traget bg range
-    $('#pe_targetbg_low_0').val().should.be.equal('100');
+    $('#pe_targetbg_low_0').val()!.should.be.equal('100');
     $('#pe_targetbg_placeholder').find('img.addtargetbg').click();
-    $('#pe_targetbg_low_0').val().should.be.equal('0');
-    $('#pe_targetbg_low_1').val().should.be.equal('100');
+    $('#pe_targetbg_low_0').val()!.should.be.equal('0');
+    $('#pe_targetbg_low_1').val()!.should.be.equal('100');
     $('#pe_targetbg_placeholder').find('img.deltargetbg').click();
-    $('#pe_targetbg_low_0').val().should.be.equal('100');
+    $('#pe_targetbg_low_0').val()!.should.be.equal('100');
 
 
     $('#pe_submit').click();

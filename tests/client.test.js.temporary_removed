@@ -1,6 +1,6 @@
 'use strict';
 
-require('should');
+import 'should';
 var times = require('../lib/times');
 var benv = require('benv');
 var read = require('fs').readFileSync;

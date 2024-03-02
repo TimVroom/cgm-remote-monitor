@@ -5,7 +5,7 @@ var request = require('supertest');
 // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'language'.
 var language = require('../lib/language')();
 // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
-require('should');
+import 'should';
 
 // @ts-expect-error TS(2593) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('verifyauth', function(this: any) {

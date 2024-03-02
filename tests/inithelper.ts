@@ -1,4 +1,3 @@
-
 // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'fs'.
 const fs = require('fs');
 // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'moment'.
@@ -11,21 +10,22 @@ const settings = require('../lib/settings')();
 const levels = require('../lib/levels');
 
 // @ts-expect-error TS(2451) FIXME: Cannot redeclare block-scoped variable 'helper'.
-function helper() {
-
-    helper.ctx = {
-        language: language
-        , settings: settings
-        , levels: levels
-        , moment: moment
-      };
-
-    helper.getctx = function getctx () {
-        return helper.ctx;
+function helper () {
+  const helperObject = {
+    ctx: {
+      language: language
+      , settings: settings
+      , levels: levels
+      , moment: moment
+    },
+    getctx() {
+      return helperObject.ctx;
     }
+  };
 
-    return helper;
+  return helperObject;
 }
+export default helper();
 
 // @ts-expect-error TS(2591) FIXME: Cannot find name 'module'. Do you need to install ... Remove this comment to see the full error message
 module.exports = helper;

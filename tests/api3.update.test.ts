@@ -2,8 +2,8 @@
 /* global should */
 'use strict';
 
-// @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
-require('should');
+import 'should';
+import * as should from 'should';
 
 // @ts-expect-error TS(2593) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('API3 UPDATE', function(this: any) {

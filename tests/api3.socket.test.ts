@@ -1,9 +1,9 @@
 /* eslint require-atomic-updates: 0 */
-/* global should */
 'use strict';
 
+import 'should';
 // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
-require('should');
+var should = require('should');
 
 // @ts-expect-error TS(2593) FIXME: Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('Socket.IO in REST API3', function(this: any) {

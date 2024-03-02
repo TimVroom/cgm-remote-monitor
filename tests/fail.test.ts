@@ -1,7 +1,7 @@
 'use strict';
 
 // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
-require('should');
+import 'should';
 
 // This test is included just so we have an easy to template to intentionally cause
 // builds to fail

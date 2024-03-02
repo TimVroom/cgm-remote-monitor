@@ -6,7 +6,7 @@ const _ = require('lodash')
   , request = require('supertest')
   ;
 // @ts-expect-error TS(2591) FIXME: Cannot find name 'require'. Do you need to install... Remove this comment to see the full error message
-require('should');
+import 'should';
 
 function createRole (authStorage: any, name: any, permissions: any) {
 

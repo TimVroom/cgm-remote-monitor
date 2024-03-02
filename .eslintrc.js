@@ -6,7 +6,7 @@ module.exports = {
       'eslint:recommended',
       'plugin:security/recommended'
     ],
-    'parser': 'babel-eslint',
+    'parser': '@babel/eslint-parser',
     'env': {
       'browser': true,
       'commonjs': true,

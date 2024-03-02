@@ -126,15 +126,15 @@ function openDialog (role: any, client: any) {
       {
         text: client.translate('Save')
         , class: 'leftButton'
-        , click: function() {
+        , click: function () {
 
           role.name = $('#edrole_name').val();
           role.permissions =
             _.chain($('#edrole_permissions').val().toLowerCase().split(/[;, ]/))
-            .map(_.trim)
-            .reject(_.isEmpty)
-            .sort()
-            .value();
+              .map(_.trim)
+              .reject(_.isEmpty)
+              .sort()
+              .value();
           role.notes = $('#edrole_notes').val();
 
           var self = this;
@@ -146,10 +146,12 @@ function openDialog (role: any, client: any) {
       }
       , {
         text: client.translate('Cancel')
-        , click: function() { $(this).dialog('close'); }
+        , click: function () {
+          $(this).dialog('close');
+        }
       }
     ]
-    , open: function() {
+    , open: function () {
       $(this).parent().css('box-shadow', '20px 20px 20px 0px black');
       $(this).parent().find('.ui-dialog-buttonset').css({ 'width': '100%', 'text-align': 'right' });
       $(this).parent().find('button:contains("' + client.translate('Save') + '")').css({ 'float': 'left' });
@@ -162,7 +164,7 @@ function openDialog (role: any, client: any) {
 
 }
 
-function showRole (role: any, table: any, client: any) {
+function showRole (role: any & { permissions: string[] }, table: any, client: any) {
   var editIcon = $('<img title="' + client.translate('Edit this role') + '" style="cursor:pointer" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAABEUlEQVQ4jZ3MMUsCYQDG8ee8IySQbNCLyyEKG/RLNAXicqvQcAeNLrcFLlE0+xHuNpt8wy04rrYm8Q4HQRE56BSC3lSqU1BwCoxM39dnffj9BWyxXvVeEzvtctBwHyRebNu2Nk2lzMlrgJB+qBEeTByiKYpihl+fIO8jTI9PDJEVF1+K2iw+M6PhDuyag4NkQi/c3FkCK5Z3ZbM76qLltpCbn+vXxq0FABsDy9hzPdBvqvtXvvXzrw1swmsDLPjfACteGeDBfwK8+FdgGwwAIgC0ncsjxGRSH/eiPBgAJADY2z8sJ4JBfNBsDqlADVYMANIzKalv/bHaefKsTH9iPFb8ISsGAJym0+Qinz3jQktbAHcxvx3559eSAAAAAElFTkSuQmCC">');
   editIcon.click(function clicked () {
     openDialog(role, client);
@@ -183,7 +185,7 @@ function showRole (role: any, table: any, client: any) {
 
   table.append($('<tr>').css('background-color', '#0f0f0f')
     .append($('<td>').attr('width', '20%').append(editIcon).append(deleteIcon).append(role.name))
-    .append($('<td>').attr('width', '20%').append(_.isEmpty(role.permissions) ? '[none]' : role.permissions.join(' ')))
+    .append($('<td>').attr('width', '20%').append(_.isEmpty(role.permissions) ? '[none]' : Array.isArray(role.permissions) ? role.permissions.join(' ') : role.permissions))
     .append($('<td>').attr('width', '10%').append(role._id ? (role.notes ? role.notes : '') : '[system default]'))
   );
 }
